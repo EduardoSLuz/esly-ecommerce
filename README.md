@@ -1,5 +1,5 @@
-# Projeto E-commerce
+# Projeto ESLY - E-commerce
 
-Projeto desenvolvido do zero no [Curso de PHP 7](https://www.udemy.com/curso-completo-de-php-7/) disponível na plataforma da Udemy e no site do [HTML5dev.com.br](https://www.html5dev.com.br/curso/curso-completo-de-php-7).
+Projeto desenvolvido do zero com a ajuda do [Curso de PHP 7](https://www.udemy.com/curso-completo-de-php-7/) disponível na plataforma da Udemy.
 
-Template usado no projeto [Almsaeed Studio](https://almsaeedstudio.com)
+Template usado no projeto foi baseado do [9bits](https://demo.9marketplus.com.br/).
