@@ -13,7 +13,7 @@
     },
     "autoload": {
         "psr-4": {
-            "esly\\": "vendor\\esly\\php-class\\src"
+            "Esly\\": "vendor\\esly\\php-class\\src"
         }
     }
 }

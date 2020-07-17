@@ -8,7 +8,9 @@ $app->config('debug', true);
 
 $app->get('/', function() {
     
-	echo "OK";
+	$Teste = new Esly\Teste();
+
+	echo $Teste->helloWorld();
 
 });
 
