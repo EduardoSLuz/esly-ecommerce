@@ -1,18 +1,17 @@
 <?php 
 
+use Slim\Factory\AppFactory;
+
 require_once("vendor/autoload.php");
 
-$app = new \Slim\Slim();
+// Instantiate App
+$app = AppFactory::create();
 
-$app->config('debug', true);
+// Add error middleware
+$app->addErrorMiddleware(true, true, true);
 
-$app->get('/', function() {
-    
-	$Teste = new Esly\Teste();
-
-	echo $Teste->helloWorld();
-
-});
+// Add routes
+require_once("site.php");
 
 $app->run();
 
