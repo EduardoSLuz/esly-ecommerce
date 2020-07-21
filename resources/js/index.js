@@ -4,19 +4,15 @@
 // Sidenav 
 /* Set the width of the side navigation to 250px */
 function openNav() {
-    document.getElementById("mySidenav").style.width = "325px";
-    $('#BtnWhatsapp').addClass("d-none");		
-    $('#BtnCart').addClass("d-none");		
-    $('#BtnFilter').addClass("d-none");		
+    document.getElementById("mySidenav").style.width = "90%";
+    $('.BtnsFloat').addClass("d-none");		
 
 }
 
 /* Set the width of the side navigation to 0 */
 function closeNav() {
     document.getElementById("mySidenav").style.width = "0";
-    $('#BtnWhatsapp').removeClass("d-none");		
-    $('#BtnCart').removeClass("d-none");		
-    $('#BtnFilter').removeClass("d-none");		
+    $('.BtnsFloat').removeClass("d-none");		
 
 } 
     

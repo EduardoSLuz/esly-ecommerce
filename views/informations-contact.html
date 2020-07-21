@@ -5,7 +5,7 @@
 			<nav aria-label="breadcrumb" class="bar-display">
 				<ol class="breadcrumb bg-white">
 				  <li class="breadcrumb-item"><a href="/loja-{$links.idStore}/">Home</a></li>
-				  <li class="breadcrumb-item active" aria-current="page">Nossas Lojas</li>
+				  <li class="breadcrumb-item active" aria-current="page">Fale Conosco</li>
 				</ol>
 			</nav>
 
@@ -15,10 +15,10 @@
 					
 					<div class="list-group">
 						<a href="/loja-{$links.idStore}/info/" class="list-group-item list-group-item-action">Sobre a empresa</a>
-						<a href="/loja-{$links.idStore}/our-stores/" class="list-group-item list-group-item-action list-group-item-primary active">Nossas Lojas</a>
+						<a href="/loja-{$links.idStore}/our-stores/" class="list-group-item list-group-item-action">Nossas Lojas</a>
 						<a href="/loja-{$links.idStore}/partners/" class="list-group-item list-group-item-action">Parceiros</a>
 						<a href="/loja-{$links.idStore}/help/" class="list-group-item list-group-item-action">Perguntas Frequentes</a>
-						<a href="/loja-{$links.idStore}/contact/" class="list-group-item list-group-item-action">Fale Conosco</a>
+						<a href="/loja-{$links.idStore}/contact/" class="list-group-item list-group-item-action list-group-item-primary active">Fale Conosco</a>
 						<a href="/loja-{$links.idStore}/contact-work/" class="list-group-item list-group-item-action">Trabalhe Conosco</a>
 						<a href="/loja-{$links.idStore}/promotions/" class="list-group-item list-group-item-action">Promoções</a>
 					</div>
@@ -27,83 +27,40 @@
 
 				<div class="col-md">
 
-					<p class="h5 text-uppercase font-weight-normal">Nossas Lojas</p>
+					<p class="h5 text-uppercase font-weight-normal">Fale Conosco</p>
 					<hr>
 					
-					<div class="row">
-						<div class="col-sm-6 mb-4">
-							<div class="card">
-								
-								<img src="/resources/imgs/banners/lojas/loja01.jpg" class="card-img-top max-height2" alt="...">
-								
-								<div class="card-body">
-								  	<p class="card-title h5 font-weight-normal">Loja 01 - Matriz</p>
-									
-									<p class="card-text font-weight-normal">
-										<i class="fas fa-map-marker-alt"></i> <a>Av. Mato Grosso, 2621 - Centro, Campo Grande - MS, 79020-150</a><br>
-										<i class="fas fa-phone-alt"></i> <a>(67) 98765-4532</a><br>
-										<i class="fab fa-whatsapp"></i> <a>(67) 98765-4532</a><br>
-										<i class="far fa-envelope"></i> <a>email@contato.com.br</a><br>
-										
-										<a class="font-weight-bold">Horario de Atendimento:</a><br>
-										<a class="mt-2">Segunda a Sexta: 08:00 - 20:00</a><br>
-										<a class="mt-2">Sábado: 08:00 - 17:00</a><br>
-										<a class="mt-2">Domingo: 08:00 - 19:00</a>
-					
-									</p>
-								</div>
-							</div>
-						</div>
+					<form action="/loja-{$links.idStore}/contact/" method="POST">
 
-						<div class="col-sm-6 mb-4">
-							<div class="card">
-								
-								<img src="/resources/imgs/banners/lojas/loja02.jpg" class="card-img-top max-height2" alt="...">
-								
-								<div class="card-body">
-								  	<p class="card-title h5 font-weight-normal">Loja 02</p>
-									
-									<p class="card-text font-weight-normal">
-										<i class="fas fa-map-marker-alt"></i> <a>Av. Mato Grosso, 2621 - Centro, Campo Grande - MS, 79020-150</a><br>
-										<i class="fas fa-phone-alt"></i> <a>(67) 98765-4532</a><br>
-										<i class="fab fa-whatsapp"></i> <a>(67) 98765-4532</a><br>
-										<i class="far fa-envelope"></i> <a>email@contato.com.br</a><br>
-										
-										<a class="font-weight-bold">Horario de Atendimento:</a><br>
-										<a class="mt-2">Segunda a Sexta: 08:00 - 20:00</a><br>
-										<a class="mt-2">Sábado: 08:00 - 17:00</a><br>
-										<a class="mt-2">Domingo: 08:00 - 19:00</a>
-					
-									</p>
-								</div>
-							</div>
-						</div>
+						<label for="NameContact">Nome Completo:</label>
+						<input type="text" class="form-control is-invalid" id="NameContact" name="NameContact" placeholder="Digite seu nome">
+						<div class="invalid-feedback">
+							Empty
+						</div><br>
 
-						<div class="col-sm-6">
-							<div class="card">
-								
-								<img src="/resources/imgs/banners/lojas/loja03.jpg" class="card-img-top max-height2" alt="...">
-								
-								<div class="card-body">
-								  	<p class="card-title h5 font-weight-normal">Loja 03</p>
-									
-									<p class="card-text font-weight-normal">
-										<i class="fas fa-map-marker-alt"></i> <a>Av. Mato Grosso, 2621 - Centro, Campo Grande - MS, 79020-150</a><br>
-										<i class="fas fa-phone-alt"></i> <a>(67) 98765-4532</a><br>
-										<i class="fab fa-whatsapp"></i> <a>(67) 98765-4532</a><br>
-										<i class="far fa-envelope"></i> <a>email@contato.com.br</a><br>
-										
-										<a class="font-weight-bold">Horario de Atendimento:</a><br>
-										<a class="mt-2">Segunda a Sexta: 08:00 - 20:00</a><br>
-										<a class="mt-2">Sábado: 08:00 - 17:00</a><br>
-										<a class="mt-2">Domingo: 08:00 - 19:00</a>
-					
-									</p>
-								</div>
-							</div>
-						</div>
+						<label for="EmailContact">E-mail:</label>
+						<input type="text" class="form-control is-invalid" id="EmailContact" name="EmailContact" placeholder="Digite seu e-mail">
+						<div class="invalid-feedback">
+							Empty
+						</div><br>
 
-					  </div>
+						<label for="SubjectContact">Assunto:</label>
+						<input type="text" class="form-control is-invalid" id="SubjectContact" name="SubjectContact" placeholder="Digite o assunto">
+						<div class="invalid-feedback">
+							Min. 10 caracters
+						</div><br>
+
+						<label for="MessageContact">Mensagem:</label>
+						<textarea type="text" class="form-control is-invalid" id="MessageContact" name="MessageContact" placeholder="Digite a mensagem" rows="5"></textarea>
+						<div class="invalid-feedback">
+							Min. 20 caracters
+						</div><br>
+
+						<div class="g-recaptcha" data-sitekey="6LevbfwUAAAAAJiitBmG-CqLM9NYIhfQaFJHdeaF"></div>
+
+						<button type="submit" class="btn btn-primary mt-3">Enviar Menssagem</button>
+
+					</form>
 
 				</div>
 
@@ -124,10 +81,10 @@
 				
 			<div class="list-group mt-3">
 				<a href="/loja-{$links.idStore}/info/" class="list-group-item list-group-item-action">Sobre a empresa</a>
-				<a href="/loja-{$links.idStore}/our-stores/" class="list-group-item list-group-item-action list-group-item-primary active">Nossas Lojas</a>
+				<a href="/loja-{$links.idStore}/our-stores/" class="list-group-item list-group-item-action">Nossas Lojas</a>
 				<a href="/loja-{$links.idStore}/partners/" class="list-group-item list-group-item-action">Parceiros</a>
 				<a href="/loja-{$links.idStore}/help/" class="list-group-item list-group-item-action">Perguntas Frequentes</a>
-				<a href="/loja-{$links.idStore}/contact/" class="list-group-item list-group-item-action">Fale Conosco</a>
+				<a href="/loja-{$links.idStore}/contact/" class="list-group-item list-group-item-action list-group-item-primary active">Fale Conosco</a>
 				<a href="/loja-{$links.idStore}/contact-work/" class="list-group-item list-group-item-action">Trabalhe Conosco</a>
 				<a href="/loja-{$links.idStore}/promotions/" class="list-group-item list-group-item-action">Promoções</a>
 			</div>
@@ -135,7 +92,7 @@
 		</div>
 
 	</div>
-	
+
 	<!-- MODALS PAGE INICIO -->
 
 		<!-- MODAL ALTER STORES -->

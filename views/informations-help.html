@@ -5,7 +5,7 @@
 			<nav aria-label="breadcrumb" class="bar-display">
 				<ol class="breadcrumb bg-white">
 				  <li class="breadcrumb-item"><a href="/loja-{$links.idStore}/">Home</a></li>
-				  <li class="breadcrumb-item active" aria-current="page">Nossas Lojas</li>
+				  <li class="breadcrumb-item active" aria-current="page">Peguntas Frequentes</li>
 				</ol>
 			</nav>
 
@@ -15,9 +15,9 @@
 					
 					<div class="list-group">
 						<a href="/loja-{$links.idStore}/info/" class="list-group-item list-group-item-action">Sobre a empresa</a>
-						<a href="/loja-{$links.idStore}/our-stores/" class="list-group-item list-group-item-action list-group-item-primary active">Nossas Lojas</a>
+						<a href="/loja-{$links.idStore}/our-stores/" class="list-group-item list-group-item-action">Nossas Lojas</a>
 						<a href="/loja-{$links.idStore}/partners/" class="list-group-item list-group-item-action">Parceiros</a>
-						<a href="/loja-{$links.idStore}/help/" class="list-group-item list-group-item-action">Perguntas Frequentes</a>
+						<a href="/loja-{$links.idStore}/help/" class="list-group-item list-group-item-action list-group-item-primary active">Perguntas Frequentes</a>
 						<a href="/loja-{$links.idStore}/contact/" class="list-group-item list-group-item-action">Fale Conosco</a>
 						<a href="/loja-{$links.idStore}/contact-work/" class="list-group-item list-group-item-action">Trabalhe Conosco</a>
 						<a href="/loja-{$links.idStore}/promotions/" class="list-group-item list-group-item-action">Promoções</a>
@@ -27,83 +27,89 @@
 
 				<div class="col-md">
 
-					<p class="h5 text-uppercase font-weight-normal">Nossas Lojas</p>
+					<p class="h5 text-uppercase font-weight-normal">Perguntas Frequentes</p>
 					<hr>
 					
-					<div class="row">
-						<div class="col-sm-6 mb-4">
-							<div class="card">
-								
-								<img src="/resources/imgs/banners/lojas/loja01.jpg" class="card-img-top max-height2" alt="...">
-								
-								<div class="card-body">
-								  	<p class="card-title h5 font-weight-normal">Loja 01 - Matriz</p>
-									
-									<p class="card-text font-weight-normal">
-										<i class="fas fa-map-marker-alt"></i> <a>Av. Mato Grosso, 2621 - Centro, Campo Grande - MS, 79020-150</a><br>
-										<i class="fas fa-phone-alt"></i> <a>(67) 98765-4532</a><br>
-										<i class="fab fa-whatsapp"></i> <a>(67) 98765-4532</a><br>
-										<i class="far fa-envelope"></i> <a>email@contato.com.br</a><br>
-										
-										<a class="font-weight-bold">Horario de Atendimento:</a><br>
-										<a class="mt-2">Segunda a Sexta: 08:00 - 20:00</a><br>
-										<a class="mt-2">Sábado: 08:00 - 17:00</a><br>
-										<a class="mt-2">Domingo: 08:00 - 19:00</a>
-					
-									</p>
-								</div>
+					<div class="accordion" id="AccordinOne">
+						
+						<div class="card btn btn-light border" data-toggle="collapse" data-target="#collapse" aria-expanded="true" aria-controls="collapse">
+							<a class="py-2 h6 text-left"> Como funciona? </a>						  
+						</div>
+						<div id="collapse" class="collapse bg-white border" aria-labelledby="headingOne" data-parent="#AccordinOne">
+							<div class="card-body">
+								<p>
+									Você escolhe a sua cidade, seleciona um de nossos supermercados, monta seu carrinho de compras, escolhe o melhor horário para recebê-las na sua casa ou trabalho, e realiza o pagamento com cartão de crédito. Suas compras serão entregas em até 3 horas posteriores a confimação do pagamento. Tomaremos o maior cuidado para suas compras chegarem perfeitamente até você.
+								</p>
 							</div>
 						</div>
 
-						<div class="col-sm-6 mb-4">
-							<div class="card">
-								
-								<img src="/resources/imgs/banners/lojas/loja02.jpg" class="card-img-top max-height2" alt="...">
-								
-								<div class="card-body">
-								  	<p class="card-title h5 font-weight-normal">Loja 02</p>
-									
-									<p class="card-text font-weight-normal">
-										<i class="fas fa-map-marker-alt"></i> <a>Av. Mato Grosso, 2621 - Centro, Campo Grande - MS, 79020-150</a><br>
-										<i class="fas fa-phone-alt"></i> <a>(67) 98765-4532</a><br>
-										<i class="fab fa-whatsapp"></i> <a>(67) 98765-4532</a><br>
-										<i class="far fa-envelope"></i> <a>email@contato.com.br</a><br>
-										
-										<a class="font-weight-bold">Horario de Atendimento:</a><br>
-										<a class="mt-2">Segunda a Sexta: 08:00 - 20:00</a><br>
-										<a class="mt-2">Sábado: 08:00 - 17:00</a><br>
-										<a class="mt-2">Domingo: 08:00 - 19:00</a>
-					
-									</p>
-								</div>
+						<div class="card btn btn-light border mt-2" data-toggle="collapse" data-target="#collapse2" aria-expanded="true" aria-controls="collapse2">
+							<a class="py-2 h6 text-left"> Posso retirar as compras no mercado? </a>						  
+						</div>
+						<div id="collapse2" class="collapse bg-white border" aria-labelledby="headingOne" data-parent="#AccordinOne">
+							<div class="card-body">
+								<p>
+									É claro, essa opção é livre, você ainda vai poder poupar um pouco com o frete.
+								</p>
 							</div>
 						</div>
 
-						<div class="col-sm-6">
-							<div class="card">
-								
-								<img src="/resources/imgs/banners/lojas/loja03.jpg" class="card-img-top max-height2" alt="...">
-								
-								<div class="card-body">
-								  	<p class="card-title h5 font-weight-normal">Loja 03</p>
-									
-									<p class="card-text font-weight-normal">
-										<i class="fas fa-map-marker-alt"></i> <a>Av. Mato Grosso, 2621 - Centro, Campo Grande - MS, 79020-150</a><br>
-										<i class="fas fa-phone-alt"></i> <a>(67) 98765-4532</a><br>
-										<i class="fab fa-whatsapp"></i> <a>(67) 98765-4532</a><br>
-										<i class="far fa-envelope"></i> <a>email@contato.com.br</a><br>
-										
-										<a class="font-weight-bold">Horario de Atendimento:</a><br>
-										<a class="mt-2">Segunda a Sexta: 08:00 - 20:00</a><br>
-										<a class="mt-2">Sábado: 08:00 - 17:00</a><br>
-										<a class="mt-2">Domingo: 08:00 - 19:00</a>
-					
-									</p>
-								</div>
+						<div class="card btn btn-light border mt-2" data-toggle="collapse" data-target="#collapse3" aria-expanded="true" aria-controls="collapse3">
+							<a class="py-2 h6 text-left"> Posso cancelar minha compra? </a>						  
+						</div>
+						<div id="collapse3" class="collapse bg-white border" aria-labelledby="headingOne" data-parent="#AccordinOne">
+							<div class="card-body">
+								<p>
+									Caso sua compra não esteja agendada para as próximas duas horas, é possível realizar o cancelamento acessando o pedido e clicando no botão cancelar.
+								</p>
 							</div>
 						</div>
 
-					  </div>
+						<div class="card btn btn-light border mt-2" data-toggle="collapse" data-target="#collapse4" aria-expanded="true" aria-controls="collapse4">
+							<a class="py-2 h6 text-left"> Quanto custa a entrega? </a>						  
+						</div>
+						<div id="collapse4" class="collapse bg-white border" aria-labelledby="headingOne" data-parent="#AccordinOne">
+							<div class="card-body">
+								<p>
+									O valor da da taxa de entrega pode variar de R$ 0,00 à R$ 00,00, dependendo da região, do dia e do horário de entrega. Na hora de agendar o seu pedido, os valores do frete aparecem ao lado.
+								</p>
+							</div>
+						</div>
+
+						<div class="card btn btn-light border mt-2" data-toggle="collapse" data-target="#collapse5" aria-expanded="true" aria-controls="collapse5">
+							<a class="py-2 h6 text-left"> O site é seguro? </a>						  
+						</div>
+						<div id="collapse5" class="collapse bg-white border" aria-labelledby="headingOne" data-parent="#AccordinOne">
+							<div class="card-body">
+								<p>
+									Buscamos ao máximo ser 100% seguro. Somos uma empresa de tecnologia e investimos em qualidade para oferecermos um ambiente seguro. Além disso, os dados de pagamento são criptografados. 
+								</p>
+							</div>
+						</div>
+
+						<div class="card btn btn-light border mt-2" data-toggle="collapse" data-target="#collapse6" aria-expanded="true" aria-controls="collapse6">
+							<a class="py-2 h6 text-left"> Os preços são os mesmos do mercado fisico? </a>						  
+						</div>
+						<div id="collapse6" class="collapse bg-white border" aria-labelledby="headingOne" data-parent="#AccordinOne">
+							<div class="card-body">
+								<p>
+									Sim! Além do mais, temos ofertas que são válidas para clientes que compram apenas no site.
+								</p>
+							</div>
+						</div>
+
+						<div class="card btn btn-light border mt-2" data-toggle="collapse" data-target="#collapse7" aria-expanded="true" aria-controls="collapse7">
+							<a class="py-2 h6 text-left"> Quais regiões vocês atendem? </a>						  
+						</div>
+						<div id="collapse7" class="collapse bg-white border" aria-labelledby="headingOne" data-parent="#AccordinOne">
+							<div class="card-body">
+								<p>
+									Hoje atuamos somente em Campo Grande - MS.
+								</p>
+							</div>
+						</div>
+						
+					</div>
 
 				</div>
 
@@ -112,7 +118,7 @@
 		</div>
 
 	</section>
-
+	
 	<div id="mySidenav" class="sidenav shadow cart-BtnFloat">
 		<a href="javascript:void(0)" class="closebtn text-dark" onclick="closeNav()">
 			<i class="fas fa-times h4"></i>
@@ -124,9 +130,9 @@
 				
 			<div class="list-group mt-3">
 				<a href="/loja-{$links.idStore}/info/" class="list-group-item list-group-item-action">Sobre a empresa</a>
-				<a href="/loja-{$links.idStore}/our-stores/" class="list-group-item list-group-item-action list-group-item-primary active">Nossas Lojas</a>
+				<a href="/loja-{$links.idStore}/our-stores/" class="list-group-item list-group-item-action">Nossas Lojas</a>
 				<a href="/loja-{$links.idStore}/partners/" class="list-group-item list-group-item-action">Parceiros</a>
-				<a href="/loja-{$links.idStore}/help/" class="list-group-item list-group-item-action">Perguntas Frequentes</a>
+				<a href="/loja-{$links.idStore}/help/" class="list-group-item list-group-item-action list-group-item-primary active">Perguntas Frequentes</a>
 				<a href="/loja-{$links.idStore}/contact/" class="list-group-item list-group-item-action">Fale Conosco</a>
 				<a href="/loja-{$links.idStore}/contact-work/" class="list-group-item list-group-item-action">Trabalhe Conosco</a>
 				<a href="/loja-{$links.idStore}/promotions/" class="list-group-item list-group-item-action">Promoções</a>
@@ -135,7 +141,7 @@
 		</div>
 
 	</div>
-	
+
 	<!-- MODALS PAGE INICIO -->
 
 		<!-- MODAL ALTER STORES -->

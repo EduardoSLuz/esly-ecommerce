@@ -5,7 +5,7 @@
 			<nav aria-label="breadcrumb" class="bar-display">
 				<ol class="breadcrumb bg-white">
 				  <li class="breadcrumb-item"><a href="/loja-{$links.idStore}/">Home</a></li>
-				  <li class="breadcrumb-item active" aria-current="page">Nossas Lojas</li>
+				  <li class="breadcrumb-item active" aria-current="page">Promoções</li>
 				</ol>
 			</nav>
 
@@ -15,95 +15,58 @@
 					
 					<div class="list-group">
 						<a href="/loja-{$links.idStore}/info/" class="list-group-item list-group-item-action">Sobre a empresa</a>
-						<a href="/loja-{$links.idStore}/our-stores/" class="list-group-item list-group-item-action list-group-item-primary active">Nossas Lojas</a>
+						<a href="/loja-{$links.idStore}/our-stores/" class="list-group-item list-group-item-action">Nossas Lojas</a>
 						<a href="/loja-{$links.idStore}/partners/" class="list-group-item list-group-item-action">Parceiros</a>
 						<a href="/loja-{$links.idStore}/help/" class="list-group-item list-group-item-action">Perguntas Frequentes</a>
 						<a href="/loja-{$links.idStore}/contact/" class="list-group-item list-group-item-action">Fale Conosco</a>
 						<a href="/loja-{$links.idStore}/contact-work/" class="list-group-item list-group-item-action">Trabalhe Conosco</a>
-						<a href="/loja-{$links.idStore}/promotions/" class="list-group-item list-group-item-action">Promoções</a>
+						<a href="/loja-{$links.idStore}/promotions/" class="list-group-item list-group-item-action list-group-item-primary active">Promoções</a>
 					</div>
 
 				</div>
 
 				<div class="col-md">
 
-					<p class="h5 text-uppercase font-weight-normal">Nossas Lojas</p>
+					<p class="h5 text-uppercase font-weight-normal">Promoções</p>
 					<hr>
 					
-					<div class="row">
-						<div class="col-sm-6 mb-4">
-							<div class="card">
-								
-								<img src="/resources/imgs/banners/lojas/loja01.jpg" class="card-img-top max-height2" alt="...">
-								
-								<div class="card-body">
-								  	<p class="card-title h5 font-weight-normal">Loja 01 - Matriz</p>
-									
-									<p class="card-text font-weight-normal">
-										<i class="fas fa-map-marker-alt"></i> <a>Av. Mato Grosso, 2621 - Centro, Campo Grande - MS, 79020-150</a><br>
-										<i class="fas fa-phone-alt"></i> <a>(67) 98765-4532</a><br>
-										<i class="fab fa-whatsapp"></i> <a>(67) 98765-4532</a><br>
-										<i class="far fa-envelope"></i> <a>email@contato.com.br</a><br>
-										
-										<a class="font-weight-bold">Horario de Atendimento:</a><br>
-										<a class="mt-2">Segunda a Sexta: 08:00 - 20:00</a><br>
-										<a class="mt-2">Sábado: 08:00 - 17:00</a><br>
-										<a class="mt-2">Domingo: 08:00 - 19:00</a>
-					
-									</p>
-								</div>
+					<div class="accordion" id="AccordinOne">
+						
+						<div class="card btn btn-light border" data-toggle="collapse" data-target="#collapse" aria-expanded="true" aria-controls="collapse">
+							<a class="py-2 h6 text-left"> FRETE GRÁTIS </a>						  
+						</div>
+						<div id="collapse" class="collapse bg-white border" aria-labelledby="headingOne" data-parent="#AccordinOne">
+							<div class="card-body">
+								<p>
+									Compras acima de R$200.00, o frete sai totalmete de graça!
+								</p>
 							</div>
 						</div>
 
-						<div class="col-sm-6 mb-4">
-							<div class="card">
-								
-								<img src="/resources/imgs/banners/lojas/loja02.jpg" class="card-img-top max-height2" alt="...">
-								
-								<div class="card-body">
-								  	<p class="card-title h5 font-weight-normal">Loja 02</p>
-									
-									<p class="card-text font-weight-normal">
-										<i class="fas fa-map-marker-alt"></i> <a>Av. Mato Grosso, 2621 - Centro, Campo Grande - MS, 79020-150</a><br>
-										<i class="fas fa-phone-alt"></i> <a>(67) 98765-4532</a><br>
-										<i class="fab fa-whatsapp"></i> <a>(67) 98765-4532</a><br>
-										<i class="far fa-envelope"></i> <a>email@contato.com.br</a><br>
-										
-										<a class="font-weight-bold">Horario de Atendimento:</a><br>
-										<a class="mt-2">Segunda a Sexta: 08:00 - 20:00</a><br>
-										<a class="mt-2">Sábado: 08:00 - 17:00</a><br>
-										<a class="mt-2">Domingo: 08:00 - 19:00</a>
-					
-									</p>
-								</div>
+						<div class="card btn btn-light border mt-2" data-toggle="collapse" data-target="#collapse2" aria-expanded="true" aria-controls="collapse2">
+							<a class="py-2 h6 text-left"> PAGUE MENOS </a>						  
+						</div>
+						<div id="collapse2" class="collapse bg-white border" aria-labelledby="headingOne" data-parent="#AccordinOne">
+							<div class="card-body">
+								<p>
+									Com o cartão da loja, você ganha 10% de desconto no total da compra!
+								</p>
 							</div>
 						</div>
 
-						<div class="col-sm-6">
-							<div class="card">
-								
-								<img src="/resources/imgs/banners/lojas/loja03.jpg" class="card-img-top max-height2" alt="...">
-								
-								<div class="card-body">
-								  	<p class="card-title h5 font-weight-normal">Loja 03</p>
-									
-									<p class="card-text font-weight-normal">
-										<i class="fas fa-map-marker-alt"></i> <a>Av. Mato Grosso, 2621 - Centro, Campo Grande - MS, 79020-150</a><br>
-										<i class="fas fa-phone-alt"></i> <a>(67) 98765-4532</a><br>
-										<i class="fab fa-whatsapp"></i> <a>(67) 98765-4532</a><br>
-										<i class="far fa-envelope"></i> <a>email@contato.com.br</a><br>
-										
-										<a class="font-weight-bold">Horario de Atendimento:</a><br>
-										<a class="mt-2">Segunda a Sexta: 08:00 - 20:00</a><br>
-										<a class="mt-2">Sábado: 08:00 - 17:00</a><br>
-										<a class="mt-2">Domingo: 08:00 - 19:00</a>
-					
-									</p>
-								</div>
+						<div class="card btn btn-light border mt-2" data-toggle="collapse" data-target="#collapse3" aria-expanded="true" aria-controls="collapse3">
+							<a class="py-2 h6 text-left"> CUPOM 25% DESCONTO </a>						  
+						</div>
+						<div id="collapse3" class="collapse bg-white border" aria-labelledby="headingOne" data-parent="#AccordinOne">
+							<div class="card-body">
+								<p>
+									No final do pedido utilize o cupom: QUERO25 e ganhe 25% de desconto!
+								</p>
 							</div>
 						</div>
 
-					  </div>
+						
+					</div>
 
 				</div>
 
@@ -112,7 +75,7 @@
 		</div>
 
 	</section>
-
+	
 	<div id="mySidenav" class="sidenav shadow cart-BtnFloat">
 		<a href="javascript:void(0)" class="closebtn text-dark" onclick="closeNav()">
 			<i class="fas fa-times h4"></i>
@@ -124,18 +87,18 @@
 				
 			<div class="list-group mt-3">
 				<a href="/loja-{$links.idStore}/info/" class="list-group-item list-group-item-action">Sobre a empresa</a>
-				<a href="/loja-{$links.idStore}/our-stores/" class="list-group-item list-group-item-action list-group-item-primary active">Nossas Lojas</a>
+				<a href="/loja-{$links.idStore}/our-stores/" class="list-group-item list-group-item-action">Nossas Lojas</a>
 				<a href="/loja-{$links.idStore}/partners/" class="list-group-item list-group-item-action">Parceiros</a>
 				<a href="/loja-{$links.idStore}/help/" class="list-group-item list-group-item-action">Perguntas Frequentes</a>
 				<a href="/loja-{$links.idStore}/contact/" class="list-group-item list-group-item-action">Fale Conosco</a>
 				<a href="/loja-{$links.idStore}/contact-work/" class="list-group-item list-group-item-action">Trabalhe Conosco</a>
-				<a href="/loja-{$links.idStore}/promotions/" class="list-group-item list-group-item-action">Promoções</a>
+				<a href="/loja-{$links.idStore}/promotions/" class="list-group-item list-group-item-action list-group-item-primary active">Promoções</a>
 			</div>
 			
 		</div>
 
 	</div>
-	
+
 	<!-- MODALS PAGE INICIO -->
 
 		<!-- MODAL ALTER STORES -->
@@ -169,7 +132,7 @@
 							<option value="3">Loja 03</option>
 						</select>
 						
-						<button type="button" class="btn btn-primary text-white w-100 mt-3">Acessar</button>
+						<a class="btn btn-primary text-white w-100 mt-3" href="#">Acessar</a>
 
 						<p class="mt-2">
 							Não encontrou a loja? No momento, o serviço de delivery está atendendo à algumas regiões.

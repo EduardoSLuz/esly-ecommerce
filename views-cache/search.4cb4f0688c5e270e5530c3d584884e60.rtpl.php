@@ -85,7 +85,7 @@
 				
 				<div class="row">
 					<div class="col-md-8">
-						<h4 class="font-weight-normal">150 Resultados encontrados para <?php echo htmlspecialchars( $search["s"], ENT_COMPAT, 'UTF-8', FALSE ); ?></h4>
+						<h4 class="font-weight-normal">150 Resultados encontrados para <?php echo substr($search["s"], 0, 25); ?>...</h4>
 					</div>
 
 					<div class="col-md-4 text-right">
@@ -1415,29 +1415,29 @@
 				
 				<form class="" method="POST">
 
-					<input type="checkbox" id="CheckMark" class="mt-2 ckbx-ini">
-					<label class="form-check-label h5 font-weight-normal" for="CheckMark">Marca #1</label><br>
+					<input type="checkbox" id="CheckMobMark" class="mt-2 ckbx-ini">
+					<label class="form-check-label h5 font-weight-normal" for="CheckMobMark">Marca #1</label><br>
 					
-					<input type="checkbox" id="CheckMark2" class="mt-2 ckbx-ini">
-					<label class="form-check-label h5 font-weight-normal" for="CheckMark2">Marca #2</label><br>
+					<input type="checkbox" id="CheckMobMark2" class="mt-2 ckbx-ini">
+					<label class="form-check-label h5 font-weight-normal" for="CheckMobMark2">Marca #2</label><br>
 
-					<input type="checkbox" id="CheckMark3" class="mt-2 ckbx-ini">
-					<label class="form-check-label h5 font-weight-normal" for="CheckMark3">Marca #3</label><br>
+					<input type="checkbox" id="CheckMobMark3" class="mt-2 ckbx-ini">
+					<label class="form-check-label h5 font-weight-normal" for="CheckMobMark3">Marca #3</label><br>
 
-					<input type="checkbox" id="CheckMark4" class="mt-2 ckbx-ini">
-					<label class="form-check-label h5 font-weight-normal" for="CheckMark4">Marca #4</label><br>
+					<input type="checkbox" id="CheckMobMark4" class="mt-2 ckbx-ini">
+					<label class="form-check-label h5 font-weight-normal" for="CheckMobMark4">Marca #4</label><br>
 
-					<input type="checkbox" id="CheckMark5" class="mt-2 ckbx-ini">
-					<label class="form-check-label h5 font-weight-normal" for="CheckMark5">Marca #5</label><br>
+					<input type="checkbox" id="CheckMobMark5" class="mt-2 ckbx-ini">
+					<label class="form-check-label h5 font-weight-normal" for="CheckMobMark5">Marca #5</label><br>
 
-					<input type="checkbox" id="CheckMark6" class="mt-2 ckbx-ini">
-					<label class="form-check-label h5 font-weight-normal" for="CheckMark6">Marca #6</label><br>
+					<input type="checkbox" id="CheckMobMark6" class="mt-2 ckbx-ini">
+					<label class="form-check-label h5 font-weight-normal" for="CheckMobMark6">Marca #6</label><br>
 
-					<input type="checkbox" id="CheckMark7" class="mt-2 ckbx-ini">
-					<label class="form-check-label h5 font-weight-normal" for="CheckMark7">Marca #7</label><br>
+					<input type="checkbox" id="CheckMobMark7" class="mt-2 ckbx-ini">
+					<label class="form-check-label h5 font-weight-normal" for="CheckMobMark7">Marca #7</label><br>
 
-					<input type="checkbox" id="CheckMark8" class="mt-2 ckbx-ini">
-					<label class="form-check-label h5 font-weight-normal" for="CheckMark8">Marca #8</label><br>
+					<input type="checkbox" id="CheckMobMark8" class="mt-2 ckbx-ini">
+					<label class="form-check-label h5 font-weight-normal" for="CheckMobMark8">Marca #8</label><br>
 			
 				</form>
 				

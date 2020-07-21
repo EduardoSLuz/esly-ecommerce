@@ -233,6 +233,10 @@ input[type=number] {
 	max-height: 200px;
 }
 
+.max-height2{
+	max-height: 300px;
+}
+
 .py-center{
 	position: relative;
 	top: 50%;

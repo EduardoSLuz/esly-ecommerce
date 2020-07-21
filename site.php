@@ -24,8 +24,6 @@ $app->get("/", function(Request $request, Response $response) {
 $app->get("/loja-{store}/", function(Request $request, Response $response, $args) {
     
 	$page = new Page([
-		"header" => true,
-		"footer" => true,
 		"data" => [
 			"links" => [
 				"idStore" => $args["store"] 
@@ -35,10 +33,11 @@ $app->get("/loja-{store}/", function(Request $request, Response $response, $args
 	]);
 
 	$page->setTpl("home", [
-		"links" => [
-			"idStore" => $args["store"]
-		],
-		"login" => true
+		"buttons" => [
+			"wp" => true,
+			"ct" => true,
+			"ft" => false
+		]
 	]);
 	
 	return $response;
@@ -49,11 +48,19 @@ $app->get("/loja-{store}/", function(Request $request, Response $response, $args
 $app->get("/loja-{store}/search/", function(Request $request, Response $response, $args) {
 	
 	// GET PARAMETERS
-	if(isset($_GET)) $search = $_GET["s"];
+	if(isset($_GET['s']) && !empty($_GET['s'])){
+
+		$pageSearch = "search";
+		$search = $_GET["s"] ;
+
+	} else{
+
+		$pageSearch = "search-error";
+		$search = $_GET["s"] ;
+
+	} 
 
 	$page = new Page([
-		"header" => true,
-		"footer" => true,
 		"data" => [
 			"links" => [
 				"idStore" => $args["store"]
@@ -62,13 +69,182 @@ $app->get("/loja-{store}/search/", function(Request $request, Response $response
 		]
 	]);
 
-	$page->setTpl("search", [
-		"links" => [
-			"idStore" => $args["store"]
-		],
-		"login" => true,
+	$page->setTpl("$pageSearch", [
 		"search" => [
 			"s" => $search
+		],
+		"buttons" => [
+			"wp" => true,
+			"ct" => true,
+			"ft" => true
+		]
+	]);
+	
+	return $response;
+
+});
+
+// Page Information Company 
+$app->get("/loja-{store}/info/", function(Request $request, Response $response, $args) {
+
+	$page = new Page([
+		"data" => [
+			"links" => [
+				"idStore" => $args["store"]
+			],
+			"login" => true
+		]
+	]);
+
+	$page->setTpl("informations-company", [
+		"buttons" => [
+			"wp" => true,
+			"ct" => true,
+			"ft" => true
+		]
+	]);
+	
+	return $response;
+
+});
+
+// Page Information Stores 
+$app->get("/loja-{store}/our-stores/", function(Request $request, Response $response, $args) {
+
+	$page = new Page([
+		"data" => [
+			"links" => [
+				"idStore" => $args["store"]
+			],
+			"login" => true
+		]
+	]);
+
+	$page->setTpl("informations-stores", [
+		"buttons" => [
+			"wp" => true,
+			"ct" => true,
+			"ft" => true
+		]
+	]);
+	
+	return $response;
+
+});
+
+// Page Information Partners 
+$app->get("/loja-{store}/partners/", function(Request $request, Response $response, $args) {
+
+	$page = new Page([
+		"data" => [
+			"links" => [
+				"idStore" => $args["store"]
+			],
+			"login" => true
+		]
+	]);
+
+	$page->setTpl("informations-partners", [
+		"buttons" => [
+			"wp" => true,
+			"ct" => true,
+			"ft" => true
+		]
+	]);
+	
+	return $response;
+
+});
+
+// Page Information Help 
+$app->get("/loja-{store}/help/", function(Request $request, Response $response, $args) {
+
+	$page = new Page([
+		"data" => [
+			"links" => [
+				"idStore" => $args["store"]
+			],
+			"login" => true
+		]
+	]);
+
+	$page->setTpl("informations-help", [
+		"buttons" => [
+			"wp" => true,
+			"ct" => true,
+			"ft" => true
+		]
+	]);
+	
+	return $response;
+
+});
+
+// Page Information Contact 
+$app->get("/loja-{store}/contact/", function(Request $request, Response $response, $args) {
+
+	$page = new Page([
+		"data" => [
+			"links" => [
+				"idStore" => $args["store"]
+			],
+			"login" => true
+		]
+	]);
+
+	$page->setTpl("informations-contact", [
+		"buttons" => [
+			"wp" => true,
+			"ct" => true,
+			"ft" => true
+		]
+	]);
+	
+	return $response;
+
+});
+
+// Page Information Contact Work 
+$app->get("/loja-{store}/contact-work/", function(Request $request, Response $response, $args) {
+
+	$page = new Page([
+		"data" => [
+			"links" => [
+				"idStore" => $args["store"]
+			],
+			"login" => true
+		]
+	]);
+
+	$page->setTpl("informations-contact-work", [
+		"buttons" => [
+			"wp" => true,
+			"ct" => true,
+			"ft" => true
+		]
+	]);
+	
+	return $response;
+
+});
+
+// Page Information Promotions 
+$app->get("/loja-{store}/promotions/", function(Request $request, Response $response, $args) {
+
+	$page = new Page([
+		"data" => [
+			"links" => [
+				"idStore" => $args["store"]
+			],
+			"login" => true
+		]
+	]);
+
+	$page->setTpl("informations-promotions", [
+		"buttons" => [
+			"wp" => true,
+			"ct" => true,
+			"ft" => true
 		]
 	]);
 	

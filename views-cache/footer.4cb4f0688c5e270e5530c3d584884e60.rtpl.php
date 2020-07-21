@@ -221,13 +221,13 @@
 </section>
 
         
-<div class="ml-3 mb-5 text-left fixed-bottom null-height">
+<div id="BtnWhatsapp" class="BtnsFloat ml-3 mb-5 text-left fixed-bottom null-height">
     <a class="bg-success h2 rounded px-1 shadow" href="https://api.whatsapp.com/send?phone=556796218853" target="_blank">
         <i class="fab fa-whatsapp text-white"></i>
     </a>
 </div>
 
-<div class="mr-3 mb-5 text-right fixed-bottom null-height cart-BtnFloat">
+<div id="BtnCart" class="BtnsFloat mr-3 mb-5 text-right fixed-bottom null-height cart-BtnFloat">
     <a class="bg-light h2 rounded px-1 shadow-sm" href='/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/<?php if( $login ){ ?>cart<?php }else{ ?>login<?php } ?>'>
         <i class="fas fa-shopping-cart text-dark text-center tx-IconCart"></i>
         <span class="h6 bg-primary text-white px-1 cart-IconCt">0</span>
@@ -235,9 +235,16 @@
     
 </div>
 
+<?php if( $buttons["ft"] === true ){ ?>
+<div id="BtnFilter" class="BtnsFloat text-left fixed-bottom null-height cart-BtnFloat top-25">
+    <a class="bg-light border h5 bd-Rd5Right px-2 py-2 shadow " onclick="openNav()">
+        <i class="fas fa-chevron-right"></i>
+    </a>
+</div>
+<?php } ?>
+
 <!-- Bootstrap - Include all compiled plugins (below), or include individual files as needed -->
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-	  
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>  
   
 <!-- Bootstrap - jQuery (necessary for Bootstrap's JavaScript plugins) -->
