@@ -28,7 +28,7 @@ $app->get("/loja-{store}/", function(Request $request, Response $response, $args
 			"links" => [
 				"idStore" => $args["store"] 
 			],
-			"login" => true
+			"login" => false
 		]
 	]);
 
@@ -56,7 +56,7 @@ $app->get("/loja-{store}/search/", function(Request $request, Response $response
 	} else{
 
 		$pageSearch = "search-error";
-		$search = $_GET["s"] ;
+		$search = "" ;
 
 	} 
 
@@ -241,6 +241,236 @@ $app->get("/loja-{store}/promotions/", function(Request $request, Response $resp
 	]);
 
 	$page->setTpl("informations-promotions", [
+		"buttons" => [
+			"wp" => true,
+			"ct" => true,
+			"ft" => true
+		]
+	]);
+	
+	return $response;
+
+});
+
+// Page Login 
+$app->get("/loja-{store}/login/", function(Request $request, Response $response, $args) {
+
+	$page = new Page([
+		"data" => [
+			"links" => [
+				"idStore" => $args["store"]
+			],
+			"login" => true
+		]
+	]);
+
+	$page->setTpl("login", [
+		"buttons" => [
+			"wp" => true,
+			"ct" => true,
+			"ft" => false
+		]
+	]);
+	
+	return $response;
+
+});
+
+// Page Forgot Password
+$app->get("/loja-{store}/forgot-password/", function(Request $request, Response $response, $args) {
+
+	$page = new Page([
+		"data" => [
+			"links" => [
+				"idStore" => $args["store"]
+			],
+			"login" => false
+		]
+	]);
+
+	$page->setTpl("forgot-password", [
+		"buttons" => [
+			"wp" => true,
+			"ct" => true,
+			"ft" => false
+		]
+	]);
+	
+	return $response;
+
+});
+
+// Page Register
+$app->get("/loja-{store}/register/", function(Request $request, Response $response, $args) {
+
+	$page = new Page([
+		"data" => [
+			"links" => [
+				"idStore" => $args["store"]
+			],
+			"login" => false
+		]
+	]);
+
+	$page->setTpl("register", [
+		"buttons" => [
+			"wp" => true,
+			"ct" => true,
+			"ft" => false
+		]
+	]);
+	
+	return $response;
+
+});
+
+// Page Product
+$app->get("/loja-{store}/product/{product}/", function(Request $request, Response $response, $args) {
+
+	$page = new Page([
+		"data" => [
+			"links" => [
+				"idStore" => $args["store"],
+				"HTTP" => $_SERVER['HTTP_HOST']
+			],
+			"login" => true
+		]
+	]);
+
+	$page->setTpl("product-details", [
+		"buttons" => [
+			"wp" => true,
+			"ct" => true,
+			"ft" => false
+		]
+	]);
+	
+	return $response;
+
+});
+
+// Page Account Requests
+$app->get("/loja-{store}/account/requests/", function(Request $request, Response $response, $args) {
+
+	$pedidos = true;
+
+	$page = new Page([
+		"data" => [
+			"links" => [
+				"idStore" => $args["store"],
+				"HTTP" => $_SERVER['HTTP_HOST']
+			],
+			"login" => true
+		]
+	]);
+
+	$pedidos === true  ? $pedidos = "account-requests" : $pedidos = "account-requests-default";	
+
+	$page->setTpl($pedidos, [
+		"buttons" => [
+			"wp" => true,
+			"ct" => true,
+			"ft" => true
+		]
+	]);
+	
+	return $response;
+
+});
+
+// Page Account Requests Details
+$app->get("/loja-{store}/account/requests/{pedido}/", function(Request $request, Response $response, $args) {
+
+	$page = new Page([
+		"data" => [
+			"links" => [
+				"idStore" => $args["store"],
+				"HTTP" => $_SERVER['HTTP_HOST']
+			],
+			"login" => true
+		]
+	]);
+
+	$page->setTpl("account-requests-details", [
+		"buttons" => [
+			"wp" => true,
+			"ct" => true,
+			"ft" => true
+		]
+	]);
+	
+	return $response;
+
+});
+
+// Page Account Shopping List
+$app->get("/loja-{store}/account/shopping-list/", function(Request $request, Response $response, $args) {
+
+	$shopp = true;
+
+	$page = new Page([
+		"data" => [
+			"links" => [
+				"idStore" => $args["store"],
+				"HTTP" => $_SERVER['HTTP_HOST']
+			],
+			"login" => true
+		]
+	]);
+
+	$shopp === true  ? $shopp = "account-shoppinglist" : $shopp = "account-shoppinglist-default";	
+
+	$page->setTpl($shopp, [
+		"buttons" => [
+			"wp" => true,
+			"ct" => true,
+			"ft" => true
+		]
+	]);
+	
+	return $response;
+
+});
+
+// Page Account Shopping List Details
+$app->get("/loja-{store}/account/shopping-list/{list}/", function(Request $request, Response $response, $args) {
+
+	$page = new Page([
+		"data" => [
+			"links" => [
+				"idStore" => $args["store"],
+				"HTTP" => $_SERVER['HTTP_HOST']
+			],
+			"login" => true
+		]
+	]);
+
+	$page->setTpl("account-shoppinglist-details", [
+		"buttons" => [
+			"wp" => true,
+			"ct" => true,
+			"ft" => true
+		]
+	]);
+	
+	return $response;
+
+});
+
+// Page Account Shopping List Details
+$app->get("/loja-{store}/account/data/", function(Request $request, Response $response, $args) {
+
+	$page = new Page([
+		"data" => [
+			"links" => [
+				"idStore" => $args["store"],
+				"HTTP" => $_SERVER['HTTP_HOST']
+			],
+			"login" => true
+		]
+	]);
+
+	$page->setTpl("account-info", [
 		"buttons" => [
 			"wp" => true,
 			"ct" => true,

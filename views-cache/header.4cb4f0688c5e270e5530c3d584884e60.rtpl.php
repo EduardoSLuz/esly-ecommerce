@@ -1,21 +1,33 @@
 <?php if(!class_exists('Rain\Tpl')){exit;}?><!DOCTYPE html>
 <html lang="pt-br">
   <head>
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta property="og:url" content="https://<?php echo htmlspecialchars( $Links["HTTP"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" />
+  	<meta property="og:type" content="website" />
+  	<meta property="og:title" content="Site Ecommerce" />
+  	<meta property="og:description" content="Venha Conhecer" />
+  	<meta property="og:image" content="https://<?php echo htmlspecialchars( $links["HTTP"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/resources/imgs/code.jpg" />
+  	<meta property="og:image:width" content="150px" />
+  	<meta property="og:image:width" content="150px" />
+	<meta property="fb:app_id" content="113869198637480" />
+
     <title>Astemac | Loja <?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?></title>
     
     <!-- Bootstrap -->   
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 	
 	<!-- Fontawesome -->
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/v4-shims.css">
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css"> 
+	<script src="https://kit.fontawesome.com/d83003de32.js" crossorigin="anonymous"></script>
 	
 	<!-- Plugin BootStrap Animate-->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
-    
+	
+	<!-- JS DO GOOGLE RECAPTCHA -->
+	<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+	
 	<!--  Custom CSS  -->
 	<link href="/resources/css/index.css" rel="stylesheet">  
  	<link rel="stylesheet" href="/resources/css/bootnavbar.css">
@@ -94,9 +106,9 @@
 				<div class="collapse navbar-collapse" id="navbarNav">
 					<ul class="navbar-nav">
 						 <li class="nav-item ml-3 mr-3">
-							<form class="input-group mt-2 bg-white border border-white-50 bd-Rd10" method="GET" action="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/search/">&nbsp;
+							<form class="input-group mt-2 bg-white border border-white-50 bd-Rd10 ipt-barSearch" method="GET" action="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/search/">&nbsp;
 							
-								<input type="text" class="form-control ipt-barSearch null-bd" placeholder="Encontre um produto" name="s">
+								<input type="text" class="form-control null-bd" placeholder="Encontre um produto" name="s">
 
 								<div class="input-group-prepend">
 									<button type="button" class="bg-white null-bd" id="Btn-Audio">
@@ -117,7 +129,7 @@
 								<small>Lojas</small>					
 							</button>
 						</a>
-						<a href='/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/<?php if( $login ){ ?>account<?php }else{ ?>login<?php } ?>'>
+						<a href='/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/<?php if( $login ){ ?>account/requests<?php }else{ ?>login<?php } ?>/'>
 							<button class="nav-item text-center text-light btn btn-primary">
 								<i class="far fa-user"></i><br>
 								<small>Conta</small>						
@@ -125,10 +137,64 @@
 						</a>
 						
 
-						<a href='/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/<?php if( $login ){ ?>cart<?php }else{ ?>login<?php } ?>' data-toggle="popover" data-placement="bottom" data-trigger="hover" data-html="true" data-content="<i class='far fa-user'></i> Faça login para acessar o carrinho">
+						<a id="PopCart" <?php if( $login === false ){ ?> href='/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/login/' <?php } ?> data-toggle="popover" data-placement="bottom" data-trigger='<?php if( $login ){ ?>focus <?php }else{ ?>hover<?php } ?>' data-html="true" data-content='
+							<?php if( $login === false ){ ?>
+							
+								<i class="far fa-user"></i> Faça login para acessar o carrinho
+
+							<?php }else{ ?>
+
+								<div>
+									<div class="table-responsive">
+										<div class="table-ini">
+											
+											<div class="border-bottom py-2">
+												<span>PANETTONE ARCOR PREMIUM CHOCOLATE 530G</span>
+												<small><br>1 X R$ 9,90</small>
+											</div>
+
+											<div class="border-bottom py-2">
+												<span>PANETTONE ARCOR PREMIUM CHOCOLATE 530G</span>
+												<small><br>1 X R$ 9,90</small>
+											</div>
+
+											<div class="border-bottom py-2">
+												<span>PANETTONE ARCOR PREMIUM CHOCOLATE 530G</span>
+												<small><br>1 X R$ 9,90</small>
+											</div>
+
+											<div class="border-bottom py-2">
+												<span>PANETTONE ARCOR PREMIUM CHOCOLATE 530G</span>
+												<small><br>1 X R$ 9,90</small>
+											</div>
+
+											<div class="border-bottom py-2">
+												<span>PANETTONE ARCOR PREMIUM CHOCOLATE 530G</span>
+												<small><br>1 X R$ 9,90</small>
+											</div>
+
+											<div class="border-bottom py-2">
+												<span>PANETTONE ARCOR PREMIUM CHOCOLATE 530G</span>
+												<small><br>1 X R$ 9,90</small>
+											</div>
+			
+										</div>
+									</div>
+									
+									<div class="py-3">
+										<span>Subtotal: <b>R$ 9,90</b></span>
+									</div>
+									
+									<div class="text-center">
+										<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/cart/" class="btn btn-sm btn-primary w-100">Ver Carrinho</a>
+									</div>
+								</div>
+
+							<?php } ?>
+						'>
 							<button class="nav-item text-center text-light btn btn-primary">
 								<i class="fas fa-shopping-cart"></i>	
-								<br><small><b>0</b></small>						
+								<br><small><b><?php if( $login ){ ?>6<?php }else{ ?>0<?php } ?></b></small>						
 							</button>
 						</a>
 						
@@ -177,10 +243,10 @@
 		
 		<div class="bcg-ini btn-group navbar-displayNone width-T100">
 			
-			<button type="button" class="btn btn-outline-primary border-0 bd-RdNull py-2">
+			<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/our-stores/" class="btn btn-outline-primary border-0 bd-RdNull py-2">
 				<i class="fas fa-map-marker-alt"></i><br>
 				<small>Nossas Lojas</small>
-			</button>
+			</a>
 
 			<button type="button" class="btn btn-outline-primary border-0 bd-RdNull py-2" data-toggle="modal" data-target="#ModalConsultationRegions">
 				<i class="fas fa-truck"></i><br>
@@ -192,10 +258,10 @@
 				<small>Horários</small>
 			</button>
 
-			<button type="button" class="btn btn-outline-primary border-0 bd-RdNull py-2">
+			<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/login/" class="btn btn-outline-primary border-0 bd-RdNull py-2">
 				<i class="far fa-user"></i><br>
 				<small>Entrar</small>
-			</button>
+			</a>
 			
 		</div>
 

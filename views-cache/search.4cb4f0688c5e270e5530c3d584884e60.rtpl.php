@@ -106,7 +106,7 @@
 					<div id="ProductsGrid" class="row text-center">
 
 						<div class="ColunaCardsSearch col-md-3 mt-3">
-							<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/">
+							<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/">
 										
 								<div id="CardSearch" class="card bg-white card-CarouselSearch" onMouseOver="showCart('FormCardSearch', 'CardSubSearch','CardSearch')" onMouseOut="hideCart('FormCardSearch', 'CardSubSearch','CardSearch', 'inputCardSearch')">
 							
@@ -181,7 +181,7 @@
 						</div>
 						
 						<div class="ColunaCardsSearch col-md-3 mt-3">
-							<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/">
+							<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/">
 										
 								<div id="CardSearch2" class="card bg-white card-CarouselSearch" onMouseOver="showCart('FormCardSearch2', 'CardSubSearch2','CardSearch2')" onMouseOut="hideCart('FormCardSearch2', 'CardSubSearch2','CardSearch2', 'inputCardSearch2')">
 							
@@ -256,7 +256,7 @@
 						</div>
 						
 						<div class="ColunaCardsSearch col-md-3 mt-3">
-							<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/">
+							<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/">
 										
 								<div id="CardSearch3" class="card bg-white card-CarouselSearch" onMouseOver="showCart('FormCardSearch3', 'CardSubSearch3','CardSearch3')" onMouseOut="hideCart('FormCardSearch3', 'CardSubSearch3','CardSearch3', 'inputCardSearch3')">
 							
@@ -331,7 +331,7 @@
 						</div>
 						
 						<div class="ColunaCardsSearch col-md-3 mt-3">
-							<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/">
+							<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/">
 										
 								<div id="CardSearch4" class="card bg-white card-CarouselSearch" onMouseOver="showCart('FormCardSearch4', 'CardSubSearch4','CardSearch4')" onMouseOut="hideCart('FormCardSearch4', 'CardSubSearch4','CardSearch4', 'inputCardSearch4')">
 								
@@ -406,7 +406,7 @@
 						</div>
 
 						<div class="ColunaCardsSearch col-md-3 mt-3">
-							<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/">
+							<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/">
 									
 								<div id="CardSearch5" class="card bg-white card-CarouselSearch" onMouseOver="showCart('FormCardSearch5', 'CardSubSearch5','CardSearch5')" onMouseOut="hideCart('FormCardSearch5', 'CardSubSearch5','CardSearch5', 'inputCardSearch5')">
 							  
@@ -482,7 +482,7 @@
 
 						<div class="ColunaCardsSearch col-md-3 mt-3 ">
 
-							<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/">
+							<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/">
 									
 								<div id="CardSearch6" class="card bg-white card-CarouselSearch" onMouseOver="showCart('FormCardSearch6', 'CardSubSearch6','CardSearch6')" onMouseOut="hideCart('FormCardSearch6', 'CardSubSearch6','CardSearch6', 'inputCardSearch6')">
 							  
@@ -558,7 +558,7 @@
 
 						<div class="ColunaCardsSearch col-md-3 mt-3">
 
-							<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/">
+							<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/">
 									
 								<div id="CardSearch7" class="card bg-white card-CarouselSearch" onMouseOver="showCart('FormCardSearch7', 'CardSubSearch7','CardSearch7')" onMouseOut="hideCart('FormCardSearch7', 'CardSubSearch7','CardSearch7', 'inputCardSearch7')">
 							  
@@ -635,7 +635,7 @@
 
 						<div class="ColunaCardsSearch col-md-3 mt-3">
 
-							<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/">
+							<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/">
 									
 								<div id="CardSearch8" class="card bg-white card-CarouselSearch" onMouseOver="showCart('FormCardSearch8', 'CardSubSearch8','CardSearch8')" onMouseOut="hideCart('FormCardSearch8', 'CardSubSearch8','CardSearch8', 'inputCardSearch8')">
 							  
@@ -703,7 +703,7 @@
 
 						<div class="ColunaCardsSearch col-md-3 mt-3">
 
-							<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/">
+							<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/">
 									
 								<div id="CardSearch9" class="card bg-white card-CarouselSearch" onMouseOver="showCart('FormCardSearch9', 'CardSubSearch9','CardSearch9')" onMouseOut="hideCart('FormCardSearch9', 'CardSubSearch9','CardSearch9', 'inputCardSearch9')">
 							  
@@ -774,7 +774,7 @@
 
 						<div class="ColunaCardsSearch col-md-3 mt-3">
 
-							<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/">
+							<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/">
 									
 								<div id="CardSearch10" class="card bg-white card-CarouselSearch" onMouseOver="showCart('FormCardSearch10', 'CardSubSearch10','CardSearch10')" onMouseOut="hideCart('FormCardSearch10', 'CardSubSearch10','CardSearch10', 'inputCardSearch10')">
 							  
@@ -841,7 +841,7 @@
 
 						<div class="ColunaCardsSearch col-md-3 mt-3">
 
-							<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/">
+							<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/">
 									
 								<div id="CardSearch11" class="card bg-white card-CarouselSearch" onMouseOver="showCart('FormCardSearch11', 'CardSubSearch11','CardSearch11')" onMouseOut="hideCart('FormCardSearch11', 'CardSubSearch11','CardSearch11', 'inputCardSearch11')">
 							  
@@ -914,7 +914,7 @@
 
 						<div class="ColunaCardsSearch col-md-3 mt-3">
 
-							<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/">
+							<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/">
 									
 								<div id="CardSearch12" class="card bg-white card-CarouselSearch" onMouseOver="showCart('FormCardSearch12', 'CardSubSearch12','CardSearch12')" onMouseOut="hideCart('FormCardSearch12', 'CardSubSearch12','CardSearch12', 'inputCardSearch12')">
 							  
@@ -993,7 +993,7 @@
 
 						<div class="ColunaCardsSearch col-md-3 mt-3">
 							
-							<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/">
+							<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/">
 									
 								<div id="CardSearch13" class="card bg-white card-CarouselSearch" onMouseOver="showCart('FormCardSearch13', 'CardSubSearch13','CardSearch13')" onMouseOut="hideCart('FormCardSearch13', 'CardSubSearch13','CardSearch13', 'inputCardSearch13')">
 							  
@@ -1060,7 +1060,7 @@
 
 						<div class="ColunaCardsSearch col-md-3 mt-3">
 
-							<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/">
+							<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/">
 									
 								<div id="CardSearch14" class="card bg-white card-CarouselSearch" onMouseOver="showCart('FormCardSearch14', 'CardSubSearch14','CardSearch14')" onMouseOut="hideCart('FormCardSearch14', 'CardSubSearch14','CardSearch14', 'inputCardSearch14')">
 							  
@@ -1135,7 +1135,7 @@
 
 						<div class="ColunaCardsSearch col-md-3 mt-3">
 
-							<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/">
+							<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/">
 									
 								<div id="CardSearch15" class="card bg-white card-CarouselSearch" onMouseOver="showCart('FormCardSearch15', 'CardSubSearch15','CardSearch15')" onMouseOut="hideCart('FormCardSearch15', 'CardSubSearch15','CardSearch15', 'inputCardSearch15')">
 							  
@@ -1211,7 +1211,7 @@
 
 						<div class="ColunaCardsSearch col-md-3 mt-3">
 
-							<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/">
+							<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/">
 									
 								<div id="CardSearch16" class="card bg-white card-CarouselSearch" onMouseOver="showCart('FormCardSearch16', 'CardSubSearch16','CardSearch16')" onMouseOut="hideCart('FormCardSearch16', 'CardSubSearch16','CardSearch16', 'inputCardSearch16')">
 							  

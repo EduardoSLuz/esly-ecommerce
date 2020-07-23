@@ -41,63 +41,63 @@
 						<div class="owl-stage">
             				
 							<div class="owl-item text-center">
-								<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/" class="text-dark text-decoration-none">
+								<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/" class="text-dark text-decoration-none">
 									<img class="rounded mx-auto d-block rounded-circle bg-white border carousel-ImgCircle" src="/resources/imgs/produtos/alface.png" alt="Produtos">
 									<span class="">Alface</span>
 								</a>	
 							</div>
 							
 							<div class="owl-item text-center">
-								<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/" class="text-dark text-decoration-none">
+								<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/" class="text-dark text-decoration-none">
 									<img class="rounded-circle rounded mx-auto d-block bg-white border carousel-ImgCircle" src="/resources/imgs/produtos/maca.jpeg" alt="Produtos">
 									<span class="">Maçã</span>
 								</a>	
 							</div>
 							
 							<div class="owl-item text-center">
-								<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/" class="text-dark text-decoration-none">
+								<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/" class="text-dark text-decoration-none">
 									<img class="rounded-circle rounded mx-auto d-block bg-white border carousel-ImgCircle" src="/resources/imgs/produtos/cafe.jpg" alt="Produtos">
 									<span class="">Café</span>
 								</a>	
 							</div>
 							
 							<div class="owl-item text-center">
-								<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/" class="text-dark text-decoration-none">
+								<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/" class="text-dark text-decoration-none">
 									<img class="rounded-circle rounded mx-auto d-block bg-white border carousel-ImgCircle" src="/resources/imgs/produtos/cokkie.jpeg" alt="Produtos">
 									<span class="">Cokkies</span>
 								</a>	
 							</div>
 							
 							<div class="owl-item text-center">
-								<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/" class="text-dark text-decoration-none">
+								<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/" class="text-dark text-decoration-none">
 									<img class="rounded-circle rounded mx-auto d-block bg-white border carousel-ImgCircle" src="/resources/imgs/produtos/cerveja.jpeg" alt="Produtos">
 									<span class="">Cervejas</span>
 								</a>	
 							</div>
 							
 							<div class="owl-item text-center">
-								<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/" class="text-dark text-decoration-none">
+								<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/" class="text-dark text-decoration-none">
 									<img class="rounded-circle rounded mx-auto d-block bg-white border carousel-ImgCircle" src="/resources/imgs/produtos/abacate.jpeg" alt="Produtos">
 									<span class="">Abacate</span>
 								</a>	
 							</div>
 							
 							<div class="owl-item text-center">
-								<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/" class="text-dark text-decoration-none">
+								<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/" class="text-dark text-decoration-none">
 									<img class="rounded-circle rounded mx-auto d-block bg-white border carousel-ImgCircle" src="/resources/imgs/produtos/banana.jpeg" alt="Produtos">
 									<span class="">Banana</span>
 								</a>	
 							</div>
 							
 							<div class="owl-item text-center">
-								<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/" class="text-dark text-decoration-none">
+								<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/" class="text-dark text-decoration-none">
 									<img class="rounded-circle rounded mx-auto d-block bg-white border carousel-ImgCircle" src="/resources/imgs/produtos/mandioca.jpeg" alt="Produtos">
 									<span class="">Mandioca</span>
 								</a>	
 							</div>
 							
 							<div class="owl-item text-center">
-								<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/" class="text-dark text-decoration-none">
+								<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/" class="text-dark text-decoration-none">
 									<img class="rounded-circle rounded mx-auto d-block bg-white borde carousel-ImgCircle" src="/resources/imgs/produtos/iogurtet.jpeg" alt="Produtos">
 									<span class="">iogurtes</span>
 								</a>	
@@ -131,7 +131,7 @@
 							
 							<div class="owl-item text-center">
 								
-								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/">
+								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/">
 									
 									<div id="CardPromo" class="card bg-white card-Carousel" onMouseOver="showCart('FormCardPromo', 'CardSubPromo','CardPromo')" onMouseOut="hideCart('FormCardPromo', 'CardSubPromo','CardPromo', 'inputCardPromo')">
 								  
@@ -208,7 +208,7 @@
 							
 							<div class="owl-item text-center">
 								
-								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/">
+								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/">
 									
 									<div id="CardPromo2" class="card bg-white card-Carousel" onMouseOver="showCart('FormCardPromo2', 'CardSubPromo2','CardPromo2')" onMouseOut="hideCart('FormCardPromo2', 'CardSubPromo2','CardPromo2', 'inputCardPromo2')">
 								  
@@ -285,7 +285,7 @@
 							
 							<div class="owl-item text-center">
 								
-								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/">
+								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/">
 									
 									<div id="CardPromo3" class="card bg-white card-Carousel" onMouseOver="showCart('FormCardPromo3', 'CardSubPromo3','CardPromo3')" onMouseOut="hideCart('FormCardPromo3', 'CardSubPromo3','CardPromo3', 'inputCardPromo3')">
 								  
@@ -362,7 +362,7 @@
 							
 							<div class="owl-item text-center">
 								
-								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/">
+								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/">
 									
 									<div id="CardPromo4" class="card bg-white card-Carousel" onMouseOver="showCart('FormCardPromo4', 'CardSubPromo4','CardPromo4')" onMouseOut="hideCart('FormCardPromo4', 'CardSubPromo4','CardPromo4', 'inputCardPromo4')">
 								  
@@ -439,7 +439,7 @@
 							
 							<div class="owl-item text-center">
 								
-								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/">
+								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/">
 									
 									<div id="CardPromo5" class="card bg-white card-Carousel" onMouseOver="showCart('FormCardPromo5', 'CardSubPromo5','CardPromo5')" onMouseOut="hideCart('FormCardPromo5', 'CardSubPromo5','CardPromo5', 'inputCardPromo5')">
 								  
@@ -516,7 +516,7 @@
 							
 							<div class="owl-item text-center">
 								
-								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/">
+								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/">
 									
 									<div id="CardPromo6" class="card bg-white card-Carousel" onMouseOver="showCart('FormCardPromo6', 'CardSubPromo6','CardPromo6')" onMouseOut="hideCart('FormCardPromo6', 'CardSubPromo6','CardPromo6', 'inputCardPromo6')">
 								  
@@ -593,7 +593,7 @@
 							
 							<div class="owl-item text-center">
 								
-								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/">
+								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/">
 									
 									<div id="CardPromo7" class="card bg-white card-Carousel" onMouseOver="showCart('FormCardPromo7', 'CardSubPromo7','CardPromo7')" onMouseOut="hideCart('FormCardPromo7', 'CardSubPromo7','CardPromo7', 'inputCardPromo7')">
 								  
@@ -696,7 +696,7 @@
 							
 							<div class="owl-item text-center">
 								
-								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/">
+								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/">
 									
 									<div id="CardFeira" class="card bg-white card-Carousel" onMouseOver="showCart('FormCardFeira', 'CardSubFeira','CardFeira')" onMouseOut="hideCart('FormCardFeira', 'CardSubFeira','CardFeira', 'inputCardFeira')">
 								  
@@ -764,7 +764,7 @@
 							
 							<div class="owl-item text-center">
 								
-								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/">
+								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/">
 									
 									<div id="CardFeira2" class="card bg-white card-Carousel" onMouseOver="showCart('FormCardFeira2', 'CardSubFeira2','CardFeira2')" onMouseOut="hideCart('FormCardFeira2', 'CardSubFeira2','CardFeira2', 'inputCardFeira2')">
 								  
@@ -835,7 +835,7 @@
 							
 							<div class="owl-item text-center">
 								
-								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/">
+								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/">
 									
 									<div id="CardFeira3" class="card bg-white card-Carousel" onMouseOver="showCart('FormCardFeira3', 'CardSubFeira3','CardFeira3')" onMouseOut="hideCart('FormCardFeira3', 'CardSubFeira3','CardFeira3', 'inputCardFeira3')">
 								  
@@ -902,7 +902,7 @@
 							
 							<div class="owl-item text-center">
 								
-								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/">
+								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/">
 									
 									<div id="CardFeira4" class="card bg-white card-Carousel" onMouseOver="showCart('FormCardFeira4', 'CardSubFeira4','CardFeira4')" onMouseOut="hideCart('FormCardFeira4', 'CardSubFeira4','CardFeira4', 'inputCardFeira4')">
 								  
@@ -975,7 +975,7 @@
 							
 							<div class="owl-item text-center">
 								
-								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/">
+								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/">
 									
 									<div id="CardFeira5" class="card bg-white card-Carousel" onMouseOver="showCart('FormCardFeira5', 'CardSubFeira5','CardFeira5')" onMouseOut="hideCart('FormCardFeira5', 'CardSubFeira5','CardFeira5', 'inputCardFeira5')">
 								  
@@ -1054,7 +1054,7 @@
 							
 							<div class="owl-item text-center">
 								
-								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/">
+								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/">
 									
 									<div id="CardFeira6" class="card bg-white card-Carousel" onMouseOver="showCart('FormCardFeira6', 'CardSubFeira6','CardFeira6')" onMouseOut="hideCart('FormCardFeira6', 'CardSubFeira6','CardFeira6', 'inputCardFeira6')">
 								  
@@ -1121,7 +1121,7 @@
 							
 							<div class="owl-item text-center">
 								
-								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/">
+								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/">
 									
 									<div id="CardFeira7" class="card bg-white card-Carousel" onMouseOver="showCart('FormCardFeira7', 'CardSubFeira7','CardFeira7')" onMouseOut="hideCart('FormCardFeira7', 'CardSubFeira7','CardFeira7', 'inputCardFeira7')">
 								  
@@ -1221,7 +1221,7 @@
 							
 							<div class="owl-item text-center">
 								
-								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/">
+								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/">
 									
 									<div id="CardHortiFruti" class="card bg-white card-Carousel" onMouseOver="showCart('FormCardHortiFruti', 'CardSubHortiFruti','CardHortiFruti')" onMouseOut="hideCart('FormCardHortiFruti', 'CardSubHortiFruti','CardHortiFruti', 'inputCardHortiFruti')">
 								  
@@ -1297,7 +1297,7 @@
 							
 							<div class="owl-item text-center">
 								
-								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/">
+								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/">
 									
 									<div id="CardHortiFruti2" class="card bg-white card-Carousel" onMouseOver="showCart('FormCardHortiFruti2', 'CardSubHortiFruti2','CardHortiFruti2')" onMouseOut="hideCart('FormCardHortiFruti2', 'CardSubHortiFruti2','CardHortiFruti2', 'inputCardHortiFruti2')">
 								  
@@ -1368,7 +1368,7 @@
 							
 							<div class="owl-item text-center">
 								
-								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/">
+								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/">
 									
 									<div id="CardHortiFruti3" class="card bg-white card-Carousel" onMouseOver="showCart('FormCardHortiFruti3', 'CardSubHortiFruti3','CardHortiFruti3')" onMouseOut="hideCart('FormCardHortiFruti3', 'CardSubHortiFruti3','CardHortiFruti3', 'inputCardHortiFruti3')">
 								  
@@ -1439,7 +1439,7 @@
 							
 							<div class="owl-item text-center">
 								
-								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/">
+								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/">
 									
 									<div id="CardHortiFruti4" class="card bg-white card-Carousel" onMouseOver="showCart('FormCardHortiFruti4', 'CardSubHortiFruti4','CardHortiFruti4')" onMouseOut="hideCart('FormCardHortiFruti4', 'CardSubHortiFruti4','CardHortiFruti4', 'inputCardHortiFruti4')">
 								  
@@ -1512,7 +1512,7 @@
 							
 							<div class="owl-item text-center">
 								
-								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/">
+								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/">
 									
 									<div id="CardHortiFruti5" class="card bg-white card-Carousel" onMouseOver="showCart('FormCardHortiFruti5', 'CardSubHortiFruti5','CardHortiFruti5')" onMouseOut="hideCart('FormCardHortiFruti5', 'CardSubHortiFruti5','CardHortiFruti5', 'inputCardHortiFruti5')">
 								  
@@ -1591,7 +1591,7 @@
 							
 							<div class="owl-item text-center">
 								
-								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/">
+								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/">
 									
 									<div id="CardHortiFruti6" class="card bg-white card-Carousel" onMouseOver="showCart('FormCardHortiFruti6', 'CardSubHortiFruti6','CardHortiFruti6')" onMouseOut="hideCart('FormCardHortiFruti6', 'CardSubHortiFruti6','CardHortiFruti6', 'inputCardHortiFruti6')">
 								  
@@ -1658,7 +1658,7 @@
 							
 							<div class="owl-item text-center">
 								
-								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/">
+								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/">
 									
 									<div id="CardHortiFruti7" class="card bg-white card-Carousel" onMouseOver="showCart('FormCardHortiFruti7', 'CardSubHortiFruti7','CardHortiFruti7')" onMouseOut="hideCart('FormCardHortiFruti7', 'CardSubHortiFruti7','CardHortiFruti7', 'inputCardHortiFruti7')">
 								  
@@ -1758,7 +1758,7 @@
 							
 							<div class="owl-item text-center">
 								
-								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/">
+								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/">
 									
 									<div id="CardCervejas" class="card bg-white card-Carousel" onMouseOver="showCart('FormCardCervejas', 'CardSubCervejas','CardCervejas')" onMouseOut="hideCart('FormCardCervejas', 'CardSubCervejas','CardCervejas', 'inputCardCervejas')">
 								  
@@ -1827,7 +1827,7 @@
 							
 							<div class="owl-item text-center">
 								
-								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/">
+								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/">
 									
 									<div id="CardCervejas2" class="card bg-white card-Carousel" onMouseOver="showCart('FormCardCervejas2', 'CardSubCervejas2','CardCervejas2')" onMouseOut="hideCart('FormCardCervejas2', 'CardSubCervejas2','CardCervejas2', 'inputCardCervejas2')">
 								  
@@ -1894,7 +1894,7 @@
 							
 							<div class="owl-item text-center">
 								
-								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/">
+								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/">
 									
 									<div id="CardCervejas3" class="card bg-white card-Carousel" onMouseOver="showCart('FormCardCervejas3', 'CardSubCervejas3','CardCervejas3')" onMouseOut="hideCart('FormCardCervejas3', 'CardSubCervejas3','CardCervejas3', 'inputCardCervejas3')">
 								  
@@ -1962,7 +1962,7 @@
 							
 							<div class="owl-item text-center">
 								
-								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/">
+								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/">
 									
 									<div id="CardCervejas4" class="card bg-white card-Carousel" onMouseOver="showCart('FormCardCervejas4', 'CardSubCervejas4','CardCervejas4')" onMouseOut="hideCart('FormCardCervejas4', 'CardSubCervejas4','CardCervejas4', 'inputCardCervejas4')">
 								  
@@ -2030,7 +2030,7 @@
 							
 							<div class="owl-item text-center">
 								
-								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/">
+								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/">
 									
 									<div id="CardCervejas5" class="card bg-white card-Carousel" onMouseOver="showCart('FormCardCervejas5', 'CardSubCervejas5','CardCervejas5')" onMouseOut="hideCart('FormCardCervejas5', 'CardSubCervejas5','CardCervejas5', 'inputCardCervejas5')">
 								  
@@ -2098,7 +2098,7 @@
 							
 							<div class="owl-item text-center">
 								
-								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/">
+								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/">
 									
 									<div id="CardCervejas6" class="card bg-white card-Carousel" onMouseOver="showCart('FormCardCervejas6', 'CardSubCervejas6','CardCervejas6')" onMouseOut="hideCart('FormCardCervejas6', 'CardSubCervejas6','CardCervejas6', 'inputCardCervejas6')">
 								  
@@ -2174,7 +2174,7 @@
 							
 							<div class="owl-item text-center">
 								
-								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/">
+								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/">
 									
 									<div id="CardCervejas7" class="card bg-white card-Carousel" onMouseOver="showCart('FormCardCervejas7', 'CardSubCervejas7','CardCervejas7')" onMouseOut="hideCart('FormCardCervejas7', 'CardSubCervejas7','CardCervejas7', 'inputCardCervejas7')">
 								  
@@ -2267,7 +2267,7 @@
 							
 							<div class="owl-item text-center">
 								
-								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/">
+								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/">
 									
 									<div id="CardIorgutes" class="card bg-white card-Carousel" onMouseOver="showCart('FormCardIorgutes', 'CardSubIorgutes','CardIorgutes')" onMouseOut="hideCart('FormCardIorgutes', 'CardSubIorgutes','CardIorgutes', 'inputCardIorgutes')">
 								  
@@ -2336,7 +2336,7 @@
 							
 							<div class="owl-item text-center">
 								
-								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/">
+								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/">
 									
 									<div id="CardIorgutes2" class="card bg-white card-Carousel" onMouseOver="showCart('FormCardIorgutes2', 'CardSubIorgutes2','CardIorgutes2')" onMouseOut="hideCart('FormCardIorgutes2', 'CardSubIorgutes2','CardIorgutes2', 'inputCardIorgutes2')">
 								  
@@ -2403,7 +2403,7 @@
 							
 							<div class="owl-item text-center">
 								
-								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/">
+								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/">
 									
 									<div id="CardIorgutes3" class="card bg-white card-Carousel" onMouseOver="showCart('FormCardIorgutes3', 'CardSubIorgutes3','CardIorgutes3')" onMouseOut="hideCart('FormCardIorgutes3', 'CardSubIorgutes3','CardIorgutes3', 'inputCardIorgutes3')">
 								  
@@ -2471,7 +2471,7 @@
 							
 							<div class="owl-item text-center">
 								
-								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/">
+								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/">
 									
 									<div id="CardIorgutes4" class="card bg-white card-Carousel" onMouseOver="showCart('FormCardIorgutes4', 'CardSubIorgutes4','CardIorgutes4')" onMouseOut="hideCart('FormCardIorgutes4', 'CardSubIorgutes4','CardIorgutes4', 'inputCardIorgutes4')">
 								  
@@ -2539,7 +2539,7 @@
 							
 							<div class="owl-item text-center">
 								
-								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/">
+								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/">
 									
 									<div id="CardIorgutes5" class="card bg-white card-Carousel" onMouseOver="showCart('FormCardIorgutes5', 'CardSubIorgutes5','CardIorgutes5')" onMouseOut="hideCart('FormCardIorgutes5', 'CardSubIorgutes5','CardIorgutes5', 'inputCardIorgutes5')">
 								  
@@ -2607,7 +2607,7 @@
 							
 							<div class="owl-item text-center">
 								
-								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/">
+								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/">
 									
 									<div id="CardIorgutes6" class="card bg-white card-Carousel" onMouseOver="showCart('FormCardIorgutes6', 'CardSubIorgutes6','CardIorgutes6')" onMouseOut="hideCart('FormCardIorgutes6', 'CardSubIorgutes6','CardIorgutes6', 'inputCardIorgutes6')">
 								  
@@ -2674,7 +2674,7 @@
 							
 							<div class="owl-item text-center">
 								
-								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/">
+								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/">
 									
 									<div id="CardIorgutes7" class="card bg-white card-Carousel" onMouseOver="showCart('FormCardIorgutes7', 'CardSubIorgutes7','CardIorgutes7')" onMouseOut="hideCart('FormCardIorgutes7', 'CardSubIorgutes7','CardIorgutes7', 'inputCardIorgutes7')">
 								  
@@ -2767,7 +2767,7 @@
 							
 							<div class="owl-item text-center">
 								
-								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/">
+								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/">
 									
 									<div id="CardCozinha" class="card bg-white card-Carousel" onMouseOver="showCart('FormCardCozinha', 'CardSubCozinha','CardCozinha')" onMouseOut="hideCart('FormCardCozinha', 'CardSubCozinha','CardCozinha', 'inputCardCozinha')">
 								  
@@ -2836,7 +2836,7 @@
 							
 							<div class="owl-item text-center">
 								
-								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/">
+								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/">
 									
 									<div id="CardCozinha2" class="card bg-white card-Carousel" onMouseOver="showCart('FormCardCozinha2', 'CardSubCozinha2','CardCozinha2')" onMouseOut="hideCart('FormCardCozinha2', 'CardSubCozinha2','CardCozinha2', 'inputCardCozinha2')">
 								  
@@ -2903,7 +2903,7 @@
 							
 							<div class="owl-item text-center">
 								
-								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/">
+								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/">
 									
 									<div id="CardCozinha3" class="card bg-white card-Carousel" onMouseOver="showCart('FormCardCozinha3', 'CardSubCozinha3','CardCozinha3')" onMouseOut="hideCart('FormCardCozinha3', 'CardSubCozinha3','CardCozinha3', 'inputCardCozinha3')">
 								  
@@ -2971,7 +2971,7 @@
 							
 							<div class="owl-item text-center">
 								
-								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/">
+								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/">
 									
 									<div id="CardCozinha4" class="card bg-white card-Carousel" onMouseOver="showCart('FormCardCozinha4', 'CardSubCozinha4','CardCozinha4')" onMouseOut="hideCart('FormCardCozinha4', 'CardSubCozinha4','CardCozinha4', 'inputCardCozinha4')">
 								  
@@ -3039,7 +3039,7 @@
 							
 							<div class="owl-item text-center">
 								
-								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/">
+								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/">
 									
 									<div id="CardCozinha5" class="card bg-white card-Carousel" onMouseOver="showCart('FormCardCozinha5', 'CardSubCozinha5','CardCozinha5')" onMouseOut="hideCart('FormCardCozinha5', 'CardSubCozinha5','CardCozinha5', 'inputCardCozinha5')">
 								  
@@ -3107,7 +3107,7 @@
 							
 							<div class="owl-item text-center">
 								
-								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/">
+								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/">
 									
 									<div id="CardCozinha6" class="card bg-white card-Carousel" onMouseOver="showCart('FormCardCozinha6', 'CardSubCozinha6','CardCozinha6')" onMouseOut="hideCart('FormCardCozinha6', 'CardSubCozinha6','CardCozinha6', 'inputCardCozinha6')">
 								  
@@ -3174,7 +3174,7 @@
 							
 							<div class="owl-item text-center">
 								
-								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/">
+								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/">
 									
 									<div id="CardCozinha7" class="card bg-white card-Carousel" onMouseOver="showCart('FormCardCozinha7', 'CardSubCozinha7','CardCozinha7')" onMouseOut="hideCart('FormCardCozinha7', 'CardSubCozinha7','CardCozinha7', 'inputCardCozinha7')">
 								  
