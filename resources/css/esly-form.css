@@ -1,0 +1,223 @@
+/* Bars */
+.bar-display
+{
+	display: block;
+}
+
+/* CheckBoxs */
+.ckbx-ini
+{
+	width: 17px;
+	height: 17px;
+}
+
+/* DropDown */
+.DropDownIni-Menu
+{
+	width: 500px; 
+	height: 380px;  
+	overflow: hidden;
+}
+
+/* Google reCAPTCHA */
+.google-reCap{
+	margin: auto;
+	width: 302px;
+}
+
+/* Inputs */
+.ipt-barSearch
+{
+	width: 55em;
+	border-radius: 10px;
+}
+
+.ipt-cart-sm
+{
+	width: 60px;
+}
+
+.ipt-customLg
+{
+	width: 16em;
+	height: 3.5em;
+}
+
+input[type=number] 
+{ 
+	-moz-appearance: textfield;
+	appearance: textfield;
+}
+
+input[type=number]::-webkit-inner-spin-button 
+{ 
+    -webkit-appearance: none;
+}
+
+/* NavBars */
+.navbar-ini
+{
+	position: absolute;
+}
+
+.navbar-display
+{
+	display: none;
+}
+
+/* Selects */
+.slt-customLg
+{
+	border-color: grey; 
+	width: 16em; 
+	border-radius: 5px;
+}
+
+/* Tables */
+.table-ini
+{
+	max-height: 450px;
+}
+
+.td-ini
+{
+	max-width: 100%;
+}
+
+/*Medias só com min-width*/
+
+/* Size >=160% */
+@media (min-width: 0px)
+{ 
+
+	/* Bars */
+	.bar-display
+	{ 
+		display: none;
+	}
+
+	.bar-ini
+	{
+		position: relative;
+	}
+
+	/* NavBars */	
+	.navbar-display
+	{ 
+		display: block;
+	}
+
+	.navbar-ini
+	{
+		position: static;
+	}
+
+	.navbar-prime
+	{
+		margin: 0px;
+	}
+
+	/* Tables */
+	.td-ini
+	{ 
+		max-width: 165px;
+	}
+	
+}
+
+/* Size >= 130% e <= 150% */
+@media (min-width: 992px)
+{ 
+	
+	/* Bars */
+	.bar-display
+	{ 
+		display: block;
+	}
+
+	/* Inputs */
+	.ipt-barSearch
+	{ 
+		width: 30em;
+	}
+	
+	/* NavBars */
+	.navbar-display
+	{
+		display: none;
+	}
+	
+	.navbar-displayNone
+	{
+		display: none;
+	}
+
+	.navbar-ini
+	{ 
+		position: sticky;
+	}
+
+	/* Tables */
+	.td-ini
+	{ 
+		max-width: 100%;
+	}
+
+}
+
+/* Size 125% */
+@media (min-width: 1229px)
+{ 
+	/* Inputs */	
+	.ipt-barSearch
+	{ 
+		width: 40em;
+	}
+	
+}
+
+/* Size 120% */
+@media (min-width: 1280px)
+{ 
+	
+	/* Inputs */
+	.ipt-barSearch{ 
+		width: 40em;
+	}
+	
+}
+
+/* Size 110% */
+@media (min-width: 1396px)
+{ 
+	
+	/* Inputs */
+	.ipt-barSearch
+	{ 
+		width: 45em;
+	}
+	
+}
+
+/* Size 100% */
+@media (min-width: 1409px)
+{ 
+
+	/* Inputs */
+	.ipt-barSearch
+	{ 
+		width: 60em;
+	}
+	
+}
+
+/* Size 90% */
+@media (min-width: 1696px)
+{
+	
+	/* Inputs */
+	.ipt-barSearch{
+		width: 65em;
+	}
+	
+}

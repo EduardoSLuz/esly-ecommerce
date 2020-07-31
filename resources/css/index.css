@@ -6,13 +6,13 @@
 ::-webkit-scrollbar-thumb {
     -webkit-border-radius: 10px;
     border-radius: 10px;
-    background: rgba(57, 40, 148, 0.8); 
+    background: blue; 
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
 }
 
 .scroll-null::-webkit-scrollbar {
     width: 1px;
-    height: 1px;
+    height: 2px;
 }
 
 /* Backgrounds */
@@ -367,6 +367,15 @@ input[type=number] {
 		background: url("");
 		text-align: center;
 	}
+
+	.img-cardProduct{
+		max-width: 100%;
+		max-height: 100%;
+	}
+
+	.vs-card{
+		visibility: visible;
+	}
 	
 	.tx-title{ /* Texts */
 		font-size: 20px;
@@ -439,8 +448,8 @@ input[type=number] {
 	}
 	
 	.card-ImgRes{ /* Cards-Carousel */
-		max-width: 135px;
-		max-height: 135px;
+		max-width: 120px;
+		max-height: 120px;
 	}
 	
 	.mt-mob { /* Espaçamento */
@@ -550,6 +559,10 @@ input[type=number] {
 		background-repeat: no-repeat;
 		background-size: 100% 100%;
 		text-align: left;
+	}
+
+	.vs-card{
+		visibility: hidden;
 	}
 
 	.tx-TitleMob{ /* Texts */

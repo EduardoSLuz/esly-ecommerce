@@ -29,7 +29,7 @@
 				</div>
 
 				<div class="col-md">
-					<p class="h4 text-uppercase font-weight-normal">Meus dados</p>
+					<p class="h4 font-weight-normal">Meus dados</p>
 					
 					<form class="mt-3 row" method="POST">
 						
@@ -88,7 +88,7 @@
 						</div>
 
 						<div class="col-md-6 mt-3 text-right">
-							<button type="button" class="btn btn-light border border-dark">Alterar minha senha</button>
+							<button type="button" class="btn btn-light border border-dark" data-toggle="modal" data-target="#ModalChangePassword">Alterar minha senha</button>
 						</div>
 						
 					</form>
@@ -157,7 +157,7 @@
 							<option value="3">Loja 03</option>
 						</select>
 						
-						<a class="btn btn-primary text-white w-100 mt-3" href="#">Acessar</a>
+						<button type="button" class="btn btn-primary text-white w-100 mt-3">Acessar</button>
 
 						<p class="mt-2">
 							Não encontrou a loja? No momento, o serviço de delivery está atendendo à algumas regiões.
@@ -286,6 +286,57 @@
 
 						</div>
 						
+					</div>
+			  
+				</div>
+			
+			</div>
+		  
+		</div>
+
+		<!-- MODAL Change Password  -->
+		<div class="modal fade" id="ModalChangePassword" tabindex="-1" role="dialog" aria-labelledby="ModalChangePassword" aria-hidden="true">
+			
+			<div class="modal-dialog">
+			 
+				<div class="modal-content">
+				
+					<div class="modal-header border-bottom-0">
+
+						<button type="button" class="close btn btn-light p-2" data-dismiss="modal" aria-label="Close">
+							<i class="fas fa-times"></i>
+						</button>
+				
+					</div>
+				
+					<div class="modal-body px-4">
+						
+						<p class="h4 font-weight-normal"><i class="fas fa-lock"></i> Alterar Minha Senha</p>
+
+						<div>
+							
+							<div class="my-2">
+								<label for="PassCurrent">Senha Atual:</label>
+								<input type="password" class="form-control" id="PassCurrent" name="PassCurrent" placeholder="Digite sua senha atual">
+							</div>
+
+							<div class="my-2">
+								<label for="NewPass">Nova Senha:</label>
+								<input type="password" class="form-control" id="NewPass" name="NewPass" placeholder="Digite sua nova senha">
+							</div>
+
+							<div class="my-2">
+								<label for="NewPassConfirm">Confirme a Nova Senha:</label>
+								<input type="password" class="form-control" id="NewPassConfirm" name="NewPassConfirm" placeholder="Digite novamente sua nova senha">
+							</div>
+
+						</div>
+						
+					</div>
+
+					<div class="modal-footer text-right px-4 pb-3">
+						<button type="button" class="btn btn-light btn-sm border border-secondary" data-dismiss="modal">Sair</button>
+						<button type="button" class="btn btn-primary btn-sm">Salvar</button>
 					</div>
 			  
 				</div>

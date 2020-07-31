@@ -1,0 +1,291 @@
+/* Button Cart Floating */
+.cart-IconCt
+{
+
+	position: absolute; 
+	transform: translate3d(-70%, 0%, 0); 
+	border-radius: 20px; 
+	font-size: 0.45em;
+
+}
+
+/* Cursor Mouse */
+.cursorPointer
+{
+	cursor: pointer;
+}
+
+/* Displays */
+.d-mobile
+{
+	display: inline-block;
+}
+
+.display-None
+{
+	display: none;
+}
+
+/* Effects */
+.abs-center-x 
+{
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.null-bd, .null-bd:focus
+{
+	box-shadow: 0 0 0 0;
+    border: 0 none;
+    outline: 0;
+}
+
+.max-height
+{
+	max-height: 200px;
+}
+
+.max-height2
+{
+	max-height: 300px;
+}
+
+.null-height
+{
+	height: 0px;
+}
+
+.py-center
+{
+	position: relative;
+	top: 50%;
+	transform: translateY(-70%)
+}
+
+.width-T100
+{
+	width: 100%;
+}
+
+/* Spacing */
+.mt-mob 
+{
+	margin-top: 25px;
+}
+
+.px-btn 
+{
+	padding-left: 55px;
+	padding-right: 55px;
+}
+
+.py-SubMobile
+{
+	padding-top: 10px; 
+	padding-bottom: 10px;
+}
+
+.top-25
+{
+	top: 25%;
+}
+
+.top-50
+{
+	top: 50%;
+}
+
+.top-75
+{
+	top: 75%;
+}
+
+/* Shadows */
+.shadow-Btn
+{
+	box-shadow: 0 0 0.4em gray;
+}
+
+/*Medias só com min-width*/
+
+/* Size >=160% */
+@media (min-width: 0px)
+{ 
+	
+	/* Button Cart Floating */
+	.cart-BtnFloat
+	{ 
+		display: block;
+	}
+
+	/* Displays */
+	.d-mobile
+	{ 
+		display: none;
+	}
+
+	.d-mobile-show
+	{ 
+		display: inline-block;
+	}
+
+	.display-MobileSm
+	{
+		display: block;
+	}
+
+	/* Spacing */
+	.mt-mob 
+	{ 
+		margin-top: 3em;
+	}
+
+	.mt-mobBarAlert, .mt-mobNavbar 
+	{ 
+		margin-top: 15px;
+	}
+
+	.mt-mobile
+	{ 
+		margin-top: 40px;
+	}
+
+	/* Visibility */
+	.vs-card
+	{ 
+		visibility: visible;
+	}
+	
+}
+
+/* Arruma os objetos em mobiles muito pequenos */
+@media (min-width: 0px) and (max-width: 356px)
+{ 
+	
+	/* Displays */
+	.display-MobileSm
+	{ 
+		display: none;
+	}
+
+}
+
+/* Size >= 130% e <= 150% */
+@media (min-width: 992px)
+{ 
+	
+	/* Button Cart Floating */
+	.cart-BtnFloat
+	{ 
+		display: none;
+	}
+
+	/* Displays */
+	.d-mobile
+	{ 
+		display: inline-block;
+	}
+
+	.d-mobile-show
+	{ 
+		display: none;
+	}
+
+	/* Spacing */
+	.mt-mob 
+	{
+		margin-top: 25px;
+	}
+
+	.mt-mobBarAlert 
+	{ 
+		margin-top: 1.5em;
+	}
+
+	.mt-mobile, .mt-mobNavbar 
+	{ 
+		margin-top: 0px;
+	}
+
+	.px-btn 
+	{ 
+		padding-left: 22px;
+		padding-right: 22px;
+	}
+
+	/* Visibility*/
+	.vs-card
+	{ 
+		visibility: hidden;
+	}
+	
+}
+
+/* Size 125% */
+@media (min-width: 1229px)
+{ 
+	
+	/* Spacing */
+	.px-btn 
+	{ 
+		padding-left: 33px;
+		padding-right: 33px;
+	}
+	
+}
+
+/* Size 120% */
+@media (min-width: 1280px)
+{ 
+	
+	/* Spacing */
+	.px-btn 
+	{ 
+		padding-left: 36px;
+		padding-right: 36px;
+	}
+	
+}
+
+/* Size 110% */
+@media (min-width: 1396px)
+{ 
+	
+	/* Spacing */
+	.px-btn 
+	{ 
+		padding-left: 43px;
+		padding-right: 43px;
+	}
+	
+}
+
+/* Size 100% */
+@media (min-width: 1409px)
+{ 
+	
+	/* Spacing */
+	.px-btn 
+	{ 
+		padding-left: 57px;
+		padding-right: 57px;
+	}
+
+}
+
+@media print 
+{
+	
+	/* Displays */
+	.display-None
+	{
+		display: block;
+	}
+
+	.NoPrintabled * 
+	{
+	  display: none;
+	}
+
+}

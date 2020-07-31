@@ -1,0 +1,152 @@
+/* Backgrounds */
+.bcg-cds
+{
+	max-width: 1900px;
+}
+
+.bcg-ini
+{
+	max-height: 400px; 
+	max-width: 1900px;
+}
+
+/* Borders */
+.bd-ImgProductDt
+{
+	height: 450px;
+}
+
+.bd-Rd10
+{
+	border-radius: 10px;
+}
+
+.bd-Rd5Right
+{
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
+}
+
+.bd-RdLeft
+{
+	border-top-left-radius: 20px;
+	border-bottom-left-radius: 20px;
+}
+
+.bd-RdRight
+{
+	border-top-right-radius: 20px;
+	border-bottom-right-radius: 20px;
+}
+
+.bd-RdNull
+{
+	border-radius: 0%;
+}
+
+.bd-txt
+{
+	-webkit-text-stroke-width: 0.5px;
+	-webkit-text-stroke-color: grey;
+}
+
+.border-dashed
+{
+	border: dashed lightgray;
+}
+
+/* Imgs */
+.img-ProductDetails
+{
+	width: 450px;
+}
+
+.img-sizeCard
+{
+	height: 150px;
+}
+
+/* Scroll */
+::-webkit-scrollbar 
+{
+    width: 1px;
+}
+  
+::-webkit-scrollbar-thumb 
+{
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: blue; 
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+}
+
+.scroll-null::-webkit-scrollbar 
+{
+    width: 1px;
+    height: 2px;
+}
+
+/*Medias só com min-width*/
+ /* Size >=160% */
+@media (min-width: 0px)
+{
+	
+	/* Imgs */
+	.img-cardProduct
+	{
+		max-width: 100%;
+		max-height: 100%;
+	}
+
+	.imgLogo
+	{
+		width: 120px;
+	}
+	
+	.img-LogoIni
+	{ 
+		background: url("");
+		text-align: center;
+	}
+	
+	/* Borders */
+	.bd-ImgProductDt
+	{ 
+		height: 275px;
+	}
+
+}
+
+/*Media só com min-width*/
+/* Arruma os objetos em mobiles muito pequenos */
+@media (min-width: 0px) and (max-width: 356px)
+{ 
+	
+	/* Imgs */
+	.imgLogo
+	{
+		width: 93px;
+	}
+
+}
+
+/*Media só com min-width*/
+/* Size >= 130% e <= 150% */
+@media (min-width: 992px)
+{ 
+	
+	/* Imgs */
+	.imgLogo
+	{
+		width: 220px;
+	}
+	
+	.img-LogoIni
+	{ 
+		background: url("../imgs/logos/Img-LogoInical.png");
+		background-repeat: no-repeat;
+		background-size: 100% 100%;
+		text-align: left;
+	}
+
+}

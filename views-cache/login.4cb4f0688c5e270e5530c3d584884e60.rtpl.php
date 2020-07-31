@@ -3,7 +3,7 @@
 		<div class="ct-ini mt-mobNavbar">
 			
 			<nav aria-label="breadcrumb" class="bar-display">
-				<ol class="breadcrumb bg-white">
+				<ol class="breadcrumb <?php echo htmlspecialchars( $layout["background"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
 				  <li class="breadcrumb-item"><a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/">Home</a></li>
 				  <li class="breadcrumb-item active" aria-current="page">Login</li>
 				</ol>
@@ -19,29 +19,41 @@
 
 					<p class="h3 font-weight-normal">Ja tenho cadastro</p>
 
+					<?php if( $errorRegister != '' ){ ?>
+						<div class="alert alert-danger alert-dismissible fade show text-left" role="alert">
+							
+							<span><?php echo htmlspecialchars( $errorRegister, ENT_COMPAT, 'UTF-8', FALSE ); ?></span>
+							
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						  		<span aria-hidden="true">&times;</span>
+							</button>
+
+						</div>
+					<?php } ?>
+
 					<div class="input-group text-center mt-4 border border-secondary rounded">
 						
 						<div class="input-group-prepend">
 						  <span class="input-group-text null-bd bg-white" id="basic-addon1"><i class="far fa-envelope"></i></span>
 						</div>
 
-						<input type="email" class="form-control null-bd border-left-0 rounded-right" placeholder="Seu e-mail" aria-describedby="basic-addon1">
+						<input type="email" class="form-control null-bd border-left-0 rounded-right" placeholder="Seu e-mail" aria-describedby="basic-addon1" name="emailUser" value="<?php echo htmlspecialchars( $registerValues["emailUser"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" tabindex="1" autofocus>
 					
 					</div>
 
 					<div class="input-group text-center mt-3 border border-secondary rounded">
 						
 						<div class="input-group-prepend">
-						  <button type="button" id="BtnLock" class="input-group-text null-bd bg-white" onclick="AlterTypeInput('InputPassword', 'BtnLock', 'fas fa-lock', 'fas fa-unlock')"><i id="IconePass" class="fas fa-lock"></i></button>
+						  <button type="button" id="BtnLock" class="input-group-text null-bd bg-white" onclick="AlterTypeInput('passUser', 'BtnLock', 'fas fa-lock', 'fas fa-unlock')"><i id="IconePass" class="fas fa-lock"></i></button>
 						</div>
 
-						<input type="password" id="InputPassword" class="form-control null-bd border-left-0 rounded-right" placeholder="Digite sua senha" aria-describedby="BtnLock" onpaste="return false" oncopy="return false"  oncut="return false">
+						<input type="password" id="passUser" name="passUser" class="form-control null-bd border-left-0 rounded-right" placeholder="Digite sua senha" aria-describedby="BtnLock" onpaste="return false" oncopy="return false"  oncut="return false" tabindex="2">
 	
 					</div>
 
 					<div class="row mt-3">
-						<a class="col-md text-left text-dark text-decoration-none"><input type="checkbox"> Lembrar de mim</a>
-						<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/forgot-password/" class="col-md text-right text-dark text-decoration-none">Esqueci minha senha</a>
+						<a class="col-md text-left text-dark text-decoration-none"><input type="checkbox" name="checkRemember"> Lembrar de mim</a>
+						<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/login/forgot-password/" class="col-md text-right text-dark text-decoration-none">Esqueci minha senha</a>
 					</div>
 
 					<div class="text-left mt-2">
@@ -49,11 +61,11 @@
 					</div>
 
 					<div class="mt-2">
-						<button type="submit" class="btn btn-primary w-100"><i class="far fa-user"></i> Entrar</button>
+						<button type="submit" class="btn btn-primary w-100" tabindex="3"><i class="far fa-user"></i> Entrar</button>
 
-						<hr>
+						<!-- <hr class='d-none'>
 
-						<button type="submit" class="btn btn-outline-danger w-100"><i class="fab fa-google"></i> Entrar com Gmail</button>
+						<button type="submit" class="btn btn-outline-danger w-100 d-none"><i class="fab fa-google"></i> Entrar com Gmail</button> -->
 					</div>
 				</form>
 

@@ -1,4 +1,5 @@
 <?php 
+session_start();
 
 use Slim\Factory\AppFactory;
 
@@ -11,6 +12,7 @@ $app = AppFactory::create();
 $app->addErrorMiddleware(true, true, true);
 
 // Add routes
+require_once("functions.php");
 require_once("site.php");
 
 $app->run();

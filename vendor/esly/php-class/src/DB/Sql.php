@@ -1,23 +1,20 @@
 <?php 
 
-namespace Hcode\DB;
+namespace Esly\DB;
 
 class Sql {
 
 	const HOSTNAME = "127.0.0.1";
-	const USERNAME = "root";
-	const PASSWORD = "root";
-	const DBNAME = "db_ecommerce";
 
 	private $conn;
 
-	public function __construct()
+	public function __construct($db = [])
 	{
 
 		$this->conn = new \PDO(
-			"mysql:dbname=".Sql::DBNAME.";host=".Sql::HOSTNAME, 
-			Sql::USERNAME,
-			Sql::PASSWORD
+			"mysql:dbname=".$db["db_name"].";host=".Sql::HOSTNAME, 
+			$db["db_user"],
+			$db["db_pass"]
 		);
 
 	}
@@ -61,6 +58,19 @@ class Sql {
 		$stmt->execute();
 
 		return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+	}
+
+	public function count($rawQuery, $params = array())
+	{
+
+		$stmt = $this->conn->prepare($rawQuery);
+
+		$this->setParams($stmt, $params);
+
+		$stmt->execute();
+
+		return $stmt->rowCount();
 
 	}
 

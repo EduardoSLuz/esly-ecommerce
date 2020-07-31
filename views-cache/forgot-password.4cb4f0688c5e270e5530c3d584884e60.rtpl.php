@@ -20,21 +20,33 @@
 						Esqueceu a sua senha? Insira o seu endereço de e-mail abaixo, e lhe enviaremos um e-mail permitindo que a redefina.
 					</p>
 
+					<?php if( $errorRegister != '' ){ ?>
+						<div class="alert alert-danger alert-dismissible fade show text-left" role="alert">
+							
+							<span><?php echo htmlspecialchars( $errorRegister, ENT_COMPAT, 'UTF-8', FALSE ); ?></span>
+							
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+
+						</div>
+					<?php } ?>
+
 					<div class="input-group text-center mt-4 border border-secondary rounded">
 						
 						<div class="input-group-prepend">
 						  <span class="input-group-text null-bd bg-white" id="basic-addon1"><i class="far fa-envelope"></i></span>
 						</div>
 
-						<input type="text" class="form-control null-bd border-left-0 rounded-right" placeholder="E-mail" aria-label="Email" aria-describedby="basic-addon1">
+						<input type="email" class="form-control null-bd border-left-0 rounded-right" placeholder="E-mail" aria-label="Email" aria-describedby="basic-addon1" name="emailUser" value="<?php echo htmlspecialchars( $registerValues["emailUser"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" tabindex="1" autofocus>
 					
 					</div>
 
-					<div class="mt-3" align="center">
+					<div class="google-reCap mt-3">
 						<div class="g-recaptcha" data-sitekey="6LevbfwUAAAAAJiitBmG-CqLM9NYIhfQaFJHdeaF"></div>
 					</div>
 					
-					<button type="submit" class="btn btn-primary w-100 mt-5">Recuperar Senha</button>
+					<button type="submit" class="btn btn-primary w-100 mt-5" tabindex="2">Recuperar Senha</button>
 					<p class="h6 font-weight-normal text-secondary mt-2">
 						Por favor, contacte-nos se tiver qualquer problema para redefinir a sua senha.
 					</p>

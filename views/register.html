@@ -3,7 +3,7 @@
 		<div class="ct-ini mt-mobNavbar">
 			
 			<nav aria-label="breadcrumb" class="bar-display">
-				<ol class="breadcrumb bg-white">
+				<ol class="breadcrumb {$layout.background}">
 				  <li class="breadcrumb-item"><a href="/loja-{$links.idStore}/">Home</a></li>
 				  <li class="breadcrumb-item active" aria-current="page">Register</li>
 				</ol>
@@ -15,45 +15,55 @@
 
 					<p class="h2 font-weight-normal">Cadastre-se</p>
 
+					{if="$errorRegister != ''"}
+						<div class="alert alert-danger alert-dismissible fade show text-left" role="alert">
+							
+							<span>{$errorRegister}</span>
+							
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						  		<span aria-hidden="true">&times;</span>
+							</button>
+
+						</div>
+					{/if}
+
 					<div class="input-group text-center mt-4 border border-secondary rounded">
 						
 						<div class="input-group-prepend">
 						  <span class="input-group-text null-bd bg-white" id="basic-addon1"><i class="far fa-envelope"></i></span>
 						</div>
 
-						<input type="email" class="form-control null-bd border-left-0 rounded-right" placeholder="E-mail" aria-describedby="basic-addon1">
+						<input type="email" name="emailUser" class="form-control null-bd border-left-0 rounded-right" placeholder="E-mail" aria-describedby="Email User" value="{$registerValues.emailUser}" tabindex="1" autofocus>
 					
 					</div>
 
 					<div class="input-group text-center mt-3 border border-secondary rounded">
 						
 						<div class="input-group-prepend">
-						  <button type="button" id="BtnLock" class="input-group-text null-bd bg-white" onclick="AlterTypeInput('InputPassword', 'BtnLock', 'fas fa-lock', 'fas fa-unlock')"><i id="IconePass" class="fas fa-lock"></i></button>
+						  <button type="button" id="BtnLock" class="input-group-text null-bd bg-white" onclick="AlterTypeInput('passUser', 'BtnLock', 'fas fa-lock', 'fas fa-unlock')"><i id="IconePass" class="fas fa-lock"></i></button>
 						</div>
 
-						<input type="password" id="InputPassword" class="form-control null-bd border-left-0 rounded-right" placeholder="Senha" aria-describedby="BtnLock" onpaste="return false" oncopy="return false"  oncut="return false">
+						<input type="password" id="passUser" name="passUser" class="form-control null-bd border-left-0 rounded-right" placeholder="Senha" aria-describedby="BtnLock" onpaste="return false" oncopy="return false"  oncut="return false" tabindex="2">
 	
 					</div>
 
 					<div class="input-group text-center mt-3 border border-secondary rounded">
 						
 						<div class="input-group-prepend">
-						  <button type="button" id="BtnLockRepeat" class="input-group-text null-bd bg-white" onclick="AlterTypeInput('InputPassRepeat', 'BtnLockRepeat', 'fas fa-lock', 'fas fa-unlock')"><i id="IconePass" class="fas fa-lock"></i></button>
+						  <button type="button" id="BtnLockRepeat" class="input-group-text null-bd bg-white" onclick="AlterTypeInput('passRepeatUser', 'BtnLockRepeat', 'fas fa-lock', 'fas fa-unlock')"><i id="IconePass" class="fas fa-lock"></i></button>
 						</div>
 
-						<input type="password" id="InputPassRepeat" class="form-control null-bd border-left-0 rounded-right" placeholder="Senha (confirme)" aria-describedby="BtnLockRepeat" onpaste="return false" oncopy="return false"  oncut="return false">
+						<input type="password" id="passRepeatUser" name="passRepeatUser" class="form-control null-bd border-left-0 rounded-right" placeholder="Senha (confirme)" aria-describedby="BtnLockRepeat" onpaste="return false" oncopy="return false"  oncut="return false" tabindex="3">
 	
 					</div>
 
-					<div class="mt-3" align="center">
+					<div class="google-reCap mt-3">
 						<div class="g-recaptcha" data-sitekey="6LevbfwUAAAAAJiitBmG-CqLM9NYIhfQaFJHdeaF"></div>
 					</div>
 					
-					<button type="submit" class="btn btn-primary mt-3">Cadastrar</button>
+					<!-- <button type="submit" class="btn btn-primary mt-3" tabindex="4">Cadastrar</button>
 					
-					<hr>
-
-					<button type="submit" class="btn btn-outline-danger mt-3 w-100"><i class="fab fa-google"></i> Continuar com Gmail</button>
+					<button type="submit" class="btn btn-outline-danger mt-3 w-100 d-none"><i class="fab fa-google"></i> Continuar com Gmail</button> -->
 
 				</form>
 

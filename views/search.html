@@ -29,42 +29,42 @@
 
 				</p>
 
-				<h6 class="mt-5">Marca</h6>
+				<p class="mt-4 h6">Marca</p>
 				<hr>
 
 				<div class="overflow-auto max-height">
-					
-					<form class="" method="POST">
 
-						<input type="checkbox" id="CheckMark" class="mt-2 ckbx-ini">
-						<label class="form-check-label h5 font-weight-normal" for="CheckMark">Marca #1</label><br>
-						
-						<input type="checkbox" id="CheckMark2" class="mt-2 ckbx-ini">
-						<label class="form-check-label h5 font-weight-normal" for="CheckMark2">Marca #2</label><br>
+					<p class="h6">
+						<a href="" class="font-weight-normal text-decoration-none text-secondary" >Marca #1</a>
+					</p>
 
-						<input type="checkbox" id="CheckMark3" class="mt-2 ckbx-ini">
-						<label class="form-check-label h5 font-weight-normal" for="CheckMark3">Marca #3</label><br>
+					<p class="my-2 h6">
+						<a href="" class="font-weight-normal text-decoration-none text-secondary" >Marca #2</a>
+					</p>
 
-						<input type="checkbox" id="CheckMark4" class="mt-2 ckbx-ini">
-						<label class="form-check-label h5 font-weight-normal" for="CheckMark4">Marca #4</label><br>
+					<p class="my-2 h6">
+						<a href="" class="font-weight-normal text-decoration-none text-secondary" >Marca #3</a>
+					</p>
 
-						<input type="checkbox" id="CheckMark5" class="mt-2 ckbx-ini">
-						<label class="form-check-label h5 font-weight-normal" for="CheckMark5">Marca #5</label><br>
+					<p class="my-2 h6">
+						<a href="" class="font-weight-normal text-decoration-none text-secondary" >Marca #4</a>
+					</p>
 
-						<input type="checkbox" id="CheckMark6" class="mt-2 ckbx-ini">
-						<label class="form-check-label h5 font-weight-normal" for="CheckMark6">Marca #6</label><br>
+					<p class="my-2 h6">
+						<a href="" class="font-weight-normal text-decoration-none text-secondary" >Marca #5</a>
+					</p>
 
-						<input type="checkbox" id="CheckMark7" class="mt-2 ckbx-ini">
-						<label class="form-check-label h5 font-weight-normal" for="CheckMark7">Marca #7</label><br>
+					<p class="my-2 h6">
+						<a href="" class="font-weight-normal text-decoration-none text-secondary" >Marca #6</a>
+					</p>
 
-						<input type="checkbox" id="CheckMark8" class="mt-2 ckbx-ini">
-						<label class="form-check-label h5 font-weight-normal" for="CheckMark8">Marca #8</label><br>
-				
-					</form>
+					<p class="my-2 h6">
+						<a href="" class="font-weight-normal text-decoration-none text-secondary" >Marca #7</a>
+					</p>
 					
 				</div>
 
-				<h6 class="mt-5">Preço</h6>
+				<p class="mt-4 h6">Preço</p>
 				<hr>
 
 				<form method="POST">
@@ -85,7 +85,7 @@
 				
 				<div class="row">
 					<div class="col-md-8">
-						<h4 class="font-weight-normal">150 Resultados encontrados para {function="substr($search.s, 0, 25)"}...</h4>
+						<p class="font-weight-normal h4">150 Resultados encontrados para {function="substr($search.s, 0, 25)"}...</p>
 					</div>
 
 					<div class="col-md-4 text-right">
@@ -103,1262 +103,825 @@
 				
 				<div class="col-md-12 px-0" >
 
-					<div id="ProductsGrid" class="row text-center">
+					<div class="row">
 
-						<div class="ColunaCardsSearch col-md-3 mt-3">
-							<a class="text-decoration-none" href="/loja-{$links.idStore}/product/produto/">
-										
-								<div id="CardSearch" class="card bg-white card-CarouselSearch" onMouseOver="showCart('FormCardSearch', 'CardSubSearch','CardSearch')" onMouseOut="hideCart('FormCardSearch', 'CardSubSearch','CardSearch', 'inputCardSearch')">
-							
-									<img src="/resources/imgs/produtos/agua sg 510ml.jpeg" class="img-fluid rounded mx-auto d-block card-ImgRes" alt="...">
-
-									
-									<div class="card-img-overlay text-right">
-										<label class="text-white h6 bg-primary">
-											<b>&nbsp;-13%&nbsp;</b>
-										</label>
-									</div>
-
-									<div id="CardSubSearch" class="card-body cardSub-Carousel cardSubT1-Carousel card-img-overlay p-0">
-
-										<div>
-											<p class="card-title font-weight-light text-uppercase text-dark card-text m-0">
-												<b>Agua Mineral Petropolis S/G</b>
-											</p>
-
-										<p class="btn-group btn-group-toggle m-0" data-toggle="buttons">
-
-											<label class="btn btn-light border btn-sm py-0 mr-1 rounded-pill card-BtnWeigth active" onClick="alterPriceItem('cardSearchPriceInt', 'cardSearchPriceDec', '3', '48')">
-												<input id="btnCardSearchWeigth" type="radio" value="1L" checked> 1L
-											</label>
-										</p>	
-
-											<p class="mt-4">
-												<b>												
-													<a id="cardSearchPrice" class="h6">
-														<s class="card-ColorSearchPrice">R$4,00</s>
-													</a>
-													R$<a id="cardSearchPriceInt" class="h3">3</a><a id="cardSearchPriceDec" class="h6">,48</a>	
-												</b>
-											</p>
-										</div>
-
-									</div>
-									
-									<form id="FormCardSearch" class="card-BarT1 mt-auto">
-					
-										<div class="btn-group btn-group-justified">
-
-											<div class="btn-group w-100">
-												<button type="button" class="btn btn-primary bd-RdLeft" onClick="removeItem('inputCardSearch')">-</button>
-											</div>
-
-												
-											<div class="btn-group w-100">
-												<input id="inputCardSearch" type="number" min="1" class="w-100 text-center" value="1">
-											</div>
-
-												
-											<div class="btn-group w-100">
-													
-												<button type="button" class="btn btn-primary" onClick="addItem('inputCardSearch')">+</button>
-												
-											</div>
-
-												
-											<div class="btn-group w-100">
-												<a href="#" class="btn btn-success bd-RdRight">
-													<i class="fas fa-shopping-cart"></i>
-												</a>
-											</div>
-
-										</div>
-									
-									</form>
-									
-								</div>
-							</a>
-						</div>
-						
-						<div class="ColunaCardsSearch col-md-3 mt-3">
-							<a class="text-decoration-none" href="/loja-{$links.idStore}/product/produto/">
-										
-								<div id="CardSearch2" class="card bg-white card-CarouselSearch" onMouseOver="showCart('FormCardSearch2', 'CardSubSearch2','CardSearch2')" onMouseOut="hideCart('FormCardSearch2', 'CardSubSearch2','CardSearch2', 'inputCardSearch2')">
-							
-									<img src="/resources/imgs/produtos/Adocante.jpg" class="img-fluid rounded mx-auto d-block card-ImgRes" alt="...">
-
-									
-									<div class="card-img-overlay text-right">
-										<label class="text-white h6 bg-primary">
-											<b>&nbsp;-15%&nbsp;</b>
-										</label>
-									</div>
-
-									<div id="CardSubSearch2" class="card-body cardSub-Carousel cardSubT1-Carousel card-img-overlay p-0">
-
-										<div>
-											<p class="card-title font-weight-light text-uppercase text-dark card-text m-0">
-												<b>Adoçante</b>
-											</p>
-
-										<p class="btn-group btn-group-toggle m-0" data-toggle="buttons">
-
-											<label class="btn btn-light border btn-sm py-0 mr-1 rounded-pill card-BtnWeigth active" onClick="alterPriceItem('cardSearch2PriceInt', 'cardSearch2PriceDec', '15', '99')">
-												<input id="btnCardSearch2Weigth" type="radio" value="400g" checked> 400g
-											</label>
-										</p>	
-
-											<p class="mt-4">
-												<b>												
-													<a id="cardSearch2Price" class="h6">
-														<s class="card-ColorSearchPrice">R$17,00</s>
-													</a>
-													R$<a id="cardSearch2PriceInt" class="h3">15</a><a id="cardSearch2PriceDec" class="h6">,99</a>	
-												</b>
-											</p>
-										</div>
-
-									</div>
-									
-									<form id="FormCardSearch2" class="card-BarT1 mt-auto">
-					
-										<div class="btn-group btn-group-justified">
-
-											<div class="btn-group w-100">
-												<button type="button" class="btn btn-primary bd-RdLeft"  onClick="removeItem('inputCardSearch2')">-</button>
-											</div>
-
-												
-											<div class="btn-group w-100">
-												<input id="inputCardSearch2" type="number" min="1" class="w-100 text-center" value="1">
-											</div>
-
-												
-											<div class="btn-group w-100">
-													
-												<button type="button" class="btn btn-primary" onClick="addItem('inputCardSearch2')">+</button>
-												
-											</div>
-
-												
-											<div class="btn-group w-100">
-												<a href="#" class="btn btn-success bd-RdRight">
-													<i class="fas fa-shopping-cart"></i>
-												</a>
-											</div>
-
-										</div>
-									
-									</form>
-									
-								</div>
-							</a>
-						</div>
-						
-						<div class="ColunaCardsSearch col-md-3 mt-3">
-							<a class="text-decoration-none" href="/loja-{$links.idStore}/product/produto/">
-										
-								<div id="CardSearch3" class="card bg-white card-CarouselSearch" onMouseOver="showCart('FormCardSearch3', 'CardSubSearch3','CardSearch3')" onMouseOut="hideCart('FormCardSearch3', 'CardSubSearch3','CardSearch3', 'inputCardSearch3')">
-							
-									<img src="/resources/imgs/produtos/acucar uniao.jpeg" class="img-fluid rounded mx-auto d-block card-ImgRes" alt="...">
-
-									
-									<div class="card-img-overlay text-right">
-										<label class="text-white h6 bg-primary">
-											<b>&nbsp;-35%&nbsp;</b>
-										</label>
-									</div>
-
-									<div id="CardSubSearch3" class="card-body cardSub-Carousel cardSubT1-Carousel card-img-overlay p-0">
-
-										<div>
-											<p class="card-title font-weight-light text-uppercase text-dark card-text m-0">
-												<b>Açucar União</b>
-											</p>
-
-										<p class="btn-group btn-group-toggle m-0" data-toggle="buttons">
-
-											<label class="btn btn-light border btn-sm py-0 mr-1 rounded-pill card-BtnWeigth active" onClick="alterPriceItem('cardSearch3PriceInt', 'cardSearch3PriceDec', '3', '85')">
-												<input id="btnCardSearch3Weigth" type="radio" value="1Kg" checked> 1Kg
-											</label>
-										</p>	
-
-											<p class="mt-4">
-												<b>												
-													<a id="cardSearch3Price" class="h6">
-														<s class="card-ColorSearchPrice">R$5,00</s>
-													</a>
-													R$<a id="cardSearch3PriceInt" class="h3">3</a><a id="cardSearch3PriceDec" class="h6">,85</a>	
-												</b>
-											</p>
-										</div>
-
-									</div>
-									
-									<form id="FormCardSearch3" class="card-BarT1 mt-auto">
-					
-										<div class="btn-group btn-group-justified">
-
-											<div class="btn-group w-100">
-												<button type="button" class="btn btn-primary bd-RdLeft" onClick="removeItem('inputCardSearch3')">-</button>
-											</div>
-
-												
-											<div class="btn-group w-100">
-												<input id="inputCardSearch3" type="number" min="1" class="w-100 text-center" value="1">
-											</div>
-
-												
-											<div class="btn-group w-100">
-													
-												<button type="button" class="btn btn-primary" onClick="addItem('inputCardSearch3')">+</button>
-												
-											</div>
-
-												
-											<div class="btn-group w-100">
-												<a href="#" class="btn btn-success bd-RdRight">
-													<i class="fas fa-shopping-cart"></i>
-												</a>
-											</div>
-
-										</div>
-									
-									</form>
-									
-								</div>
-							</a>
-						</div>
-						
-						<div class="ColunaCardsSearch col-md-3 mt-3">
-							<a class="text-decoration-none" href="/loja-{$links.idStore}/product/produto/">
-										
-								<div id="CardSearch4" class="card bg-white card-CarouselSearch" onMouseOver="showCart('FormCardSearch4', 'CardSubSearch4','CardSearch4')" onMouseOut="hideCart('FormCardSearch4', 'CardSubSearch4','CardSearch4', 'inputCardSearch4')">
+						<div class="col-sm-3 col-6 mt-3">
+							<div id="productCard" class="card bd-RdLeft bd-RdRight" onmouseover="barCardVs('FormCardPromo', 'productCard')" onmouseout="barCardHidden('FormCardPromo', 'productCard')">
 								
-									<img src="/resources/imgs/produtos/biscoito oreo.jpeg" class="img-fluid rounded mx-auto d-block card-ImgRes" alt="...">
+								<div class="text-center cursorPointer" onclick="window.location.assign('/loja-{$links.idStore}/product/produto/')">
+									<img src="/resources/imgs/produtos/agua sg 510ml.jpeg" class="img-fluid rounded-pill text-center card-ImgRes" alt="Card">
+								</div>
+								<div class="card-body p-0 text-center">
+								  
+									<p class="my-0 text-truncate cursorPointer" onclick="window.location.assign('/loja-{$links.idStore}/product/produto/')">ÁGUA S/G</p>
 
-									
-									<div class="card-img-overlay text-right">
-										<label class="text-white h6 bg-primary">
-											<b>&nbsp;-40%&nbsp;</b>
+									<p class="my-2 tx-IconCart btn-group btn-group-toggle m-0 overflow-auto scroll-null" data-toggle="buttons">
+
+										<label id="btnRadioCard" class="btn btn-light border btn-sm py-0 mr-1 rounded-pill card-BtnWeigth active" data-value="<small class='h6'>R$</small><a>1</a><small class='h6'>,85</small>" onclick="alterPrice('btnRadioCard', 'inputCardPrice')">
+											<input name="btnRadioCard" type="radio" value="500ML"> 500ML
 										</label>
-									</div>
 
-									<div id="CardSubSearch4" class="card-body cardSub-Carousel cardSubT1-Carousel card-img-overlay p-0">
-
-										<div>
-											<p class="card-title font-weight-light text-uppercase text-dark card-text m-0">
-												<b>Biscoito Oreo</b>
-											</p>
-
-										<p class="btn-group btn-group-toggle m-0" data-toggle="buttons">
-
-											<label class="btn btn-light border btn-sm py-0 mr-1 rounded-pill card-BtnWeigth active" onClick="alterPriceItem('cardSearch4PriceInt', 'cardSearch4PriceDec', '2', '99')">
-												<input id="btnCardSearch4Weigth" type="radio" value="150g" checked> 150g
-											</label>
-										</p>	
-
-											<p class="mt-4">
-												<b>												
-													<a id="cardSearch4Price" class="h6">
-														<s class="card-ColorSearchPrice">R$4,50</s>
-													</a>
-													R$<a id="cardSearch4PriceInt" class="h3">2</a><a id="cardSearch4PriceDec" class="h6">,99</a>	
-												</b>
-											</p>
-										</div>
-
-									</div>
-									
-									<form id="FormCardSearch4" class="card-BarT1 mt-auto">
-					
-										<div class="btn-group btn-group-justified">
-
-											<div class="btn-group w-100">
-												<button type="button" class="btn btn-primary bd-RdLeft" onClick="removeItem('inputCardSearch4')">-</button>
-											</div>
-
-												
-											<div class="btn-group w-100">
-												<input id="inputCardSearch4" type="number" min="1" class="w-100 text-center" value="1">
-											</div>
-
-												
-											<div class="btn-group w-100">
-													
-												<button type="button" class="btn btn-primary" onClick="addItem('inputCardSearch4')">+</button>
-												
-											</div>
-
-												
-											<div class="btn-group w-100">
-												<a href="#" class="btn btn-success bd-RdRight">
-													<i class="fas fa-shopping-cart"></i>
-												</a>
-											</div>
-
-										</div>
-									
-									</form>
-									
-								</div>
-							</a>
-						</div>
-
-						<div class="ColunaCardsSearch col-md-3 mt-3">
-							<a class="text-decoration-none" href="/loja-{$links.idStore}/product/produto/">
-									
-								<div id="CardSearch5" class="card bg-white card-CarouselSearch" onMouseOver="showCart('FormCardSearch5', 'CardSubSearch5','CardSearch5')" onMouseOut="hideCart('FormCardSearch5', 'CardSubSearch5','CardSearch5', 'inputCardSearch5')">
-							  
-									<img src="/resources/imgs/produtos/panettone bauducco.jpg" class="img-fluid rounded mx-auto d-block card-ImgRes" alt="...">
-
-									
-									<div class="card-img-overlay text-right">
-										<label class="text-white h6 bg-primary">
-											<b>&nbsp;-24%&nbsp;</b>
+										<label id="btnRadioCard2" class="btn btn-light border btn-sm py-0 mr-1 rounded-pill card-BtnWeigth active" data-value="<small class='h6'>R$</small><a>3</a><small class='h6'>,85</small>" onclick="alterPrice('btnRadioCard2', 'inputCardPrice')">
+											<input name="btnRadioCard2" type="radio" value="1L" checked> 1L
 										</label>
-									</div>
+										
+									</p>
 
-									<div id="CardSubSearch5" class="card-body cardSub-Carousel cardSubT1-Carousel card-img-overlay p-0">
+								  	<p class="h3">
+										<span id="inputCardPrice">
+											<small class='h6'>R$</small><a>3</a><small class='h6'>,85</small>
+										</span>
+									</p>
+								</div>
 
-										<div>
-											<p class="card-title font-weight-light text-uppercase text-dark card-text m-0">
-												<b>Pannetone Bauducco</b>
-											</p>
+								<form id="FormCardPromo" class="mt-3 vs-card">
+						
+									<div class="btn-group btn-group-justified w-100">
+	
+										<button type="button" class="btn btn-sm btn-primary bd-RdLeft" onClick="removeItem('inputCardPromo')">-</button>
 
-										<p class="btn-group btn-group-toggle m-0" data-toggle="buttons">
+										<input id="inputCardPromo" type="number" min="1" class="w-25 text-center" value="1">
 
-											<label class="btn btn-light border btn-sm py-0 mr-1 rounded-pill card-BtnWeigth active" onClick="alterPriceItem('cardSearch5PriceInt', 'cardSearch5PriceDec', '15', '00')">
-												<input id="btnCardSearch5Weigth" type="radio" value="500g" checked> 500g
-											</label>
-										</p>	
-
-											<p class="mt-4">
-												<b>												
-													<a id="cardSearch5Price" class="h6">
-														<s class="card-ColorSearchPrice">R$18,00</s>
-													</a>
-													R$<a id="cardSearch5PriceInt" class="h3">15</a><a id="cardSearch5PriceDec" class="h6">,00</a>	
-												</b>
-											</p>
-										</div>
+										<button type="button" class="btn btn-sm btn-primary" onClick="addItem('inputCardPromo')">+</button>
+										
+										<a href="#" class="btn btn-sm btn-success bd-RdRight">
+											<i class="fas fa-shopping-cart"></i>
+										</a>
 	
 									</div>
-									
-									<form id="FormCardSearch5" class="card-BarT1 mt-auto">
-					
-										<div class="btn-group btn-group-justified">
+								
+								</form>
 
-											<div class="btn-group w-100">
-												<button type="button" class="btn btn-primary bd-RdLeft" onClick="removeItem('inputCardSearch5')">-</button>
-											</div>
-
-												
-											<div class="btn-group w-100">
-												<input id="inputCardSearch5" type="number" min="1" class="w-100 text-center" value="1">
-											</div>
-
-												
-											<div class="btn-group w-100">
-													
-												<button type="button" class="btn btn-primary" onClick="addItem('inputCardSearch5')">+</button>
-												
-											</div>
-
-												
-											<div class="btn-group w-100">
-												<a href="#" class="btn btn-success bd-RdRight">
-													<i class="fas fa-shopping-cart"></i>
-												</a>
-											</div>
-
-										</div>
-									
-									</form>
-									
-								</div>
-							</a>
-						</div>
-
-						<div class="ColunaCardsSearch col-md-3 mt-3 ">
-
-							<a class="text-decoration-none" href="/loja-{$links.idStore}/product/produto/">
-									
-								<div id="CardSearch6" class="card bg-white card-CarouselSearch" onMouseOver="showCart('FormCardSearch6', 'CardSubSearch6','CardSearch6')" onMouseOut="hideCart('FormCardSearch6', 'CardSubSearch6','CardSearch6', 'inputCardSearch6')">
-							  
-									<img src="/resources/imgs/produtos/trident.png" class="img-fluid rounded mx-auto d-block card-ImgRes" alt="...">
-
-									
-									<div class="card-img-overlay text-right">
-										<label class="text-white h6 bg-primary">
-											<b>&nbsp;-33%&nbsp;</b>
-										</label>
-									</div>
-
-									<div id="CardSubSearch6" class="card-body cardSub-Carousel cardSubT1-Carousel card-img-overlay p-0">
-
-										<div>
-											<p class="card-title font-weight-light text-uppercase text-dark card-text m-0">
-												<b>Trident Melancia</b>
-											</p>
-
-										<p class="btn-group btn-group-toggle m-0" data-toggle="buttons">
-
-											<label class="btn btn-light border btn-sm py-0 mr-1 rounded-pill card-BtnWeigth active" onClick="alterPriceItem('cardSearch6PriceInt', 'cardSearch6PriceDec', '2', '50')">
-												<input id="btnCardSearch6Weigth" type="radio" value="UN" checked> UN
-											</label>
-										</p>	
-
-											<p class="mt-4">
-												<b>												
-													<a id="cardSearch6Price" class="h6">
-														<s class="card-ColorSearchPrice">R$3,50</s>
-													</a>
-													R$<a id="cardSearch6PriceInt" class="h3">2</a><a id="cardSearch6PriceDec" class="h6">,50</a>	
-												</b>
-											</p>
-										</div>
-	
-									</div>
-									
-									<form id="FormCardSearch6" class="card-BarT1 mt-auto">
-					
-										<div class="btn-group btn-group-justified">
-
-											<div class="btn-group w-100">
-												<button type="button" class="btn btn-primary bd-RdLeft" onClick="removeItem('inputCardSearch6')">-</button>
-											</div>
-
-												
-											<div class="btn-group w-100">
-												<input id="inputCardSearch6" type="number" min="1" class="w-100 text-center" value="1">
-											</div>
-
-												
-											<div class="btn-group w-100">
-													
-												<button type="button" class="btn btn-primary" onClick="addItem('inputCardSearch6')">+</button>
-												
-											</div>
-
-												
-											<div class="btn-group w-100">
-												<a href="#" class="btn btn-success bd-RdRight">
-													<i class="fas fa-shopping-cart"></i>
-												</a>
-											</div>
-
-										</div>
-									
-									</form>
-									
-								</div>
-							</a>
-						</div>
-
-						<div class="ColunaCardsSearch col-md-3 mt-3">
-
-							<a class="text-decoration-none" href="/loja-{$links.idStore}/product/produto/">
-									
-								<div id="CardSearch7" class="card bg-white card-CarouselSearch" onMouseOver="showCart('FormCardSearch7', 'CardSubSearch7','CardSearch7')" onMouseOut="hideCart('FormCardSearch7', 'CardSubSearch7','CardSearch7', 'inputCardSearch7')">
-							  
-									<img src="/resources/imgs/produtos/panettone arcor.png" class="img-fluid rounded mx-auto d-block card-ImgRes" alt="...">
-
-									
-									<div class="card-img-overlay text-right">
-										<label class="text-white h6 bg-primary">
-											<b>&nbsp;-20%&nbsp;</b>
-										</label>
-									</div>
-
-									<div id="CardSubSearch7" class="card-body cardSub-Carousel cardSubT1-Carousel card-img-overlay p-0">
-
-										<div>
-											<p class="card-title font-weight-light text-uppercase text-dark card-text m-0">
-												<b>Pannetone Arcor</b>
-											</p>
-
-										<p class="btn-group btn-group-toggle m-0" data-toggle="buttons">
-
-											<label class="btn btn-light border btn-sm py-0 mr-1 rounded-pill card-BtnWeigth active" onClick="alterPriceItem('cardSearch7PriceInt', 'cardSearch7PriceDec', '9', '49')">
-												<input id="btnCardSearch7Weigth" type="radio" value="500g" checked> 500g
-											</label>
-										</p>	
-
-											<p class="mt-4">
-												<b>												
-													<a id="cardSearch7Price" class="h6">
-														<s class="card-ColorSearchPrice">R$12,00</s>
-													</a>
-													R$<a id="cardSearch7PriceInt" class="h3">9</a><a id="cardSearch7PriceDec" class="h6">,49</a>	
-												</b>
-											</p>
-										</div>
-	
-									</div>
-									
-									<form id="FormCardSearch7" class="card-BarT1 mt-auto">
-					
-										<div class="btn-group btn-group-justified">
-
-											<div class="btn-group w-100">
-												<button type="button" class="btn btn-primary bd-RdLeft" onClick="removeItem('inputCardSearch7')">-</button>
-											</div>
-
-												
-											<div class="btn-group w-100">
-												<input id="inputCardSearch7" type="number" min="1" class="w-100 text-center" value="1">
-											</div>
-
-												
-											<div class="btn-group w-100">
-													
-												<button type="button" class="btn btn-primary" onClick="addItem('inputCardSearch7')">+</button>
-												
-											</div>
-
-												
-											<div class="btn-group w-100">
-												<a href="#" class="btn btn-success bd-RdRight">
-													<i class="fas fa-shopping-cart"></i>
-												</a>
-											</div>
-
-										</div>
-									
-									</form>
-									
-								</div>
-							</a>
-
-						</div>
-
-						<div class="ColunaCardsSearch col-md-3 mt-3">
-
-							<a class="text-decoration-none" href="/loja-{$links.idStore}/product/produto/">
-									
-								<div id="CardSearch8" class="card bg-white card-CarouselSearch" onMouseOver="showCart('FormCardSearch8', 'CardSubSearch8','CardSearch8')" onMouseOut="hideCart('FormCardSearch8', 'CardSubSearch8','CardSearch8', 'inputCardSearch8')">
-							  
-									<img src="/resources/imgs/produtos/alface.png" class="img-fluid rounded mx-auto d-block card-ImgRes" alt="...">
-
-									
-									<div id="CardSubSearch8" class="card-body cardSub-Carousel cardSubT1-Carousel card-img-overlay p-0">
-
-										<div>
-											<p class="card-title font-weight-light text-uppercase text-dark card-text m-0">
-												<b>Alface Crespo</b>
-											</p>
-
-										<p class="btn-group btn-group-toggle m-0" data-toggle="buttons">
-
-											<label class="btn btn-light border btn-sm py-0 mr-1 rounded-pill card-BtnWeigth active" onClick="alterPriceItem('cardSearch8PriceInt', 'cardSearch8PriceDec', '2', '48')">
-												<input id="btnCardSearch8Weigth" type="radio" value="UN" checked> UN
-											</label>
-										</p>	
-
-											<p class="mt-4">
-												<b class="text-dark text-decoration-none">	
-													R$<a id="cardSearch8PriceInt" class="h3">2</a><a id="cardSearch8PriceDec" class="h6">,48</a>	
-												</b>
-											</p>
-										</div>
-	
-									</div>
-									
-									<form id="FormCardSearch8" class="card-BarT1 mt-auto">
-					
-										<div class="btn-group btn-group-justified">
-
-											<div class="btn-group w-100">
-												<button type="button" class="btn btn-primary bd-RdLeft" onClick="removeItem('inputCardSearch8')">-</button>
-											</div>
-
-												
-											<div class="btn-group w-100">
-												<input id="inputCardSearch8" type="number" min="1" class="w-100 text-center" value="1">
-											</div>
-
-												
-											<div class="btn-group w-100">
-													
-												<button type="button" class="btn btn-primary" onClick="addItem('inputCardSearch8')">+</button>
-												
-											</div>
-
-												
-											<div class="btn-group w-100">
-												<a href="#" class="btn btn-success bd-RdRight">
-													<i class="fas fa-shopping-cart"></i>
-												</a>
-											</div>
-
-										</div>
-									
-									</form>
-									
-								</div>
-							</a>
-
-						</div>
-
-						<div class="ColunaCardsSearch col-md-3 mt-3">
-
-							<a class="text-decoration-none" href="/loja-{$links.idStore}/product/produto/">
-									
-								<div id="CardSearch9" class="card bg-white card-CarouselSearch" onMouseOver="showCart('FormCardSearch9', 'CardSubSearch9','CardSearch9')" onMouseOut="hideCart('FormCardSearch9', 'CardSubSearch9','CardSearch9', 'inputCardSearch9')">
-							  
-									<img src="/resources/imgs/produtos/mandioca.jpg" class="img-fluid rounded mx-auto d-block card-ImgRes" alt="...">
-
-									<div id="CardSubSearch9" class="card-body cardSub-Carousel cardSubT1-Carousel card-img-overlay p-0">
-
-										<div>
-											<p class="card-title font-weight-light text-uppercase text-dark card-text m-0">
-												<b>Mandioca</b>
-											</p>
-
-										<p class="btn-group btn-group-toggle m-0" data-toggle="buttons">
-
-											<label class="btn btn-light border btn-sm py-0 mr-1 rounded-pill card-BtnWeigth active" onClick="alterPriceItem('cardSearch9PriceInt', 'cardSearch9PriceDec', '2', '99')">
-												<input id="btnCardSearch9Weigth" type="radio" value="500g"> 500g
-											</label>
-											
-											<label class="btn btn-light border btn-sm py-0 mr-1 rounded-pill card-BtnWeigth active" onClick="alterPriceItem('cardSearch9PriceInt', 'cardSearch9PriceDec', '5', '49')">
-												<input id="btnCardSearch9Weigth2" type="radio" value="1Kg" checked> 1Kg
-											</label>
-										</p>	
-
-											<p class="mt-4">
-												<b class="text-dark text-decoration-none">		
-													R$<a id="cardSearch9PriceInt" class="h3">5</a><a id="cardSearch9PriceDec" class="h6">,99</a>	
-												</b>
-											</p>
-										</div>
-	
-									</div>
-									
-									<form id="FormCardSearch9" class="card-BarT1 mt-auto">
-					
-										<div class="btn-group btn-group-justified">
-
-											<div class="btn-group w-100">
-												<button type="button" class="btn btn-primary bd-RdLeft" onClick="removeItem('inputCardSearch9')">-</button>
-											</div>
-
-												
-											<div class="btn-group w-100">
-												<input id="inputCardSearch9" type="number" min="1" class="w-100 text-center" value="1">
-											</div>
-
-												
-											<div class="btn-group w-100">
-													
-												<button type="button" class="btn btn-primary" onClick="addItem('inputCardSearch9')">+</button>
-												
-											</div>
-
-												
-											<div class="btn-group w-100">
-												<a href="#" class="btn btn-success bd-RdRight">
-													<i class="fas fa-shopping-cart"></i>
-												</a>
-											</div>
-
-										</div>
-									
-									</form>
-									
-								</div>
-							</a>
-
-						</div>
-
-						<div class="ColunaCardsSearch col-md-3 mt-3">
-
-							<a class="text-decoration-none" href="/loja-{$links.idStore}/product/produto/">
-									
-								<div id="CardSearch10" class="card bg-white card-CarouselSearch" onMouseOver="showCart('FormCardSearch10', 'CardSubSearch10','CardSearch10')" onMouseOut="hideCart('FormCardSearch10', 'CardSubSearch10','CardSearch10', 'inputCardSearch10')">
-							  
-									<img src="/resources/imgs/produtos/batata doce.jpg" class="img-fluid rounded mx-auto d-block card-ImgRes" alt="...">
-
-									<div id="CardSubSearch10" class="card-body cardSub-Carousel cardSubT1-Carousel card-img-overlay p-0">
-
-										<div>
-											<p class="card-title font-weight-light text-uppercase text-dark card-text m-0">
-												<b>Batata Doce</b>
-											</p>
-
-										<p class="btn-group btn-group-toggle m-0" data-toggle="buttons">
-
-											<label class="btn btn-light border btn-sm py-0 mr-1 rounded-pill card-BtnWeigth active" onClick="alterPriceItem('cardSearch10PriceInt', 'cardSearch10PriceDec', '2', '85')">
-												<input id="btnCardSearch10Weigth" type="radio" value="1Kg" checked> 1Kg
-											</label>
-										</p>	
-
-											<p class="mt-4">
-												<b class="text-dark text-decoration-none">	
-													R$<a id="cardSearch10PriceInt" class="h3">2</a><a id="cardSearch10PriceDec" class="h6">,85</a>	
-												</b>
-											</p>
-										</div>
-	
-									</div>
-									
-									<form id="FormCardSearch10" class="card-BarT1 mt-auto">
-					
-										<div class="btn-group btn-group-justified">
-
-											<div class="btn-group w-100">
-												<button type="button" class="btn btn-primary bd-RdLeft" onClick="removeItem('inputCardSearch10')">-</button>
-											</div>
-
-												
-											<div class="btn-group w-100">
-												<input id="inputCardSearch10" type="number" min="1" class="w-100 text-center" value="1">
-											</div>
-
-												
-											<div class="btn-group w-100">
-													
-												<button type="button" class="btn btn-primary" onClick="addItem('inputCardSearch10')">+</button>
-												
-											</div>
-
-												
-											<div class="btn-group w-100">
-												<a href="#" class="btn btn-success bd-RdRight">
-													<i class="fas fa-shopping-cart"></i>
-												</a>
-											</div>
-
-										</div>
-									
-									</form>
-									
-								</div>
-							</a>
-
-						</div>
-
-						<div class="ColunaCardsSearch col-md-3 mt-3">
-
-							<a class="text-decoration-none" href="/loja-{$links.idStore}/product/produto/">
-									
-								<div id="CardSearch11" class="card bg-white card-CarouselSearch" onMouseOver="showCart('FormCardSearch11', 'CardSubSearch11','CardSearch11')" onMouseOut="hideCart('FormCardSearch11', 'CardSubSearch11','CardSearch11', 'inputCardSearch11')">
-							  
-									<img src="/resources/imgs/produtos/cebola.jpeg" class="img-fluid rounded mx-auto d-block card-ImgRes" alt="...">
-
-									<div id="CardSubSearch11" class="card-body cardSub-Carousel cardSubT1-Carousel card-img-overlay p-0">
-
-										<div>
-											<p class="card-title font-weight-light text-uppercase text-dark card-text m-0">
-												<b>Cebola Nacional</b>
-											</p>
-
-										<p class="btn-group btn-group-toggle m-0" data-toggle="buttons">
-
-											<label class="btn btn-light border btn-sm py-0 mr-1 rounded-pill card-BtnWeigth active" onClick="alterPriceItem('cardSearch11PriceInt', 'cardSearch11PriceDec', '5', '99')">
-												<input id="btnCardSearch11Weigth" type="radio" value="250g"> 250g
-											</label>
-											<label class="btn btn-light border btn-sm py-0 mr-1 rounded-pill card-BtnWeigth active" onClick="alterPriceItem('cardSearch11PriceInt', 'cardSearch11PriceDec', '11', '99')">
-												<input id="btnCardSearch11Weigth2" type="radio" value="500g"> 500g
-											</label>
-											<label class="btn btn-light border btn-sm py-0 mr-1 rounded-pill card-BtnWeigth active" onClick="alterPriceItem('cardSearch11PriceInt', 'cardSearch11PriceDec', '19', '99')">
-												<input id="btnCardSearch11Weigth3" type="radio" value="1Kg" checked> 1Kg
-											</label>
-										</p>	
-
-											<p class="mt-4">
-												<b class="text-dark text-decoration-none">	
-													R$<a id="cardSearch11PriceInt" class="h3">19</a><a id="cardSearch11PriceDec" class="h6">,99</a>	
-												</b>
-											</p>
-										</div>
-	
-									</div>
-									
-									<form id="FormCardSearch11" class="card-BarT1 mt-auto">
-					
-										<div class="btn-group btn-group-justified">
-
-											<div class="btn-group w-100">
-												<button type="button" class="btn btn-primary bd-RdLeft" onClick="removeItem('inputCardSearch11')">-</button>
-											</div>
-
-												
-											<div class="btn-group w-100">
-												<input id="inputCardSearch11" type="number" min="1" class="w-100 text-center" value="1">
-											</div>
-
-												
-											<div class="btn-group w-100">
-													
-												<button type="button" class="btn btn-primary" onClick="addItem('inputCardSearch11')">+</button>
-												
-											</div>
-
-												
-											<div class="btn-group w-100">
-												<a href="#" class="btn btn-success bd-RdRight">
-													<i class="fas fa-shopping-cart"></i>
-												</a>
-											</div>
-
-										</div>
-									
-									</form>
-									
-								</div>
-							</a>
-
-						</div>
-
-						<div class="ColunaCardsSearch col-md-3 mt-3">
-
-							<a class="text-decoration-none" href="/loja-{$links.idStore}/product/produto/">
-									
-								<div id="CardSearch12" class="card bg-white card-CarouselSearch" onMouseOver="showCart('FormCardSearch12', 'CardSubSearch12','CardSearch12')" onMouseOut="hideCart('FormCardSearch12', 'CardSubSearch12','CardSearch12', 'inputCardSearch12')">
-							  
-									<img src="/resources/imgs/produtos/alho.jpeg" class="img-fluid rounded mx-auto d-block card-ImgRes" alt="...">
-
-									<div id="CardSubSearch12" class="card-body cardSub-Carousel cardSubT1-Carousel card-img-overlay p-0">
-
-										<div>
-											<p class="card-title font-weight-light text-uppercase text-dark card-text m-0">
-												<b>Alho</b>
-											</p>
-
-										<p class="btn-group btn-group-toggle m-0 table-responsive" data-toggle="buttons">
-
-											<label class="btn btn-light border btn-sm py-0 mr-1 rounded-pill card-BtnWeigth active" onClick="alterPriceItem('cardSearch12PriceInt', 'cardSearch12PriceDec', '5', '50')">
-												<input id="btnCardSearch12Weigth" type="radio" value="100g"> 100g
-											</label>
-											
-											<label class="btn btn-light border btn-sm py-0 mr-1 rounded-pill card-BtnWeigth active" onClick="alterPriceItem('cardSearch12PriceInt', 'cardSearch12PriceDec', '10', '50')">
-												<input id="btnCardSearch12Weigth" type="radio" value="200g"> 200g
-											</label>
-											
-											<label class="btn btn-light border btn-sm py-0 mr-1 rounded-pill card-BtnWeigth active" onClick="alterPriceItem('cardSearch12PriceInt', 'cardSearch12PriceDec', '15', '50')">
-												<input id="btnCardSearch12Weigth" type="radio" value="300g"> 300g
-											</label>
-											
-											<label class="btn btn-light border btn-sm py-0 mr-1 rounded-pill card-BtnWeigth active" onClick="alterPriceItem('cardSearch12PriceInt', 'cardSearch12PriceDec', '50', '00')">
-												<input id="btnCardSearch12Weigth" type="radio" value="1Kg" checked> 1Kg
-											</label>
-										</p>	
-
-											<p class="mt-4">
-												<b class="text-dark text-decoration-none">	
-													R$<a id="cardSearch12PriceInt" class="h3">50</a><a id="cardSearch12PriceDec" class="h6">,00</a>	
-												</b>
-											</p>
-										</div>
-	
-									</div>
-									
-									<form id="FormCardSearch12" class="card-BarT1 mt-auto">
-					
-										<div class="btn-group btn-group-justified">
-
-											<div class="btn-group w-100">
-												<button type="button" class="btn btn-primary bd-RdLeft" onClick="removeItem('inputCardSearch12')">-</button>
-											</div>
-
-												
-											<div class="btn-group w-100">
-												<input id="inputCardSearch12" type="number" min="1" class="w-100 text-center" value="1">
-											</div>
-
-												
-											<div class="btn-group w-100">
-													
-												<button type="button" class="btn btn-primary" onClick="addItem('inputCardSearch12')">+</button>
-												
-											</div>
-
-												
-											<div class="btn-group w-100">
-												<a href="#" class="btn btn-success bd-RdRight">
-													<i class="fas fa-shopping-cart"></i>
-												</a>
-											</div>
-
-										</div>
-									
-									</form>
-									
-								</div>
-							</a>
-
-						</div>
-
-						<div class="ColunaCardsSearch col-md-3 mt-3">
+							</div>
 							
-							<a class="text-decoration-none" href="/loja-{$links.idStore}/product/produto/">
-									
-								<div id="CardSearch13" class="card bg-white card-CarouselSearch" onMouseOver="showCart('FormCardSearch13', 'CardSubSearch13','CardSearch13')" onMouseOut="hideCart('FormCardSearch13', 'CardSubSearch13','CardSearch13', 'inputCardSearch13')">
-							  
-									<img src="/resources/imgs/produtos/rucula.jpg" class="img-fluid rounded mx-auto d-block card-ImgRes" alt="...">
-
-									<div id="CardSubSearch13" class="card-body cardSub-Carousel cardSubT1-Carousel card-img-overlay p-0">
-
-										<div>
-											<p class="card-title font-weight-light text-uppercase text-dark card-text m-0">
-												<b>Rucula</b>
-											</p>
-
-										<p class="btn-group btn-group-toggle m-0" data-toggle="buttons">
-
-											<label class="btn btn-light border btn-sm py-0 mr-1 rounded-pill card-BtnWeigth active" onClick="alterPriceItem('cardSearch13PriceInt', 'cardSearch13PriceDec', '2', '50')">
-												<input id="btnCardSearch13Weigth" type="radio" value="UN" checked> UN
-											</label>
-										</p>	
-
-											<p class="mt-4">
-												<b class="text-dark text-decoration-none">	
-													R$<a id="cardSearch13PriceInt" class="h3">2</a><a id="cardSearch13PriceDec" class="h6">,50</a>	
-												</b>
-											</p>
-										</div>
-	
-									</div>
-									
-									<form id="FormCardSearch13" class="card-BarT1 mt-auto">
-					
-										<div class="btn-group btn-group-justified">
-
-											<div class="btn-group w-100">
-												<button type="button" class="btn btn-primary bd-RdLeft" onClick="removeItem('inputCardSearch13')">-</button>
-											</div>
-
-												
-											<div class="btn-group w-100">
-												<input id="inputCardSearch13" type="number" min="1" class="w-100 text-center" value="1">
-											</div>
-
-												
-											<div class="btn-group w-100">
-													
-												<button type="button" class="btn btn-primary" onClick="addItem('inputCardSearch13')">+</button>
-												
-											</div>
-
-												
-											<div class="btn-group w-100">
-												<a href="#" class="btn btn-success bd-RdRight">
-													<i class="fas fa-shopping-cart"></i>
-												</a>
-											</div>
-
-										</div>
-									
-									</form>
-									
-								</div>
-							</a>
-
 						</div>
 
-						<div class="ColunaCardsSearch col-md-3 mt-3">
+						<div class="col-sm-3 col-6 mt-3">
+							<div id="productCard2" class="card bd-RdLeft bd-RdRight" onmouseover="barCardVs('FormCard2Promo', 'productCard2')" onmouseout="barCardHidden('FormCard2Promo', 'productCard2')">
+								
+								<div class="text-center cursorPointer" onclick="window.location.assign('/loja-{$links.idStore}/product/produto/')">
+									<img src="/resources/imgs/produtos/agua sg 510ml.jpeg" class="img-fluid rounded-pill text-center card-ImgRes" alt="Card2">
+								</div>
+								<div class="card-body p-0 text-center">
+								  
+									<p class="my-0 text-truncate cursorPointer" onclick="window.location.assign('/loja-{$links.idStore}/product/produto/')">ÁGUA S/G</p>
 
-							<a class="text-decoration-none" href="/loja-{$links.idStore}/product/produto/">
-									
-								<div id="CardSearch14" class="card bg-white card-CarouselSearch" onMouseOver="showCart('FormCardSearch14', 'CardSubSearch14','CardSearch14')" onMouseOut="hideCart('FormCardSearch14', 'CardSubSearch14','CardSearch14', 'inputCardSearch14')">
-							  
-									<img src="/resources/imgs/produtos/banana.jpeg" class="img-fluid rounded mx-auto d-block card-ImgRes" alt="...">
+									<p class="my-2 tx-IconCart btn-group btn-group-toggle m-0 overflow-auto scroll-null" data-toggle="buttons">
 
-									<div id="CardSubSearch14" class="card-body cardSub-Carousel cardSubT1-Carousel card-img-overlay p-0">
+										<label id="btnRadioCard2" class="btn btn-light border btn-sm py-0 mr-1 rounded-pill card-BtnWeigth active" data-value="<small class='h6'>R$</small><a>1</a><small class='h6'>,85</small>" onclick="alterPrice('btnRadioCard2', 'inputCard2Price')">
+											<input name="btnRadioCard2" type="radio" value="500ML"> 500ML
+										</label>
 
-										<div>
-											<p class="card-title font-weight-light text-uppercase text-dark card-text m-0">
-												<b>Banana Prata</b>
-											</p>
+										<label id="btnRadioCard22" class="btn btn-light border btn-sm py-0 mr-1 rounded-pill card-BtnWeigth active" data-value="<small class='h6'>R$</small><a>3</a><small class='h6'>,85</small>" onclick="alterPrice('btnRadioCard22', 'inputCard2Price')">
+											<input name="btnRadioCard22" type="radio" value="1L" checked> 1L
+										</label>
+										
+									</p>
 
-										<p class="btn-group btn-group-toggle m-0" data-toggle="buttons">
+								  	<p class="h3">
+										<span id="inputCard2Price">
+											<small class='h6'>R$</small><a>3</a><small class='h6'>,85</small>
+										</span>
+									</p>
+								</div>
 
-											<label class="btn btn-light border btn-sm py-0 mr-1 rounded-pill card-BtnWeigth active" onClick="alterPriceItem('cardSearch14PriceInt', 'cardSearch14PriceDec', '1', '15')">
-												<input id="btnCardSearch14Weigth" type="radio" value="300g"> 300g
-											</label>
-											
-											<label class="btn btn-light border btn-sm py-0 mr-1 rounded-pill card-BtnWeigth active" onClick="alterPriceItem('cardSearch14PriceInt', 'cardSearch14PriceDec', '2', '20')">
-												<input id="btnCardSearch14Weigth" type="radio" value="500g"> 500g
-											</label>
-											
-											<label class="btn btn-light border btn-sm py-0 mr-1 rounded-pill card-BtnWeigth active" onClick="alterPriceItem('cardSearch14PriceInt', 'cardSearch14PriceDec', '3', '99')">
-												<input id="btnCardSearch14Weigth" type="radio" value="1K" checked> 1Kg
-											</label>
-										</p>	
+								<form id="FormCard2Promo" class="mt-3 vs-card">
+						
+									<div class="btn-group btn-group-justified w-100">
+	
+										<button type="button" class="btn btn-sm btn-primary bd-RdLeft" onClick="removeItem('inputCard2Promo')">-</button>
 
-											<p class="mt-4">
-												<b class="text-dark text-decoration-none">	
-													R$<a id="cardSearch14PriceInt" class="h3">3</a><a id="cardSearch14PriceDec" class="h6">,99</a>	
-												</b>
-											</p>
-										</div>
+										<input id="inputCard2Promo" type="number" min="1" class="w-25 text-center" value="1">
+
+										<button type="button" class="btn btn-sm btn-primary" onClick="addItem('inputCard2Promo')">+</button>
+										
+										<a href="#" class="btn btn-sm btn-success bd-RdRight">
+											<i class="fas fa-shopping-cart"></i>
+										</a>
 	
 									</div>
-									
-									<form id="FormCardSearch14" class="card-BarT1 mt-auto">
-					
-										<div class="btn-group btn-group-justified">
+								
+								</form>
 
-											<div class="btn-group w-100">
-												<button type="button" class="btn btn-primary bd-RdLeft" onClick="removeItem('inputCardSearch14')">-</button>
-											</div>
-
-												
-											<div class="btn-group w-100">
-												<input id="inputCardSearch14" type="number" min="1" class="w-100 text-center" value="1">
-											</div>
-
-												
-											<div class="btn-group w-100">
-													
-												<button type="button" class="btn btn-primary" onClick="addItem('inputCardSearch14')">+</button>
-												
-											</div>
-
-												
-											<div class="btn-group w-100">
-												<a href="#" class="btn btn-success bd-RdRight">
-													<i class="fas fa-shopping-cart"></i>
-												</a>
-											</div>
-
-										</div>
-									
-									</form>
-									
-								</div>
-							</a>
-
+							</div>
+							
 						</div>
 
-						<div class="ColunaCardsSearch col-md-3 mt-3">
+						<div class="col-sm-3 col-6 mt-3">
+							<div id="productCard3" class="card bd-RdLeft bd-RdRight" onmouseover="barCardVs('FormCard3Promo', 'productCard3')" onmouseout="barCardHidden('FormCard3Promo', 'productCard3')">
+								
+								<div class="text-center cursorPointer" onclick="window.location.assign('/loja-{$links.idStore}/product/produto/')">
+									<img src="/resources/imgs/produtos/agua sg 510ml.jpeg" class="img-fluid rounded-pill text-center card-ImgRes" alt="Card3">
+								</div>
+								<div class="card-body p-0 text-center">
+								  
+									<p class="my-0 text-truncate cursorPointer" onclick="window.location.assign('/loja-{$links.idStore}/product/produto/')">ÁGUA S/G</p>
 
-							<a class="text-decoration-none" href="/loja-{$links.idStore}/product/produto/">
-									
-								<div id="CardSearch15" class="card bg-white card-CarouselSearch" onMouseOver="showCart('FormCardSearch15', 'CardSubSearch15','CardSearch15')" onMouseOut="hideCart('FormCardSearch15', 'CardSubSearch15','CardSearch15', 'inputCardSearch15')">
-							  
-									<img src="/resources/imgs/produtos/limao.jpg" class="img-fluid rounded mx-auto d-block card-ImgRes" alt="...">
+									<p class="my-2 tx-IconCart btn-group btn-group-toggle m-0 overflow-auto scroll-null" data-toggle="buttons">
 
-									
-									<div id="CardSubSearch15" class="card-body cardSub-Carousel cardSubT1-Carousel card-img-overlay p-0">
+										<label id="btnRadioCard3" class="btn btn-light border btn-sm py-0 mr-1 rounded-pill card-BtnWeigth active" data-value="<small class='h6'>R$</small><a>1</a><small class='h6'>,85</small>" onclick="alterPrice('btnRadioCard3', 'inputCard3Price')">
+											<input name="btnRadioCard3" type="radio" value="500ML"> 500ML
+										</label>
 
-										<div>
-											<p class="card-title font-weight-light text-uppercase text-dark card-text m-0">
-												<b>Limão Taiti</b>
-											</p>
+										<label id="btnRadioCard32" class="btn btn-light border btn-sm py-0 mr-1 rounded-pill card-BtnWeigth active" data-value="<small class='h6'>R$</small><a>3</a><small class='h6'>,85</small>" onclick="alterPrice('btnRadioCard32', 'inputCard3Price')">
+											<input name="btnRadioCard32" type="radio" value="1L" checked> 1L
+										</label>
+										
+									</p>
 
-										<p class="btn-group btn-group-toggle m-0" data-toggle="buttons">
+								  	<p class="h3">
+										<span id="inputCard3Price">
+											<small class='h6'>R$</small><a>3</a><small class='h6'>,85</small>
+										</span>
+									</p>
+								</div>
 
-											<label class="btn btn-light border btn-sm py-0 mr-1 rounded-pill card-BtnWeigth active" onClick="alterPriceItem('cardSearch15PriceInt', 'cardSearch15PriceDec', '0', '50')">
-												<input id="btnCardSearch15Weigth" type="radio" value="100g"> 100g
-											</label>
-											
-											<label class="btn btn-light border btn-sm py-0 mr-1 rounded-pill card-BtnWeigth active" onClick="alterPriceItem('cardSearch15PriceInt', 'cardSearch15PriceDec', '0', '99')">
-												<input id="btnCardSearch15Weigth" type="radio" value="250g"> 250g
-											</label>
-											
-											<label class="btn btn-light border btn-sm py-0 mr-1 rounded-pill card-BtnWeigth active" onClick="alterPriceItem('cardSearch15PriceInt', 'cardSearch15PriceDec', '1', '75')">
-												<input id="btnCardSearch15Weigth" type="radio" value="500g" checked> 500g
-											</label>
-										</p>	
+								<form id="FormCard3Promo" class="mt-3 vs-card">
+						
+									<div class="btn-group btn-group-justified w-100">
+	
+										<button type="button" class="btn btn-sm btn-primary bd-RdLeft" onClick="removeItem('inputCard3Promo')">-</button>
 
-											<p class="mt-4">
-												<b class="text-dark text-decoration-none">	
-													R$<a id="cardSearch15PriceInt" class="h3">1</a><a id="cardSearch15PriceDec" class="h6">,75</a>	
-												</b>
-											</p>
-										</div>
+										<input id="inputCard3Promo" type="number" min="1" class="w-25 text-center" value="1">
+
+										<button type="button" class="btn btn-sm btn-primary" onClick="addItem('inputCard3Promo')">+</button>
+										
+										<a href="#" class="btn btn-sm btn-success bd-RdRight">
+											<i class="fas fa-shopping-cart"></i>
+										</a>
 	
 									</div>
-									
-									<form id="FormCardSearch15" class="card-BarT1 mt-auto">
-					
-										<div class="btn-group btn-group-justified">
+								
+								</form>
 
-											<div class="btn-group w-100">
-												<button type="button" class="btn btn-primary bd-RdLeft" onClick="removeItem('inputCardSearch15')">-</button>
-											</div>
-
-												
-											<div class="btn-group w-100">
-												<input id="inputCardSearch15" type="number" min="1" class="w-100 text-center" value="1">
-											</div>
-
-												
-											<div class="btn-group w-100">
-													
-												<button type="button" class="btn btn-primary" onClick="addItem('inputCardSearch15')">+</button>
-												
-											</div>
-
-												
-											<div class="btn-group w-100">
-												<a href="#" class="btn btn-success bd-RdRight">
-													<i class="fas fa-shopping-cart"></i>
-												</a>
-											</div>
-
-										</div>
-									
-									</form>
-									
-								</div>
-							</a>
-
+							</div>
+							
 						</div>
 
-						<div class="ColunaCardsSearch col-md-3 mt-3">
+						<div class="col-sm-3 col-6 mt-3">
+							<div id="productCard4" class="card bd-RdLeft bd-RdRight" onmouseover="barCardVs('FormCard4Promo', 'productCard4')" onmouseout="barCardHidden('FormCard4Promo', 'productCard4')">
+								
+								<div class="text-center cursorPointer" onclick="window.location.assign('/loja-{$links.idStore}/product/produto/')">
+									<img src="/resources/imgs/produtos/agua sg 510ml.jpeg" class="img-fluid rounded-pill text-center card-ImgRes" alt="Card4">
+								</div>
+								<div class="card-body p-0 text-center">
+								  
+									<p class="my-0 text-truncate cursorPointer" onclick="window.location.assign('/loja-{$links.idStore}/product/produto/')">ÁGUA S/G</p>
 
-							<a class="text-decoration-none" href="/loja-{$links.idStore}/product/produto/">
-									
-								<div id="CardSearch16" class="card bg-white card-CarouselSearch" onMouseOver="showCart('FormCardSearch16', 'CardSubSearch16','CardSearch16')" onMouseOut="hideCart('FormCardSearch16', 'CardSubSearch16','CardSearch16', 'inputCardSearch16')">
-							  
-									<img src="/resources/imgs/produtos/cenoura.jpeg" class="img-fluid rounded mx-auto d-block card-ImgRes" alt="...">
+									<p class="my-2 tx-IconCart btn-group btn-group-toggle m-0 overflow-auto scroll-null" data-toggle="buttons">
 
-									<div id="CardSubSearch16" class="card-body cardSub-Carousel cardSubT1-Carousel card-img-overlay p-0">
+										<label id="btnRadioCard4" class="btn btn-light border btn-sm py-0 mr-1 rounded-pill card-BtnWeigth active" data-value="<small class='h6'>R$</small><a>1</a><small class='h6'>,85</small>" onclick="alterPrice('btnRadioCard4', 'inputCard4Price')">
+											<input name="btnRadioCard4" type="radio" value="500ML"> 500ML
+										</label>
 
-										<div>
-											<p class="card-title font-weight-light text-uppercase text-dark card-text m-0">
-												<b>Cenoura</b>
-											</p>
+										<label id="btnRadioCard42" class="btn btn-light border btn-sm py-0 mr-1 rounded-pill card-BtnWeigth active" data-value="<small class='h6'>R$</small><a>3</a><small class='h6'>,85</small>" onclick="alterPrice('btnRadioCard42', 'inputCard4Price')">
+											<input name="btnRadioCard42" type="radio" value="1L" checked> 1L
+										</label>
+										
+									</p>
 
-										<p class="btn-group btn-group-toggle m-0" data-toggle="buttons">
+								  	<p class="h3">
+										<span id="inputCard4Price">
+											<small class='h6'>R$</small><a>3</a><small class='h6'>,85</small>
+										</span>
+									</p>
+								</div>
 
-											<label class="btn btn-light border btn-sm py-0 mr-1 rounded-pill card-BtnWeigth active" onClick="alterPriceItem('cardSearch16PriceInt', 'cardSearch16PriceDec', '0', '99')">
-												<input id="btnCardSearch16Weigth" type="radio" value="250g"> 250g
-											</label>
-											
-											<label class="btn btn-light border btn-sm py-0 mr-1 rounded-pill card-BtnWeigth active" onClick="alterPriceItem('cardSearch16PriceInt', 'cardSearch16PriceDec', '1', '89')">
-												<input id="btnCardSearch16Weigth2" type="radio" value="500g" checked> 500g
-											</label>
-										</p>	
+								<form id="FormCard4Promo" class="mt-3 vs-card">
+						
+									<div class="btn-group btn-group-justified w-100">
+	
+										<button type="button" class="btn btn-sm btn-primary bd-RdLeft" onClick="removeItem('inputCard4Promo')">-</button>
 
-											<p class="mt-4">
-												<b class="text-dark text-decoration-none">		
-													R$<a id="cardSearch16PriceInt" class="h3">1</a><a id="cardSearch16PriceDec" class="h6">,89</a>	
-												</b>
-											</p>
-										</div>
+										<input id="inputCard4Promo" type="number" min="1" class="w-25 text-center" value="1">
+
+										<button type="button" class="btn btn-sm btn-primary" onClick="addItem('inputCard4Promo')">+</button>
+										
+										<a href="#" class="btn btn-sm btn-success bd-RdRight">
+											<i class="fas fa-shopping-cart"></i>
+										</a>
 	
 									</div>
-									
-									<form id="FormCardSearch16" class="card-BarT1 mt-auto">
-					
-										<div class="btn-group btn-group-justified">
+								
+								</form>
 
-											<div class="btn-group w-100">
-												<button type="button" class="btn btn-primary bd-RdLeft" onClick="removeItem('inputCardSearch16')">-</button>
-											</div>
+							</div>
+							
+						</div>
 
-												
-											<div class="btn-group w-100">
-												<input id="inputCardSearch16" type="number" min="1" class="w-100 text-center" value="1">
-											</div>
-
-												
-											<div class="btn-group w-100">
-													
-												<button type="button" class="btn btn-primary" onClick="addItem('inputCardSearch16')">+</button>
-												
-											</div>
-
-												
-											<div class="btn-group w-100">
-												<a href="#" class="btn btn-success bd-RdRight">
-													<i class="fas fa-shopping-cart"></i>
-												</a>
-											</div>
-
-										</div>
-									
-									</form>
-									
+						<div class="col-sm-3 col-6 mt-3">
+							<div id="productCard5" class="card bd-RdLeft bd-RdRight" onmouseover="barCardVs('FormCard5Promo', 'productCard5')" onmouseout="barCardHidden('FormCard5Promo', 'productCard5')">
+								
+								<div class="text-center cursorPointer" onclick="window.location.assign('/loja-{$links.idStore}/product/produto/')">
+									<img src="/resources/imgs/produtos/agua sg 510ml.jpeg" class="img-fluid rounded-pill text-center card-ImgRes" alt="Card5">
 								</div>
-							</a>
+								<div class="card-body p-0 text-center">
+								  
+									<p class="my-0 text-truncate cursorPointer" onclick="window.location.assign('/loja-{$links.idStore}/product/produto/')">ÁGUA S/G</p>
 
+									<p class="my-2 tx-IconCart btn-group btn-group-toggle m-0 overflow-auto scroll-null" data-toggle="buttons">
+
+										<label id="btnRadioCard5" class="btn btn-light border btn-sm py-0 mr-1 rounded-pill card-BtnWeigth active" data-value="<small class='h6'>R$</small><a>1</a><small class='h6'>,85</small>" onclick="alterPrice('btnRadioCard5', 'inputCard5Price')">
+											<input name="btnRadioCard5" type="radio" value="500ML"> 500ML
+										</label>
+
+										<label id="btnRadioCard52" class="btn btn-light border btn-sm py-0 mr-1 rounded-pill card-BtnWeigth active" data-value="<small class='h6'>R$</small><a>3</a><small class='h6'>,85</small>" onclick="alterPrice('btnRadioCard52', 'inputCard5Price')">
+											<input name="btnRadioCard52" type="radio" value="1L" checked> 1L
+										</label>
+										
+									</p>
+
+								  	<p class="h3">
+										<span id="inputCard5Price">
+											<small class='h6'>R$</small><a>3</a><small class='h6'>,85</small>
+										</span>
+									</p>
+								</div>
+
+								<form id="FormCard5Promo" class="mt-3 vs-card">
+						
+									<div class="btn-group btn-group-justified w-100">
+	
+										<button type="button" class="btn btn-sm btn-primary bd-RdLeft" onClick="removeItem('inputCard5Promo')">-</button>
+
+										<input id="inputCard5Promo" type="number" min="1" class="w-25 text-center" value="1">
+
+										<button type="button" class="btn btn-sm btn-primary" onClick="addItem('inputCard5Promo')">+</button>
+										
+										<a href="#" class="btn btn-sm btn-success bd-RdRight">
+											<i class="fas fa-shopping-cart"></i>
+										</a>
+	
+									</div>
+								
+								</form>
+
+							</div>
+							
+						</div>
+
+						<div class="col-sm-3 col-6 mt-3">
+							<div id="productCard6" class="card bd-RdLeft bd-RdRight" onmouseover="barCardVs('FormCard6Promo', 'productCard6')" onmouseout="barCardHidden('FormCard6Promo', 'productCard6')">
+								
+								<div class="text-center cursorPointer" onclick="window.location.assign('/loja-{$links.idStore}/product/produto/')">
+									<img src="/resources/imgs/produtos/agua sg 510ml.jpeg" class="img-fluid rounded-pill text-center card-ImgRes" alt="Card6">
+								</div>
+								<div class="card-body p-0 text-center">
+								  
+									<p class="my-0 text-truncate cursorPointer" onclick="window.location.assign('/loja-{$links.idStore}/product/produto/')">ÁGUA S/G</p>
+
+									<p class="my-2 tx-IconCart btn-group btn-group-toggle m-0 overflow-auto scroll-null" data-toggle="buttons">
+
+										<label id="btnRadioCard6" class="btn btn-light border btn-sm py-0 mr-1 rounded-pill card-BtnWeigth active" data-value="<small class='h6'>R$</small><a>1</a><small class='h6'>,85</small>" onclick="alterPrice('btnRadioCard6', 'inputCard6Price')">
+											<input name="btnRadioCard6" type="radio" value="500ML"> 500ML
+										</label>
+
+										<label id="btnRadioCard62" class="btn btn-light border btn-sm py-0 mr-1 rounded-pill card-BtnWeigth active" data-value="<small class='h6'>R$</small><a>3</a><small class='h6'>,85</small>" onclick="alterPrice('btnRadioCard62', 'inputCard6Price')">
+											<input name="btnRadioCard62" type="radio" value="1L" checked> 1L
+										</label>
+										
+									</p>
+
+								  	<p class="h3">
+										<span id="inputCard6Price">
+											<small class='h6'>R$</small><a>3</a><small class='h6'>,85</small>
+										</span>
+									</p>
+								</div>
+
+								<form id="FormCard6Promo" class="mt-3 vs-card">
+						
+									<div class="btn-group btn-group-justified w-100">
+	
+										<button type="button" class="btn btn-sm btn-primary bd-RdLeft" onClick="removeItem('inputCard6Promo')">-</button>
+
+										<input id="inputCard6Promo" type="number" min="1" class="w-25 text-center" value="1">
+
+										<button type="button" class="btn btn-sm btn-primary" onClick="addItem('inputCard6Promo')">+</button>
+										
+										<a href="#" class="btn btn-sm btn-success bd-RdRight">
+											<i class="fas fa-shopping-cart"></i>
+										</a>
+	
+									</div>
+								
+								</form>
+
+							</div>
+							
+						</div>
+
+						<div class="col-sm-3 col-6 mt-3">
+							<div id="productCard7" class="card bd-RdLeft bd-RdRight" onmouseover="barCardVs('FormCard7Promo', 'productCard7')" onmouseout="barCardHidden('FormCard7Promo', 'productCard7')">
+								
+								<div class="text-center cursorPointer" onclick="window.location.assign('/loja-{$links.idStore}/product/produto/')">
+									<img src="/resources/imgs/produtos/agua sg 510ml.jpeg" class="img-fluid rounded-pill text-center card-ImgRes" alt="Card7">
+								</div>
+								<div class="card-body p-0 text-center">
+								  
+									<p class="my-0 text-truncate cursorPointer" onclick="window.location.assign('/loja-{$links.idStore}/product/produto/')">ÁGUA S/G</p>
+
+									<p class="my-2 tx-IconCart btn-group btn-group-toggle m-0 overflow-auto scroll-null" data-toggle="buttons">
+
+										<label id="btnRadioCard7" class="btn btn-light border btn-sm py-0 mr-1 rounded-pill card-BtnWeigth active" data-value="<small class='h6'>R$</small><a>1</a><small class='h6'>,85</small>" onclick="alterPrice('btnRadioCard7', 'inputCard7Price')">
+											<input name="btnRadioCard7" type="radio" value="500ML"> 500ML
+										</label>
+
+										<label id="btnRadioCard72" class="btn btn-light border btn-sm py-0 mr-1 rounded-pill card-BtnWeigth active" data-value="<small class='h6'>R$</small><a>3</a><small class='h6'>,85</small>" onclick="alterPrice('btnRadioCard72', 'inputCard7Price')">
+											<input name="btnRadioCard72" type="radio" value="1L" checked> 1L
+										</label>
+										
+									</p>
+
+								  	<p class="h3">
+										<span id="inputCard7Price">
+											<small class='h6'>R$</small><a>3</a><small class='h6'>,85</small>
+										</span>
+									</p>
+								</div>
+
+								<form id="FormCard7Promo" class="mt-3 vs-card">
+						
+									<div class="btn-group btn-group-justified w-100">
+	
+										<button type="button" class="btn btn-sm btn-primary bd-RdLeft" onClick="removeItem('inputCard7Promo')">-</button>
+
+										<input id="inputCard7Promo" type="number" min="1" class="w-25 text-center" value="1">
+
+										<button type="button" class="btn btn-sm btn-primary" onClick="addItem('inputCard7Promo')">+</button>
+										
+										<a href="#" class="btn btn-sm btn-success bd-RdRight">
+											<i class="fas fa-shopping-cart"></i>
+										</a>
+	
+									</div>
+								
+								</form>
+
+							</div>
+							
+						</div>
+
+						<div class="col-sm-3 col-6 mt-3">
+							<div id="productCard8" class="card bd-RdLeft bd-RdRight" onmouseover="barCardVs('FormCard8Promo', 'productCard8')" onmouseout="barCardHidden('FormCard8Promo', 'productCard8')">
+								
+								<div class="text-center cursorPointer" onclick="window.location.assign('/loja-{$links.idStore}/product/produto/')">
+									<img src="/resources/imgs/produtos/agua sg 510ml.jpeg" class="img-fluid rounded-pill text-center card-ImgRes" alt="Card8">
+								</div>
+								<div class="card-body p-0 text-center">
+								  
+									<p class="my-0 text-truncate cursorPointer" onclick="window.location.assign('/loja-{$links.idStore}/product/produto/')">ÁGUA S/G</p>
+
+									<p class="my-2 tx-IconCart btn-group btn-group-toggle m-0 overflow-auto scroll-null" data-toggle="buttons">
+
+										<label id="btnRadioCard8" class="btn btn-light border btn-sm py-0 mr-1 rounded-pill card-BtnWeigth active" data-value="<small class='h6'>R$</small><a>1</a><small class='h6'>,85</small>" onclick="alterPrice('btnRadioCard8', 'inputCard8Price')">
+											<input name="btnRadioCard8" type="radio" value="500ML"> 500ML
+										</label>
+
+										<label id="btnRadioCard82" class="btn btn-light border btn-sm py-0 mr-1 rounded-pill card-BtnWeigth active" data-value="<small class='h6'>R$</small><a>3</a><small class='h6'>,85</small>" onclick="alterPrice('btnRadioCard82', 'inputCard8Price')">
+											<input name="btnRadioCard82" type="radio" value="1L" checked> 1L
+										</label>
+										
+									</p>
+
+								  	<p class="h3">
+										<span id="inputCard8Price">
+											<small class='h6'>R$</small><a>3</a><small class='h6'>,85</small>
+										</span>
+									</p>
+								</div>
+
+								<form id="FormCard8Promo" class="mt-3 vs-card">
+						
+									<div class="btn-group btn-group-justified w-100">
+	
+										<button type="button" class="btn btn-sm btn-primary bd-RdLeft" onClick="removeItem('inputCard8Promo')">-</button>
+
+										<input id="inputCard8Promo" type="number" min="1" class="w-25 text-center" value="1">
+
+										<button type="button" class="btn btn-sm btn-primary" onClick="addItem('inputCard8Promo')">+</button>
+										
+										<a href="#" class="btn btn-sm btn-success bd-RdRight">
+											<i class="fas fa-shopping-cart"></i>
+										</a>
+	
+									</div>
+								
+								</form>
+
+							</div>
+							
+						</div>
+
+						<div class="col-sm-3 col-6 mt-3">
+							<div id="productCard9" class="card bd-RdLeft bd-RdRight" onmouseover="barCardVs('FormCard9Promo', 'productCard9')" onmouseout="barCardHidden('FormCard9Promo', 'productCard9')">
+								
+								<div class="text-center cursorPointer" onclick="window.location.assign('/loja-{$links.idStore}/product/produto/')">
+									<img src="/resources/imgs/produtos/agua sg 510ml.jpeg" class="img-fluid rounded-pill text-center card-ImgRes" alt="Card9">
+								</div>
+								<div class="card-body p-0 text-center">
+								  
+									<p class="my-0 text-truncate cursorPointer" onclick="window.location.assign('/loja-{$links.idStore}/product/produto/')">ÁGUA S/G</p>
+
+									<p class="my-2 tx-IconCart btn-group btn-group-toggle m-0 overflow-auto scroll-null" data-toggle="buttons">
+
+										<label id="btnRadioCard9" class="btn btn-light border btn-sm py-0 mr-1 rounded-pill card-BtnWeigth active" data-value="<small class='h6'>R$</small><a>1</a><small class='h6'>,85</small>" onclick="alterPrice('btnRadioCard9', 'inputCard9Price')">
+											<input name="btnRadioCard9" type="radio" value="500ML"> 500ML
+										</label>
+
+										<label id="btnRadioCard92" class="btn btn-light border btn-sm py-0 mr-1 rounded-pill card-BtnWeigth active" data-value="<small class='h6'>R$</small><a>3</a><small class='h6'>,85</small>" onclick="alterPrice('btnRadioCard92', 'inputCard9Price')">
+											<input name="btnRadioCard92" type="radio" value="1L" checked> 1L
+										</label>
+										
+									</p>
+
+								  	<p class="h3">
+										<span id="inputCard9Price">
+											<small class='h6'>R$</small><a>3</a><small class='h6'>,85</small>
+										</span>
+									</p>
+								</div>
+
+								<form id="FormCard9Promo" class="mt-3 vs-card">
+						
+									<div class="btn-group btn-group-justified w-100">
+	
+										<button type="button" class="btn btn-sm btn-primary bd-RdLeft" onClick="removeItem('inputCard9Promo')">-</button>
+
+										<input id="inputCard9Promo" type="number" min="1" class="w-25 text-center" value="1">
+
+										<button type="button" class="btn btn-sm btn-primary" onClick="addItem('inputCard9Promo')">+</button>
+										
+										<a href="#" class="btn btn-sm btn-success bd-RdRight">
+											<i class="fas fa-shopping-cart"></i>
+										</a>
+	
+									</div>
+								
+								</form>
+
+							</div>
+							
+						</div>
+
+						<div class="col-sm-3 col-6 mt-3">
+							<div id="productCard10" class="card bd-RdLeft bd-RdRight" onmouseover="barCardVs('FormCard10Promo', 'productCard10')" onmouseout="barCardHidden('FormCard10Promo', 'productCard10')">
+								
+								<div class="text-center cursorPointer" onclick="window.location.assign('/loja-{$links.idStore}/product/produto/')">
+									<img src="/resources/imgs/produtos/agua sg 510ml.jpeg" class="img-fluid rounded-pill text-center card-ImgRes" alt="Card10">
+								</div>
+								<div class="card-body p-0 text-center">
+								  
+									<p class="my-0 text-truncate cursorPointer" onclick="window.location.assign('/loja-{$links.idStore}/product/produto/')">ÁGUA S/G</p>
+
+									<p class="my-2 tx-IconCart btn-group btn-group-toggle m-0 overflow-auto scroll-null" data-toggle="buttons">
+
+										<label id="btnRadioCard10" class="btn btn-light border btn-sm py-0 mr-1 rounded-pill card-BtnWeigth active" data-value="<small class='h6'>R$</small><a>1</a><small class='h6'>,85</small>" onclick="alterPrice('btnRadioCard10', 'inputCard10Price')">
+											<input name="btnRadioCard10" type="radio" value="500ML"> 500ML
+										</label>
+
+										<label id="btnRadioCard102" class="btn btn-light border btn-sm py-0 mr-1 rounded-pill card-BtnWeigth active" data-value="<small class='h6'>R$</small><a>3</a><small class='h6'>,85</small>" onclick="alterPrice('btnRadioCard102', 'inputCard10Price')">
+											<input name="btnRadioCard102" type="radio" value="1L" checked> 1L
+										</label>
+										
+									</p>
+
+								  	<p class="h3">
+										<span id="inputCard10Price">
+											<small class='h6'>R$</small><a>3</a><small class='h6'>,85</small>
+										</span>
+									</p>
+								</div>
+
+								<form id="FormCard10Promo" class="mt-3 vs-card">
+						
+									<div class="btn-group btn-group-justified w-100">
+	
+										<button type="button" class="btn btn-sm btn-primary bd-RdLeft" onClick="removeItem('inputCard10Promo')">-</button>
+
+										<input id="inputCard10Promo" type="number" min="1" class="w-25 text-center" value="1">
+
+										<button type="button" class="btn btn-sm btn-primary" onClick="addItem('inputCard10Promo')">+</button>
+										
+										<a href="#" class="btn btn-sm btn-success bd-RdRight">
+											<i class="fas fa-shopping-cart"></i>
+										</a>
+	
+									</div>
+								
+								</form>
+
+							</div>
+							
+						</div>
+
+						<div class="col-sm-3 col-6 mt-3">
+							<div id="productCard11" class="card bd-RdLeft bd-RdRight" onmouseover="barCardVs('FormCard11Promo', 'productCard11')" onmouseout="barCardHidden('FormCard11Promo', 'productCard11')">
+								
+								<div class="text-center cursorPointer" onclick="window.location.assign('/loja-{$links.idStore}/product/produto/')">
+									<img src="/resources/imgs/produtos/agua sg 510ml.jpeg" class="img-fluid rounded-pill text-center card-ImgRes" alt="Card11">
+								</div>
+								<div class="card-body p-0 text-center">
+								  
+									<p class="my-0 text-truncate cursorPointer" onclick="window.location.assign('/loja-{$links.idStore}/product/produto/')">ÁGUA S/G</p>
+
+									<p class="my-2 tx-IconCart btn-group btn-group-toggle m-0 overflow-auto scroll-null" data-toggle="buttons">
+
+										<label id="btnRadioCard11" class="btn btn-light border btn-sm py-0 mr-1 rounded-pill card-BtnWeigth active" data-value="<small class='h6'>R$</small><a>1</a><small class='h6'>,85</small>" onclick="alterPrice('btnRadioCard11', 'inputCard11Price')">
+											<input name="btnRadioCard11" type="radio" value="500ML"> 500ML
+										</label>
+
+										<label id="btnRadioCard112" class="btn btn-light border btn-sm py-0 mr-1 rounded-pill card-BtnWeigth active" data-value="<small class='h6'>R$</small><a>3</a><small class='h6'>,85</small>" onclick="alterPrice('btnRadioCard112', 'inputCard11Price')">
+											<input name="btnRadioCard112" type="radio" value="1L" checked> 1L
+										</label>
+										
+									</p>
+
+								  	<p class="h3">
+										<span id="inputCard11Price">
+											<small class='h6'>R$</small><a>3</a><small class='h6'>,85</small>
+										</span>
+									</p>
+								</div>
+
+								<form id="FormCard11Promo" class="mt-3 vs-card">
+						
+									<div class="btn-group btn-group-justified w-100">
+	
+										<button type="button" class="btn btn-sm btn-primary bd-RdLeft" onClick="removeItem('inputCard11Promo')">-</button>
+
+										<input id="inputCard11Promo" type="number" min="1" class="w-25 text-center" value="1">
+
+										<button type="button" class="btn btn-sm btn-primary" onClick="addItem('inputCard11Promo')">+</button>
+										
+										<a href="#" class="btn btn-sm btn-success bd-RdRight">
+											<i class="fas fa-shopping-cart"></i>
+										</a>
+	
+									</div>
+								
+								</form>
+
+							</div>
+							
+						</div>
+
+						<div class="col-sm-3 col-6 mt-3">
+							<div id="productCard12" class="card bd-RdLeft bd-RdRight" onmouseover="barCardVs('FormCard12Promo', 'productCard12')" onmouseout="barCardHidden('FormCard12Promo', 'productCard12')">
+								
+								<div class="text-center cursorPointer" onclick="window.location.assign('/loja-{$links.idStore}/product/produto/')">
+									<img src="/resources/imgs/produtos/agua sg 510ml.jpeg" class="img-fluid rounded-pill text-center card-ImgRes" alt="Card12">
+								</div>
+								<div class="card-body p-0 text-center">
+								  
+									<p class="my-0 text-truncate cursorPointer" onclick="window.location.assign('/loja-{$links.idStore}/product/produto/')">ÁGUA S/G</p>
+
+									<p class="my-2 tx-IconCart btn-group btn-group-toggle m-0 overflow-auto scroll-null" data-toggle="buttons">
+
+										<label id="btnRadioCard12" class="btn btn-light border btn-sm py-0 mr-1 rounded-pill card-BtnWeigth active" data-value="<small class='h6'>R$</small><a>1</a><small class='h6'>,85</small>" onclick="alterPrice('btnRadioCard12', 'inputCard12Price')">
+											<input name="btnRadioCard12" type="radio" value="500ML"> 500ML
+										</label>
+
+										<label id="btnRadioCard122" class="btn btn-light border btn-sm py-0 mr-1 rounded-pill card-BtnWeigth active" data-value="<small class='h6'>R$</small><a>3</a><small class='h6'>,85</small>" onclick="alterPrice('btnRadioCard122', 'inputCard12Price')">
+											<input name="btnRadioCard122" type="radio" value="1L" checked> 1L
+										</label>
+										
+									</p>
+
+								  	<p class="h3">
+										<span id="inputCard12Price">
+											<small class='h6'>R$</small><a>3</a><small class='h6'>,85</small>
+										</span>
+									</p>
+								</div>
+
+								<form id="FormCard12Promo" class="mt-3 vs-card">
+						
+									<div class="btn-group btn-group-justified w-100">
+	
+										<button type="button" class="btn btn-sm btn-primary bd-RdLeft" onClick="removeItem('inputCard12Promo')">-</button>
+
+										<input id="inputCard12Promo" type="number" min="1" class="w-25 text-center" value="1">
+
+										<button type="button" class="btn btn-sm btn-primary" onClick="addItem('inputCard12Promo')">+</button>
+										
+										<a href="#" class="btn btn-sm btn-success bd-RdRight">
+											<i class="fas fa-shopping-cart"></i>
+										</a>
+	
+									</div>
+								
+								</form>
+
+							</div>
+							
+						</div>
+
+						<div class="col-sm-3 col-6 mt-3">
+							<div id="productCard13" class="card bd-RdLeft bd-RdRight" onmouseover="barCardVs('FormCard13Promo', 'productCard13')" onmouseout="barCardHidden('FormCard13Promo', 'productCard13')">
+								
+								<div class="text-center cursorPointer" onclick="window.location.assign('/loja-{$links.idStore}/product/produto/')">
+									<img src="/resources/imgs/produtos/agua sg 510ml.jpeg" class="img-fluid rounded-pill text-center card-ImgRes" alt="Card13">
+								</div>
+								<div class="card-body p-0 text-center">
+								  
+									<p class="my-0 text-truncate cursorPointer" onclick="window.location.assign('/loja-{$links.idStore}/product/produto/')">ÁGUA S/G</p>
+
+									<p class="my-2 tx-IconCart btn-group btn-group-toggle m-0 overflow-auto scroll-null" data-toggle="buttons">
+
+										<label id="btnRadioCard13" class="btn btn-light border btn-sm py-0 mr-1 rounded-pill card-BtnWeigth active" data-value="<small class='h6'>R$</small><a>1</a><small class='h6'>,85</small>" onclick="alterPrice('btnRadioCard13', 'inputCard13Price')">
+											<input name="btnRadioCard13" type="radio" value="500ML"> 500ML
+										</label>
+
+										<label id="btnRadioCard132" class="btn btn-light border btn-sm py-0 mr-1 rounded-pill card-BtnWeigth active" data-value="<small class='h6'>R$</small><a>3</a><small class='h6'>,85</small>" onclick="alterPrice('btnRadioCard132', 'inputCard13Price')">
+											<input name="btnRadioCard132" type="radio" value="1L" checked> 1L
+										</label>
+										
+									</p>
+
+								  	<p class="h3">
+										<span id="inputCard13Price">
+											<small class='h6'>R$</small><a>3</a><small class='h6'>,85</small>
+										</span>
+									</p>
+								</div>
+
+								<form id="FormCard13Promo" class="mt-3 vs-card">
+						
+									<div class="btn-group btn-group-justified w-100">
+	
+										<button type="button" class="btn btn-sm btn-primary bd-RdLeft" onClick="removeItem('inputCard13Promo')">-</button>
+
+										<input id="inputCard13Promo" type="number" min="1" class="w-25 text-center" value="1">
+
+										<button type="button" class="btn btn-sm btn-primary" onClick="addItem('inputCard13Promo')">+</button>
+										
+										<a href="#" class="btn btn-sm btn-success bd-RdRight">
+											<i class="fas fa-shopping-cart"></i>
+										</a>
+	
+									</div>
+								
+								</form>
+
+							</div>
+							
+						</div>
+
+						<div class="col-sm-3 col-6 mt-3">
+							<div id="productCard14" class="card bd-RdLeft bd-RdRight" onmouseover="barCardVs('FormCard14Promo', 'productCard14')" onmouseout="barCardHidden('FormCard14Promo', 'productCard14')">
+								
+								<div class="text-center cursorPointer" onclick="window.location.assign('/loja-{$links.idStore}/product/produto/')">
+									<img src="/resources/imgs/produtos/agua sg 510ml.jpeg" class="img-fluid rounded-pill text-center card-ImgRes" alt="Card14">
+								</div>
+								<div class="card-body p-0 text-center">
+								  
+									<p class="my-0 text-truncate cursorPointer" onclick="window.location.assign('/loja-{$links.idStore}/product/produto/')">ÁGUA S/G</p>
+
+									<p class="my-2 tx-IconCart btn-group btn-group-toggle m-0 overflow-auto scroll-null" data-toggle="buttons">
+
+										<label id="btnRadioCard14" class="btn btn-light border btn-sm py-0 mr-1 rounded-pill card-BtnWeigth active" data-value="<small class='h6'>R$</small><a>1</a><small class='h6'>,85</small>" onclick="alterPrice('btnRadioCard14', 'inputCard14Price')">
+											<input name="btnRadioCard14" type="radio" value="500ML"> 500ML
+										</label>
+
+										<label id="btnRadioCard142" class="btn btn-light border btn-sm py-0 mr-1 rounded-pill card-BtnWeigth active" data-value="<small class='h6'>R$</small><a>3</a><small class='h6'>,85</small>" onclick="alterPrice('btnRadioCard142', 'inputCard14Price')">
+											<input name="btnRadioCard142" type="radio" value="1L" checked> 1L
+										</label>
+										
+									</p>
+
+								  	<p class="h3">
+										<span id="inputCard14Price">
+											<small class='h6'>R$</small><a>3</a><small class='h6'>,85</small>
+										</span>
+									</p>
+								</div>
+
+								<form id="FormCard14Promo" class="mt-3 vs-card">
+						
+									<div class="btn-group btn-group-justified w-100">
+	
+										<button type="button" class="btn btn-sm btn-primary bd-RdLeft" onClick="removeItem('inputCard14Promo')">-</button>
+
+										<input id="inputCard14Promo" type="number" min="1" class="w-25 text-center" value="1">
+
+										<button type="button" class="btn btn-sm btn-primary" onClick="addItem('inputCard14Promo')">+</button>
+										
+										<a href="#" class="btn btn-sm btn-success bd-RdRight">
+											<i class="fas fa-shopping-cart"></i>
+										</a>
+	
+									</div>
+								
+								</form>
+
+							</div>
+							
+						</div>
+
+						<div class="col-sm-3 col-6 mt-3">
+							<div id="productCard15" class="card bd-RdLeft bd-RdRight" onmouseover="barCardVs('FormCard15Promo', 'productCard15')" onmouseout="barCardHidden('FormCard15Promo', 'productCard15')">
+								
+								<div class="text-center cursorPointer" onclick="window.location.assign('/loja-{$links.idStore}/product/produto/')">
+									<img src="/resources/imgs/produtos/agua sg 510ml.jpeg" class="img-fluid rounded-pill text-center card-ImgRes" alt="Card15">
+								</div>
+								<div class="card-body p-0 text-center">
+								  
+									<p class="my-0 text-truncate cursorPointer" onclick="window.location.assign('/loja-{$links.idStore}/product/produto/')">ÁGUA S/G</p>
+
+									<p class="my-2 tx-IconCart btn-group btn-group-toggle m-0 overflow-auto scroll-null" data-toggle="buttons">
+
+										<label id="btnRadioCard15" class="btn btn-light border btn-sm py-0 mr-1 rounded-pill card-BtnWeigth active" data-value="<small class='h6'>R$</small><a>1</a><small class='h6'>,85</small>" onclick="alterPrice('btnRadioCard15', 'inputCard15Price')">
+											<input name="btnRadioCard15" type="radio" value="500ML"> 500ML
+										</label>
+
+										<label id="btnRadioCard152" class="btn btn-light border btn-sm py-0 mr-1 rounded-pill card-BtnWeigth active" data-value="<small class='h6'>R$</small><a>3</a><small class='h6'>,85</small>" onclick="alterPrice('btnRadioCard152', 'inputCard15Price')">
+											<input name="btnRadioCard152" type="radio" value="1L" checked> 1L
+										</label>
+										
+									</p>
+
+								  	<p class="h3">
+										<span id="inputCard15Price">
+											<small class='h6'>R$</small><a>3</a><small class='h6'>,85</small>
+										</span>
+									</p>
+								</div>
+
+								<form id="FormCard15Promo" class="mt-3 vs-card">
+						
+									<div class="btn-group btn-group-justified w-100">
+	
+										<button type="button" class="btn btn-sm btn-primary bd-RdLeft" onClick="removeItem('inputCard15Promo')">-</button>
+
+										<input id="inputCard15Promo" type="number" min="1" class="w-25 text-center" value="1">
+
+										<button type="button" class="btn btn-sm btn-primary" onClick="addItem('inputCard15Promo')">+</button>
+										
+										<a href="#" class="btn btn-sm btn-success bd-RdRight">
+											<i class="fas fa-shopping-cart"></i>
+										</a>
+	
+									</div>
+								
+								</form>
+
+							</div>
+							
+						</div>
+
+						<div class="col-sm-3 col-6 mt-3">
+							<div id="productCard16" class="card bd-RdLeft bd-RdRight" onmouseover="barCardVs('FormCard16Promo', 'productCard16')" onmouseout="barCardHidden('FormCard16Promo', 'productCard16')">
+								
+								<div class="text-center cursorPointer" onclick="window.location.assign('/loja-{$links.idStore}/product/produto/')">
+									<img src="/resources/imgs/produtos/agua sg 510ml.jpeg" class="img-fluid rounded-pill text-center card-ImgRes" alt="Card16">
+								</div>
+								<div class="card-body p-0 text-center">
+								  
+									<p class="my-0 text-truncate cursorPointer" onclick="window.location.assign('/loja-{$links.idStore}/product/produto/')">ÁGUA S/G</p>
+
+									<p class="my-2 tx-IconCart btn-group btn-group-toggle m-0 overflow-auto scroll-null" data-toggle="buttons">
+
+										<label id="btnRadioCard16" class="btn btn-light border btn-sm py-0 mr-1 rounded-pill card-BtnWeigth active" data-value="<small class='h6'>R$</small><a>1</a><small class='h6'>,85</small>" onclick="alterPrice('btnRadioCard16', 'inputCard16Price')">
+											<input name="btnRadioCard16" type="radio" value="500ML"> 500ML
+										</label>
+
+										<label id="btnRadioCard162" class="btn btn-light border btn-sm py-0 mr-1 rounded-pill card-BtnWeigth active" data-value="<small class='h6'>R$</small><a>3</a><small class='h6'>,85</small>" onclick="alterPrice('btnRadioCard162', 'inputCard16Price')">
+											<input name="btnRadioCard162" type="radio" value="1L" checked> 1L
+										</label>
+										
+									</p>
+
+								  	<p class="h3">
+										<span id="inputCard16Price">
+											<small class='h6'>R$</small><a>3</a><small class='h6'>,85</small>
+										</span>
+									</p>
+								</div>
+
+								<form id="FormCard16Promo" class="mt-3 vs-card">
+						
+									<div class="btn-group btn-group-justified w-100">
+	
+										<button type="button" class="btn btn-sm btn-primary bd-RdLeft" onClick="removeItem('inputCard16Promo')">-</button>
+
+										<input id="inputCard16Promo" type="number" min="1" class="w-25 text-center" value="1">
+
+										<button type="button" class="btn btn-sm btn-primary" onClick="addItem('inputCard16Promo')">+</button>
+										
+										<a href="#" class="btn btn-sm btn-success bd-RdRight">
+											<i class="fas fa-shopping-cart"></i>
+										</a>
+	
+									</div>
+								
+								</form>
+
+							</div>
+							
 						</div>
 
 					</div>
-
-					<!-- <div id="ProductsList" class="d-block mt-3"> 
-						
-						<div class="border row p-2">
-							
-							<div class="col-2 border text-center">
-
-								<img src="/resources/imgs/produtos/agua sg 510ml.jpeg" alt="Produto" class="img-thumbnail" style="width: 95px; height: 95px;">
-
-								<div class="card-img-overlay text-right">
-									<label class="text-white h6 bg-primary">
-										<b>&nbsp;-13%&nbsp;</b>
-									</label>
-								</div>
-
-							</div>
-
-							<div class="col-4 border">
-								
-								<p class="card-title font-weight-light text-uppercase text-dark card-text m-0">
-									<b>Agua Mineral Petropolis S/G</b>
-								</p>
-
-								<p class="btn-group btn-group-toggle m-0" data-toggle="buttons">
-
-									<label class="btn btn-light border btn-sm py-0 mr-1 rounded-pill card-BtnWeigth active" onClick="alterPriceItem('cardPromoPriceInt', 'cardPromoPriceDec', '3', '48')">
-										<input id="btnCardPromoWeigth" type="radio" value="1L" checked> 1L
-									</label>
-									
-								</p>
-
-							</div>
-
-							<div class="col-2 border">
-								
-								<b>												
-									<a id="cardPromoPrice" class="h6">
-										<s class="card-ColorPromoPrice">R$4,00</s>
-									</a>
-									R$<a id="cardPromoPriceInt" class="h3">3</a><a id="cardPromoPriceDec" class="h6">,48</a>	
-								</b>
-
-							</div>
-
-							<div class="col-4 border">
-
-								<div class="btn-group w-100">
-
-									<div class="btn-group w-100">
-										<button type="button" class="btn btn-primary bd-RdLeft" onClick="removeItem('inputCardSearch16')">-</button>
-									</div>
-
-										
-									<div class="btn-group w-100">
-										<input id="inputCardSearch16" type="number" min="1" class="w-100 text-center" value="1">
-									</div>
-
-										
-									<div class="btn-group w-100">
-											
-										<button type="button" class="btn btn-primary" onClick="addItem('inputCardSearch16')">+</button>
-										
-									</div>
-
-										
-									<div class="btn-group w-100">
-										<a href="#" class="btn btn-success bd-RdRight">
-											<i class="fas fa-shopping-cart"></i>
-										</a>
-									</div>
-
-								</div>
-
-							</div>
-
-						</div>
-						
-					</div> -->
 
 					<hr>
 
@@ -1408,42 +971,42 @@
 
 			</p>
 
-			<h6 class="mt-3">Marca</h6>
+			<p class="mt-3 h6">Marca</p>
 			<hr>
 
 			<div class="overflow-auto max-height">
-				
-				<form class="" method="POST">
 
-					<input type="checkbox" id="CheckMobMark" class="mt-2 ckbx-ini">
-					<label class="form-check-label h5 font-weight-normal" for="CheckMobMark">Marca #1</label><br>
-					
-					<input type="checkbox" id="CheckMobMark2" class="mt-2 ckbx-ini">
-					<label class="form-check-label h5 font-weight-normal" for="CheckMobMark2">Marca #2</label><br>
+				<p class="h6">
+					<a href="" class="font-weight-normal text-decoration-none text-secondary" >Marca #1</a>
+				</p>
 
-					<input type="checkbox" id="CheckMobMark3" class="mt-2 ckbx-ini">
-					<label class="form-check-label h5 font-weight-normal" for="CheckMobMark3">Marca #3</label><br>
+				<p class="my-2 h6">
+					<a href="" class="font-weight-normal text-decoration-none text-secondary" >Marca #2</a>
+				</p>
 
-					<input type="checkbox" id="CheckMobMark4" class="mt-2 ckbx-ini">
-					<label class="form-check-label h5 font-weight-normal" for="CheckMobMark4">Marca #4</label><br>
+				<p class="my-2 h6">
+					<a href="" class="font-weight-normal text-decoration-none text-secondary" >Marca #3</a>
+				</p>
 
-					<input type="checkbox" id="CheckMobMark5" class="mt-2 ckbx-ini">
-					<label class="form-check-label h5 font-weight-normal" for="CheckMobMark5">Marca #5</label><br>
+				<p class="my-2 h6">
+					<a href="" class="font-weight-normal text-decoration-none text-secondary" >Marca #4</a>
+				</p>
 
-					<input type="checkbox" id="CheckMobMark6" class="mt-2 ckbx-ini">
-					<label class="form-check-label h5 font-weight-normal" for="CheckMobMark6">Marca #6</label><br>
+				<p class="my-2 h6">
+					<a href="" class="font-weight-normal text-decoration-none text-secondary" >Marca #5</a>
+				</p>
 
-					<input type="checkbox" id="CheckMobMark7" class="mt-2 ckbx-ini">
-					<label class="form-check-label h5 font-weight-normal" for="CheckMobMark7">Marca #7</label><br>
+				<p class="my-2 h6">
+					<a href="" class="font-weight-normal text-decoration-none text-secondary" >Marca #6</a>
+				</p>
 
-					<input type="checkbox" id="CheckMobMark8" class="mt-2 ckbx-ini">
-					<label class="form-check-label h5 font-weight-normal" for="CheckMobMark8">Marca #8</label><br>
-			
-				</form>
+				<p class="my-2 h6">
+					<a href="" class="font-weight-normal text-decoration-none text-secondary" >Marca #7</a>
+				</p>
 				
 			</div>
 
-			<h6 class="mt-3">Preço</h6>
+			<p class="mt-3 h6">Preço</p>
 			<hr>
 
 			<form method="POST">
@@ -1453,7 +1016,7 @@
 					<input type="text" class="form-control text-center" value="100">
 				</div>
 
-				<div class="text-left mt-2">
+				<div class="text-left my-2">
 					<button type="button" class="btn btn-primary btn-sm px-3">Filtrar</button>
 				</div>
 			</form>
@@ -1480,9 +1043,9 @@
 				
 					<div class="modal-body">
 						
-						<h4 class="text-center">
+						<p class="text-center h4">
 							Seja bem vindo!
-						</h4>
+						</p>
 
 						<p>
 							Em qual das lojas você deseja acessar?
@@ -1521,9 +1084,9 @@
 				
 					<div class="modal-header border-bottom-0 pb-2">
 						
-						<h5 class="text-left">
+						<p class="text-left h5">
 							<i class="fas fa-truck"></i> Regiões Atendidas
-						</h5>
+						</p>
 
 						<button type="button" class="close btn btn-light p-2" data-dismiss="modal" aria-label="Close">
 							<i class="fas fa-times"></i>
@@ -1533,7 +1096,7 @@
 				
 					<div class="modal-body py-0">
 						
-						<h5 class="font-weight-normal">Loja 01</h5>
+						<p class="font-weight-normal h5">Loja 01</p>
 						<hr>
 
 						<ul class="txList-StyleNone text-left">

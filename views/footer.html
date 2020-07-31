@@ -1,13 +1,13 @@
-<footer id="Footer-RedesSociais" class="bg-primary mt-5">
+<footer id="Footer-RedesSociais" class="{$layout.footerBar} mt-5 NoPrintabled">
 		
     <div class="bcg-ini ct-center">
         
-        <div class="text-right text-light py-2">
+        <div class="text-right {$layout.footerText} py-2">
             <a class="font-weight-normal">Redes Sociais:</a>
-            <a href="https://www.instagram.com/" target="__blank" class="text-light h5"><i class="fab fa-instagram"></i></a>&nbsp;   
-            <a href="https://www.facebook.com/" target="__blank" class="text-light h5"><i class="fab fa-facebook-square"></i></a>&nbsp;  
-            <a href="https://www.twitter.com/" target="__blank" class="text-light h5"><i class="fab fa-twitter-square"></i></a>&nbsp; 
-            <a href="https://www.youtube.com/" target="__blank" class="text-light h5"><i class="fab fa-youtube"></i></a>  
+            <a href="https://www.instagram.com/" target="__blank" class="{$layout.footerText} h5"><i class="fab fa-instagram"></i></a>&nbsp;   
+            <a href="https://www.facebook.com/" target="__blank" class="{$layout.footerText} h5"><i class="fab fa-facebook-square"></i></a>&nbsp;  
+            <a href="https://www.twitter.com/" target="__blank" class="{$layout.footerText} h5"><i class="fab fa-twitter-square"></i></a>&nbsp; 
+            <a href="https://www.youtube.com/" target="__blank" class="{$layout.footerText} h5"><i class="fab fa-youtube"></i></a>  
         </div>
     
     </div>	
@@ -15,7 +15,7 @@
 </footer>
       
   
-<section id="FooterInfo" class="mt-5 ct-center mb-5">
+<section id="FooterInfo" class="mt-5 ct-center mb-5 NoPrintabled">
     
     <div class="ct-ini row">
         
@@ -171,7 +171,7 @@
                     
                     <input type="email" class="form-control" placeholder="Digite seu e-mail">
     
-                    <button type="button" class="btn btn-primary input-group-append">Enviar</button>
+                    <button type="button" class="btn {$layout.btn} input-group-append">Enviar</button>
 
                 </form>
 
@@ -198,12 +198,12 @@
   
 </section>
 
-<section class="bg-primary">
+<section class="{$layout.footerBar} NoPrintabled">
     
     <div class="ct-center">
         <div class="py-2">
 
-            <div class="row text-light">
+            <div class="row {$layout.footerText}">
 
                 <div class="col-7">
                     <a class="tx-footer"><b>© Astemac / 00.000.000/0000-00</b></a>
@@ -212,7 +212,7 @@
                 <div class="col-5">
                     <div class="text-right">
 
-                        <b class="tx-footer">Desenvolvido por: <a href="https://astemac.com.br" target="_blank" class="text-light h5">Astemac</a></b>
+                        <b class="tx-footer">Desenvolvido por: <a href="https://astemac.com.br" target="_blank" class="{$layout.footerText} h5">Astemac</a></b>
 
                     </div>
                 </div>
@@ -221,20 +221,23 @@
     </div>	
 </section>
 
-        
+{if="$buttons.wp === true"}        
 <div id="BtnWhatsapp" class="BtnsFloat ml-3 mb-5 text-left fixed-bottom null-height">
     <a class="bg-success h2 rounded px-1 shadow" href="https://api.whatsapp.com/send?phone=556796218853" target="_blank">
         <i class="fab fa-whatsapp text-white"></i>
     </a>
 </div>
+{/if}
 
+{if="$buttons.ct === true"}
 <div id="BtnCart" class="BtnsFloat mr-3 mb-5 text-right fixed-bottom null-height cart-BtnFloat">
-    <a class="bg-light h2 rounded px-1 shadow-sm" href='/loja-{$links.idStore}/{if="$login"}cart{else}login{/if}'>
+    <a class="bg-light h2 rounded px-1 shadow-sm" href='/loja-{$links.idStore}/{if="$login"}checkout/cart{else}login{/if}/'>
         <i class="fas fa-shopping-cart text-dark text-center tx-IconCart"></i>
-        <span class="h6 bg-primary text-white px-1 cart-IconCt">0</span>
+        <span class="h6 {$layout.footerBar} text-white px-1 cart-IconCt">0</span>
     </a>
     
 </div>
+{/if}
 
 {if="$buttons.ft === true"}
 <div id="BtnFilter" class="BtnsFloat text-left fixed-bottom null-height cart-BtnFloat top-25">

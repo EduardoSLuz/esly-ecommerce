@@ -2,7 +2,9 @@
 
 namespace Esly;
 
-use Rain\tpl;
+use Rain\Tpl;
+use Esly\DB\Temp;
+use Esly\DB\Sql;
 
 class Page {
 
@@ -11,10 +13,13 @@ class Page {
 	private $defaults = [
 		"header" => true,
 		"footer" => true,
-		"data"=>[]
+		"prime" => [
+			"type" => 1
+		]
 	];
 
-	public function __construct($opts = array(), $tpl_dir = "/views/"){
+	public function __construct($opts = array(), $tpl_dir = "/views/")
+	{
 		
 		$this->options = array_merge($this->defaults, $opts);
 
@@ -25,13 +30,22 @@ class Page {
 		 );
 
 		Tpl::configure( $config );
-	
+
+		if(!isset($_SESSION["DB"]))
+		{
+			Page::verifyPage();	
+		}
+
+		$this->options["data"]["layout"] = Page::layoutPage();
+
 		$this->tpl = new Tpl;
 
+		$this->setData($this->options["prime"]);
+		 
  		$this->setData($this->options["data"]);
 
 		if($this->options["header"] === true) $this->tpl->draw("header");
-	
+
 	}
 
 	private function setData($data = array())
@@ -48,9 +62,41 @@ class Page {
  		return $this->tpl->draw($name, $returnHTML);
 	}
 
-	public function __destruct(){
+	public function __destruct()
+	{
 		
 		if($this->options["footer"] === true) $this->tpl->draw("footer");
+
+	}
+
+	private static function verifyPage()
+	{
+		
+		$sql = new Temp;	
+
+		$results = $sql->select("SELECT db_name, db_user, db_pass FROM host WHERE host = :HOST", [
+			":HOST" => $_SERVER['HTTP_HOST']  
+		]);
+
+		$_SESSION["DB"] = $results[0];
+
+	}
+
+	private static function layoutPage(){
+
+		$layout = [];
+
+		$sql = new Sql($_SESSION["DB"]);
+
+		$results = $sql->select("SELECT desLayout, classLayout FROM layout", []);
+		
+		foreach ($results as $key => $value) {
+			
+			$layout[$value["desLayout"]] = $value["classLayout"];
+
+		}
+
+		return $layout;
 
 	}
 

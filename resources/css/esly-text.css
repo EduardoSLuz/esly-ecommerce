@@ -1,0 +1,115 @@
+/* Texts */
+.txList-StyleNone
+{
+	list-style-type:none;
+}
+
+.tx-09em
+{
+	font-size: 0.9em;
+}
+
+.tx-1em
+{
+	font-size: 1em;
+}
+
+.tx-1_5em
+{
+	font-size: 1.5em;
+}
+
+.tx-2em
+{
+	font-size: 2em;
+}
+
+.tx-footer
+{
+	font-size: 15px;
+}
+
+.tx-IconCart
+{
+	font-size: 0.8em;
+}
+
+.tx-SubMobile
+{
+	font-size: 1.1em;
+}
+
+/* Lines */
+.Line-2em
+{
+	line-height: 2em;
+}
+
+/* Fonts */
+@font-face 
+{ 
+	font-family: MyFont;
+    src: url("Play-Regular.ttf"); 
+}
+
+.MyFont 
+{
+	font-family: MyFont;
+}
+
+/*Medias só com min-width*/
+
+/* Size >=160% */
+@media (min-width: 0px)
+{ 
+	/* Texts */
+	.tx-footer
+	{ 
+		font-size: 9px;
+	}
+
+	.tx-Mobile, .tx-tableMobile
+	{ 
+		font-size: 0.8em;
+	}
+
+	.tx-title
+	{ 
+		font-size: 20px;
+		text-align: center;
+	}
+	
+	.tx-TitleMob
+	{ 
+		font-size: 1.3em;
+	}	
+
+}
+
+/* Size >= 130% e <= 150% */
+@media (min-width: 992px)
+{ 
+	
+ 	/* Texts */	
+	.tx-footer
+	{ 
+		font-size: 15px;
+	}
+
+	.tx-Mobile
+	{
+		font-size: 1em;
+	}
+
+	.tx-tableMobile
+	{ 
+		font-size: 1.1em;
+	}
+
+	.tx-TitleMob
+	{ 
+		font-size: 1.8em;
+	}	
+	
+}
+

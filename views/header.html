@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<meta property="og:url" content="https://{$Links.HTTP}" />
+	<meta property="og:url" content="https://{$links.HTTP}" />
   	<meta property="og:type" content="website" />
   	<meta property="og:title" content="Site Ecommerce" />
   	<meta property="og:description" content="Venha Conhecer" />
@@ -14,7 +14,7 @@
   	<meta property="og:image:width" content="150px" />
 	<meta property="fb:app_id" content="113869198637480" />
 
-    <title>Astemac | Loja {$links.idStore}</title>
+    <title>Astemac | Loja</title>
     
     <!-- Bootstrap -->   
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
@@ -26,19 +26,26 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
 	
 	<!-- JS DO GOOGLE RECAPTCHA -->
-	<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+	<script src="https://www.google.com/recaptcha/api.js"></script>
 	
 	<!--  Custom CSS  -->
-	<link href="/resources/css/index.css" rel="stylesheet">  
+	<link href="/resources/css/esly-area.css" rel="stylesheet">  
+	<link href="/resources/css/esly-carousel.css" rel="stylesheet">  
+	<link href="/resources/css/esly-containers.css" rel="stylesheet">  
+	<link href="/resources/css/esly-effect.css" rel="stylesheet">  
+	<link href="/resources/css/esly-form.css" rel="stylesheet">  
+	<link href="/resources/css/esly-text.css" rel="stylesheet">  
  	<link rel="stylesheet" href="/resources/css/bootnavbar.css">
 	<link rel="stylesheet" href="/resources/css/owl.carousel.min.css">
 	<link rel="stylesheet" href="/resources/css/owl.theme.default.min.css">  
-    <link rel="stylesheet" href="/resources/css/sidenav.css">  
+	<link rel="stylesheet" href="/resources/css/sidenav.css"> 
 	  
   </head>
-  <body>
-	  
-	<section class="bg-primary bar-display">
+  <body class="{$layout.background}">
+	
+	{if="$type === 1"}
+
+	<section class="{$layout.navbar} bar-display">
 		
 		<div class="bcg-ini ct-center">
 		
@@ -64,6 +71,7 @@
 								<a class="text-white cursorPointer" data-toggle="modal" data-target="#ModalConsultationHorary"><i class="far fa-clock"></i> Horários</a> &nbsp;
 								<a href="/loja-{$links.idStore}/our-stores/" class="text-white"><i class="fas fa-map-marker-alt"></i> Todas as lojas</a> &nbsp;
 								<a class="text-white cursorPointer"><i class="fas fa-mobile-alt"></i> (67) 98765-4321</a>
+								{if="$login"}<a href="/loja-{$links.idStore}/logout/" class="text-white"><i class="fas fa-sign-out-alt"></i> Sair</a>{/if}
 							</small></span>
 
 						</div>
@@ -76,9 +84,9 @@
 		
 		</div>
 	
-	  </section>
+	</section>
 	  
-	<section id="Navbar-Desktop" class="bg-primary sticky-top navbar-ini">
+	<section id="Navbar-Desktop" class="{$layout.navbar} sticky-top navbar-ini">
 		
 		<div class="bcg-ini ct-center navbar-prime">
 			<nav class="navbar navbar-expand-lg navbar-light ct-ini">
@@ -88,15 +96,15 @@
 				</a>
 
 				<div class="nav-item border-0 navbar-display my-0">
-					<button type="button" class="btn btn-sm btn-primary text-white border-0" onclick="ShowHideBarMobile()" data-toggle="collapse" data-target="#BarMobile" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+					<button type="button" class="btn btn-sm {$layout.btn} text-white border-0" onclick="ShowHideBarMobile()" data-toggle="collapse" data-target="#BarMobile" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
 						<i id="MenuMobile" class="fas fa-bars"></i><br>
 						<small>Menu</small>
 					</button>
-					<button type="button" class="btn btn-sm btn-primary text-white border-0" onclick="AlterNavbar('Navbar-Desktop', 'NavbarMobile-Pesquisa')">
+					<button type="button" class="btn btn-sm {$layout.btn} text-white border-0" onclick="AlterNavbar('Navbar-Desktop', 'NavbarMobile-Pesquisa')">
 						<i class="fas fa-search"></i><br>
 						<small>Buscar</small>
 					</button>
-					<button type="button" class="btn btn-sm btn-primary text-white border-0" data-toggle="modal" data-target="#ModalAlterStores">
+					<button type="button" class="btn btn-sm {$layout.btn} text-white border-0" data-toggle="modal" data-target="#ModalAlterStores">
 						<i class="fas fa-store"></i><br>
 						<small>Lojas</small>
 					</button>
@@ -112,11 +120,11 @@
 
 								<div class="input-group-prepend">
 									<button type="button" class="bg-white null-bd" id="Btn-Audio">
-										<a href="#"><i class="fas fa-microphone text-primary"></i></a>
+										<a href="#"><i class="fas fa-microphone {$layout.text}"></i></a>
 									</button>
 
 									<button type="submit" class="ml-1 bg-white null-bd" id="Btn-Search">
-										<i class="fas fa-search text-primary"></i>
+										<i class="fas fa-search {$layout.text}"></i>
 									</button>&nbsp;&nbsp;
 									
 								</div>
@@ -124,13 +132,13 @@
 						</li>
 
 						<a class="cursorPointer">
-							<button class="nav-item ml-3 text-center text-light btn btn-primary" data-toggle="modal" data-target="#ModalAlterStores">
+							<button class="nav-item ml-3 text-center text-light btn {$layout.btn}" data-toggle="modal" data-target="#ModalAlterStores">
 								<i class="fas fa-store"></i><br>
 								<small>Lojas</small>					
 							</button>
 						</a>
 						<a href='/loja-{$links.idStore}/{if="$login"}account/requests{else}login{/if}/'>
-							<button class="nav-item text-center text-light btn btn-primary">
+							<button class="nav-item text-center text-light btn {$layout.btn}">
 								<i class="far fa-user"></i><br>
 								<small>Conta</small>						
 							</button>
@@ -186,13 +194,13 @@
 									</div>
 									
 									<div class="text-center">
-										<a href="/loja-{$links.idStore}/cart/" class="btn btn-sm btn-primary w-100">Ver Carrinho</a>
+										<a href="/loja-{$links.idStore}/checkout/cart/" class="btn btn-sm {$layout.btn} w-100">Ver Carrinho</a>
 									</div>
 								</div>
 
 							{/if}
 						'>
-							<button class="nav-item text-center text-light btn btn-primary">
+							<button class="nav-item text-center text-light btn {$layout.btn}">
 								<i class="fas fa-shopping-cart"></i>	
 								<br><small><b>{if="$login"}6{else}0{/if}</b></small>						
 							</button>
@@ -208,7 +216,7 @@
 	
 	 </section>
 
-	 <section id="NavbarMobile-Pesquisa" class="bg-primary display-None">
+	<section id="NavbarMobile-Pesquisa" class="{$layout.navbar} display-None">
 			
 		<nav class="navbar navbar-expand-lg navbar-light">
 					
@@ -220,26 +228,26 @@
 
 						<div class="input-group-prepend">
 							<button type="button" class="bg-white null-bd" id="Btn-AudioMob">
-								<a href="#"><i class="fas fa-microphone text-primary"></i></a>
+								<a href="#"><i class="fas fa-microphone {$layout.text}"></i></a>
 							</button>
 
 							<button type="submit" class="ml-1 bg-white null-bd" id="Btn-SearchMob">
-								<i class="fas fa-search text-primary"></i>
+								<i class="fas fa-search {$layout.text}"></i>
 							</button>&nbsp;&nbsp;
 							
 						</div>
 
 					</form>
 
-					<button type="button" class="btn btn-primary bd-RdNull" onclick="AlterNavbar('NavbarMobile-Pesquisa', 'Navbar-Desktop')">Voltar</button>
+					<button type="button" class="btn {$layout.btn} bd-RdNull" onclick="AlterNavbar('NavbarMobile-Pesquisa', 'Navbar-Desktop')">Voltar</button>
 
 				</div>
 			
 			</nav>
 
-	 </section>
+	</section>
 
-	 <section id="BarMobile" class="bg-white collapse display-None">
+	<section id="BarMobile" class="bg-white collapse display-None">
 		
 		<div class="bcg-ini btn-group navbar-displayNone width-T100">
 			
@@ -258,10 +266,17 @@
 				<small>Horários</small>
 			</button>
 
-			<a href="/loja-{$links.idStore}/login/" class="btn btn-outline-primary border-0 bd-RdNull py-2">
+			<a href='{if="$login"}/loja-{$links.idStore}/account/requests/{else}/loja-{$links.idStore}/login/{/if}' class="btn btn-outline-primary border-0 bd-RdNull py-2">
 				<i class="far fa-user"></i><br>
-				<small>Entrar</small>
+				<small>{if="$login"}User{else}Entrar{/if}</small>
 			</a>
+
+			{if="$login"}
+				<a href="/loja-{$links.idStore}/logout/" class="btn btn-outline-primary border-0 bd-RdNull py-2">
+					<i class="fas fa-sign-out-alt"></i><br>
+					<small>Sair</small>
+				</a>
+			{/if}
 			
 		</div>
 
@@ -272,7 +287,7 @@
 			</a>
 
 			<div class="btn-group w-100">
-				<a href="/loja-{$links.idStore}/search" id="BarLimpeza" class="btn border border-top-0 border-left-0 border-right-0 bd-RdNull w-100 text-left py-SubMobile">
+				<a href="/loja-{$links.idStore}/search/" id="BarLimpeza" class="btn border border-top-0 border-left-0 border-right-0 bd-RdNull w-100 text-left py-SubMobile">
 					<b class="font-weight-normal mx-2 tx-SubMobile text-dark">Limpeza</b>
 				</a>
 				<button type="button" class="btn border border-top-0 bd-RdNull" data-toggle="collapse" data-target="#SubBarLimpeza" aria-expanded="false" aria-controls="SubBarLimpeza" onclick="ShowHideSubBarMobile('SubBarLimpeza', 'SubMenuLimpeza')">
@@ -282,22 +297,22 @@
 
 			<div id="SubBarLimpeza" class="collapse bg-light">
 				
-				<a href="/loja-{$links.idStore}/search" class="btn border border-top-0 border-left-0 border-right-0 bd-RdNull w-100 text-left py-SubMobile">
+				<a href="/loja-{$links.idStore}/search/?s=produto" class="btn border border-top-0 border-left-0 border-right-0 bd-RdNull w-100 text-left py-SubMobile">
 					<b class="font-weight-normal mx-2 tx-SubMobile text-dark">Produto #1</b>
 				</a>
 
-				<a href="/loja-{$links.idStore}/search" class="btn border border-top-0 border-left-0 border-right-0 bd-RdNull w-100 text-left py-SubMobile">
+				<a href="/loja-{$links.idStore}/search/?s=produto" class="btn border border-top-0 border-left-0 border-right-0 bd-RdNull w-100 text-left py-SubMobile">
 					<b class="font-weight-normal mx-2 tx-SubMobile text-dark">Produto #2</b>
 				</a>
 				
-				<a href="/loja-{$links.idStore}/search" class="btn border border-top-0 border-left-0 border-right-0 bd-RdNull w-100 text-left py-SubMobile">
+				<a href="/loja-{$links.idStore}/search/?s=produto" class="btn border border-top-0 border-left-0 border-right-0 bd-RdNull w-100 text-left py-SubMobile">
 					<b class="font-weight-normal mx-2 tx-SubMobile text-dark">Produto #3</b>
 				</a>
 				
 			</div>
 
 			<div class="btn-group w-100">
-				<a href="/loja-{$links.idStore}/search" id="BarOtsDep" class="btn border border-top-0 border-left-0 border-right-0 bd-RdNull w-100 text-left py-SubMobile">
+				<a href="/loja-{$links.idStore}/search/" id="BarOtsDep" class="btn border border-top-0 border-left-0 border-right-0 bd-RdNull w-100 text-left py-SubMobile">
 					<b class="font-weight-normal mx-2 tx-SubMobile text-dark">Outros Departamentos</b>
 				</a>
 				<button type="button" class="btn border border-top-0 bd-RdNull" data-toggle="collapse" data-target="#SubBarOtsDep" aria-expanded="false" aria-controls="SubBarOtsDep" onclick="ShowHideSubBarMobile('SubBarOtsDep', 'SubMenuOtsDep')">
@@ -307,15 +322,15 @@
 
 			<div id="SubBarOtsDep" class="collapse bg-light">
 				
-				<a href="/loja-{$links.idStore}/search" class="btn border border-top-0 border-left-0 border-right-0 bd-RdNull w-100 text-left py-SubMobile">
+				<a href="/loja-{$links.idStore}/search/?s=produto" class="btn border border-top-0 border-left-0 border-right-0 bd-RdNull w-100 text-left py-SubMobile">
 					<b class="font-weight-normal mx-2 tx-SubMobile text-dark">Produto #1</b>
 				</a>
 
-				<a href="/loja-{$links.idStore}/search" class="btn border border-top-0 border-left-0 border-right-0 bd-RdNull w-100 text-left py-SubMobile">
+				<a href="/loja-{$links.idStore}/search/?s=produto" class="btn border border-top-0 border-left-0 border-right-0 bd-RdNull w-100 text-left py-SubMobile">
 					<b class="font-weight-normal mx-2 tx-SubMobile text-dark">Produto #2</b>
 				</a>
 				
-				<a href="/loja-{$links.idStore}/search" class="btn border border-top-0 border-left-0 border-right-0 bd-RdNull w-100 text-left py-SubMobile">
+				<a href="/loja-{$links.idStore}/search/?s=produto" class="btn border border-top-0 border-left-0 border-right-0 bd-RdNull w-100 text-left py-SubMobile">
 					<b class="font-weight-normal mx-2 tx-SubMobile text-dark">Produto #3</b>
 				</a>
 				
@@ -324,9 +339,9 @@
 			
 		</div>
 	
-	 </section>
+	</section>
 	 
-	  <div class="bg-primary bar-display">
+	<section class="{$layout.navbar} bar-display">
 		  
 		  <div class="ct-center">
 			  <nav class="navbar navbar-expand-sm navbar-light bcg-ini ct-ini" id="main_navbar">
@@ -337,35 +352,35 @@
 
 						<li class="nav-item dropdown btn btn-light btn-sm rounded-pill p-0 my-auto">
 
-						  <a class="nav-link text-primary align-top" href="/loja-{$links.idStore}/departaments" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						  <a class="nav-link {$layout.text} align-top" href="/loja-{$links.idStore}/departaments" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 								 <i class="fas fa-bars"></i> Departamentos
 						  </a>
 
 						  <ul class="dropdown-menu rounded ml-3" aria-labelledby="navbarDropdown">
 
 								<li class="nav-item dropdown">
-									<a class="dropdown-item text-decoration-none" href="/loja-{$links.idStore}/search" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									<a class="dropdown-item text-decoration-none" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="window.location.assign('/loja-{$links.idStore}/search/')">
 										Limpeza
 									</a>
 
 									<!-- WARNING: STYLE CANNOT BE REMOVED, STYLE OF UTMOST IMPORTANCE -->
 									<ul class="dropdown-menu row DropDownIni-Menu" aria-labelledby="navbarDropdown1" style="top: -30%;"> 
 
-										<a class="ml-3 h5" href="/loja-{$links.idStore}/search"><b>Limpeza</b></a>
+										<a class="ml-3 h5" href="/loja-{$links.idStore}/search/"><b>Limpeza</b></a>
 
 										<div class="ml-2 d-flex flex-row">
 
 											<div class="p-2">
-												<a href="/loja-{$links.idStore}/search" class="Line-2em">Item #1</a><br>
-												<a href="/loja-{$links.idStore}/search" class="Line-2em">Item #2</a><br>
-												<a href="/loja-{$links.idStore}/search" class="Line-2em">Item #3</a><br>
-												<a href="/loja-{$links.idStore}/search" class="Line-2em">Item #4</a><br>
-												<a href="/loja-{$links.idStore}/search" class="Line-2em">Item #5</a><br>
-												<a href="/loja-{$links.idStore}/search" class="Line-2em">Item #6</a><br>
-												<a href="/loja-{$links.idStore}/search" class="Line-2em">Item #7</a><br>
-												<a href="/loja-{$links.idStore}/search" class="Line-2em">Item #8</a><br>
-												<a href="/loja-{$links.idStore}/search" class="Line-2em">Item #9</a><br>
-												<a href="/loja-{$links.idStore}/search" class="Line-2em">Item #10</a>
+												<a href="/loja-{$links.idStore}/search/?s=produto" class="Line-2em">Item #1</a><br>
+												<a href="/loja-{$links.idStore}/search/?s=produto" class="Line-2em">Item #2</a><br>
+												<a href="/loja-{$links.idStore}/search/?s=produto" class="Line-2em">Item #3</a><br>
+												<a href="/loja-{$links.idStore}/search/?s=produto" class="Line-2em">Item #4</a><br>
+												<a href="/loja-{$links.idStore}/search/?s=produto" class="Line-2em">Item #5</a><br>
+												<a href="/loja-{$links.idStore}/search/?s=produto" class="Line-2em">Item #6</a><br>
+												<a href="/loja-{$links.idStore}/search/?s=produto" class="Line-2em">Item #7</a><br>
+												<a href="/loja-{$links.idStore}/search/?s=produto" class="Line-2em">Item #8</a><br>
+												<a href="/loja-{$links.idStore}/search/?s=produto" class="Line-2em">Item #9</a><br>
+												<a href="/loja-{$links.idStore}/search/?s=produto" class="Line-2em">Item #10</a>
 											</div>
 
 										</div>
@@ -375,28 +390,59 @@
 								</li>
 
 								<li class="nav-item dropdown">
-									<a class="dropdown-item text-decoration-none" href="/loja-{$links.idStore}/search" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									<a class="dropdown-item text-decoration-none" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="window.location.assign('/loja-{$links.idStore}/search/')">
 										Bebidas
 									</a>
 
 									<!-- WARNING: STYLE CANNOT BE REMOVED, STYLE OF UTMOST IMPORTANCE -->
 									<ul class="dropdown-menu row DropDownIni-Menu" style="top: -130%" aria-labelledby="navbarDropdown1"> 
 
-										<a class="ml-3 h5" href="/loja-{$links.idStore}/search"><b>Bebidas</b></a>
+										<a class="ml-3 h5" href="/loja-{$links.idStore}/search/"><b>Bebidas</b></a>
 
 										<div class="ml-2 d-flex flex-row">
 
 											<div class="p-2">
-												<a href="/loja-{$links.idStore}/search" class="Line-2em">Item #1</a><br>
-												<a href="/loja-{$links.idStore}/search" class="Line-2em">Item #2</a><br>
-												<a href="/loja-{$links.idStore}/search" class="Line-2em">Item #3</a><br>
-												<a href="/loja-{$links.idStore}/search" class="Line-2em">Item #4</a><br>
-												<a href="/loja-{$links.idStore}/search" class="Line-2em">Item #5</a><br>
-												<a href="/loja-{$links.idStore}/search" class="Line-2em">Item #6</a><br>
-												<a href="/loja-{$links.idStore}/search" class="Line-2em">Item #7</a><br>
-												<a href="/loja-{$links.idStore}/search" class="Line-2em">Item #8</a><br>
-												<a href="/loja-{$links.idStore}/search" class="Line-2em">Item #9</a><br>
-												<a href="/loja-{$links.idStore}/search" class="Line-2em">Item #10</a>
+												<a href="/loja-{$links.idStore}/search/?s=produto" class="Line-2em">Item #1</a><br>
+												<a href="/loja-{$links.idStore}/search/?s=produto" class="Line-2em">Item #2</a><br>
+												<a href="/loja-{$links.idStore}/search/?s=produto" class="Line-2em">Item #3</a><br>
+												<a href="/loja-{$links.idStore}/search/?s=produto" class="Line-2em">Item #4</a><br>
+												<a href="/loja-{$links.idStore}/search/?s=produto" class="Line-2em">Item #5</a><br>
+												<a href="/loja-{$links.idStore}/search/?s=produto" class="Line-2em">Item #6</a><br>
+												<a href="/loja-{$links.idStore}/search/?s=produto" class="Line-2em">Item #7</a><br>
+												<a href="/loja-{$links.idStore}/search/?s=produto" class="Line-2em">Item #8</a><br>
+												<a href="/loja-{$links.idStore}/search/?s=produto" class="Line-2em">Item #9</a><br>
+												<a href="/loja-{$links.idStore}/search/?s=produto" class="Line-2em">Item #10</a>
+											</div>
+
+										</div>
+
+									</ul>
+
+								</li>
+
+								<li class="nav-item dropdown">
+									<a class="dropdown-item text-decoration-none" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="window.location.assign('/loja-{$links.idStore}/departaments/')">
+										Mais Departamentos
+									</a>
+
+									<!-- WARNING: STYLE CANNOT BE REMOVED, STYLE OF UTMOST IMPORTANCE -->
+									<ul class="dropdown-menu row DropDownIni-Menu" style="top: -230%" aria-labelledby="navbarDropdown1"> 
+
+										<a class="ml-3 h5" href="/loja-{$links.idStore}/departaments/"><b>Mais Departamentos</b></a>
+
+										<div class="ml-2 d-flex flex-row">
+
+											<div class="p-2">
+												<a href="/loja-{$links.idStore}/search/?s=produto" class="Line-2em">Item #1</a><br>
+												<a href="/loja-{$links.idStore}/search/?s=produto" class="Line-2em">Item #2</a><br>
+												<a href="/loja-{$links.idStore}/search/?s=produto" class="Line-2em">Item #3</a><br>
+												<a href="/loja-{$links.idStore}/search/?s=produto" class="Line-2em">Item #4</a><br>
+												<a href="/loja-{$links.idStore}/search/?s=produto" class="Line-2em">Item #5</a><br>
+												<a href="/loja-{$links.idStore}/search/?s=produto" class="Line-2em">Item #6</a><br>
+												<a href="/loja-{$links.idStore}/search/?s=produto" class="Line-2em">Item #7</a><br>
+												<a href="/loja-{$links.idStore}/search/?s=produto" class="Line-2em">Item #8</a><br>
+												<a href="/loja-{$links.idStore}/search/?s=produto" class="Line-2em">Item #9</a><br>
+												<a href="/loja-{$links.idStore}/departaments/" class="Line-2em">Ver Todos</a>
 											</div>
 
 										</div>
@@ -411,13 +457,13 @@
 
 						<li class="nav-item text-break">
 
-							<a class="btn btn-primary rounded-pill px-btn text-light" href="#">Bebidas</a>
-							<a class="btn btn-primary rounded-pill px-btn text-light" href="#">Promoções</a>
-							<a class="btn btn-primary rounded-pill px-btn text-light" href="#">Cupons</a>
-							<a class="btn btn-primary rounded-pill px-btn text-light" href="#">Churrasco</a>
-							<a class="btn btn-primary rounded-pill px-btn text-light" href="#">Dúvidas</a>
-							<a class="btn btn-primary rounded-pill px-btn text-light" href="#">Cervejas</a>
-							<a class="btn btn-primary rounded-pill px-btn text-light" href="#">Frutas</a>
+							<a class="btn {$layout.btn} rounded-pill px-btn text-light" href="/loja-{$links.idStore}/departaments/">Bebidas</a>
+							<a class="btn {$layout.btn} rounded-pill px-btn text-light" href="/loja-{$links.idStore}/promotions/">Promoções</a>
+							<a class="btn {$layout.btn} rounded-pill px-btn text-light" href="/loja-{$links.idStore}/promotions/">Cupons</a>
+							<a class="btn {$layout.btn} rounded-pill px-btn text-light" href="/loja-{$links.idStore}/departaments/">Churrasco</a>
+							<a class="btn {$layout.btn} rounded-pill px-btn text-light" href="/loja-{$links.idStore}/help/">Dúvidas</a>
+							<a class="btn {$layout.btn} rounded-pill px-btn text-light" href="/loja-{$links.idStore}/departaments/">Cervejas</a>
+							<a class="btn {$layout.btn} rounded-pill px-btn text-light" href="/loja-{$links.idStore}/departaments/">Frutas</a>
 
 						</li>
 
@@ -427,4 +473,46 @@
 				</div>
 			</nav>
 	  	</div>  
-	</div>
+	</section>
+	
+	{else}
+
+	<section class="bg-white sticky-top">
+		
+		<div class="abs-center-x bcg-ini">
+
+			<nav class="navbar navbar-expand-lg sticky-top bar-ini">
+
+				<a href="/" class="navbar-brand {$layout.text} abs-center-x">
+					<img src="/resources/imgs/logos/logo.png" alt="Logo Astemac" width="240px" height="66px" class="img-fluid">
+				</a>
+				
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="{$layout.text}"><i class="fas fa-bars"></i></span>
+				</button>
+
+				<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				
+					<ul class="navbar-nav mr-auto"> </ul>
+
+					<form class="form-inline my-2 my-lg-0">
+
+						<ul class="navbar-nav mr-auto">
+					
+							<li class="nav-item">
+								<a class="nav-link {$layout.text}" href="#"><i class="fas fa-user"></i></a>
+							</li>
+						
+						</ul>	
+				
+					</form>
+			
+				</div>
+		
+			</nav>
+	
+		</div>
+	
+	</section>	
+
+	{/if}

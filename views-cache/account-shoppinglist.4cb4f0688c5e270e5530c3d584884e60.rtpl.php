@@ -30,7 +30,7 @@
 
 				<div class="col-md">
 					
-					<p class="h5 font-weight-normal">Listas de compras</p>
+					<p class="h4 font-weight-normal">Listas de compras</p>
 
 					<div class="mt-3 table-responsive">
 						<table class="table table-sm table-hover">
