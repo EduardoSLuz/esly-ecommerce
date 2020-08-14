@@ -3,6 +3,8 @@
 namespace Esly;
 
 use Rain\Tpl;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
 
 class Mailer {
 	
@@ -31,7 +33,7 @@ class Mailer {
 
 		$html = $tpl->draw($tplName, true);
 
-		$this->mail = new \PHPMailer;
+		$this->mail = new PHPMailer;
 
 		//Tell PHPMailer to use SMTP
 		$this->mail->isSMTP();
@@ -40,7 +42,7 @@ class Mailer {
 		// 0 = off (for production use)
 		// 1 = client messages
 		// 2 = client and server messages
-		$this->mail->SMTPDebug = 2;
+		$this->mail->SMTPDebug = 0;
 
 		//Ask for HTML-friendly debug output
 		$this->mail->Debugoutput = 'html';

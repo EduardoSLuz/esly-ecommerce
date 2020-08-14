@@ -48,6 +48,24 @@ class Model {
 
 	}
 
+	public static function decryptCPF($code)
+	{
+
+		$code = substr($code, 0, 3).substr($code, 4, 3).substr($code, 8, 3).substr($code, 12);
+
+		return $code;
+
+	}
+
+	public static function decryptTel($code)
+	{
+
+		$code = substr($code, 1, 2).substr($code, 5, 5).substr($code, 11);
+
+		return $code;
+
+	}
+
 }
 
 ?>

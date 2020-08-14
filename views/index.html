@@ -4,16 +4,20 @@
 				<div>
 					
 					<br><br><br>
-					<p class="{$layout.text} h3 tx-2em">INFORME SUA<br>
-					<label class="{$layout.text} tx-2em">CIDADE <i class="fas fa-map-marker-alt"></i></label></p>
-					<select id="selectStores" class="custom-select custom-select-lg slt-customLg text-capitalize bg-light border">
-						<option value="0">Todas cidades</option>
-						{loop="$cityStore"}
-							<option value="{$value.idStoreAddress}">{$value.cityStoreAddress} - {$value.stateStoreAddress}</option>
+					<p class="{$layout.txLayout} h3 tx-2em">INFORME SUA<br>
+					<label class=" tx-2em">CIDADE <i class="fas fa-map-marker-alt"></i></label></p>
+					<select id="selectStores" class="custom-select custom-select-lg slt-customLg bg-light border">
+						<option value="0">Todas Cidades</option>
+						{loop="$state"}
+						<optgroup label="{$value.nameState}">
+							{loop="$value.city"}
+							<option value="{$value.idCity}">{$value.nameCity}</option>
+							{/loop}
+						</optgroup>
 						{/loop}
 						
 					</select><br>
-					<input type="button" class="btn {$layout.btn} btn-lg mt-2 mb-5 ipt-customLg" value="Encontrar lojas" onclick="alterStores('selectStores')">
+					<input type="button" class="btn {$layout.btnLayout} btn-lg mt-2 mb-5 ipt-customLg" value="Encontrar lojas" onclick="alterStores('selectStores')">
 				
 				</div>
 			</div>
@@ -27,9 +31,9 @@
 
 			<div class="card-deck row">
 				
-				{loop="$stores"}
+				{loop="$store"}
 					
-				<div class="col-md-4 addressStore{$value.idStoreAddress} allStores">
+				<div class="col-md-4 addressStore{$value.idCity} allStores">
 
 					<div class="mt-4 card">
 
@@ -40,16 +44,17 @@
 						<div class="card-body">
 								<p class="card-title h4 font-weight-normal">Loja {$value.store}</p>
 								<p class="card-text text-secondary">
-									<i class="fas fa-map-marker-alt"></i> 
-									{$value.streetStore}, {$value.numberStore} - {$value.districtStore}, {$value.cityStoreAddress} - {$value.stateStoreAddress}, {function="maskCep($value.cepStore)"}
+									<a href="https://www.google.com/maps/place/{$value.streetStore}, {$value.numberStore} - {$value.districtStore}, {$value.nameCity} - {$value.nickState}, {$value.cepStore}/" class="text-decoration-none text-secondary" target="_blank"><i class="fas fa-map-marker-alt"></i> 
+									{$value.streetStore}, {$value.numberStore} - {$value.districtStore}, {$value.nameCity} - {$value.nickState}, {function="maskCep($value.cepStore)"}
+									</a>
 									<br>							
-									<i class="fas fa-mobile-alt"></i> {function="maskTel($value.telephoneStore)"} <br>
-									<i class="far fa-envelope"></i> {$value.emailStore} <br>
-									<i class="fab fa-whatsapp"></i> {function="maskTel($value.whatsappStore)"}
+									<i class="fas fa-mobile-alt"></i> {if="$value.telephoneStore != 0"} {function="maskTel($value.telephoneStore)"} {else} <b>Sem Telefone</b> {/if} <br>
+									<i class="far fa-envelope"></i> {if="$value.emailStore != ''"} {$value.emailStore} {else} <b>Sem e-mail</b> {/if} <br>
+									<i class="fab fa-whatsapp"></i> {if="$value.whatsappStore != 0"} {function="maskTel($value.whatsappStore)"} {else} <b>Sem whatsapp</b> {/if}
 								</p>
 							</div>
 							<div class="card-footer text-center">
-								<a href="/loja-{$value.store}/" class="btn {$layout.btn} shadow-Btn">Acessar loja</a>
+								<a href="/loja-{$value.store}/" class="btn {$layout.btnLayout} shadow-Btn">Acessar loja</a>
 							</div>
 					</div>
 				</div>	
@@ -58,142 +63,3 @@
 			</div>
 		</div>	
 	</section>
-
-	<footer id="Footer-RedesSociais" class="{$layout.footerBar} mt-5">
-		
-		{if="$socialStore.instagramStore != '' || $socialStore.facebookStore != '' || $socialStore.twitterStore != '' || $socialStore.youtubeStore != ''"}
-		<div class="bcg-ini ct-center">
-			
-			<div class="text-right {$layout.footerText} py-2">
-				<a class="font-weight-normal">Redes Sociais:</a>
-				{if="$socialStore.instagramStore != ''"}
-				<a href="{$socialStore.instagramStore}" target="__blank" class="{$layout.footerText} h5"><i class="fab fa-instagram"></i></a>&nbsp;   
-				{/if}
-				
-				{if="$socialStore.facebookStore != ''"}
-				<a href="{$socialStore.facebookStore}" target="__blank" class="{$layout.footerText} h5"><i class="fab fa-facebook-square"></i></a>&nbsp;  
-				{/if}
-
-				{if="$socialStore.twitterStore != ''"}
-				<a href="{$socialStore.twitterStore}" target="__blank" class="{$layout.footerText} h5"><i class="fab fa-twitter-square"></i></a>&nbsp; 
-				{/if}
-
-				{if="$socialStore.youtubeStore != ''"}
-				<a href="{$socialStore.youtubeStore}" target="__blank" class="{$layout.footerText} h5"><i class="fab fa-youtube"></i></a>  
-				{/if}
-			</div>
-		
-		</div>
-		{else}
-			<div class="bcg-ini ct-center">
-				<div class="text-right {$layout.footerText} py-2">
-					<span class="font-weight-normal h5">Redes Sociais</span>
-				</div>
-			</div>
-		{/if}
-
-	</footer>
-	  
-	<section id="FooterInfo" class="mt-5 ct-center mb-5">
-		
-		<div class="ct-ini row">
-			
-			<div class="col-md-4 mt-mob">
-				
-				<p class="h6">Suporte</p>
-				<hr>
-				<p class="h6 font-weight-normal my-3">
-					<i class="fas fa-phone-alt"></i> (67) 9876-5432
-				</p>
-
-				<p class="h6 font-weight-normal my-3">
-					<i class="fab fa-whatsapp"></i> (67) 98765-4321
-				</p>
-
-				<p class="h6 font-weight-normal my-3">
-					<i class="far fa-envelope"></i> Suporte@astemacms.com.br
-				</p>
-			
-			</div>
-			
-			
-			<div class="col-md-4 mt-mob">
-				
-				<p class="h6">Site Seguro</p>
-				<hr>
-				
-				<p>
-				
-					<div class="row ml-1">
-						
-						<img src="/resources/imgs/cards-security/google_security.png" alt="Google_Security" class="ml-3" data-toggle="popover" data-placement="top" data-trigger="hover" data-html="true" data-content="Google" width="150" height="50">
-						
-						<img src="/resources/imgs/cards-security/Certising.png" alt="Certising" class="ml-3" data-toggle="popover" data-placement="top" data-trigger="hover" data-html="true" data-content="Certising" width="100" height="50">
-						
-					</div>
-					
-				</p>
-				
-			</div>
-
-			<div class="col-md-4 mt-mob">
-				
-				<p class="h6">Baixe Nosso App</p>
-				<hr>
-				
-				<p>
-				
-					<div class="row ml-1">
-						
-						<a class="btn btn-light border" target="_blank" href="https://play.google.com">
-							<i class="fab fa-google-play"></i>
-							<span class="h6">Play Store</span>
-						</a>
-						
-					</div>
-					
-				</p>
-				
-			</div>
-		
-		</div>
-	  
-	</section>
-
-	<section class="{$layout.footerBar}">
-		
-		<div class="ct-center">
-			<div class="py-2">
-
-				<div class="row {$layout.footerText}">
-
-					<div class="col-7">
-						<a class="tx-footer"><b>© {$socialStore.nameStore} - {function="maskCnpj($socialStore.cnpjStore)"}</b></a>
-					</div>
-
-					<div class="col-5">
-						<div class="text-right">
-
-							<b class="tx-footer">Desenvolvido por: <a href="https://astemac.com.br" target="_blank" class="text-light h5">Astemac</a></b>
-
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>	
-	</section>
-    
-	<!-- Bootstrap - Include all compiled plugins (below), or include individual files as needed -->
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-	  
-	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>  
-	  
-	<!-- Bootstrap - jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-	
-	<!-- Custom Javascripts -->
-	<script src="/resources/js/index.js"></script>
-	  
-  </body>
-</html>
-	

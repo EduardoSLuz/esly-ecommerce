@@ -3,8 +3,8 @@
 		<div class="ct-ini mt-mobNavbar">
 			
 			<nav aria-label="breadcrumb" class="bar-display">
-				<ol class="breadcrumb bg-white">
-				  <li class="breadcrumb-item"><a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/">Home</a></li>
+				<ol class="breadcrumb <?php echo htmlspecialchars( $layout["bgLayout"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
+				  <li class="breadcrumb-item"><a href="/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/">Home</a></li>
 				  <li class="breadcrumb-item active" aria-current="page">Parceiros</li>
 				</ol>
 			</nav>
@@ -13,15 +13,7 @@
 
 				<div class="col-md-3 bar-display">
 					
-					<div class="list-group">
-						<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/info/" class="list-group-item list-group-item-action">Sobre a empresa</a>
-						<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/our-stores/" class="list-group-item list-group-item-action">Nossas Lojas</a>
-						<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/partners/" class="list-group-item list-group-item-action list-group-item-primary active">Parceiros</a>
-						<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/help/" class="list-group-item list-group-item-action">Perguntas Frequentes</a>
-						<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/contact/" class="list-group-item list-group-item-action">Fale Conosco</a>
-						<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/contact-work/" class="list-group-item list-group-item-action">Trabalhe Conosco</a>
-						<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/promotions/" class="list-group-item list-group-item-action">Promoções</a>
-					</div>
+					<?php require $this->checkTemplate("informationsLinks");?>
 
 				</div>
 
@@ -32,93 +24,29 @@
 					
 					<div class="row">
 						
-						<div class="col-sm-3 mb-4">
-							<div class="card">
-								
-								<a class="px-3" href="https://www.cocacola.com.br/" target="_blank">
-									<img src="/resources/imgs/banners/partners/coca-cola2.png" class="card-img-top img-sizeCard" alt="...">
-								</a>
-								
-								<div class="card-body py-5 text-center">
-									  
-									<a class="card-title h4 font-weight-normal text-decoration-none text-dark" href="https://www.cocacola.com.br/" target="_blank">Coca-Cola</a>
+						<?php $counter1=-1;  if( isset($storePartner) && ( is_array($storePartner) || $storePartner instanceof Traversable ) && sizeof($storePartner) ) foreach( $storePartner as $key1 => $value1 ){ $counter1++; ?>
+							<div class="col-sm-3 mb-4">
+								<div class="card">
 									
-								</div>
-
-								<div class="card-footer text-center py-4">
-								
-									<a class="text-decoration-none text-secondary" href="https://www.cocacola.com.br/" target="_blank">Ir para página</a>
-								
-								</div>
-
-							</div>
-						</div>
-
-						<div class="col-sm-3 mb-4">
-							<div class="card">
-								
-								<a class="px-3" href="https://www.ambev.com.br/" target="_blank">
-									<img src="/resources/imgs/banners/partners/ambev.png" class="card-img-top img-sizeCard" alt="...">
-								</a>
-								
-								<div class="card-body py-5 text-center">
-									  
-									<a class="card-title h4 font-weight-normal text-decoration-none text-dark" href="https://www.ambev.com.br/" target="_blank">Ambev</a>
+									<a href="<?php echo htmlspecialchars( $value1["linkPartnerStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" target="_blank">
+										<img src="/resources/imgs/banners/partners/<?php echo htmlspecialchars( $value1["srcPartnerStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" class="card-img-top img-sizeCard px-4 py-3" alt="...">
+									</a>
 									
-								</div>
+									<div class="card-body py-5 text-center">
+										
+										<a class="card-title h4 font-weight-normal text-decoration-none text-dark text-capitalize" href="<?php echo htmlspecialchars( $value1["linkPartnerStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" target="_blank"><?php echo htmlspecialchars( $value1["namePartnerStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?></a>
+										
+									</div>
 
-								<div class="card-footer text-center py-4">
-								
-									<a class="text-decoration-none text-secondary" href="https://www.ambev.com.br/" target="_blank">Ir para página</a>
-								
-								</div>
-
-							</div>
-						</div>
-
-						<div class="col-sm-3 mb-4">
-							<div class="card">
-								
-								<a class="px-3" href="https://www.unilever.com.br/" target="_blank">
-									<img src="/resources/imgs/banners/partners/unilever.png" class="card-img-top img-sizeCard" alt="...">
-								</a>
-								
-								<div class="card-body py-5 text-center">
-									  
-									<a class="card-title h4 font-weight-normal text-decoration-none text-dark" href="https://www.unilever.com.br/" target="_blank">Unilever</a>
+									<div class="card-footer text-center py-4">
 									
-								</div>
-
-								<div class="card-footer text-center py-4">
-								
-									<a class="text-decoration-none text-secondary" href="https://www.unilever.com.br/" target="_blank">Ir para página</a>
-								
-								</div>
-
-							</div>
-						</div>
-
-						<div class="col-sm-3 mb-4">
-							<div class="card">
-								
-								<a class="px-3" href="https://www.nestle.com.br/" target="_blank">
-									<img src="/resources/imgs/banners/partners/nestle.jpg" class="card-img-top img-sizeCard" alt="...">
-								</a>
-								
-								<div class="card-body py-5 text-center">
-									  
-									<a class="card-title h4 font-weight-normal text-decoration-none text-dark" href="https://www.nestle.com.br/" target="_blank">Nestle</a>
+										<a class="text-decoration-none text-secondary" href="<?php echo htmlspecialchars( $value1["linkPartnerStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" target="_blank">Ir para página</a>
 									
-								</div>
+									</div>
 
-								<div class="card-footer text-center py-4">
-								
-									<a class="text-decoration-none text-secondary" href="https://www.nestle.com.br/" target="_blank">Ir para página</a>
-								
 								</div>
-
 							</div>
-						</div>
+						<?php } ?>
 
 					</div>
 
@@ -139,15 +67,7 @@
 
 			<p class="h5 font-weight-normal">Outras Páginas</p>
 				
-			<div class="list-group mt-3">
-				<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/info/" class="list-group-item list-group-item-action">Sobre a empresa</a>
-				<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/our-stores/" class="list-group-item list-group-item-action">Nossas Lojas</a>
-				<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/partners/" class="list-group-item list-group-item-action list-group-item-primary active">Parceiros</a>
-				<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/help/" class="list-group-item list-group-item-action">Perguntas Frequentes</a>
-				<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/contact/" class="list-group-item list-group-item-action">Fale Conosco</a>
-				<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/contact-work/" class="list-group-item list-group-item-action">Trabalhe Conosco</a>
-				<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/promotions/" class="list-group-item list-group-item-action">Promoções</a>
-			</div>
+			<?php require $this->checkTemplate("informationsLinks");?>
 			
 		</div>
 

@@ -3,9 +3,9 @@
 		<div class="ct-ini mt-mobNavbar">
 			
 			<nav aria-label="breadcrumb" class="bar-display">
-				<ol class="breadcrumb bg-light">
-				  <li class="breadcrumb-item"><a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/">Home</a></li>
-				  <li class="breadcrumb-item active" aria-current="page">Register</li>
+				<ol class="breadcrumb <?php echo htmlspecialchars( $layout["bgLayout"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
+					<li class="breadcrumb-item"><a href="/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/">Home</a></li>
+				  	<li class="breadcrumb-item active" aria-current="page">Register</li>
 				</ol>
 			</nav>
 
@@ -61,9 +61,9 @@
 						<div class="g-recaptcha" data-sitekey="6LevbfwUAAAAAJiitBmG-CqLM9NYIhfQaFJHdeaF"></div>
 					</div>
 					
-					<!-- <button type="submit" class="btn btn-primary mt-3" tabindex="4">Cadastrar</button>
+					<button type="submit" class="btn <?php echo htmlspecialchars( $layout["btnLayout"], ENT_COMPAT, 'UTF-8', FALSE ); ?> mt-3" tabindex="4">Cadastrar</button>
 					
-					<button type="submit" class="btn btn-outline-danger mt-3 w-100 d-none"><i class="fab fa-google"></i> Continuar com Gmail</button> -->
+					<!-- <button type="submit" class="btn btn-outline-danger mt-3 w-100 d-none"><i class="fab fa-google"></i> Continuar com Gmail</button> -->
 
 				</form>
 

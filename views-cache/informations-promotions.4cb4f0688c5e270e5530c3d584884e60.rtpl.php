@@ -3,9 +3,9 @@
 		<div class="ct-ini mt-mobNavbar">
 			
 			<nav aria-label="breadcrumb" class="bar-display">
-				<ol class="breadcrumb bg-white">
-				  <li class="breadcrumb-item"><a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/">Home</a></li>
-				  <li class="breadcrumb-item active" aria-current="page">Promoções</li>
+				<ol class="breadcrumb <?php echo htmlspecialchars( $layout["bgLayout"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
+					<li class="breadcrumb-item"><a href="/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/">Home</a></li>
+				  	<li class="breadcrumb-item active" aria-current="page">Promoções</li>
 				</ol>
 			</nav>
 
@@ -13,15 +13,7 @@
 
 				<div class="col-md-3 bar-display">
 					
-					<div class="list-group">
-						<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/info/" class="list-group-item list-group-item-action">Sobre a empresa</a>
-						<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/our-stores/" class="list-group-item list-group-item-action">Nossas Lojas</a>
-						<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/partners/" class="list-group-item list-group-item-action">Parceiros</a>
-						<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/help/" class="list-group-item list-group-item-action">Perguntas Frequentes</a>
-						<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/contact/" class="list-group-item list-group-item-action">Fale Conosco</a>
-						<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/contact-work/" class="list-group-item list-group-item-action">Trabalhe Conosco</a>
-						<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/promotions/" class="list-group-item list-group-item-action list-group-item-primary active">Promoções</a>
-					</div>
+					<?php require $this->checkTemplate("informationsLinks");?>
 
 				</div>
 
@@ -32,39 +24,20 @@
 					
 					<div class="accordion" id="AccordinOne">
 						
-						<div class="card btn btn-light border" data-toggle="collapse" data-target="#collapse" aria-expanded="true" aria-controls="collapse">
-							<a class="py-2 h6 text-left"> FRETE GRÁTIS </a>						  
+						<?php $counter1=-1;  if( isset($storePromo) && ( is_array($storePromo) || $storePromo instanceof Traversable ) && sizeof($storePromo) ) foreach( $storePromo as $key1 => $value1 ){ $counter1++; ?>
+						<div class="card btn btn-light border mt-2" data-toggle="collapse" data-target="#collapse<?php echo htmlspecialchars( $value1["idStorePromo"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" aria-expanded="true" aria-controls="collapse">
+							
+							<a class="py-2 h6 text-left"><?php echo htmlspecialchars( $value1["titlePromoStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?></a>						  
+						
 						</div>
-						<div id="collapse" class="collapse bg-white border" aria-labelledby="headingOne" data-parent="#AccordinOne">
+						<div id="collapse<?php echo htmlspecialchars( $value1["idStorePromo"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" class="collapse bg-white border" aria-labelledby="headingOne" data-parent="#AccordinOne">
+							
 							<div class="card-body">
-								<p>
-									Compras acima de R$200.00, o frete sai totalmete de graça!
-								</p>
+								<p><?php echo htmlspecialchars( $value1["textPromoStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?></p>
 							</div>
+						
 						</div>
-
-						<div class="card btn btn-light border mt-2" data-toggle="collapse" data-target="#collapse2" aria-expanded="true" aria-controls="collapse2">
-							<a class="py-2 h6 text-left"> PAGUE MENOS </a>						  
-						</div>
-						<div id="collapse2" class="collapse bg-white border" aria-labelledby="headingOne" data-parent="#AccordinOne">
-							<div class="card-body">
-								<p>
-									Com o cartão da loja, você ganha 10% de desconto no total da compra!
-								</p>
-							</div>
-						</div>
-
-						<div class="card btn btn-light border mt-2" data-toggle="collapse" data-target="#collapse3" aria-expanded="true" aria-controls="collapse3">
-							<a class="py-2 h6 text-left"> CUPOM 25% DESCONTO </a>						  
-						</div>
-						<div id="collapse3" class="collapse bg-white border" aria-labelledby="headingOne" data-parent="#AccordinOne">
-							<div class="card-body">
-								<p>
-									No final do pedido utilize o cupom: QUERO25 e ganhe 25% de desconto!
-								</p>
-							</div>
-						</div>
-
+						<?php } ?>	
 						
 					</div>
 
@@ -85,15 +58,7 @@
 
 			<p class="h5 font-weight-normal">Outras Páginas</p>
 				
-			<div class="list-group mt-3">
-				<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/info/" class="list-group-item list-group-item-action">Sobre a empresa</a>
-				<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/our-stores/" class="list-group-item list-group-item-action">Nossas Lojas</a>
-				<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/partners/" class="list-group-item list-group-item-action">Parceiros</a>
-				<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/help/" class="list-group-item list-group-item-action">Perguntas Frequentes</a>
-				<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/contact/" class="list-group-item list-group-item-action">Fale Conosco</a>
-				<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/contact-work/" class="list-group-item list-group-item-action">Trabalhe Conosco</a>
-				<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/promotions/" class="list-group-item list-group-item-action list-group-item-primary active">Promoções</a>
-			</div>
+			<?php require $this->checkTemplate("informationsLinks");?>
 			
 		</div>
 

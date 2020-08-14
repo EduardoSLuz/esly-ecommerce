@@ -3,10 +3,10 @@
 		<div class="ct-ini mt-mobNavbar">
 			
 			<nav aria-label="breadcrumb" class="bar-display">
-				<ol class="breadcrumb bg-white">
-				  <li class="breadcrumb-item"><a href="/loja-{$links.idStore}/">Home</a></li>
-				  <li class="breadcrumb-item"><a href="/loja-{$links.idStore}/account/requests/">Account</a></li>
-				  <li class="breadcrumb-item active" aria-current="page">Shopping List</li>
+				<ol class="breadcrumb {$layout.bgLayout}">
+					<li class="breadcrumb-item"><a href="/loja-{$ID}/">Home</a></li>
+					<li class="breadcrumb-item"><a href="/loja-{$ID}/account/requests/">Account</a></li>
+				 	<li class="breadcrumb-item active" aria-current="page">Shopping List</li>
 				</ol>
 			</nav>
 
@@ -14,17 +14,7 @@
 
 				<div class="col-md-3 bar-display">
 					
-					<div class="list-group">
-						<a class="list-group-item list-group-item-action py-4 font-weight-light">
-							<span class="h5 font-weight-normal">User</span>
-							<span><br>9 de Julho de 2020 às 14:40</span>
-						</a>
-						<a href="/loja-{$links.idStore}/account/requests/" class="list-group-item list-group-item-action"><i class="fas fa-shopping-bag"></i> Pedidos</a>
-						<a href="/loja-{$links.idStore}/account/shopping-list/" class="list-group-item list-group-item-action"><i class="far fa-heart"></i> Lista de compra</a>
-						<a href="/loja-{$links.idStore}/account/data/" class="list-group-item list-group-item-action"><i class="far fa-user"></i> Meus dados</a>
-						<a href="/loja-{$links.idStore}/account/address/" class="list-group-item list-group-item-action"><i class="fas fa-map-marker-alt"></i> Endereços</a>
-						<a href="/loja-{$links.idStore}/logout/" class="list-group-item list-group-item-action"><i class="fas fa-sign-out-alt"></i> Sair</a>
-					</div>
+					{include="accountLinks"}
 
 				</div>
 
@@ -70,17 +60,7 @@
 		
 		<div class="mx-3">
 				
-			<div class="list-group">
-				<a class="list-group-item list-group-item-action py-4 font-weight-light">
-					<span class="h5 font-weight-normal">User</span>
-					<span><br>9 de Julho de 2020 às 14:40</span>
-				</a>
-				<a href="/loja-{$links.idStore}/account/requests/" class="list-group-item list-group-item-action"><i class="fas fa-shopping-bag"></i> Pedidos</a>
-				<a href="/loja-{$links.idStore}/account/shopping-list/" class="list-group-item list-group-item-action"><i class="far fa-heart"></i> Lista de compra</a>
-				<a href="/loja-{$links.idStore}/account/data/" class="list-group-item list-group-item-action"><i class="far fa-user"></i> Meus dados</a>
-				<a href="/loja-{$links.idStore}/account/address/" class="list-group-item list-group-item-action"><i class="fas fa-map-marker-alt"></i> Endereços</a>
-				<a href="/loja-{$links.idStore}/logout/" class="list-group-item list-group-item-action"><i class="fas fa-sign-out-alt"></i> Sair</a>
-			</div>
+			{include="accountLinks"}
 			
 		</div>
 

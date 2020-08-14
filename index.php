@@ -1,4 +1,6 @@
 <?php 
+setlocale(LC_TIME, 'ptb.UTF-8');
+date_default_timezone_set('America/Campo_Grande');
 session_start();
 
 use Slim\Factory\AppFactory;

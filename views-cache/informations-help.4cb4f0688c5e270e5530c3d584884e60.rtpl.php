@@ -3,8 +3,8 @@
 		<div class="ct-ini mt-mobNavbar">
 			
 			<nav aria-label="breadcrumb" class="bar-display">
-				<ol class="breadcrumb bg-white">
-				  <li class="breadcrumb-item"><a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/">Home</a></li>
+				<ol class="breadcrumb <?php echo htmlspecialchars( $layout["bgLayout"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
+				  <li class="breadcrumb-item"><a href="/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/">Home</a></li>
 				  <li class="breadcrumb-item active" aria-current="page">Peguntas Frequentes</li>
 				</ol>
 			</nav>
@@ -13,15 +13,7 @@
 
 				<div class="col-md-3 bar-display">
 					
-					<div class="list-group">
-						<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/info/" class="list-group-item list-group-item-action">Sobre a empresa</a>
-						<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/our-stores/" class="list-group-item list-group-item-action">Nossas Lojas</a>
-						<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/partners/" class="list-group-item list-group-item-action">Parceiros</a>
-						<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/help/" class="list-group-item list-group-item-action list-group-item-primary active">Perguntas Frequentes</a>
-						<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/contact/" class="list-group-item list-group-item-action">Fale Conosco</a>
-						<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/contact-work/" class="list-group-item list-group-item-action">Trabalhe Conosco</a>
-						<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/promotions/" class="list-group-item list-group-item-action">Promoções</a>
-					</div>
+					<?php require $this->checkTemplate("informationsLinks");?>
 
 				</div>
 
@@ -32,82 +24,20 @@
 					
 					<div class="accordion" id="AccordinOne">
 						
-						<div class="card btn btn-light border" data-toggle="collapse" data-target="#collapse" aria-expanded="true" aria-controls="collapse">
-							<a class="py-2 h6 text-left"> Como funciona? </a>						  
+						<?php $counter1=-1;  if( isset($storeHelp) && ( is_array($storeHelp) || $storeHelp instanceof Traversable ) && sizeof($storeHelp) ) foreach( $storeHelp as $key1 => $value1 ){ $counter1++; ?>
+						<div class="card btn btn-light border mt-2" data-toggle="collapse" data-target="#collapse<?php echo htmlspecialchars( $value1["idStoreHelp"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" aria-expanded="true" aria-controls="collapse">
+						
+							<a class="py-2 h6 text-left"><?php echo htmlspecialchars( $value1["titleHelpStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?></a>						  
+						
 						</div>
-						<div id="collapse" class="collapse bg-white border" aria-labelledby="headingOne" data-parent="#AccordinOne">
+						<div id="collapse<?php echo htmlspecialchars( $value1["idStoreHelp"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" class="collapse bg-white border" aria-labelledby="headingOne" data-parent="#AccordinOne">
+						
 							<div class="card-body">
-								<p>
-									Você escolhe a sua cidade, seleciona um de nossos supermercados, monta seu carrinho de compras, escolhe o melhor horário para recebê-las na sua casa ou trabalho, e realiza o pagamento com cartão de crédito. Suas compras serão entregas em até 3 horas posteriores a confimação do pagamento. Tomaremos o maior cuidado para suas compras chegarem perfeitamente até você.
-								</p>
+								<p><?php echo htmlspecialchars( $value1["textHelpStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?></p>
 							</div>
+						
 						</div>
-
-						<div class="card btn btn-light border mt-2" data-toggle="collapse" data-target="#collapse2" aria-expanded="true" aria-controls="collapse2">
-							<a class="py-2 h6 text-left"> Posso retirar as compras no mercado? </a>						  
-						</div>
-						<div id="collapse2" class="collapse bg-white border" aria-labelledby="headingOne" data-parent="#AccordinOne">
-							<div class="card-body">
-								<p>
-									É claro, essa opção é livre, você ainda vai poder poupar um pouco com o frete.
-								</p>
-							</div>
-						</div>
-
-						<div class="card btn btn-light border mt-2" data-toggle="collapse" data-target="#collapse3" aria-expanded="true" aria-controls="collapse3">
-							<a class="py-2 h6 text-left"> Posso cancelar minha compra? </a>						  
-						</div>
-						<div id="collapse3" class="collapse bg-white border" aria-labelledby="headingOne" data-parent="#AccordinOne">
-							<div class="card-body">
-								<p>
-									Caso sua compra não esteja agendada para as próximas duas horas, é possível realizar o cancelamento acessando o pedido e clicando no botão cancelar.
-								</p>
-							</div>
-						</div>
-
-						<div class="card btn btn-light border mt-2" data-toggle="collapse" data-target="#collapse4" aria-expanded="true" aria-controls="collapse4">
-							<a class="py-2 h6 text-left"> Quanto custa a entrega? </a>						  
-						</div>
-						<div id="collapse4" class="collapse bg-white border" aria-labelledby="headingOne" data-parent="#AccordinOne">
-							<div class="card-body">
-								<p>
-									O valor da da taxa de entrega pode variar de R$ 0,00 à R$ 00,00, dependendo da região, do dia e do horário de entrega. Na hora de agendar o seu pedido, os valores do frete aparecem ao lado.
-								</p>
-							</div>
-						</div>
-
-						<div class="card btn btn-light border mt-2" data-toggle="collapse" data-target="#collapse5" aria-expanded="true" aria-controls="collapse5">
-							<a class="py-2 h6 text-left"> O site é seguro? </a>						  
-						</div>
-						<div id="collapse5" class="collapse bg-white border" aria-labelledby="headingOne" data-parent="#AccordinOne">
-							<div class="card-body">
-								<p>
-									Buscamos ao máximo ser 100% seguro. Somos uma empresa de tecnologia e investimos em qualidade para oferecermos um ambiente seguro. Além disso, os dados de pagamento são criptografados. 
-								</p>
-							</div>
-						</div>
-
-						<div class="card btn btn-light border mt-2" data-toggle="collapse" data-target="#collapse6" aria-expanded="true" aria-controls="collapse6">
-							<a class="py-2 h6 text-left"> Os preços são os mesmos do mercado fisico? </a>						  
-						</div>
-						<div id="collapse6" class="collapse bg-white border" aria-labelledby="headingOne" data-parent="#AccordinOne">
-							<div class="card-body">
-								<p>
-									Sim! Além do mais, temos ofertas que são válidas para clientes que compram apenas no site.
-								</p>
-							</div>
-						</div>
-
-						<div class="card btn btn-light border mt-2" data-toggle="collapse" data-target="#collapse7" aria-expanded="true" aria-controls="collapse7">
-							<a class="py-2 h6 text-left"> Quais regiões vocês atendem? </a>						  
-						</div>
-						<div id="collapse7" class="collapse bg-white border" aria-labelledby="headingOne" data-parent="#AccordinOne">
-							<div class="card-body">
-								<p>
-									Hoje atuamos somente em Campo Grande - MS.
-								</p>
-							</div>
-						</div>
+						<?php } ?>
 						
 					</div>
 
@@ -128,15 +58,7 @@
 
 			<p class="h5 font-weight-normal">Outras Páginas</p>
 				
-			<div class="list-group mt-3">
-				<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/info/" class="list-group-item list-group-item-action">Sobre a empresa</a>
-				<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/our-stores/" class="list-group-item list-group-item-action">Nossas Lojas</a>
-				<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/partners/" class="list-group-item list-group-item-action">Parceiros</a>
-				<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/help/" class="list-group-item list-group-item-action list-group-item-primary active">Perguntas Frequentes</a>
-				<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/contact/" class="list-group-item list-group-item-action">Fale Conosco</a>
-				<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/contact-work/" class="list-group-item list-group-item-action">Trabalhe Conosco</a>
-				<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/promotions/" class="list-group-item list-group-item-action">Promoções</a>
-			</div>
+			<?php require $this->checkTemplate("informationsLinks");?>
 			
 		</div>
 

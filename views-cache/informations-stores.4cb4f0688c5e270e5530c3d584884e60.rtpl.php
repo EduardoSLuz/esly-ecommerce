@@ -3,8 +3,8 @@
 		<div class="ct-ini mt-mobNavbar">
 			
 			<nav aria-label="breadcrumb" class="bar-display">
-				<ol class="breadcrumb bg-white">
-				  <li class="breadcrumb-item"><a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/">Home</a></li>
+				<ol class="breadcrumb <?php echo htmlspecialchars( $layout["bgLayout"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
+				  <li class="breadcrumb-item"><a href="/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/">Home</a></li>
 				  <li class="breadcrumb-item active" aria-current="page">Nossas Lojas</li>
 				</ol>
 			</nav>
@@ -13,15 +13,7 @@
 
 				<div class="col-md-3 bar-display">
 					
-					<div class="list-group">
-						<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/info/" class="list-group-item list-group-item-action">Sobre a empresa</a>
-						<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/our-stores/" class="list-group-item list-group-item-action list-group-item-primary active">Nossas Lojas</a>
-						<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/partners/" class="list-group-item list-group-item-action">Parceiros</a>
-						<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/help/" class="list-group-item list-group-item-action">Perguntas Frequentes</a>
-						<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/contact/" class="list-group-item list-group-item-action">Fale Conosco</a>
-						<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/contact-work/" class="list-group-item list-group-item-action">Trabalhe Conosco</a>
-						<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/promotions/" class="list-group-item list-group-item-action">Promoções</a>
-					</div>
+					<?php require $this->checkTemplate("informationsLinks");?>
 
 				</div>
 
@@ -31,77 +23,52 @@
 					<hr>
 					
 					<div class="row">
-						<div class="col-sm-6 mb-4">
-							<div class="card">
-								
-								<img src="/resources/imgs/banners/lojas/loja01.jpg" class="card-img-top max-height2" alt="...">
-								
-								<div class="card-body">
-								  	<p class="card-title h5 font-weight-normal">Loja 01 - Matriz</p>
-									
-									<p class="card-text font-weight-normal">
-										<i class="fas fa-map-marker-alt"></i> <a>Av. Mato Grosso, 2621 - Centro, Campo Grande - MS, 79020-150</a><br>
-										<i class="fas fa-phone-alt"></i> <a>(67) 98765-4532</a><br>
-										<i class="fab fa-whatsapp"></i> <a>(67) 98765-4532</a><br>
-										<i class="far fa-envelope"></i> <a>email@contato.com.br</a><br>
-										
-										<a class="font-weight-bold">Horario de Atendimento:</a><br>
-										<a class="mt-2">Segunda a Sexta: 08:00 - 20:00</a><br>
-										<a class="mt-2">Sábado: 08:00 - 17:00</a><br>
-										<a class="mt-2">Domingo: 08:00 - 19:00</a>
-					
-									</p>
-								</div>
-							</div>
-						</div>
 
-						<div class="col-sm-6 mb-4">
-							<div class="card">
-								
-								<img src="/resources/imgs/banners/lojas/loja02.jpg" class="card-img-top max-height2" alt="...">
-								
-								<div class="card-body">
-								  	<p class="card-title h5 font-weight-normal">Loja 02</p>
-									
-									<p class="card-text font-weight-normal">
-										<i class="fas fa-map-marker-alt"></i> <a>Av. Mato Grosso, 2621 - Centro, Campo Grande - MS, 79020-150</a><br>
-										<i class="fas fa-phone-alt"></i> <a>(67) 98765-4532</a><br>
-										<i class="fab fa-whatsapp"></i> <a>(67) 98765-4532</a><br>
-										<i class="far fa-envelope"></i> <a>email@contato.com.br</a><br>
-										
-										<a class="font-weight-bold">Horario de Atendimento:</a><br>
-										<a class="mt-2">Segunda a Sexta: 08:00 - 20:00</a><br>
-										<a class="mt-2">Sábado: 08:00 - 17:00</a><br>
-										<a class="mt-2">Domingo: 08:00 - 19:00</a>
-					
-									</p>
-								</div>
-							</div>
-						</div>
+						<?php $counter1=-1;  if( isset($storeAll) && ( is_array($storeAll) || $storeAll instanceof Traversable ) && sizeof($storeAll) ) foreach( $storeAll as $key1 => $value1 ){ $counter1++; ?>
 
-						<div class="col-sm-6">
-							<div class="card">
-								
-								<img src="/resources/imgs/banners/lojas/loja03.jpg" class="card-img-top max-height2" alt="...">
-								
-								<div class="card-body">
-								  	<p class="card-title h5 font-weight-normal">Loja 03</p>
+							<div class="col-sm-6 mb-4">
+								<div class="card">
 									
-									<p class="card-text font-weight-normal">
-										<i class="fas fa-map-marker-alt"></i> <a>Av. Mato Grosso, 2621 - Centro, Campo Grande - MS, 79020-150</a><br>
-										<i class="fas fa-phone-alt"></i> <a>(67) 98765-4532</a><br>
-										<i class="fab fa-whatsapp"></i> <a>(67) 98765-4532</a><br>
-										<i class="far fa-envelope"></i> <a>email@contato.com.br</a><br>
+									<img src="/resources/imgs/banners/lojas/loja01.jpg" class="card-img-top max-height2" alt="...">
+									
+									<div class="card-body">
+										<p class="card-title h5 font-weight-normal"><?php echo htmlspecialchars( $value1["nameStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?> - Loja <?php echo htmlspecialchars( $value1["store"], ENT_COMPAT, 'UTF-8', FALSE ); ?></p>
 										
-										<a class="font-weight-bold">Horario de Atendimento:</a><br>
-										<a class="mt-2">Segunda a Sexta: 08:00 - 20:00</a><br>
-										<a class="mt-2">Sábado: 08:00 - 17:00</a><br>
-										<a class="mt-2">Domingo: 08:00 - 19:00</a>
-					
-									</p>
+										<p class="card-text font-weight-normal">
+											
+											<a href="https://www.google.com/maps/place/<?php echo htmlspecialchars( $value1["streetStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>, <?php echo htmlspecialchars( $value1["numberStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?> - <?php echo htmlspecialchars( $value1["districtStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>, <?php echo htmlspecialchars( $value1["nameCity"], ENT_COMPAT, 'UTF-8', FALSE ); ?> - <?php echo htmlspecialchars( $value1["nickState"], ENT_COMPAT, 'UTF-8', FALSE ); ?>, <?php echo htmlspecialchars( $value1["cepStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/" class="text-decoration-none text-dark" target="_blank"><i class="fas fa-map-marker-alt"></i>
+											<?php echo htmlspecialchars( $value1["streetStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>, <?php echo htmlspecialchars( $value1["numberStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?> - <?php echo htmlspecialchars( $value1["districtStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>, <?php echo htmlspecialchars( $value1["nameCity"], ENT_COMPAT, 'UTF-8', FALSE ); ?> - <?php echo htmlspecialchars( $value1["nickState"], ENT_COMPAT, 'UTF-8', FALSE ); ?>, <?php echo maskCep($value1["cepStore"]); ?></a>
+											<br>
+
+											<i class="fas fa-phone-alt"></i> <a><?php echo maskTel($value1["telephoneStore"]); ?></a>
+											<br>
+
+											<i class="fab fa-whatsapp"></i> <a><?php echo maskTel($value1["whatsappStore"]); ?></a>
+											<br>
+											
+											<i class="far fa-envelope"></i> <a><?php echo htmlspecialchars( $value1["emailStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?></a>
+
+											<?php if( $value1["horary"] != 0 && count($value1["horary"]) > 0 ){ ?>
+												<p class="font-weight-bold my-0"><i class="far fa-clock"></i> Horário de Atendimento:</p>
+													
+												<?php $counter2=-1;  if( isset($value1["horary"]) && ( is_array($value1["horary"]) || $value1["horary"] instanceof Traversable ) && sizeof($value1["horary"]) ) foreach( $value1["horary"] as $key2 => $value2 ){ $counter2++; ?>
+													<p class="my-1">
+														<?php echo htmlspecialchars( $value2["dayName"], ENT_COMPAT, 'UTF-8', FALSE ); ?><?php if( isset($value2["dayNameFinal"]) ){ ?>-<?php echo htmlspecialchars( $value2["dayNameFinal"], ENT_COMPAT, 'UTF-8', FALSE ); ?><?php } ?>: <?php echo date('H:i', strtotime($value2["timeInitial"])); ?> às <?php echo date('H:i', strtotime($value2["timeFinal"])); ?>
+
+														<?php if( $value2["timeInitial2"] > $value2["timeInitial"] ){ ?>
+															- <?php echo date('H:i', strtotime($value2["timeInitial2"])); ?> às <?php echo date('H:i', strtotime($value2["timeFinal2"])); ?>
+														<?php } ?>
+													</p>
+												<?php } ?>
+
+											<?php } ?>
+						
+										</p>
+									</div>
 								</div>
 							</div>
-						</div>
+
+						<?php } ?>
 
 					  </div>
 
@@ -122,15 +89,7 @@
 
 			<p class="h5 font-weight-normal">Outras Páginas</p>
 				
-			<div class="list-group mt-3">
-				<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/info/" class="list-group-item list-group-item-action">Sobre a empresa</a>
-				<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/our-stores/" class="list-group-item list-group-item-action list-group-item-primary active">Nossas Lojas</a>
-				<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/partners/" class="list-group-item list-group-item-action">Parceiros</a>
-				<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/help/" class="list-group-item list-group-item-action">Perguntas Frequentes</a>
-				<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/contact/" class="list-group-item list-group-item-action">Fale Conosco</a>
-				<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/contact-work/" class="list-group-item list-group-item-action">Trabalhe Conosco</a>
-				<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/promotions/" class="list-group-item list-group-item-action">Promoções</a>
-			</div>
+			<?php require $this->checkTemplate("informationsLinks");?>
 			
 		</div>
 

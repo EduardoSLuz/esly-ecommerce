@@ -3,8 +3,8 @@
 		<div class="ct-ini mt-mobNavbar">
 			
 			<nav aria-label="breadcrumb" class="bar-display">
-				<ol class="breadcrumb bg-white">
-				  <li class="breadcrumb-item"><a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/">Home</a></li>
+				<ol class="breadcrumb <?php echo htmlspecialchars( $layout["bgLayout"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
+				  <li class="breadcrumb-item"><a href="/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/">Home</a></li>
 				  <li class="breadcrumb-item active" aria-current="page">Sobre a empresa</li>
 				</ol>
 			</nav>
@@ -13,15 +13,7 @@
 
 				<div class="col-md-3 bar-display">
 					
-					<div class="list-group">
-						<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/info/" class="list-group-item list-group-item-action list-group-item-primary active">Sobre a empresa</a>
-						<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/our-stores/" class="list-group-item list-group-item-action">Nossas Lojas</a>
-						<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/partners/" class="list-group-item list-group-item-action">Parceiros</a>
-						<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/help/" class="list-group-item list-group-item-action">Perguntas Frequentes</a>
-						<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/contact/" class="list-group-item list-group-item-action">Fale Conosco</a>
-						<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/contact-work/" class="list-group-item list-group-item-action">Trabalhe Conosco</a>
-						<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/promotions/" class="list-group-item list-group-item-action">Promoções</a>
-					</div>
+					<?php require $this->checkTemplate("informationsLinks");?>
 
 				</div>
 
@@ -29,17 +21,13 @@
 					<p class="h5 text-uppercase font-weight-normal">Sobre a empresa</p>
 					<hr>
 
-					<p class="h6">
-						Simples, porque nos propomos a repensar e reinventar as formas de desenvolver projetos.
-					</p>
+					<?php $counter1=-1;  if( isset($storeInfo) && ( is_array($storeInfo) || $storeInfo instanceof Traversable ) && sizeof($storeInfo) ) foreach( $storeInfo as $key1 => $value1 ){ $counter1++; ?>
 
-					<p class="h6 mt-3">						
-						Contamos com uma equipe de profissionais qualificados para desmistificar o cenário digital e propôr as melhores soluções para cada projeto.
-					</p>
+						<p class="h6 my-2">
+							<?php echo htmlspecialchars( $value1["textInfoStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>
+						</p>
 
-					<p class="h6 mt-3">
-						Somos apaixonados pelo que fazemos e damos o melhor de nós, afinal de contas, dedicamos nosso tempo a isso e queremos que tudo saia perfeito. Além disso, compreendemos a importância e os resultados que uma equipe produtiva e focada traz aos clientes.
-					</p>
+					<?php } ?>
 				</div>
 
 			</div>
@@ -57,15 +45,7 @@
 
 			<p class="h5 font-weight-normal">Outras Páginas</p>
 				
-			<div class="list-group mt-3">
-				<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/info/" class="list-group-item list-group-item-action list-group-item-primary active">Sobre a empresa</a>
-				<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/our-stores/" class="list-group-item list-group-item-action">Nossas Lojas</a>
-				<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/partners/" class="list-group-item list-group-item-action">Parceiros</a>
-				<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/help/" class="list-group-item list-group-item-action">Perguntas Frequentes</a>
-				<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/contact/" class="list-group-item list-group-item-action">Fale Conosco</a>
-				<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/contact-work/" class="list-group-item list-group-item-action">Trabalhe Conosco</a>
-				<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/promotions/" class="list-group-item list-group-item-action">Promoções</a>
-			</div>
+			<?php require $this->checkTemplate("informationsLinks");?>
 			
 		</div>
 

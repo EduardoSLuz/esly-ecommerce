@@ -3,8 +3,8 @@
 		<div class="ct-ini mt-mobNavbar">
 			
 			<nav aria-label="breadcrumb" class="bar-display">
-				<ol class="breadcrumb <?php echo htmlspecialchars( $layout["background"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
-				  <li class="breadcrumb-item"><a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/">Home</a></li>
+				<ol class="breadcrumb <?php echo htmlspecialchars( $layout["bgLayout"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
+				  <li class="breadcrumb-item"><a href="/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/">Home</a></li>
 				  <li class="breadcrumb-item active" aria-current="page">Login</li>
 				</ol>
 			</nav>
@@ -52,8 +52,12 @@
 					</div>
 
 					<div class="row mt-3">
-						<a class="col-md text-left text-dark text-decoration-none"><input type="checkbox" name="checkRemember"> Lembrar de mim</a>
-						<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/login/forgot-password/" class="col-md text-right text-dark text-decoration-none">Esqueci minha senha</a>
+						<a class="col-md text-left text-dark text-decoration-none">
+							<input type="checkbox" id="checkRemember" name="checkRemember"> <span class="cursorPointer" onclick="ExecuteClick('checkRemember')">Lembrar de mim</span>
+						</a>
+						<span class="col-md text-right">
+							<a href="/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/login/forgot-password/" class="text-dark text-decoration-none">Esqueci minha senha</a>
+						</span>
 					</div>
 
 					<div class="text-left mt-2">
@@ -61,7 +65,7 @@
 					</div>
 
 					<div class="mt-2">
-						<button type="submit" class="btn btn-primary w-100" tabindex="3"><i class="far fa-user"></i> Entrar</button>
+						<button type="submit" class="btn <?php echo htmlspecialchars( $layout["btnLayout"], ENT_COMPAT, 'UTF-8', FALSE ); ?> w-100" tabindex="3"><i class="far fa-user"></i> Entrar</button>
 
 						<!-- <hr class='d-none'>
 
@@ -69,11 +73,11 @@
 					</div>
 				</form>
 
-				<div class="col-md-4 border border-primary bd-RdLeft bg-primary bd-RdRight py-4 mx-2">
+				<div class="col-md-4 border border-primary bd-RdLeft <?php echo htmlspecialchars( $layout["bgH2Layout"], ENT_COMPAT, 'UTF-8', FALSE ); ?> bd-RdRight py-4 mx-2">
 					
 					<p class="h3 font-weight-normal text-white">Ainda não tem cadastro?</p>
 					
-					<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/register/" class="btn btn-outline-light border border-white mt-3 px-4"><i class="far fa-user"></i> Cadastre-se aqui</a>
+					<a href="/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/register/" class="btn btn-outline-light border border-white mt-3 px-4"><i class="far fa-user"></i> Cadastre-se aqui</a>
 
 					<img src="/resources/imgs/logos/logo-login.png" class="py-5 img-fluid bar-display">
 				

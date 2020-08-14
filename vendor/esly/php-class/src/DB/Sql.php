@@ -5,6 +5,7 @@ namespace Esly\DB;
 class Sql {
 
 	const HOSTNAME = "127.0.0.1";
+	const DB = "DB_Esly";
 
 	private $conn;
 

@@ -12,25 +12,15 @@ use Esly\Model\User;
 $app->get("/", function(Request $request, Response $response) {
 	
 	$page = new Page([
-		"footer" => false,
 		"data" => [
-			"links" => [
-				"HTTP" => $_SERVER['HTTP_HOST'] 
-			],
-			"login" => false,
-			"type" => 0
+			"ID" => 0,
+			"type" => 0,
+			"ft" => false
 		]
 	]);
 
 	$page->setTpl("index", [
-		"stores" => Store::listAll(),
-		"cityStore" => Store::listAllCity(),
-		"socialStore" => Store::listSocial(0),
-		"buttons" => [
-			"wp" => true,
-			"ct" => true,
-			"ft" => false
-		]
+		"state" => Store::listState(),
 	]);
 	
 	return $response;
@@ -39,25 +29,152 @@ $app->get("/", function(Request $request, Response $response) {
 
 // Page Home 
 $app->get("/loja-{store}/", function(Request $request, Response $response, $args) {
-	
-	Store::verifyStore($args["store"]);
-	
+
 	$page = new Page([
 		"data" => [
-			"links" => [
-				"idStore" => $args["store"],
-				"HTTP" => $_SERVER['HTTP_HOST'] 
-			],
-			"login" => false
+			"ID" => $args['store'],
+			"ft" => false
 		]
 	]);
 
 	$page->setTpl("home", [
-		"buttons" => [
-			"wp" => true,
-			"ct" => true,
-			"ft" => false
+		"state" => Store::listState()
+	]);
+	
+	return $response;
+
+});
+
+// Page Information Company 
+$app->get("/loja-{store}/info/", function(Request $request, Response $response, $args) {
+
+	$page = new Page([
+		"data" => [
+			"ID" => $args['store']
 		]
+	]);
+
+	$page->setTpl("informations-company", [
+		"storeInfo" => Store::listInfoStore($args['store']),
+		"info" => "infoStore"
+	]);
+
+	return $response;
+
+});
+
+// Page Information Stores 
+$app->get("/loja-{store}/our-stores/", function(Request $request, Response $response, $args) {
+
+	$page = new Page([
+		"data" => [
+			"ID" => $args['store']
+		]
+	]);
+	
+	Store::checkInstitutionalStore($args['store'], "allStore");
+	
+	$page->setTpl("informations-stores", [
+		"info" => "allStore"
+	]);
+	
+	return $response;
+
+});
+
+// Page Information Partners 
+$app->get("/loja-{store}/partners/", function(Request $request, Response $response, $args) {
+
+	$page = new Page([
+		"data" => [
+			"ID" => $args['store']
+		]
+	]);
+	
+	Store::checkInstitutionalStore($args['store'], "partnerStore");
+
+	$page->setTpl("informations-partners", [
+		"storePartner" => Store::listPartner(),
+		"info" => "partnerStore"
+	]);
+	
+	return $response;
+
+});
+
+// Page Information Help 
+$app->get("/loja-{store}/help/", function(Request $request, Response $response, $args) {
+
+	$page = new Page([
+		"data" => [
+			"ID" => $args['store']
+		]
+	]);
+
+	Store::checkInstitutionalStore($args['store'], "helpStore");
+
+	$page->setTpl("informations-help", [
+		"storeHelp" => Store::listHelp(),
+		"info" => "helpStore"
+	]);
+	
+	return $response;
+
+});
+
+// Page Information Contact 
+$app->get("/loja-{store}/contact/", function(Request $request, Response $response, $args) {
+
+	$page = new Page([
+		"data" => [
+			"ID" => $args['store']
+		]
+	]);
+
+	Store::checkInstitutionalStore($args['store'], "contactStore");
+
+	$page->setTpl("informations-contact", [
+		"info" => "contactStore"
+	]);
+	
+	return $response;
+
+});
+
+// Page Information Contact Work 
+$app->get("/loja-{store}/contact-work/", function(Request $request, Response $response, $args) {
+
+	$page = new Page([
+		"data" => [
+			"ID" => $args['store']
+		]
+	]);
+
+	Store::checkInstitutionalStore($args['store'], "workStore");
+
+	$page->setTpl("informations-contact-work", [
+		"info" => "workStore"
+
+	]);
+	
+	return $response;
+
+});
+
+// Page Information Promotions 
+$app->get("/loja-{store}/promotions/", function(Request $request, Response $response, $args) {
+
+	$page = new Page([
+		"data" => [
+			"ID" => $args['store']
+		]
+	]);
+
+	Store::checkInstitutionalStore($args['store'], "promotionStore");
+	
+	$page->setTpl("informations-promotions", [
+		"storePromo" => Store::listPromo(),
+		"info" => "promotionStore"
 	]);
 	
 	return $response;
@@ -156,181 +273,6 @@ $app->get("/loja-{store}/{departaments}-{idDepartaments}/", function(Request $re
 
 });
 
-// Page Information Company 
-$app->get("/loja-{store}/info/", function(Request $request, Response $response, $args) {
-
-	$page = new Page([
-		"data" => [
-			"links" => [
-				"idStore" => $args["store"],
-				"HTTP" => $_SERVER['HTTP_HOST']
-			],
-			"login" => true
-		]
-	]);
-
-	$page->setTpl("informations-company", [
-		"buttons" => [
-			"wp" => true,
-			"ct" => true,
-			"ft" => true
-		]
-	]);
-	
-	return $response;
-
-});
-
-// Page Information Stores 
-$app->get("/loja-{store}/our-stores/", function(Request $request, Response $response, $args) {
-
-	$page = new Page([
-		"data" => [
-			"links" => [
-				"idStore" => $args["store"],
-				"HTTP" => $_SERVER['HTTP_HOST']
-			],
-			"login" => true
-		]
-	]);
-
-	$page->setTpl("informations-stores", [
-		"buttons" => [
-			"wp" => true,
-			"ct" => true,
-			"ft" => true
-		]
-	]);
-	
-	return $response;
-
-});
-
-// Page Information Partners 
-$app->get("/loja-{store}/partners/", function(Request $request, Response $response, $args) {
-
-	$page = new Page([
-		"data" => [
-			"links" => [
-				"idStore" => $args["store"],
-				"HTTP" => $_SERVER['HTTP_HOST']
-			],
-			"login" => true
-		]
-	]);
-
-	$page->setTpl("informations-partners", [
-		"buttons" => [
-			"wp" => true,
-			"ct" => true,
-			"ft" => true
-		]
-	]);
-	
-	return $response;
-
-});
-
-// Page Information Help 
-$app->get("/loja-{store}/help/", function(Request $request, Response $response, $args) {
-
-	$page = new Page([
-		"data" => [
-			"links" => [
-				"idStore" => $args["store"],
-				"HTTP" => $_SERVER['HTTP_HOST']
-			],
-			"login" => true
-		]
-	]);
-
-	$page->setTpl("informations-help", [
-		"buttons" => [
-			"wp" => true,
-			"ct" => true,
-			"ft" => true
-		]
-	]);
-	
-	return $response;
-
-});
-
-// Page Information Contact 
-$app->get("/loja-{store}/contact/", function(Request $request, Response $response, $args) {
-
-	$page = new Page([
-		"data" => [
-			"links" => [
-				"idStore" => $args["store"],
-				"HTTP" => $_SERVER['HTTP_HOST']
-			],
-			"login" => true
-		]
-	]);
-
-	$page->setTpl("informations-contact", [
-		"buttons" => [
-			"wp" => true,
-			"ct" => true,
-			"ft" => true
-		]
-	]);
-	
-	return $response;
-
-});
-
-// Page Information Contact Work 
-$app->get("/loja-{store}/contact-work/", function(Request $request, Response $response, $args) {
-
-	$page = new Page([
-		"data" => [
-			"links" => [
-				"idStore" => $args["store"],
-				"HTTP" => $_SERVER['HTTP_HOST']
-			],
-			"login" => true
-		]
-	]);
-
-	$page->setTpl("informations-contact-work", [
-		"buttons" => [
-			"wp" => true,
-			"ct" => true,
-			"ft" => true
-		]
-	]);
-	
-	return $response;
-
-});
-
-// Page Information Promotions 
-$app->get("/loja-{store}/promotions/", function(Request $request, Response $response, $args) {
-
-	$page = new Page([
-		"data" => [
-			"links" => [
-				"idStore" => $args["store"],
-				"HTTP" => $_SERVER['HTTP_HOST']
-			],
-			"login" => true
-		]
-	]);
-
-	$page->setTpl("informations-promotions", [
-		"buttons" => [
-			"wp" => true,
-			"ct" => true,
-			"ft" => true
-		]
-	]);
-	
-	return $response;
-
-});
-
 // Page Login 
 $app->post("/loja-{store}/login/", function(Request $request, Response $response, $args) {
 
@@ -370,10 +312,11 @@ $app->post("/loja-{store}/login/", function(Request $request, Response $response
 	if(isset($_POST['checkRemember']))
 	{
 		
-		User::saveLogin($_POST['emailUser'], $_POST['passUser']);
+		User::saveLogin($_POST['emailUser']);
 		
 	}
 
+	User::setSuccessMsg("Login feito com sucesso!");
 	header("Location: /loja-".$args['store']."/account/requests/");
 	exit;
 
@@ -381,26 +324,17 @@ $app->post("/loja-{store}/login/", function(Request $request, Response $response
 
 $app->get("/loja-{store}/login/", function(Request $request, Response $response, $args) {
 	
-	Store::verifyStore($args["store"]);
-
 	$page = new Page([
+		"login" => 1,
 		"data" => [
-			"links" => [
-				"idStore" => $args["store"],
-				"HTTP" => $_SERVER['HTTP_HOST']
-			],
-			"login" => true
+			"ID" => $args['store'],
+			"ft" => false
 		]
 	]);
 
 	$page->setTpl("login", [
-		"errorRegister" => User::getErrorRegister(),
-        'registerValues'=> User::getRegisterValues(),
-		"buttons" => [
-			"wp" => true,
-			"ct" => true,
-			"ft" => false
-		]
+		'errorRegister' => User::getErrorRegister(),
+		'registerValues' => User::getRegisterValues(),
 	]);
 	
 	return $response;
@@ -410,6 +344,9 @@ $app->get("/loja-{store}/login/", function(Request $request, Response $response,
 // Page Logout
 $app->get("/loja-{store}/logout/", function(Request $request, Response $response, $args) {
 	
+	if(isset($_COOKIE[User::COOKIE])) User::setCookies(User::COOKIE, $array, time() - 3600);
+	session_destroy();
+
 	header("Location: /loja-".$args['store']."/");
 	exit;
 
@@ -440,11 +377,14 @@ $app->post("/loja-{store}/login/forgot-password/", function(Request $request, Re
 	if(User::reCaptcha($_POST["g-recaptcha-response"]) === false){
 
 		User::setErrorRegister("Confirme que você não é um robô!");
-		header("Location: /loja-".$args['store']."/register/");
+		header("Location: /loja-".$args['store']."/login/forgot-password/");
 		exit;
 
 	}
 
+	User::getForgot($_POST['emailUser'], $args['store']);
+	
+	User::setSuccessMsg("Foi enviado um e-mail para sua caixa de entrada, nele você ira verificar como restaurar/mudar sua senha.");
 	header("Location: /loja-".$args['store']."/login/forgot-password/");
 	exit;
 
@@ -453,26 +393,18 @@ $app->post("/loja-{store}/login/forgot-password/", function(Request $request, Re
 // Page Forgot Password
 $app->get("/loja-{store}/login/forgot-password/", function(Request $request, Response $response, $args) {
 
-	Store::verifyStore($args["store"]);
-
 	$page = new Page([
+		"login" => 1,
 		"data" => [
-			"links" => [
-				"idStore" => $args["store"],
-				"HTTP" => $_SERVER['HTTP_HOST']
-			],
-			"login" => false
+			"ID" => $args['store'],
+			"ft" => false
 		]
 	]);
 
 	$page->setTpl("forgot-password", [
 		"errorRegister" => User::getErrorRegister(),
+        'successMsg'=> User::getSuccessMsg(),
         'registerValues'=> User::getRegisterValues(),
-		"buttons" => [
-			"wp" => true,
-			"ct" => true,
-			"ft" => false
-		]
 	]);
 	
 	return $response;
@@ -540,7 +472,8 @@ $app->post("/loja-{store}/register/", function(Request $request, Response $respo
         'passUser'=>$_POST['passUser']
     ]);
 	
-	if($user->save() === false){
+	if($user->save() === false)
+	{
 
 		User::setErrorRegister("Erro no cadastro, tente novamente! se persistir esse erro entre em contato com o suporte do site.");
 		header("Location: /loja-".$args['store']."/register/");
@@ -564,26 +497,17 @@ $app->post("/loja-{store}/register/", function(Request $request, Response $respo
 
 $app->get("/loja-{store}/register/", function(Request $request, Response $response, $args) {
 
-	Store::verifyStore($args["store"]);
-
 	$page = new Page([
+		"login" => 1,
 		"data" => [
-			"links" => [
-				"idStore" => $args["store"],
-				"HTTP" => $_SERVER['HTTP_HOST']
-			],
-			"login" => false
+			"ID" => $args['store'],
+			"ft" => false
 		]
 	]);
 
 	$page->setTpl("register", [
 		"errorRegister" => User::getErrorRegister(),
         'registerValues'=> User::getRegisterValues(),
-		"buttons" => [
-			"wp" => true,
-			"ct" => true,
-			"ft" => false
-		]
 	]);
 	
 	return $response;
@@ -621,23 +545,16 @@ $app->get("/loja-{store}/account/requests/", function(Request $request, Response
 	$pedidos = true;
 
 	$page = new Page([
+		"login" => 2,
 		"data" => [
-			"links" => [
-				"idStore" => $args["store"],
-				"HTTP" => $_SERVER['HTTP_HOST']
-			],
-			"login" => true
+			"ID" => $args['store'],
 		]
 	]);
 
 	$pedidos === true  ? $pedidos = "account-requests" : $pedidos = "account-requests-default";	
 
 	$page->setTpl($pedidos, [
-		"buttons" => [
-			"wp" => true,
-			"ct" => true,
-			"ft" => true
-		]
+        'successMsg'=> User::getSuccessMsg(),
 	]);
 	
 	return $response;
@@ -648,21 +565,14 @@ $app->get("/loja-{store}/account/requests/", function(Request $request, Response
 $app->get("/loja-{store}/account/requests/{pedido}/", function(Request $request, Response $response, $args) {
 
 	$page = new Page([
+		"login" => 2,
 		"data" => [
-			"links" => [
-				"idStore" => $args["store"],
-				"HTTP" => $_SERVER['HTTP_HOST']
-			],
-			"login" => true
+			"ID" => $args['store'],
 		]
 	]);
 
 	$page->setTpl("account-requests-details", [
-		"buttons" => [
-			"wp" => true,
-			"ct" => true,
-			"ft" => true
-		]
+	
 	]);
 	
 	return $response;
@@ -675,23 +585,16 @@ $app->get("/loja-{store}/account/shopping-list/", function(Request $request, Res
 	$shopp = true;
 
 	$page = new Page([
+		"login" => 2,
 		"data" => [
-			"links" => [
-				"idStore" => $args["store"],
-				"HTTP" => $_SERVER['HTTP_HOST']
-			],
-			"login" => true
+			"ID" => $args['store'],
 		]
 	]);
 
 	$shopp === true  ? $shopp = "account-shoppinglist" : $shopp = "account-shoppinglist-default";	
 
 	$page->setTpl($shopp, [
-		"buttons" => [
-			"wp" => true,
-			"ct" => true,
-			"ft" => true
-		]
+		
 	]);
 	
 	return $response;
@@ -702,21 +605,197 @@ $app->get("/loja-{store}/account/shopping-list/", function(Request $request, Res
 $app->get("/loja-{store}/account/shopping-list/{list}/", function(Request $request, Response $response, $args) {
 
 	$page = new Page([
+		"login" => 2,
 		"data" => [
-			"links" => [
-				"idStore" => $args["store"],
-				"HTTP" => $_SERVER['HTTP_HOST']
-			],
-			"login" => true
+			"ID" => $args['store'],
 		]
 	]);
 
 	$page->setTpl("account-shoppinglist-details", [
-		"buttons" => [
-			"wp" => true,
-			"ct" => true,
-			"ft" => true
+	
+	]);
+	
+	return $response;
+
+});
+
+// Page Account Info
+$app->post("/loja-{store}/account/data/", function(Request $request, Response $response, $args) {
+
+	Store::verifyStore($args["store"]);
+
+	$nameUser = explode(' ', $_POST['NameInfo']);
+
+	if(isset($_POST['NameInfo']) && empty($_POST['NameInfo']))
+	{
+
+		User::setErrorRegister("Digite seu nome!");
+		header("Location: /loja-".$args['store']."/account/data/");
+		exit;
+
+	} else if(!isset($nameUser[1]) || empty($nameUser[1]) || $nameUser[1] == ' '){
+
+		User::setErrorRegister("Digite seu sobrenome!");
+		header("Location: /loja-".$args['store']."/account/data/");
+		exit;
+
+	} 
+
+	if(isset($_POST['CpfInfo']) && !empty($_POST['CpfInfo']) && strlen($_POST['CpfInfo']) < 14)
+	{
+
+		User::setErrorRegister("Digite um CPF válido!");
+		header("Location: /loja-".$args['store']."/account/data/");
+		exit;
+
+	} else if (!empty($_POST['CpfInfo']) && User::verifyCPF($_POST['CpfInfo'])){
+
+		User::setErrorRegister("CPF inválido!");
+		header("Location: /loja-".$args['store']."/account/data/");
+		exit;
+
+	}
+
+	if(isset($_POST['DateInfo']) && is_numeric(str_replace('-', '', $_POST['DateInfo'])) && str_replace('-', '', $_POST['DateInfo']) < "19200101")
+	{
+
+		User::setErrorRegister("Data Inválida!");
+		header("Location: /loja-".$args['store']."/account/data/");
+		exit;
+
+	}
+
+	if(isset($_POST['TelInfo']) && !empty($_POST['TelInfo']) && strlen($_POST['TelInfo']) < 15)
+	{
+
+		User::setErrorRegister("Digite um telefone válido!");
+		header("Location: /loja-".$args['store']."/account/data/");
+		exit;
+
+	}
+	
+	if(isset($_POST['WpInfo']) && !empty($_POST['WpInfo']) && strlen($_POST['WpInfo']) < 15)
+	{
+
+		User::setErrorRegister("Digite um whatsapp válido!");
+		header("Location: /loja-".$args['store']."/account/data/");
+		exit;
+
+	}
+
+	$user = new User();
+
+    $user->setData([
+        'emailUser' => $_SESSION[User::SESSION]['emailUser'],
+		'nameUser' => $_POST['NameInfo'],
+		'cpfUser' => $_POST['CpfInfo'],
+		'dateBirthUser' => $_POST['DateInfo'],
+		'genreUser' => $_POST['SxInfo'],
+		'telUser' => $_POST['TelInfo'],
+		'wpUser' => $_POST['WpInfo']
+	]);
+	
+	$user->update();
+
+	header("Location: /loja-".$args['store']."/account/data/");
+	exit;
+
+});
+
+$app->get("/loja-{store}/account/data/", function(Request $request, Response $response, $args) {
+
+	$page = new Page([
+		"login" => 2,
+		"data" => [
+			"ID" => $args['store'],
 		]
+	]);
+
+	$page->setTpl("account-info", [
+		"errorRegister" => User::getErrorRegister(),
+        'successMsg'=> User::getSuccessMsg(),
+		'userAll' => User::listAll()
+	]);
+	
+	return $response;
+
+});
+
+// Page Account Info Password
+$app->post("/loja-{store}/account/data/password/", function(Request $request, Response $response, $args) {
+
+	Store::verifyStore($args["store"]);
+
+	if(isset($_POST['PassInfo']) && empty($_POST['PassInfo']))
+	{
+
+		User::setErrorRegister("Digite sua senha atual!");
+		header("Location: /loja-".$args['store']."/account/data/password/");
+		exit;
+
+	} else if(User::verifyPass($_POST['PassInfo']) === false)
+	{
+
+		User::setErrorRegister("Senha Atual Inválida!");
+		header("Location: /loja-".$args['store']."/account/data/password/");
+		exit;
+
+	}
+
+	if(isset($_POST['PassNewInfo']) && empty($_POST['PassNewInfo']))
+	{
+
+		User::setErrorRegister("Digite uma nova senha!");
+		header("Location: /loja-".$args['store']."/account/data/password/");
+		exit;
+
+	} else if($_POST['PassNewInfo'] == $_POST['PassInfo'])
+	{
+
+		User::setErrorRegister("Nova senha não pode ser igual a sua atual!");
+		header("Location: /loja-".$args['store']."/account/data/password/");
+		exit;
+
+	}
+	
+	if(isset($_POST['PassNewCfInfo']) && empty($_POST['PassNewCfInfo']))
+	{
+		
+		User::setErrorRegister("Confirme sua nova senha!");
+		header("Location: /loja-".$args['store']."/account/data/password/");
+		exit;
+		
+	} else if($_POST['PassNewCfInfo'] != $_POST['PassNewInfo']) {
+
+		User::setErrorRegister("Nova senha não é igual a senha a baixo!");
+		header("Location: /loja-".$args['store']."/account/data/password/");
+		exit;
+
+	}
+
+	if(User::alterPass($_POST['PassNewCfInfo']))
+	{
+		User::setSuccessMsg("Senha alterada com sucesso!.");
+	} else{
+		User::setErrorRegister("Falha ao alterar a senha! Tente novamente mais tarde, se persistir o erro contatar o suporte do site!");
+	}
+	header("Location: /loja-".$args['store']."/account/data/password/");
+	exit;
+
+});
+
+$app->get("/loja-{store}/account/data/password/", function(Request $request, Response $response, $args) {
+
+	$page = new Page([
+		"login" => 2,
+		"data" => [
+			"ID" => $args['store'],
+		]
+	]);
+
+	$page->setTpl("account-info-password", [
+		'errorRegister' => User::getErrorRegister(),
+        'successMsg'=> User::getSuccessMsg(),
 	]);
 	
 	return $response;
@@ -724,24 +803,64 @@ $app->get("/loja-{store}/account/shopping-list/{list}/", function(Request $reque
 });
 
 // Page Account Address
+$app->post("/loja-{store}/account/address/update/", function(Request $request, Response $response, $args) {
+	
+	$code = isset($_POST['ckAd']) ? 1 : 0;
+
+	User::activeMainAddress($_POST['adCode'], $code);
+
+	header("Location: /loja-".$args['store']."/account/address/");
+	exit;
+
+});
+
+$app->post("/loja-{store}/account/address/delete/", function(Request $request, Response $response, $args) {
+
+	$res = User::deleteAddress($_POST['adCode']);
+
+	if($res)
+	{
+		header("Location: /loja-".$args['store']."/account/address/");
+		exit;
+	} else {
+		header("Location: /");
+		exit;
+	}
+
+});
+
 $app->get("/loja-{store}/account/address/", function(Request $request, Response $response, $args) {
 
 	$page = new Page([
+		"login" => 2,
 		"data" => [
-			"links" => [
-				"idStore" => $args["store"],
-				"HTTP" => $_SERVER['HTTP_HOST']
-			],
-			"login" => true
+			"ID" => $args['store'],
 		]
 	]);
 
 	$page->setTpl("account-address", [
-		"buttons" => [
-			"wp" => true,
-			"ct" => true,
-			"ft" => true
+		"userAddress" => User::listAddress()
+	]);
+	
+	return $response;
+
+});
+
+// Page Account Address Edit
+$app->get("/loja-{store}/account/address/edit/", function(Request $request, Response $response, $args) {
+
+	$id = $_GET['code'];
+
+	$page = new Page([
+		"login" => 2,
+		"data" => [
+			"ID" => $args['store'],
 		]
+	]);
+
+	$page->setTpl("account-address-edit", [
+		"state" => Store::listState(),
+		"userAddress" => User::listAddress($id)
 	]);
 	
 	return $response;

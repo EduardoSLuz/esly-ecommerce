@@ -245,6 +245,18 @@ function alterStores(select){
     window.scrollTo(0, 350);
 }
 
+// Funções Page home
+function alterDeliveryType(select){
+    var slt = document.getElementById(select);
+
+    if(slt.value == 0)
+    {
+        $('.dvHorarys').addClass('d-none');
+    } else{
+        $('.dvHorarys').addClass('d-none');
+        $('.dvHorary' + slt.value).removeClass('d-none');
+    }
+}
 
 window.addEventListener('resize', function () {
     //var altura = window.innerHeight;

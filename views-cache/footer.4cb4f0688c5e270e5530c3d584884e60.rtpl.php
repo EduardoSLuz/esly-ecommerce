@@ -1,189 +1,243 @@
-<?php if(!class_exists('Rain\Tpl')){exit;}?><footer id="Footer-RedesSociais" class="<?php echo htmlspecialchars( $layout["footerBar"], ENT_COMPAT, 'UTF-8', FALSE ); ?> mt-5 NoPrintabled">
-		
+<?php if(!class_exists('Rain\Tpl')){exit;}?><?php if( $layout["socialLayout"] == 1 ){ ?>
+    <footer id="Footer-RedesSociais" class="<?php echo htmlspecialchars( $layout["bgFooterLayout"], ENT_COMPAT, 'UTF-8', FALSE ); ?> mt-5 NoPrintabled">
+        
     <div class="bcg-ini ct-center">
         
-        <div class="text-right <?php echo htmlspecialchars( $layout["footerText"], ENT_COMPAT, 'UTF-8', FALSE ); ?> py-2">
+        <div class="ct-ini text-right <?php echo htmlspecialchars( $layout["txFooterLayout"], ENT_COMPAT, 'UTF-8', FALSE ); ?> py-2">
             <a class="font-weight-normal">Redes Sociais:</a>
-            <a href="https://www.instagram.com/" target="__blank" class="<?php echo htmlspecialchars( $layout["footerText"], ENT_COMPAT, 'UTF-8', FALSE ); ?> h5"><i class="fab fa-instagram"></i></a>&nbsp;   
-            <a href="https://www.facebook.com/" target="__blank" class="<?php echo htmlspecialchars( $layout["footerText"], ENT_COMPAT, 'UTF-8', FALSE ); ?> h5"><i class="fab fa-facebook-square"></i></a>&nbsp;  
-            <a href="https://www.twitter.com/" target="__blank" class="<?php echo htmlspecialchars( $layout["footerText"], ENT_COMPAT, 'UTF-8', FALSE ); ?> h5"><i class="fab fa-twitter-square"></i></a>&nbsp; 
-            <a href="https://www.youtube.com/" target="__blank" class="<?php echo htmlspecialchars( $layout["footerText"], ENT_COMPAT, 'UTF-8', FALSE ); ?> h5"><i class="fab fa-youtube"></i></a>  
+            <?php $counter1=-1;  if( isset($storeSocial) && ( is_array($storeSocial) || $storeSocial instanceof Traversable ) && sizeof($storeSocial) ) foreach( $storeSocial as $key1 => $value1 ){ $counter1++; ?>
+                <a href="<?php echo htmlspecialchars( $value1["linkSocial"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" target="__blank" class="<?php echo htmlspecialchars( $layout["txFooterLayout"], ENT_COMPAT, 'UTF-8', FALSE ); ?> h6 mr-1"><i class="<?php echo htmlspecialchars( $value1["iconSocial"], ENT_COMPAT, 'UTF-8', FALSE ); ?>"></i></a>   
+            <?php } ?>
         </div>
-    
+
     </div>	
 
-</footer>
-      
+    </footer>
+<?php } ?>      
   
-<section id="FooterInfo" class="mt-5 ct-center mb-5 NoPrintabled">
+<section id="FooterInfo" class="mt-5 bg-light ct-center mb-5 NoPrintabled">
     
     <div class="ct-ini row">
         
-        <div class="col-md-4 mt-mob">
-            
-            <p class="h6">Suporte</p>
-            <hr>
-            <p class="h6 font-weight-normal">
-                <i class="fas fa-phone-alt"></i> (67) 9876-5432 <br>
-                <i class="fab fa-whatsapp mt-4"></i> (67) 98765-4321 <br>
-                <i class="far fa-envelope mt-4"></i> Suporte@astemacms.com.br<br>
-                <i class="far fa-clock mt-4"></i> Horario de Atendimento:
-                <ul class="txList-StyleNone">
-                    <li class="mt-2">Segunda a Sexta: 08:00 - 20:00</li>
-                    <li class="mt-2">Sábado: 08:00 - 17:00</li>
-                    <li class="mt-2">Domingo: 08:00 - 19:00</li>
-                </ul>
-            </p>
-        
-        </div>
-        
-        <div class="col-md-4 mt-mob">
-            
-            <p class="h6">Institucional</p>
-            <hr>
-            <p class="h6 font-weight-normal text-dark">
-                <a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/info/" class="text-decoration-none text-dark"><i class="fas fa-chevron-right text-secondary"></i> Sobre a empresa</a><br>
-                <a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/our-stores/" class="text-decoration-none text-dark"><i class="fas fa-chevron-right text-secondary mt-3"></i> Todas as lojas</a><br>
-                <a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/partners/" class="text-decoration-none text-dark"><i class="fas fa-chevron-right text-secondary mt-3"></i> Parceiros</a><br>
-                <a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/help/" class="text-decoration-none text-dark"><i class="fas fa-chevron-right text-secondary mt-3"></i> Peguntas Frequentes</a><br>
-                <a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/promotions/" class="text-decoration-none text-dark"><i class="fas fa-chevron-right text-secondary mt-3"></i> Promoções</a><br>
-                <a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/contact/" class="text-decoration-none text-dark"><i class="fas fa-chevron-right text-secondary mt-3"></i> Fale Conosco</a><br>
-                <a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/contact-work/" class="text-decoration-none text-dark"><i class="fas fa-chevron-right text-secondary mt-3"></i> Trabalhe Conosco</a><br>
-                <a href="https://www.astemac.com.br" target="_blank" class="text-decoration-none text-dark"><i class="fas fa-chevron-right text-secondary mt-3"></i> Astemac</a><br>
-            </p>
-        
-        </div>
-        
-        <div class="col-md-4 mt-mob">
-        
-            <p class="h6">Formas de Pagamento</p>
-            <hr>
-            <p>
-                <small>Por Entrega:</small>
+        <?php if( $layout["suportLayout"] == 1 ){ ?>
+            <div class="col-md-4 mt-mob">
                 
-                <div class="row">
-                    <img src="/resources/imgs/cards-payment/mastercard.png" alt="MasterCard" class="d-block ml-3" data-toggle="popover" data-placement="top" data-trigger="hover" data-html="true" data-content="MasterCard">
+                <p class="h6">Suporte</p>
+                <hr>
+                <p class="h6 font-weight-normal">
 
-                    <img src="/resources/imgs/cards-payment/elo.png" alt="Elo" class="d-block ml-3" data-toggle="popover" data-placement="top" data-trigger="hover" data-html="true" data-content="Elo">
+                    <i class="fas fa-mobile-alt"></i> <?php if( $store["0"]["telephoneStore"] != 0 ){ ?> <?php echo maskTel($store["0"]["telephoneStore"]); ?> <?php }else{ ?> <b>Sem Telefone</b> <?php } ?> <br>
+                    <i class="far fa-envelope mt-4"></i> <?php if( $store["0"]["emailStore"] != '' ){ ?> <?php echo htmlspecialchars( $store["0"]["emailStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?> <?php }else{ ?> <b>Sem e-mail</b> <?php } ?> <br>
+                    <i class="fab fa-whatsapp mt-4"></i> <?php if( $store["0"]["whatsappStore"] != 0 ){ ?> <?php echo maskTel($store["0"]["whatsappStore"]); ?> <?php }else{ ?> <b>Sem whatsapp</b> <?php } ?> <br>
+                    
+                    <?php if( $horary != 0 ){ ?>
+                        <i class="far fa-clock mt-4 mb-1"></i> Horario de Atendimento:
+                        <ul class="txList-StyleNone tx-IconCart">
+                            
+                            <?php $counter1=-1;  if( isset($horary) && ( is_array($horary) || $horary instanceof Traversable ) && sizeof($horary) ) foreach( $horary as $key1 => $value1 ){ $counter1++; ?>
+                                <li class="my-2">
+                                    <?php echo htmlspecialchars( $value1["dayName"], ENT_COMPAT, 'UTF-8', FALSE ); ?><?php if( isset($value1["dayNameFinal"]) ){ ?>-<?php echo htmlspecialchars( $value1["dayNameFinal"], ENT_COMPAT, 'UTF-8', FALSE ); ?><?php } ?>: <?php echo date('H:i', strtotime($value1["timeInitial"])); ?> às <?php echo date('H:i', strtotime($value1["timeFinal"])); ?>
 
-                    <img src="/resources/imgs/cards-payment/visa.png" alt="Visa" class="d-block ml-3" data-toggle="popover" data-placement="top" data-trigger="hover" data-html="true" data-content="Visa">
+                                    <?php if( $value1["timeInitial2"] > $value1["timeInitial"] ){ ?>
+                                        - <?php echo date('H:i', strtotime($value1["timeInitial2"])); ?> às <?php echo date('H:i', strtotime($value1["timeFinal2"])); ?>
+                                    <?php } ?>
+                                </li>
+                            <?php } ?>
+
+                        </ul>
+                    <?php } ?>
+                </p>
+            
+            </div>
+        <?php } ?>
+        
+        <?php if( $layout["institutionalLayout"] == 1 ){ ?>
+            <div class="col-md-4 mt-mob">
+                
+                <p class="h6">Institucional</p>
+                <hr>
+
+                <div class="h6 font-weight-normal text-dark">
                     
-                    <img src="/resources/imgs/cards-payment/ticket.png" alt="Ticket" class="d-block ml-3" data-toggle="popover" data-placement="top" data-trigger="hover" data-html="true" data-content="Ticket">
+                    <?php if( $storeInstitution["0"]["infoStore"] == 1 ){ ?>
+                        <p class="my-3">
+                            <a href="/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/info/" class="text-decoration-none text-dark my-3"><i class="fas fa-chevron-right text-secondary"></i> Sobre a empresa</a>
+                        </p>
+                    <?php } ?>
+
+                    <?php if( $storeInstitution["0"]["allStore"] == 1 ){ ?>
+                        <p class="my-3">
+                            <a href="/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/our-stores/" class="text-decoration-none text-dark"><i class="fas fa-chevron-right text-secondary"></i> Todas as lojas</a>
+                        </p>
+                    <?php } ?>
+
+                    <?php if( $storeInstitution["0"]["partnerStore"] == 1 ){ ?>
+                        <p class="my-3">
+                            <a href="/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/partners/" class="text-decoration-none text-dark"><i class="fas fa-chevron-right text-secondary"></i> Parceiros</a>
+                        </p>
+                    <?php } ?>
+
+                    <?php if( $storeInstitution["0"]["helpStore"] == 1 ){ ?>
+                        <p class="my-3">
+                            <a href="/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/help/" class="text-decoration-none text-dark"><i class="fas fa-chevron-right text-secondary"></i> Peguntas Frequentes</a>
+                        </p>
+                    <?php } ?>
+
+                    <?php if( $storeInstitution["0"]["promotionStore"] == 1 ){ ?>
+                        <p class="my-3">
+                            <a href="/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/promotions/" class="text-decoration-none text-dark"><i class="fas fa-chevron-right text-secondary"></i> Promoções</a>
+                        </p>
+                    <?php } ?>
+
+                    <?php if( $storeInstitution["0"]["contactStore"] == 1 ){ ?>
+                        <p class="my-3">
+                            <a href="/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/contact/" class="text-decoration-none text-dark"><i class="fas fa-chevron-right text-secondary"></i> Fale Conosco</a>
+                        </p>
+                    <?php } ?> 
                     
-                    <img src="/resources/imgs/cards-payment/alelo.png" alt="Alelo" class="d-block ml-3" data-toggle="popover" data-placement="top" data-trigger="hover" data-html="true" data-content="Alelo">
+                    <?php if( $storeInstitution["0"]["workStore"] == 1 ){ ?>
+                        <p class="my-3">
+                            <a href="/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/contact-work/" class="text-decoration-none text-dark"><i class="fas fa-chevron-right text-secondary"></i> Trabalhe Conosco</a>
+                        </p>
+                    <?php } ?> 
                     
-                    <img src="/resources/imgs/cards-payment/sodexo.png" alt="Sodexo" class="d-block ml-3" data-toggle="popover" data-placement="top" data-trigger="hover" data-html="true" data-content="Sodexo">
-                    
-                    <img src="/resources/imgs/cards-payment/vale.png" alt="Vale" class="d-block ml-3" data-toggle="popover" data-placement="top" data-trigger="hover" data-html="true" data-content="Vale">
-                    
-                    <img src="/resources/imgs/cards-payment/american_express.png" alt="American_Express" class="d-block ml-3" data-toggle="popover" data-placement="top" data-trigger="hover" data-html="true" data-content="American Express">
-                    
-                    <img src="/resources/imgs/cards-payment/hiper.png" alt="Hiper" class="d-block ml-3" data-toggle="popover" data-placement="top" data-trigger="hover" data-html="true" data-content="Hiper">
-                    
-                    <img src="/resources/imgs/cards-payment/deposito_bancario.png" alt="Deposito_Bancario" class="d-block ml-3" data-toggle="popover" data-placement="top" data-trigger="hover" data-html="true" data-content="Depósito Bancario">
-                    
-                    <img src="/resources/imgs/cards-payment/dinheiro.png" alt="Dinheiro" class="d-block ml-3" data-toggle="popover" data-placement="top" data-trigger="hover" data-html="true" data-content="Dinheiro">
-                    
+                    <p class="my-3">
+                        <a href="https://www.astemac.com.br" target="_blank" class="text-decoration-none text-dark"><i class="fas fa-chevron-right text-secondary"></i> Astemac</a>
+                    </p> 
+
                 </div>
-                
-            </p>
+            
+            </div>
+        <?php } ?>
         
-            <p>
-                <small>Por Retirada:</small>
-                
-                <div class="row">
-                    <img src="/resources/imgs/cards-payment/mastercard.png" alt="MasterCard" class="d-block ml-3" data-toggle="popover" data-placement="top" data-trigger="hover" data-html="true" data-content="MasterCard">
+        <?php if( $layout["paymentLayout"] == 1 ){ ?>
+            <div class="col-md-4 mt-mob">
+            
+                <p class="h6">Formas de Pagamento</p>
+                <hr>
 
-                    <img src="/resources/imgs/cards-payment/elo.png" alt="Elo" class="d-block ml-3" data-toggle="popover" data-placement="top" data-trigger="hover" data-html="true" data-content="Elo">
+                <?php if( count($storePayment["0"]) > 0 ){ ?>
 
-                    <img src="/resources/imgs/cards-payment/visa.png" alt="Visa" class="d-block ml-3" data-toggle="popover" data-placement="top" data-trigger="hover" data-html="true" data-content="Visa">
-                    
-                    <img src="/resources/imgs/cards-payment/dinheiro.png" alt="Dinheiro" class="d-block ml-3" data-toggle="popover" data-placement="top" data-trigger="hover" data-html="true" data-content="Dinheiro">
-                    
-                </div>
-                
-            </p>
-    
-            <p>
-                <small>No Site:</small>
-                
-                <div class="row">
-                    <img src="/resources/imgs/cards-payment/pagseguro.png" alt="PagSeguro" class="d-block ml-3" data-toggle="popover" data-placement="top" data-trigger="hover" data-html="true" data-content="PagSeguro">
+                    <small>Por Entrega:</small>
 
-                    <img src="/resources/imgs/cards-payment/cielo.png" alt="Cielo" class="d-block ml-3" data-toggle="popover" data-placement="top" data-trigger="hover" data-html="true" data-content="Cielo">
-                    
-                </div>
-                
-            </p>
+                    <div class="my-2">
+                        <?php $counter1=-1;  if( isset($storePayment["0"]) && ( is_array($storePayment["0"]) || $storePayment["0"] instanceof Traversable ) && sizeof($storePayment["0"]) ) foreach( $storePayment["0"] as $key1 => $value1 ){ $counter1++; ?>
         
-        </div>
+                            <img src="/resources/imgs/cards-payment/<?php echo htmlspecialchars( $value1["linkPayStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" alt="<?php echo htmlspecialchars( $value1["namePayStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" class="d-block-inline mr-2" data-toggle="popover" data-placement="top" data-trigger="hover" data-html="true" data-content="<?php echo htmlspecialchars( $value1["namePayStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
 
-        <div class="col-md-4 mt-mob">
-            
-            <p class="h6">Baixe Nosso App</p>
-            <hr>
-            
-            <p>
-            
-                <div class="row ml-1">
-                    
-                    <a class="btn btn-light border" target="_blank" href="https://play.google.com/">
-                        <i class="fab fa-google-play"></i>
-                        <span class="h6">Play Store</span>
-                    </a>
-                    
-                </div>
+                        <?php } ?>
+                    </div>
+
+                <?php } ?>
+
+                <?php if( count($storePayment["1"]) > 0 ){ ?>
+
+                    <small>Por Retirada:</small>
+
+                    <div class="my-2">
+                        <?php $counter1=-1;  if( isset($storePayment["1"]) && ( is_array($storePayment["1"]) || $storePayment["1"] instanceof Traversable ) && sizeof($storePayment["1"]) ) foreach( $storePayment["1"] as $key1 => $value1 ){ $counter1++; ?>
+        
+                            <img src="/resources/imgs/cards-payment/<?php echo htmlspecialchars( $value1["linkPayStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" alt="<?php echo htmlspecialchars( $value1["namePayStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" class="d-block-inline mr-2" data-toggle="popover" data-placement="top" data-trigger="hover" data-html="true" data-content="<?php echo htmlspecialchars( $value1["namePayStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
+
+                        <?php } ?>
+                    </div>
+
+                <?php } ?>
+
+                <?php if( count($storePayment["2"]) > 0 ){ ?>
+
+                    <small>No Site:</small>
+
+                    <div class="my-2">
+                        <?php $counter1=-1;  if( isset($storePayment["2"]) && ( is_array($storePayment["2"]) || $storePayment["2"] instanceof Traversable ) && sizeof($storePayment["2"]) ) foreach( $storePayment["2"] as $key1 => $value1 ){ $counter1++; ?>
+        
+                            <img src="/resources/imgs/cards-payment/<?php echo htmlspecialchars( $value1["linkPayStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" alt="<?php echo htmlspecialchars( $value1["namePayStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" class="d-block-inline mr-2" data-toggle="popover" data-placement="top" data-trigger="hover" data-html="true" data-content="<?php echo htmlspecialchars( $value1["namePayStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
+
+                        <?php } ?>
+                    </div>
+
+                <?php } ?>
+
+            </div>
+        <?php } ?>
+
+        <?php if( $layout["appLayout"] == 1 ){ ?>
+            <div class="col-md-4 mt-mob">
                 
-            </p>
-            
-        </div>
-
-        <div class="col-md-4 mt-mob">
-            
-            <p class="h6">Site Seguro</p>
-            <hr>
-            
-            <p>
-            
-                <div class="row ml-1">
-                    
-                    <img src="/resources/imgs/cards-security/google_security.png" alt="Google_Security" class="ml-3" data-toggle="popover" data-placement="top" data-trigger="hover" data-html="true" data-content="Google" width="150" height="50">
-                    
-                    <img src="/resources/imgs/cards-security/Certising.png" alt="Certising" class="ml-3" data-toggle="popover" data-placement="top" data-trigger="hover" data-html="true" data-content="Certising" width="100" height="50">
-                    
-                </div>
+                <p class="h6">Baixe Nosso App</p>
+                <hr>
                 
-            </p>
-            
-        </div>
-
-        <div class="col-md-4 mt-mob">
-
-            <p class="h6">Receba Ofertas Exclusivas</p>
-            <hr>
-
-            <p>
-                <form class="input-group mb-2" method="POST">
+                <p>
                     
-                    <div class="input-group-prepend">
-                          <span class="input-group-text bg-white"><i class="far fa-envelope"></i></span>
+                    <div class="row ml-1">
+
+                        <?php $counter1=-1;  if( isset($storeApp) && ( is_array($storeApp) || $storeApp instanceof Traversable ) && sizeof($storeApp) ) foreach( $storeApp as $key1 => $value1 ){ $counter1++; ?>
+                            
+                            <a class="btn btn-light border m-1" target="_blank" href="<?php echo htmlspecialchars( $value1["linkSocial"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
+                                <i class="<?php echo htmlspecialchars( $value1["iconSocial"], ENT_COMPAT, 'UTF-8', FALSE ); ?>"></i>
+                                <span class="h6"><?php echo htmlspecialchars( $value1["nameSocial"], ENT_COMPAT, 'UTF-8', FALSE ); ?></span>
+                            </a>
+                            
+                        <?php } ?>
+
+                    </div>
+
+                </p>
+                
+            </div>
+        <?php } ?>
+
+        <?php if( $layout["securityLayout"] == 1 ){ ?>
+            <div class="col-md-4 mt-mob">
+                
+                <p class="h6">Site Seguro</p>
+                <hr>
+                
+                <p>
+                
+                    <div class="row">
+                        
+                        <img src="/resources/imgs/cards-security/google_security.png" alt="Google_Security" class="ml-3" data-toggle="popover" data-placement="top" data-trigger="hover" data-html="true" data-content="Google" width="150" height="50">
+                        
+                        <img src="/resources/imgs/cards-security/Certising.png" alt="Certising" class="ml-3" data-toggle="popover" data-placement="top" data-trigger="hover" data-html="true" data-content="Certising" width="100" height="50">
+                        
                     </div>
                     
-                    <input type="email" class="form-control" placeholder="Digite seu e-mail">
-    
-                    <button type="button" class="btn <?php echo htmlspecialchars( $layout["btn"], ENT_COMPAT, 'UTF-8', FALSE ); ?> input-group-append">Enviar</button>
+                </p>
+                
+            </div>
+        <?php } ?>
 
-                </form>
+        <?php if( $layout["promotionLayout"] == 1 ){ ?>
+            <div class="col-md-4 mt-mob">
 
-                <a class="font-weight-light">Inscreva-se para receber ofertas e descontos exclusivos no seu e-mail.</a>
+                <p class="h6">Receba Ofertas Exclusivas</p>
+                <hr>
 
-            </p>
+                <p>
+                    <form class="input-group mb-2" method="POST">
+                        
+                        <div class="input-group-prepend">
+                            <span class="input-group-text bg-white"><i class="far fa-envelope"></i></span>
+                        </div>
+                        
+                        <input type="email" class="form-control" placeholder="Digite seu e-mail">
+        
+                        <button type="button" class="btn <?php echo htmlspecialchars( $layout["btnLayout"], ENT_COMPAT, 'UTF-8', FALSE ); ?> input-group-append">Enviar</button>
 
-        </div>
+                    </form>
 
+                    <a class="font-weight-light">Inscreva-se para receber ofertas e descontos exclusivos no seu e-mail.</a>
+
+                </p>
+
+            </div>
+        <?php } ?>
+        
+        <?php if( $layout["detailLayout"] == 1 ){ ?>
         <div class="col-md-12">
 
-            <p class="h6 font-weight-light mt-5">
+            <p class="tx-IconCart font-weight-light mt-5">
                 * Informamos que os preços, ofertas e condições de pagamento são exclusivos para internet válidos para o dia de hoje, podendo sofrer alterações sem aviso prévio.<br>
                 * As ações/promoções do site são destinadas à pessoas físicas, podendo ser utilizadas em uma compra por CPF, não sendo cumulativas.<br>
                 * O pedido será concluído de acordo com a disponibilidade em nosso estoque. Caso ocorra a falta de algum item, este não será entregue e o valor correspondente não será cobrado. O valor total de sua compra poderá ter uma variação de 20% (para mais ou menos) em virtude dos produtos de peso variável. <br>
@@ -193,26 +247,27 @@
             </p>
 
         </div>
+        <?php } ?>
     
     </div>
   
 </section>
 
-<section class="<?php echo htmlspecialchars( $layout["footerBar"], ENT_COMPAT, 'UTF-8', FALSE ); ?> NoPrintabled">
+<section class="<?php echo htmlspecialchars( $layout["bgFooterLayout"], ENT_COMPAT, 'UTF-8', FALSE ); ?> NoPrintabled">
     
     <div class="ct-center">
         <div class="py-2">
 
-            <div class="row <?php echo htmlspecialchars( $layout["footerText"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
+            <div class="ct-ini row <?php echo htmlspecialchars( $layout["txFooterLayout"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
 
                 <div class="col-7">
-                    <a class="tx-footer"><b>© Astemac / 00.000.000/0000-00</b></a>
+                    <a class="tx-footer"><b>© <?php echo htmlspecialchars( $store["0"]["nameStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?> / <?php echo maskCnpj($store["0"]["cnpjStore"]); ?></b></a>
                 </div>
 
                 <div class="col-5">
                     <div class="text-right">
 
-                        <b class="tx-footer">Desenvolvido por: <a href="https://astemac.com.br" target="_blank" class="<?php echo htmlspecialchars( $layout["footerText"], ENT_COMPAT, 'UTF-8', FALSE ); ?> h5">Astemac</a></b>
+                        <b class="tx-footer">Desenvolvido por: <a href="https://astemac.com.br" target="_blank" class="<?php echo htmlspecialchars( $layout["txFooterLayout"], ENT_COMPAT, 'UTF-8', FALSE ); ?> h5 text-decoration-none">Astemac</a></b>
 
                     </div>
                 </div>
@@ -221,7 +276,7 @@
     </div>	
 </section>
 
-<?php if( $buttons["wp"] === true ){ ?>        
+<?php if( $wp === true ){ ?>        
 <div id="BtnWhatsapp" class="BtnsFloat ml-3 mb-5 text-left fixed-bottom null-height">
     <a class="bg-success h2 rounded px-1 shadow" href="https://api.whatsapp.com/send?phone=556796218853" target="_blank">
         <i class="fab fa-whatsapp text-white"></i>
@@ -229,23 +284,26 @@
 </div>
 <?php } ?>
 
-<?php if( $buttons["ct"] === true ){ ?>
+<?php if( $ct === true ){ ?>
 <div id="BtnCart" class="BtnsFloat mr-3 mb-5 text-right fixed-bottom null-height cart-BtnFloat">
-    <a class="bg-light h2 rounded px-1 shadow-sm" href='/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/<?php if( $login ){ ?>checkout/cart<?php }else{ ?>login<?php } ?>/'>
+    <a class="bg-light h2 rounded px-1 shadow-sm" href='/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/<?php if( $userValues["login"] ){ ?>checkout/cart<?php }else{ ?>login<?php } ?>/'>
         <i class="fas fa-shopping-cart text-dark text-center tx-IconCart"></i>
-        <span class="h6 <?php echo htmlspecialchars( $layout["footerBar"], ENT_COMPAT, 'UTF-8', FALSE ); ?> text-white px-1 cart-IconCt">0</span>
+        <span class="h6 <?php echo htmlspecialchars( $layout["txH3Layout"], ENT_COMPAT, 'UTF-8', FALSE ); ?> text-white cart-IconCt">0</span>
     </a>
     
 </div>
 <?php } ?>
 
-<?php if( $buttons["ft"] === true ){ ?>
+<?php if( $ft === true ){ ?>
 <div id="BtnFilter" class="BtnsFloat text-left fixed-bottom null-height cart-BtnFloat top-25">
     <a class="bg-light border h5 bd-Rd5Right px-2 py-2 shadow " onclick="openNav()">
         <i class="fas fa-chevron-right"></i>
     </a>
 </div>
 <?php } ?>
+
+<!-- MODELS -->
+<?php require $this->checkTemplate("models");?>
 
 <!-- Bootstrap - Include all compiled plugins (below), or include individual files as needed -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
@@ -254,6 +312,9 @@
 <!-- Bootstrap - jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 
+<!-- Jquery Mask -->
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js'></script>
+
 <!-- Custom Javascripts -->
 <script src="/resources/js/bootnavbar.js"></script>
 <script src="/resources/js/owl.carousel.min.js"></script>  
@@ -261,12 +322,22 @@
 
 <script>
     
+    $(".maskCpf").mask("000.000.000-00");
+    $(".maskTel").mask("(00) 00000-0000");
+
     $(function () {
         $('#main_navbar').bootnavbar({
             //option
             animation: false
         });
     })
+
+    
+    $(".btnEditAddress").click(function() {
+        $.get("/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/account/teste/", "campo=1", function(data) {
+            console.log(data);
+        });
+    });
     
     $(function () {
           $('[data-toggle="popover"]').popover()

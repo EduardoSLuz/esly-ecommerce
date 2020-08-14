@@ -3,8 +3,8 @@
 		<div class="ct-ini mt-mobNavbar">
 			
 			<nav aria-label="breadcrumb" class="bar-display">
-				<ol class="breadcrumb bg-white">
-				  <li class="breadcrumb-item"><a href="/loja-{$links.idStore}/">Home</a></li>
+				<ol class="breadcrumb {$layout.bgLayout}">
+				  <li class="breadcrumb-item"><a href="/loja-{$ID}/">Home</a></li>
 				  <li class="breadcrumb-item active" aria-current="page">Sobre a empresa</li>
 				</ol>
 			</nav>
@@ -13,15 +13,7 @@
 
 				<div class="col-md-3 bar-display">
 					
-					<div class="list-group">
-						<a href="/loja-{$links.idStore}/info/" class="list-group-item list-group-item-action list-group-item-primary active">Sobre a empresa</a>
-						<a href="/loja-{$links.idStore}/our-stores/" class="list-group-item list-group-item-action">Nossas Lojas</a>
-						<a href="/loja-{$links.idStore}/partners/" class="list-group-item list-group-item-action">Parceiros</a>
-						<a href="/loja-{$links.idStore}/help/" class="list-group-item list-group-item-action">Perguntas Frequentes</a>
-						<a href="/loja-{$links.idStore}/contact/" class="list-group-item list-group-item-action">Fale Conosco</a>
-						<a href="/loja-{$links.idStore}/contact-work/" class="list-group-item list-group-item-action">Trabalhe Conosco</a>
-						<a href="/loja-{$links.idStore}/promotions/" class="list-group-item list-group-item-action">Promoções</a>
-					</div>
+					{include="informationsLinks"}
 
 				</div>
 
@@ -29,17 +21,13 @@
 					<p class="h5 text-uppercase font-weight-normal">Sobre a empresa</p>
 					<hr>
 
-					<p class="h6">
-						Simples, porque nos propomos a repensar e reinventar as formas de desenvolver projetos.
-					</p>
+					{loop="$storeInfo"}
 
-					<p class="h6 mt-3">						
-						Contamos com uma equipe de profissionais qualificados para desmistificar o cenário digital e propôr as melhores soluções para cada projeto.
-					</p>
+						<p class="h6 my-2">
+							{$value.textInfoStore}
+						</p>
 
-					<p class="h6 mt-3">
-						Somos apaixonados pelo que fazemos e damos o melhor de nós, afinal de contas, dedicamos nosso tempo a isso e queremos que tudo saia perfeito. Além disso, compreendemos a importância e os resultados que uma equipe produtiva e focada traz aos clientes.
-					</p>
+					{/loop}
 				</div>
 
 			</div>
@@ -57,15 +45,7 @@
 
 			<p class="h5 font-weight-normal">Outras Páginas</p>
 				
-			<div class="list-group mt-3">
-				<a href="/loja-{$links.idStore}/info/" class="list-group-item list-group-item-action list-group-item-primary active">Sobre a empresa</a>
-				<a href="/loja-{$links.idStore}/our-stores/" class="list-group-item list-group-item-action">Nossas Lojas</a>
-				<a href="/loja-{$links.idStore}/partners/" class="list-group-item list-group-item-action">Parceiros</a>
-				<a href="/loja-{$links.idStore}/help/" class="list-group-item list-group-item-action">Perguntas Frequentes</a>
-				<a href="/loja-{$links.idStore}/contact/" class="list-group-item list-group-item-action">Fale Conosco</a>
-				<a href="/loja-{$links.idStore}/contact-work/" class="list-group-item list-group-item-action">Trabalhe Conosco</a>
-				<a href="/loja-{$links.idStore}/promotions/" class="list-group-item list-group-item-action">Promoções</a>
-			</div>
+			{include="informationsLinks"}
 			
 		</div>
 

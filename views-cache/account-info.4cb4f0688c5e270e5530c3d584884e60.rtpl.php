@@ -3,9 +3,9 @@
 		<div class="ct-ini mt-mobNavbar">
 			
 			<nav aria-label="breadcrumb" class="bar-display">
-				<ol class="breadcrumb bg-white">
-					<li class="breadcrumb-item"><a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/">Home</a></li>
-					<li class="breadcrumb-item"><a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/account/requests/">Account</a></li>
+				<ol class="breadcrumb <?php echo htmlspecialchars( $layout["bgLayout"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
+					<li class="breadcrumb-item"><a href="/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/">Home</a></li>
+				 	<li class="breadcrumb-item"><a href="/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/account/requests/">Account</a></li>
 				  	<li class="breadcrumb-item active" aria-current="page">My Info</li>
 				</ol>
 			</nav>
@@ -14,81 +14,82 @@
 
 				<div class="col-md-3 bar-display">
 					
-					<div class="list-group">
-						<a class="list-group-item list-group-item-action py-4 font-weight-light">
-							<span class="h5 font-weight-normal">User</span>
-							<span><br>9 de Julho de 2020 às 14:40</span>
-						</a>
-						<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/account/requests/" class="list-group-item list-group-item-action"><i class="fas fa-shopping-bag"></i> Pedidos</a>
-						<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/account/shopping-list/" class="list-group-item list-group-item-action"><i class="far fa-heart"></i> Lista de compra</a>
-						<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/account/data/" class="list-group-item list-group-item-action"><i class="far fa-user"></i> Meus dados</a>
-						<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/account/address/" class="list-group-item list-group-item-action"><i class="fas fa-map-marker-alt"></i> Endereços</a>
-						<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/logout/" class="list-group-item list-group-item-action"><i class="fas fa-sign-out-alt"></i> Sair</a>
-					</div>
+					<?php require $this->checkTemplate("accountLinks");?>
 
 				</div>
 
 				<div class="col-md">
 					<p class="h4 font-weight-normal">Meus dados</p>
 					
+					<?php if( $errorRegister != '' ){ ?>
+						<div class="alert alert-danger alert-dismissible fade show text-left" role="alert">
+							
+							<span><?php echo htmlspecialchars( $errorRegister, ENT_COMPAT, 'UTF-8', FALSE ); ?></span>
+							
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						  		<span aria-hidden="true">&times;</span>
+							</button>
+
+						</div>
+					<?php } ?>
+
+					<?php if( $successMsg != '' ){ ?>	
+
+						<div class="alert alert-success alert-dismissible fade show text-left" role="alert">
+								
+							<span><?php echo htmlspecialchars( $successMsg, ENT_COMPAT, 'UTF-8', FALSE ); ?></span>
+							
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+
+						</div>
+
+					<?php } ?>
+					
 					<form class="mt-3 row" method="POST">
 						
 						<div class="col-md-12">
 							<label for="NameInfo">Nome Completo:</label>
-							<input type="text" class="form-control is-invalid" id="NameInfo" name="NameInfo" placeholder="Digite seu nome">
-							<div class="invalid-feedback">
-								Empty
-							</div>
+							<input type="text" class="form-control" id="NameInfo" name="NameInfo" placeholder="Digite seu nome" value="<?php echo htmlspecialchars( $userAll["nameUser"], ENT_COMPAT, 'UTF-8', FALSE ); ?> <?php echo htmlspecialchars( $userAll["surnameUser"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
 						</div>
 
 						<div class="col-md-6 mt-3">
 							<label for="CpfInfo">Cpf:</label>
-							<input type="text" class="form-control is-invalid" id="CpfInfo" name="CpfInfo" placeholder="___.___.___-__">
-							<div class="invalid-feedback">
-								Empty
-							</div>
+							<input type="text" class="form-control maskCpf" id="CpfInfo" name="CpfInfo" placeholder="___.___.___-__" value="<?php echo htmlspecialchars( $userAll["cpfUser"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
 						</div>
 
 						<div class="col-md-6 mt-3">
 							<label for="DataNasInfo">Data Nascimento:</label>
-							<input type="date" class="form-control is-invalid" id="DataNasInfo" name="DataNasInfo">
-							<div class="invalid-feedback">
-								Empty
-							</div>
+							<input type="date" class="form-control" id="DateInfo" name="DateInfo" value="<?php echo htmlspecialchars( $userAll["dateBirthUser"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
 						</div>
 
 						<div class="col-md-12 mt-3">
 							<label for="SxInfo">Gênero:</label>
-							<select id="SxInfo" name="SxInfo" class="custom-select">
-								<option>Selecione seu gênero</option>
-								<option>Feminino</option>
-								<option>Masculino</option>
-								<option>Outros</option>
+							<select id="SxInfo" name="SxInfo" class="custom-select" required>
+								<option value selected>Selecione seu gênero</option>
+								<option value="1">Feminino</option>
+								<option value="2">Masculino</option>
+								<option value="3">Outros</option>
 							</select>
 						</div>
 
 						<div class="col-md-6 mt-3">
 							<label for="TelInfo">Telefone:</label>
-							<input type="text" class="form-control is-invalid" id="TelInfo" name="TelInfo" placeholder="(__) _____-____">
-							<div class="invalid-feedback">
-								Empty
-							</div>
+							<input type="text" class="form-control maskTel" id="TelInfo" name="TelInfo" placeholder="(__) _____-____" value="<?php echo htmlspecialchars( $userAll["telephoneUser"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
 						</div>
 
 						<div class="col-md-6 mt-3">
 							<label for="WpInfo">Whatsapp:</label>
-							<input type="text" class="form-control is-invalid" id="WpInfo" name="WpInfo" placeholder="(__) _____-____">
-							<div class="invalid-feedback">
-								Empty
-							</div>
+							<input type="text" class="form-control maskTel" id="WpInfo" name="WpInfo" placeholder="(__) _____-____" value="<?php echo htmlspecialchars( $userAll["whatsappUser"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
 						</div>
 
 						<div class="col-md-6 mt-3">
-							<button type="submit" class="btn btn-primary">Salvar</button>
+							<button type="submit" class="btn <?php echo htmlspecialchars( $layout["btnLayout"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">Salvar</button>
 						</div>
 
 						<div class="col-md-6 mt-3 text-right">
-							<button type="button" class="btn btn-light border border-dark" data-toggle="modal" data-target="#ModalChangePassword">Alterar minha senha</button>
+							<a href="/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/account/data/password/" class="btn btn-light border border-dark">Alterar minha senha</a>
 						</div>
 						
 					</form>
@@ -101,6 +102,11 @@
 
 	</section>
 	
+	<script> 
+		var SxInfo = "<?php echo htmlspecialchars( $userAll["genreUser"], ENT_COMPAT, 'UTF-8', FALSE ); ?>";
+		if(SxInfo != 0)document.getElementById('SxInfo').value = SxInfo;
+	</script>
+	
 	<div id="mySidenav" class="sidenav shadow cart-BtnFloat">
 		<a href="javascript:void(0)" class="closebtn text-dark" onclick="closeNav()">
 			<i class="fas fa-times h4"></i>
@@ -108,17 +114,7 @@
 		
 		<div class="mx-3">
 				
-			<div class="list-group">
-				<a class="list-group-item list-group-item-action py-4 font-weight-light">
-					<span class="h5 font-weight-normal">User</span>
-					<span><br>9 de Julho de 2020 às 14:40</span>
-				</a>
-				<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/account/requests/" class="list-group-item list-group-item-action"><i class="fas fa-shopping-bag"></i> Pedidos</a>
-				<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/account/shopping-list/" class="list-group-item list-group-item-action"><i class="far fa-heart"></i> Lista de compra</a>
-				<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/account/data/" class="list-group-item list-group-item-action"><i class="far fa-user"></i> Meus dados</a>
-				<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/account/address/" class="list-group-item list-group-item-action"><i class="fas fa-map-marker-alt"></i> Endereços</a>
-				<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/logout/" class="list-group-item list-group-item-action"><i class="fas fa-sign-out-alt"></i> Sair</a>
-			</div>
+			<?php require $this->checkTemplate("accountLinks");?>
 			
 		</div>
 

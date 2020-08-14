@@ -3,9 +3,9 @@
 		<div class="ct-ini mt-mobNavbar">
 			
 			<nav aria-label="breadcrumb" class="bar-display">
-				<ol class="breadcrumb bg-white">
-					<li class="breadcrumb-item"><a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/">Home</a></li>
-					<li class="breadcrumb-item"><a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/account/requests/">Account</a></li>
+				<ol class="breadcrumb <?php echo htmlspecialchars( $layout["bgLayout"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
+					<li class="breadcrumb-item"><a href="/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/">Home</a></li>
+				   	<li class="breadcrumb-item"><a href="/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/account/requests/">Account</a></li>
 				  	<li class="breadcrumb-item active" aria-current="page">Address</li>
 				</ol>
 			</nav>
@@ -14,54 +14,73 @@
 
 				<div class="col-md-3 bar-display">
 					
-					<div class="list-group">
-						<a class="list-group-item list-group-item-action py-4 font-weight-light">
-							<span class="h5 font-weight-normal">User</span>
-							<span><br>9 de Julho de 2020 às 14:40</span>
-						</a>
-						<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/account/requests/" class="list-group-item list-group-item-action"><i class="fas fa-shopping-bag"></i> Pedidos</a>
-						<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/account/shopping-list/" class="list-group-item list-group-item-action"><i class="far fa-heart"></i> Lista de compra</a>
-						<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/account/data/" class="list-group-item list-group-item-action"><i class="far fa-user"></i> Meus dados</a>
-						<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/account/address/" class="list-group-item list-group-item-action"><i class="fas fa-map-marker-alt"></i> Endereços</a>
-						<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/logout/" class="list-group-item list-group-item-action"><i class="fas fa-sign-out-alt"></i> Sair</a>
-					</div>
+					<?php require $this->checkTemplate("accountLinks");?>
 
 				</div>
 
 				<div class="col-md">
-					<p class="h3 text-uppercase font-weight-normal">Endereços</p>
+					<p class="h3 text-uppercase font-weight-normal">
+						Endereços
+					</p>
 					
-					<div class="mt-3 row">
-							<div class="col-sm-6">
-								<div class="card">
-									<div class="card-body">
-										
-										<div class="row">
-											<p class="h5 col-6">#1</p>
-											<p class="h5 col-6 text-right">
-												<a class="btn btn-sm btn-light border border-dark" data-toggle="modal" data-target="#ModalAddress">
-													<i class="far fa-edit" data-toggle="popover" data-placement="top" data-trigger="hover" data-html="true" data-content="<a>Editar</a>">
-												</i></a>
-												<button type="button" class="btn btn-light btn-sm border border-dark" data-toggle="popover" data-placement="top" data-trigger="focus " data-html="true" data-content="<p class='h6 font-weight-normal text-center'>Deseja realmente remover?<br> <a href='#' class='mt-2 btn btn-danger btn-sm'>Sim</a></p>">
-													<i class="far fa-trash-alt"></i>
-												</button>
-											</p>
-										</div>
-										
-										<p>
-											<a>Logradouro - Número - Complemento</a><br>
-											<a>Referência</a><br>
-											<a>Cep - Bairro</a><br>
-											<a>Estado - País</a>
+					<div class="row">
+							
+						<?php if( $userAddress != false ){ ?>
+
+						<?php $counter1=-1;  if( isset($userAddress) && ( is_array($userAddress) || $userAddress instanceof Traversable ) && sizeof($userAddress) ) foreach( $userAddress as $key1 => $value1 ){ $counter1++; ?>
+						<div class="col-sm-6 mt-3">
+							<div class="card">
+								<div class="card-body">
+									
+									<div class="row">
+										<p class="h5 col-6">#<?php echo htmlspecialchars( $value1["ID"], ENT_COMPAT, 'UTF-8', FALSE ); ?></p>
+										<form class="h5 col-6 text-right" action="/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/account/address/delete/" method="post">
+											<a href="/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/account/address/edit/?code=<?php echo htmlspecialchars( $value1["idAddress"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" id="<?php echo htmlspecialchars( $value1["ID"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" class="btn btn-sm btn-light border border-dark btnEditAddress" data-toggle="popover" data-placement="top" data-trigger="hover" data-html="true" data-content="<a class='h6 font-weight-normal text-center'>Editar</a>">
+												<i class="far fa-edit">
+											</i></a>
+
+											<button type="submit" class="btn btn-light btn-sm border border-dark" data-toggle="popover" data-placement="top" data-trigger="hover" data-html="true" data-content="<a class='h6 font-weight-normal text-center'>Deseja realmente remover?</a>">
+												<i class="far fa-trash-alt"></i>
+											</button>
+
+											<input type="hidden" name="adCode" value="<?php echo htmlspecialchars( $value1["idAddress"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
+
+										</form>
+									</div>
+									
+										<p class="my-1">
+											<span><?php echo htmlspecialchars( $value1["street"], ENT_COMPAT, 'UTF-8', FALSE ); ?></span> 
+											<span> - <?php echo htmlspecialchars( $value1["number"], ENT_COMPAT, 'UTF-8', FALSE ); ?></span> 
+											<span><?php if( $value1["complement"] != '' ){ ?> - <?php echo htmlspecialchars( $value1["complement"], ENT_COMPAT, 'UTF-8', FALSE ); ?><?php } ?></span>
 										</p>
-									</div>
-									<div class="card-footer bg-transparent text-center">
-										<a class="h6 font-weight-normal"><input type="checkbox" class="" checked> Selecionar como principal</a>
-									</div>
+										<p class="my-1">
+											<span><?php if( $value1["reference"] != '' ){ ?><?php echo htmlspecialchars( $value1["reference"], ENT_COMPAT, 'UTF-8', FALSE ); ?> <?php }else{ ?> &nbsp; <?php } ?></span>
+										</p>
+										<p class="my-1">
+											<span><?php echo maskCep($value1["cep"]); ?></span>
+											<span> - <?php echo htmlspecialchars( $value1["district"], ENT_COMPAT, 'UTF-8', FALSE ); ?></span>
+										</p>
+										<p class="my-1">
+											<span><?php echo htmlspecialchars( $value1["nameCity"], ENT_COMPAT, 'UTF-8', FALSE ); ?></span>
+											<span> - <?php echo htmlspecialchars( $value1["nickState"], ENT_COMPAT, 'UTF-8', FALSE ); ?></span>
+										</p>
 								</div>
-						    </div>
+								<form id="formMain<?php echo htmlspecialchars( $value1["ID"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" class="card-footer bg-transparent text-center" action="/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/account/address/update/" method="POST">
+
+									<input id="ckAd<?php echo htmlspecialchars( $value1["ID"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" name="ckAd" type="checkbox" class="cursorPointer" <?php if( $value1["mainAddress"] == 1 ){ ?> checked <?php } ?> onclick="formMain<?php echo htmlspecialchars( $value1["ID"], ENT_COMPAT, 'UTF-8', FALSE ); ?>.submit()"> 
+									<a class="h6 font-weight-normal cursorPointer" onclick="ExecuteClick('ckAd<?php echo htmlspecialchars( $value1["ID"], ENT_COMPAT, 'UTF-8', FALSE ); ?>')"> Selecionar como principal</a>
+									
+									<input type="hidden" name="adCode" value="<?php echo htmlspecialchars( $value1["idAddress"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
+
+								</form>
+							</div>
+						</div>
+						<?php } ?>
+
+						
+						<?php } ?>
 							  
-							<div class="col-sm-6 mt-mobNavbar">
+							<!-- <div class="col-sm-6 mt-mobNavbar mt-3">
 								<div class="card border-dashed">
 									<div class="card-body">
 										
@@ -74,8 +93,11 @@
 										
 									</div>
 								</div>
-					  		</div>
+					  		</div> -->
 					</div>
+
+					<a href="#" class="my-2 btn btn-sm btn-light border border-<?php echo htmlspecialchars( $layout["colorLayout"], ENT_COMPAT, 'UTF-8', FALSE ); ?> <?php echo htmlspecialchars( $layout["txLayout"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" data-toggle="popover" data-placement="top" data-trigger="hover" data-html="true" data-content="<a class='h6 font-weight-normal text-center'>Adicionar um endereço novo</a>"><i class="fas fa-plus"></i> Adicionar endereço</a>
+
 				</div>
 
 			</div>
@@ -91,265 +113,8 @@
 		
 		<div class="mx-3">
 				
-			<div class="list-group">
-				<a class="list-group-item list-group-item-action py-4 font-weight-light">
-					<span class="h5 font-weight-normal">User</span>
-					<span><br>9 de Julho de 2020 às 14:40</span>
-				</a>
-				<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/account/requests/" class="list-group-item list-group-item-action"><i class="fas fa-shopping-bag"></i> Pedidos</a>
-				<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/account/shopping-list/" class="list-group-item list-group-item-action"><i class="far fa-heart"></i> Lista de compra</a>
-				<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/account/data/" class="list-group-item list-group-item-action"><i class="far fa-user"></i> Meus dados</a>
-				<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/account/address/" class="list-group-item list-group-item-action"><i class="fas fa-map-marker-alt"></i> Endereços</a>
-				<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/logout/" class="list-group-item list-group-item-action"><i class="fas fa-sign-out-alt"></i> Sair</a>
-			</div>
+			<?php require $this->checkTemplate("accountLinks");?>
 			
 		</div>
 
 	</div>
-
-	<!-- MODALS PAGE INICIO -->
-
-		<!-- MODAL ALTER STORES -->
-		<div class="modal fade" id="ModalAlterStores" tabindex="-1" role="dialog" aria-labelledby="ModalAlterStores" aria-hidden="true">
-			
-			<div class="modal-dialog modal-dialog-centered modal-sm">
-			 
-				<div class="modal-content">
-				
-					<div class="modal-header border-bottom-0">
-				  
-						<button type="button" class="close btn btn-light p-2" data-dismiss="modal" aria-label="Close">
-							<i class="fas fa-times"></i>
-						</button>
-				
-					</div>
-				
-					<div class="modal-body">
-						
-						<h4 class="text-center">
-							Seja bem vindo!
-						</h4>
-
-						<p>
-							Em qual das lojas você deseja acessar?
-						</p>
-						
-						<select name="SelectStoresModal" id="SelectStoresModal" class="custom-select">
-							<option value="1">Loja 01</option>
-							<option value="2">Loja 02</option>
-							<option value="3">Loja 03</option>
-						</select>
-						
-						<button type="button" class="btn btn-primary text-white w-100 mt-3">Acessar</button>
-
-						<p class="mt-2">
-							Não encontrou a loja? No momento, o serviço de delivery está atendendo à algumas regiões.
-						</p>
-
-						<p>
-							Conheça todas as lojas disponíveis para as compras.
-						</p>
-						
-					</div>
-			  
-				</div>
-			
-			</div>
-		  
-		</div>
-
-		<!-- MODAL CONSULTATION REGIONS  -->
-		<div class="modal fade" id="ModalConsultationRegions" tabindex="-1" role="dialog" aria-labelledby="ModalConsultationRegions" aria-hidden="true">
-			
-			<div class="modal-dialog modal-dialog-centered modal-sm">
-			 
-				<div class="modal-content">
-				
-					<div class="modal-header border-bottom-0 pb-2">
-						
-						<h5 class="text-left">
-							<i class="fas fa-truck"></i> Regiões Atendidas
-						</h5>
-
-						<button type="button" class="close btn btn-light p-2" data-dismiss="modal" aria-label="Close">
-							<i class="fas fa-times"></i>
-						</button>
-				
-					</div>
-				
-					<div class="modal-body py-0">
-						
-						<h5 class="font-weight-normal">Loja 01</h5>
-						<hr>
-
-						<ul class="txList-StyleNone text-left">
-							<li><i class="fas fa-map-marker-alt"></i> Centro</li>
-							<li><i class="fas fa-map-marker-alt"></i> Jardim Noroeste</li>
-							<li><i class="fas fa-map-marker-alt"></i> Jardim São Conrado</li>
-							<li><i class="fas fa-map-marker-alt"></i> Nova Bahia</li>
-							<li><i class="fas fa-map-marker-alt"></i> Tiradentes</li>
-						</ul>
-						
-						
-					</div>
-			  
-				</div>
-			
-			</div>
-		  
-		</div>
-
-		<!-- MODAL CONSULTATION HORARY  -->
-		<div class="modal fade" id="ModalConsultationHorary" tabindex="-1" role="dialog" aria-labelledby="ModalConsultationHorary" aria-hidden="true">
-			
-			<div class="modal-dialog modal-lg">
-			 
-				<div class="modal-content">
-				
-					<div class="modal-header border-bottom-0">
-
-						<button type="button" class="close btn btn-light p-2" data-dismiss="modal" aria-label="Close">
-							<i class="fas fa-times"></i>
-						</button>
-				
-					</div>
-				
-					<div class="modal-body">
-						
-						<div class="row">
-
-							<div class="col-md">
-								
-								<p class="h5">
-									Horários de retirada
-								</p>
-
-								<p class="mt-3">
-									<b>Segunda-Feira:</b><br>
-									09:00 - 12:00<br>
-									14:00 - 18:00
-								</p>
-
-								<p>
-									<b>Terça-Feira até Sexta-Feira:</b><br>
-									08:00 - 12:00<br>
-									13:00 - 20:00
-								</p>
-
-								<p>
-									<b>Sábado e Domingo</b><br>
-									09:00 - 15:00<br>
-									
-								</p>
-
-							</div>
-
-							<div class="col-md">
-								
-								<p class="h5">
-									Horários de Entrega
-								</p>
-
-								<label for="SelectRegionModal">Escolha um região:</label><br>
-								<div class="input-group">
-									
-									<select id="SelectRegionModal" class="custom-select">
-										<option>Centro</option>
-										<option>Jardim Noroeste</option>
-										<option>Jardim São Conrado</option>
-									</select>
-
-									<div class="input-group-append">
-										<button type="button" class="btn btn-primary"><i class="fas fa-search"></i></button>
-									</div>
-								</div>
-
-
-							</div>
-
-						</div>
-						
-					</div>
-			  
-				</div>
-			
-			</div>
-		  
-		</div>
-
-		<!-- MODAL Address  -->
-		<div class="modal fade" id="ModalAddress" tabindex="-1" role="dialog" aria-labelledby="ModalAddress" aria-hidden="true">
-			
-			<div class="modal-dialog">
-			 
-				<div class="modal-content">
-				
-					<div class="modal-header border-bottom-0">
-
-						<button type="button" class="close btn btn-light p-2" data-dismiss="modal" aria-label="Close">
-							<i class="fas fa-times"></i>
-						</button>
-				
-					</div>
-				
-					<div class="modal-body px-4">
-						
-						<p class="h4 font-weight-normal"><i class="fas fa-map-marker-alt"></i> Cadastrar Endereço de Entrega</p>
-
-						<div class="row">
-
-							<div class="col-md-6">
-								<label for="CityAddress">Cidade:</label>
-								<select class="custom-select">
-									<option>Selecione uma cidade</option>
-									<option>Campo Grande - MS</option>
-									<option>Corumba - MS</option>
-								</select>
-							</div>
-
-							<div class="col-md-6">
-								<label for="CepAddress">Cep:</label>
-								<input type="text" class="form-control" id="CepAddress" name="CepAddress" placeholder="_____-___">
-								<a class="tx-IconCart">Somente Números</a>
-							</div>
-
-							<div class="col-md-12">
-								<label for="DistrictAddress">Bairro:</label>
-								<input type="text" class="form-control" id="DistrictAddress" name="DistrictAddress">	
-							</div>
-
-							<div class="col-md-12">
-								<label for="StreetAddress">Rua:</label>
-								<input type="text" class="form-control" id="DistrictAddress" name="StreetAddress">	
-							</div>
-
-							<div class="col-md-6">
-								<label for="NumberAddress">Número:</label>
-								<input type="text" class="form-control" id="NumberAddress" name="NumberAddress">	
-							</div>
-
-							<div class="col-md-6">
-								<label for="ComplementAddress">Complemento:</label>
-								<input type="text" class="form-control" id="ComplementAddress" name="ComplementAddress">	
-							</div>
-
-							<div class="col-md-12">
-								<label for="ReferenceAddress">Ponto de Referência:</label>
-								<input type="text" class="form-control" id="ReferenceAddress" name="ReferenceAddress">
-								<a><input type="checkbox"> É o endereço principal</a>
-							</div>
-
-						</div>
-						
-					</div>
-
-					<div class="modal-footer text-right px-4 pb-3">
-						<button type="button" class="btn btn-light btn-sm border border-secondary" data-dismiss="modal">Sair</button>
-						<button type="button" class="btn btn-primary btn-sm">Salvar</button>
-					</div>
-			  
-				</div>
-			
-			</div>
-		  
-		</div>
