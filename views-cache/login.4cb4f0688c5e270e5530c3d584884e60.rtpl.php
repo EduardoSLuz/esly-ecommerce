@@ -31,6 +31,21 @@
 						</div>
 					<?php } ?>
 
+					
+
+					<?php if( $successMsg != '' ){ ?>	
+
+					<div class="alert alert-success alert-dismissible fade show text-left" role="alert">
+							
+						<span><?php echo htmlspecialchars( $successMsg, ENT_COMPAT, 'UTF-8', FALSE ); ?></span>
+						
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+
+					</div>
+
+					<?php } ?>
 					<div class="input-group text-center mt-4 border border-secondary rounded">
 						
 						<div class="input-group-prepend">
@@ -47,7 +62,7 @@
 						  <button type="button" id="BtnLock" class="input-group-text null-bd bg-white" onclick="AlterTypeInput('passUser', 'BtnLock', 'fas fa-lock', 'fas fa-unlock')"><i id="IconePass" class="fas fa-lock"></i></button>
 						</div>
 
-						<input type="password" id="passUser" name="passUser" class="form-control null-bd border-left-0 rounded-right" placeholder="Digite sua senha" aria-describedby="BtnLock" onpaste="return false" oncopy="return false"  oncut="return false" tabindex="2">
+						<input type="password" id="passUser" name="passUser" class="form-control null-bd border-left-0 rounded-right" placeholder="Digite sua senha" aria-describedby="BtnLock" onpaste="return false" oncopy="return false"  oncut="return false" maxlength="150" tabindex="2">
 	
 					</div>
 

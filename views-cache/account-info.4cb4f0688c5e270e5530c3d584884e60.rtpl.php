@@ -51,7 +51,7 @@
 						
 						<div class="col-md-12">
 							<label for="NameInfo">Nome Completo:</label>
-							<input type="text" class="form-control" id="NameInfo" name="NameInfo" placeholder="Digite seu nome" value="<?php echo htmlspecialchars( $userAll["nameUser"], ENT_COMPAT, 'UTF-8', FALSE ); ?> <?php echo htmlspecialchars( $userAll["surnameUser"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
+							<input type="text" class="form-control" id="NameInfo" name="NameInfo" placeholder="Digite seu nome" value="<?php echo htmlspecialchars( $userAll["nameUser"], ENT_COMPAT, 'UTF-8', FALSE ); ?> <?php echo htmlspecialchars( $userAll["surnameUser"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" maxlength="150">
 						</div>
 
 						<div class="col-md-6 mt-3">

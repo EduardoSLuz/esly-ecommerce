@@ -23,6 +23,32 @@
 						Endereços
 					</p>
 					
+					<?php if( $errorRegister != '' ){ ?>
+						<div class="alert alert-danger alert-dismissible fade show text-left" role="alert">
+							
+							<span><?php echo htmlspecialchars( $errorRegister, ENT_COMPAT, 'UTF-8', FALSE ); ?></span>
+							
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						  		<span aria-hidden="true">&times;</span>
+							</button>
+
+						</div>
+					<?php } ?>
+
+					<?php if( $successMsg != '' ){ ?>	
+
+						<div class="alert alert-success alert-dismissible fade show text-left" role="alert">
+								
+							<span><?php echo htmlspecialchars( $successMsg, ENT_COMPAT, 'UTF-8', FALSE ); ?></span>
+							
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+
+						</div>
+
+					<?php } ?>
+					
 					<div class="row">
 							
 						<?php if( $userAddress != false ){ ?>
@@ -54,7 +80,7 @@
 											<span><?php if( $value1["complement"] != '' ){ ?> - <?php echo htmlspecialchars( $value1["complement"], ENT_COMPAT, 'UTF-8', FALSE ); ?><?php } ?></span>
 										</p>
 										<p class="my-1">
-											<span><?php if( $value1["reference"] != '' ){ ?><?php echo htmlspecialchars( $value1["reference"], ENT_COMPAT, 'UTF-8', FALSE ); ?> <?php }else{ ?> &nbsp; <?php } ?></span>
+											<span><?php if( $value1["reference"] != '' ){ ?><?php echo htmlspecialchars( $value1["reference"], ENT_COMPAT, 'UTF-8', FALSE ); ?> <?php }else{ ?> Sem referência <?php } ?></span>
 										</p>
 										<p class="my-1">
 											<span><?php echo maskCep($value1["cep"]); ?></span>
@@ -96,7 +122,7 @@
 					  		</div> -->
 					</div>
 
-					<a href="#" class="my-2 btn btn-sm btn-light border border-<?php echo htmlspecialchars( $layout["colorLayout"], ENT_COMPAT, 'UTF-8', FALSE ); ?> <?php echo htmlspecialchars( $layout["txLayout"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" data-toggle="popover" data-placement="top" data-trigger="hover" data-html="true" data-content="<a class='h6 font-weight-normal text-center'>Adicionar um endereço novo</a>"><i class="fas fa-plus"></i> Adicionar endereço</a>
+					<a href="/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/account/address/new/" class="my-2 btn btn-sm btn-light border border-<?php echo htmlspecialchars( $layout["colorLayout"], ENT_COMPAT, 'UTF-8', FALSE ); ?> <?php echo htmlspecialchars( $layout["txLayout"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" data-toggle="popover" data-placement="top" data-trigger="hover" data-html="true" data-content="<a class='h6 font-weight-normal text-center'>Adicionar um endereço novo</a>"><i class="fas fa-plus"></i> Adicionar endereço</a>
 
 				</div>
 

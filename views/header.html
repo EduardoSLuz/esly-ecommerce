@@ -139,7 +139,7 @@
 						<a href='/loja-{$ID}/{if="$userValues.login"}account/requests{else}login{/if}/'>
 							<button class="nav-item text-center text-light btn {$layout.btnH2Layout}">
 								<i class="far fa-user"></i><br>
-								<small>{if="$userValues.login"}{$userValues.nameUser}{else}Conta{/if}</small>						
+								<small>{if="$userValues.login"}{function="substr($userValues.nameUser, 0, 12)"}{else}Conta{/if}</small>						
 							</button>
 						</a>
 						
@@ -267,7 +267,7 @@
 
 			<a href='/loja-{$ID}/{if="$userValues.login"}account/requests/{else}login/{/if}' class="btn {$layout.btnH1Layout} border-0 bd-RdNull py-2">
 				<i class="far fa-user"></i><br>
-				<small>{if="$userValues.login"}{$userValues.nameUser}{else}Entrar{/if}</small>
+				<small>{if="$userValues.login"}{function="substr($userValues.nameUser, 0, 12)"}{else}Entrar{/if}</small>
 			</a>
 
 			{if="$userValues.login"}

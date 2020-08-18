@@ -139,7 +139,7 @@
 						<a href='/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/<?php if( $userValues["login"] ){ ?>account/requests<?php }else{ ?>login<?php } ?>/'>
 							<button class="nav-item text-center text-light btn <?php echo htmlspecialchars( $layout["btnH2Layout"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
 								<i class="far fa-user"></i><br>
-								<small><?php if( $userValues["login"] ){ ?><?php echo htmlspecialchars( $userValues["nameUser"], ENT_COMPAT, 'UTF-8', FALSE ); ?><?php }else{ ?>Conta<?php } ?></small>						
+								<small><?php if( $userValues["login"] ){ ?><?php echo substr($userValues["nameUser"], 0, 12); ?><?php }else{ ?>Conta<?php } ?></small>						
 							</button>
 						</a>
 						
@@ -267,7 +267,7 @@
 
 			<a href='/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/<?php if( $userValues["login"] ){ ?>account/requests/<?php }else{ ?>login/<?php } ?>' class="btn <?php echo htmlspecialchars( $layout["btnH1Layout"], ENT_COMPAT, 'UTF-8', FALSE ); ?> border-0 bd-RdNull py-2">
 				<i class="far fa-user"></i><br>
-				<small><?php if( $userValues["login"] ){ ?><?php echo htmlspecialchars( $userValues["nameUser"], ENT_COMPAT, 'UTF-8', FALSE ); ?><?php }else{ ?>Entrar<?php } ?></small>
+				<small><?php if( $userValues["login"] ){ ?><?php echo substr($userValues["nameUser"], 0, 12); ?><?php }else{ ?>Entrar<?php } ?></small>
 			</a>
 
 			<?php if( $userValues["login"] ){ ?>

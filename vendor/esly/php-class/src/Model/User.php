@@ -10,59 +10,7 @@ class User extends Model {
 
 	const SESSION = "User";
 	const COOKIE = "Cookie_User";
-	const SUCCESS_MSG = "UserSuccessMsg";
-	const ERROR_REGISTER = "UserErrorRegister";
-	const SECRET = "EcommerceEslyPhp7_Secret";
-	const SECRET_ESLY = "EcommerceEslyPhp_Secret_Esly";
 	const LOGIN_FIELDS = "nameUser, surnameUser, emailUser";
-
-    public static function setSuccessMsg($msg){
-        
-        $_SESSION[User::SUCCESS_MSG] = $msg;
-    
-    }
-
-    public static function getSuccessMsg()
-	{
-
-		$msg = (isset($_SESSION[User::SUCCESS_MSG]) && $_SESSION[User::SUCCESS_MSG]) ? $_SESSION[User::SUCCESS_MSG] : '';
-
-		User::clearSuccessMsg();
-
-		return $msg;
-
-	}
-
-	public static function clearSuccessMsg()
-	{
-
-		$_SESSION[User::SUCCESS_MSG] = NULL;
-
-	}
-
-	public static function setErrorRegister($msg){
-        
-        $_SESSION[User::ERROR_REGISTER] = $msg;
-    
-    }
-
-    public static function getErrorRegister()
-	{
-
-		$msg = (isset($_SESSION[User::ERROR_REGISTER]) && $_SESSION[User::ERROR_REGISTER]) ? $_SESSION[User::ERROR_REGISTER] : '';
-
-		User::clearErrorRegister();
-
-		return $msg;
-
-	}
-
-	public static function clearErrorRegister()
-	{
-
-		$_SESSION[User::ERROR_REGISTER] = NULL;
-
-	}
 
 	public static function getRegisterValues()
 	{
@@ -92,70 +40,6 @@ class User extends Model {
 
 	}
 
-	public static function listAddress($id = 0)
-	{	
-
-		$array = [];
-		$ct = 0;
-
-		$param = [ ":EMAIL" => strtolower($_SESSION[User::SESSION]['emailUser']) ];
-
-		$code = $id !== 0 ? "AND ad.idAddress = :CODE" : "";
-		if($id !== 0) $param[':CODE'] = User::decryptCode($id); 
-
-		$sql = new Sql($_SESSION[Sql::DB]);
-
-		$results = $sql->select("SELECT ad.idAddress, ad.street, ad.number, ad.district, ad.cep, ad.complement, ad.reference, ad.mainAddress, ad.idCity, ct.nameCity, sts.nickState FROM address AS ad INNER JOIN city AS ct ON ad.idCity = ct.idCity INNER JOIN states AS sts ON ct.idState = sts.idState INNER JOIN user AS us ON ad.idUser = us.idUser WHERE us.emailUser = :EMAIL $code ORDER BY ad.idAddress DESC", $param);
-
-		$array = $results;
-
-		foreach ($results as $key => $value) {
-			$ct += 1;
-			$array[$key]['idAddress'] = User::cryptCode($value['idAddress']);
-			$array[$key]['ID'] = $ct; 
-		}
-
-		return $results > 0 ? $array : false;
-
-	}
-
-	public static function deleteAddress($code)
-	{
-
-		$sql = new Sql($_SESSION[Sql::DB]);
-
-		$results = $sql->count("DELETE FROM address WHERE idAddress = :CODE", [
-			":CODE" => User::decryptCode($code)
-		]);
-
-		return $results > 0 ? true : false;
-
-	}
-
-	public static function activeMainAddress($code, $num)
-	{
-
-		$sql = new Sql($_SESSION[Sql::DB]);
-
-		if($num != 0)
-		{
-			$results = $sql->select("SELECT idUser FROM user WHERE emailUser = :CODE", [
-				":CODE" => $_SESSION[User::SESSION]['emailUser']
-			]);
-
-			$sql->query("UPDATE address SET mainAddress = :ID WHERE IdUser = :CODE", [
-				":ID" => 0,
-				":CODE" => $results[0]['idUser']
-			]);
-		}
-
-		$sql->query("UPDATE address SET mainAddress = :ID WHERE idAddress = :CODE", [
-			":ID" => $num,
-			":CODE" => User::decryptCode($code)
-		]);
-
-	}
-
 	public static function reCaptcha($response)
 	{
 		
@@ -179,50 +63,6 @@ class User extends Model {
 		curl_close($ch);
 
 		return $recaptcha["success"];
-
-	}
-
-	public static function getPassword($password)
-	{
-
-		$code = password_hash($password, PASSWORD_DEFAULT, [
-			'cost'=>12
-		]);
-
-		$code = openssl_encrypt($code, 'AES-128-CBC', pack("a16", User::SECRET), 0, pack("a16", User::SECRET_ESLY));
-
-		return base64_encode($code);
-
-	}
-
-	public static function decryptPassword($pass)
-	{
-
-		$code = base64_decode($pass);
-
-		$code = openssl_decrypt($code, 'AES-128-CBC', pack("a16", User::SECRET), 0, pack("a16", User::SECRET_ESLY));
-
-		return $code;
-
-	}
-
-	public static function cryptCode($code)
-	{
-
-		$code = openssl_encrypt($code, 'AES-128-CBC', pack("a16", User::SECRET), 0, pack("a16", User::SECRET_ESLY));
-
-		return base64_encode($code);
-
-	}
-
-	public static function decryptCode($code)
-	{
-
-		$code = base64_decode($code);
-
-		$code = openssl_decrypt($code, 'AES-128-CBC', pack("a16", User::SECRET), 0, pack("a16", User::SECRET_ESLY));
-
-		return $code;
 
 	}
 
@@ -413,11 +253,19 @@ class User extends Model {
 
 		$code = serialize($data['recoveryUser']);
 
-		$link = "http://www.ecommerce-astemac.com.br/loja-".$store."/login/forgot-password/reset/?code=$code";
+		$link = "http://".$_SERVER['HTTP_HOST']."/loja-".$store."/login/forgot-password/reset/?code=$code";
 
-		$mailer = new Mailer($email, $email, "Redefinir senha do Astemac Ecommerce", "Forgot", array(
+		$st = Store::listAll($store);
+
+		$mailer = new Mailer($email, $data['nameUser'], "Redefinir senha no ".$st[0]['nameStore']." E-Commerce", "forgot", array(
 			"name" => $data['nameUser'],
-			"link" => $link
+			"link" => $link,
+			"store" => [
+				"nameStore" => $st[0]['nameStore'],
+				"nameBase" => strstr($_SESSION[Sql::DB]['db_name'], '-', true),
+				"HTTP" => $_SERVER['HTTP_HOST'],
+				"social" => Store::listSocial()
+			]
 		));				
 
 		$mailer->send();
@@ -429,7 +277,7 @@ class User extends Model {
 		
 		$sql = new Sql($_SESSION[Sql::DB]);
 
-		$results = $sql->select("SELECT nameUser, surnameUser, cpfUser, dateBirthUser, genreUser, telephoneUser, whatsappUser FROM user WHERE emailUser = :EMAIL ", [
+		$results = $sql->select("SELECT idUser, nameUser, surnameUser, cpfUser, dateBirthUser, genreUser, telephoneUser, whatsappUser FROM user WHERE emailUser = :EMAIL ", [
 			":EMAIL" => $_SESSION[User::SESSION]['emailUser']
 		]);
 
@@ -541,17 +389,47 @@ class User extends Model {
 
 	}
 
-	public static function alterPass($pass)
+	public static function alterPass($pass, $type = 0)
 	{
 
 		$sql = new Sql($_SESSION[Sql::DB]);
 
-		$results = $sql->count("UPDATE user SET passUser = :PASS WHERE emailUser = :EMAIL", [
-			":PASS" => User::getPassword($pass),
-			":EMAIL" => $_SESSION[User::SESSION]['emailUser']
-		]);
+		if($type === 0)
+		{	
+
+			$results = $sql->count("UPDATE user SET passUser = :PASS WHERE emailUser = :EMAIL", [
+				":PASS" => User::getPassword($pass),
+				":EMAIL" => isset($_SESSION[User::SESSION]['emailUser']) ? $_SESSION[User::SESSION]['emailUser'] : 0
+			]);
+
+		} else{
+			$results = $sql->count("UPDATE user SET passUser = :PASS, recoveryUser = :CODE WHERE emailUser = :EMAIL", [
+				":PASS" => User::getPassword($pass),
+				":CODE" => User::getCodeRecovery($type),
+				":EMAIL" => $type
+			]);
+		}
 
 		return $results == 1 ? true : false;
+
+	}
+
+	public static function checkRecovery($code)
+	{
+
+		$code = unserialize($code);
+
+		$sql = new Sql($_SESSION[Sql::DB]);
+
+		$results = $sql->select("SELECT emailUser FROM user WHERE recoveryUser = :CODE", [
+			":CODE" => $code
+		]);
+
+		if(count($results) == 1){
+			$_SESSION['forgot'] = ['emailUser' => $results[0]['emailUser']];
+		}
+
+		return count($results) == 1 ? true : false;
 
 	}
 

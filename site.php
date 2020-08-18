@@ -4,8 +4,10 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 use Esly\Page;
+use Esly\Mercato;
 use Esly\DB\Sql;
 use Esly\Model\Store;
+use Esly\Model\Address;
 use Esly\Model\User;
 
 // Page Inicial 
@@ -24,6 +26,58 @@ $app->get("/", function(Request $request, Response $response) {
 	]);
 	
 	return $response;
+
+});
+
+// Page Inicial 
+$app->get("/mercato/loja-{store}/", function(Request $request, Response $response, $args) {
+	
+	if(!isset($_SESSION[Sql::DB])) Page::verifyPage();
+
+	Store::verifyStore($args['store']);
+	
+	if(Mercato::verifyProductJson($args['store']) == false) Mercato::getProducts($args['store']);
+	
+	var_dump("SUCESSO");
+	exit;	
+
+	/*foreach ($dados as $key => $value) {
+		echo "
+		Produto : ".$value['descricao']." <br>
+		Preço : R$".number_format($value['precopdv'], 2, ',', '.')." por ".$value['unidaderef']."  <br>
+		Preço de Promoção : ".number_format($value['precopromocaoterm'], 2, ',', '.')." <br>
+		Código de Barras : ".$value['cod_barra']." <br>
+		<hr>
+		";
+
+		if($key == 10) break; 
+	}*/
+
+});
+
+$app->get("/mercato/loja-{store}/search/", function(Request $request, Response $response, $args) {
+	
+	$dados = Mercato::listAllProdutos($args['store']);
+
+	$s = isset($_GET['s']) ? $_GET['s'] : "";
+
+	foreach ($dados as $key => $value) {
+		
+		if($s != "" && strstr($value['descricao'], strtoupper($s)) || $s == "")
+		{
+			echo "
+			Produto : ".$value['descricao']." <br>
+			Preço : R$".number_format($value['precopdv'], 2, ',', '.')." por ".$value['unidaderef']."  <br>
+			Preço de Promoção : ".number_format($value['precopromocaoterm'], 2, ',', '.')." <br>
+			Código de Barras : ".$value['cod_barra']." <br>
+			<hr>
+			";
+
+		}
+
+	}
+
+	exit;
 
 });
 
@@ -334,7 +388,8 @@ $app->get("/loja-{store}/login/", function(Request $request, Response $response,
 
 	$page->setTpl("login", [
 		'errorRegister' => User::getErrorRegister(),
-		'registerValues' => User::getRegisterValues(),
+        'successMsg'=> User::getSuccessMsg(),
+		'registerValues' => User::getRegisterValues()
 	]);
 	
 	return $response;
@@ -390,7 +445,6 @@ $app->post("/loja-{store}/login/forgot-password/", function(Request $request, Re
 
 });
 
-// Page Forgot Password
 $app->get("/loja-{store}/login/forgot-password/", function(Request $request, Response $response, $args) {
 
 	$page = new Page([
@@ -405,6 +459,70 @@ $app->get("/loja-{store}/login/forgot-password/", function(Request $request, Res
 		"errorRegister" => User::getErrorRegister(),
         'successMsg'=> User::getSuccessMsg(),
         'registerValues'=> User::getRegisterValues(),
+	]);
+	
+	return $response;
+
+});
+
+// Page Forgot Password Reset
+$app->post("/loja-{store}/login/forgot-password/reset/", function(Request $request, Response $response, $args) {
+
+	Store::verifyStore($args["store"]);
+	
+	if(isset($_POST['PassNewInfo']) && empty($_POST['PassNewInfo']))
+	{
+
+		User::setErrorRegister("Digite uma nova senha!");
+		header("Location: /loja-".$args['store']."/login/forgot-password/reset/?code=".$_SESSION['forgot']['code']);
+		exit;
+
+	} 
+	
+	if(isset($_POST['PassNewCfInfo']) && empty($_POST['PassNewCfInfo']))
+	{
+		
+		User::setErrorRegister("Confirme sua nova senha!");
+		header("Location: /loja-".$args['store']."/login/forgot-password/reset/?code=".$_SESSION['forgot']['code']);
+		exit;
+		
+	} else if($_POST['PassNewCfInfo'] != $_POST['PassNewInfo']) {
+
+		User::setErrorRegister("Nova senha não é igual a senha a baixo!");
+		header("Location: /loja-".$args['store']."/login/forgot-password/reset/?code=".$_SESSION['forgot']['code']);
+		exit;
+
+	}
+	
+	if(User::alterPass($_POST['PassNewCfInfo'], $_SESSION['forgot']['emailUser']) == false)
+	{
+		User::setErrorRegister("Ocorreu um erro ao tentar atualizar sua senha! tente novamente mais tarde, se persistir favor entrar em contato com o suporte!");
+		header("Location: /loja-".$args['store']."/login/forgot-password/reset/?code=".$_SESSION['forgot']['code']);
+		exit;
+	} else {
+		User::setSuccessMsg("Senha alterada com sucesso! agora é só fazer o login.");
+	}
+
+	header("Location: /loja-".$args['store']."/login/");
+	exit;
+
+});
+
+$app->get("/loja-{store}/login/forgot-password/reset/", function(Request $request, Response $response, $args) {
+
+	if(!isset($_GET['code']) || $_GET['code'] == "" || User::checkRecovery($_GET['code']) == false) header("Location: /");
+	$_SESSION['forgot']['code'] = $_GET['code'];
+
+	$page = new Page([
+		"login" => 1,
+		"data" => [
+			"ID" => $args['store'],
+			"ft" => false
+		]
+	]);
+
+	$page->setTpl("forgot-password-reset", [
+		"errorRegister" => User::getErrorRegister(),
 	]);
 	
 	return $response;
@@ -779,6 +897,7 @@ $app->post("/loja-{store}/account/data/password/", function(Request $request, Re
 	} else{
 		User::setErrorRegister("Falha ao alterar a senha! Tente novamente mais tarde, se persistir o erro contatar o suporte do site!");
 	}
+
 	header("Location: /loja-".$args['store']."/account/data/password/");
 	exit;
 
@@ -805,9 +924,11 @@ $app->get("/loja-{store}/account/data/password/", function(Request $request, Res
 // Page Account Address
 $app->post("/loja-{store}/account/address/update/", function(Request $request, Response $response, $args) {
 	
+	Store::verifyStore($args["store"]);
+
 	$code = isset($_POST['ckAd']) ? 1 : 0;
 
-	User::activeMainAddress($_POST['adCode'], $code);
+	Address::activeMainAddress($_POST['adCode'], $code);
 
 	header("Location: /loja-".$args['store']."/account/address/");
 	exit;
@@ -816,7 +937,9 @@ $app->post("/loja-{store}/account/address/update/", function(Request $request, R
 
 $app->post("/loja-{store}/account/address/delete/", function(Request $request, Response $response, $args) {
 
-	$res = User::deleteAddress($_POST['adCode']);
+	Store::verifyStore($args["store"]);
+
+	$res = Address::deleteAddress($_POST['adCode']);
 
 	if($res)
 	{
@@ -839,7 +962,9 @@ $app->get("/loja-{store}/account/address/", function(Request $request, Response 
 	]);
 
 	$page->setTpl("account-address", [
-		"userAddress" => User::listAddress()
+		"userAddress" => Address::listAddress(),
+		'errorRegister' => Address::getErrorRegister(),
+        'successMsg' => Address::getSuccessMsg()
 	]);
 	
 	return $response;
@@ -847,9 +972,93 @@ $app->get("/loja-{store}/account/address/", function(Request $request, Response 
 });
 
 // Page Account Address Edit
+$app->post("/loja-{store}/account/address/edit/", function(Request $request, Response $response, $args) {
+
+	Store::verifyStore($args["store"]);
+
+	if(!isset($_SESSION['userAddress']) || isset($_SESSION['userAddress']) && Address::listAddress($_SESSION['userAddress']) == false)
+	{
+		header("Location: /loja-".$args['store']."/account/address/");
+	}
+	
+	if(isset($_POST['cityAddress']) && $_POST['cityAddress'] == 0)
+	{
+
+		Address::setErrorRegister("Selecione uma cidade!");
+		header("Location: /loja-".$args['store']."/account/address/edit/?code=".$_SESSION['userAddress']);
+		exit;
+
+	}
+
+	if(isset($_POST['cepAddress']) && empty($_POST['cepAddress']))
+	{
+
+		Address::setErrorRegister("Digite seu CEP!");
+		header("Location: /loja-".$args['store']."/account/address/edit/?code=".$_SESSION['userAddress']);
+		exit;
+
+	} else if(isset($_POST['cepAddress']) && strlen($_POST['cepAddress']) < 9){
+
+		Address::setErrorRegister("CEP incompleto!");
+		header("Location: /loja-".$args['store']."/account/address/edit/?code=".$_SESSION['userAddress']);
+		exit;
+
+	}
+
+	if(isset($_POST['districtAddress']) && empty($_POST['districtAddress']))
+	{
+
+		Address::setErrorRegister("Digite seu bairro!");
+		header("Location: /loja-".$args['store']."/account/address/edit/?code=".$_SESSION['userAddress']);
+		exit;
+
+	}
+
+	if(isset($_POST['streetAddress']) && empty($_POST['streetAddress']))
+	{
+
+		Address::setErrorRegister("Digite sua rua!");
+		header("Location: /loja-".$args['store']."/account/address/edit/?code=".$_SESSION['userAddress']);
+		exit;
+
+	}
+
+	if(isset($_POST['streetAddress']) && empty($_POST['streetAddress']))
+	{
+
+		Address::setErrorRegister("Digite o número da sua residência/empresa!");
+		header("Location: /loja-".$args['store']."/account/address/edit/?code=".$_SESSION['userAddress']);
+		exit;
+
+	}
+
+	$address = new Address;
+
+	$address->setData([
+		"idAddress" => $_SESSION['userAddress'],
+		"city" => $_POST['cityAddress'], 
+		"cep" => $_POST['cepAddress'], 
+		"district" => $_POST['districtAddress'], 
+		"street" => $_POST['streetAddress'], 
+		"number" => $_POST['numberAddress'], 
+		"complement" => $_POST['complementAddress'], 
+		"reference" => $_POST['referenceAddress'], 
+		"mainAddress" => isset($_POST['mainAddress']) ? 1 : 0
+	]);
+
+	$address->update();
+
+	header("Location: /loja-".$args['store']."/account/address/edit/?code=".$_SESSION['userAddress']);
+	exit;
+
+});
+
 $app->get("/loja-{store}/account/address/edit/", function(Request $request, Response $response, $args) {
 
 	$id = $_GET['code'];
+	$userAddress = Address::listAddress($id);
+
+	if($userAddress == false) header("Location: /loja-".$args['store']."/account/address/");
 
 	$page = new Page([
 		"login" => 2,
@@ -859,10 +1068,120 @@ $app->get("/loja-{store}/account/address/edit/", function(Request $request, Resp
 	]);
 
 	$page->setTpl("account-address-edit", [
+		'errorRegister' => Address::getErrorRegister(),
+        'successMsg'=> Address::getSuccessMsg(),
 		"state" => Store::listState(),
-		"userAddress" => User::listAddress($id)
+		"userAddress" => $userAddress
 	]);
+
+	$_SESSION['userAddress'] = $userAddress[0]['idAddress'];
 	
+	return $response;
+
+});
+
+// Page Account Address New
+$app->post("/loja-{store}/account/address/new/", function(Request $request, Response $response, $args) {
+
+	$_SESSION[Address::REGISTER_VALUES] = $_POST;
+
+	Store::verifyStore($args["store"]);
+	
+	if(isset($_POST['cityAddress']) && $_POST['cityAddress'] == 0)
+	{
+
+		Address::setErrorRegister("Selecione uma cidade!");
+		header("Location: /loja-".$args['store']."/account/address/new/");
+		exit;
+
+	}
+
+	if(isset($_POST['cepAddress']) && empty($_POST['cepAddress']))
+	{
+
+		Address::setErrorRegister("Digite seu CEP!");
+		header("Location: /loja-".$args['store']."/account/address/new/");
+		exit;
+
+	} else if(isset($_POST['cepAddress']) && strlen($_POST['cepAddress']) < 9){
+
+		Address::setErrorRegister("CEP incompleto!");
+		header("Location: /loja-".$args['store']."/account/address/new/");
+		exit;
+
+	}
+
+	if(isset($_POST['districtAddress']) && empty($_POST['districtAddress']))
+	{
+
+		Address::setErrorRegister("Digite seu bairro!");
+		header("Location: /loja-".$args['store']."/account/address/new/");
+		exit;
+
+	}
+
+	if(isset($_POST['streetAddress']) && empty($_POST['streetAddress']))
+	{
+
+		Address::setErrorRegister("Digite sua rua!");
+		header("Location: /loja-".$args['store']."/account/address/new/");
+		exit;
+
+	}
+
+	if(isset($_POST['streetAddress']) && empty($_POST['streetAddress']))
+	{
+
+		Address::setErrorRegister("Digite o número da sua residência/empresa!");
+		header("Location: /loja-".$args['store']."/account/address/new/");
+		exit;
+
+	}
+
+	if(Address::checkAddress())
+	{
+		
+		Address::setErrorRegister("Você ja possui cinco endereços e não pode cadastrar mais nenhum!");
+		header("Location: /loja-".$args['store']."/account/address/new/");
+		exit;
+
+	}
+
+	$address = new Address;
+
+	$address->setData([
+		"city" => $_POST['cityAddress'], 
+		"cep" => $_POST['cepAddress'], 
+		"district" => $_POST['districtAddress'], 
+		"street" => $_POST['streetAddress'], 
+		"number" => $_POST['numberAddress'], 
+		"complement" => $_POST['complementAddress'], 
+		"reference" => $_POST['referenceAddress'], 
+		"mainAddress" => isset($_POST['mainAddress']) ? 1 : 0
+	]);
+
+	$address->save();	
+
+	header("Location: /loja-".$args['store']."/account/address/");
+	exit;
+
+});
+
+$app->get("/loja-{store}/account/address/new/", function(Request $request, Response $response, $args) {
+
+	$page = new Page([
+		"login" => 2,
+		"data" => [
+			"ID" => $args['store'],
+		]
+	]);
+
+	$page->setTpl("account-address-new", [
+		'errorRegister' => Address::getErrorRegister(),
+        'registerValues' => Address::getRegisterValues(),
+		"state" => Store::listState(),
+	]);
+
 	return $response;
 
 });
