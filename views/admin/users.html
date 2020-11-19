@@ -1,0 +1,116 @@
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1 class="m-0 text-dark">Usuários</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+              <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="/admin/">Home</a></li>
+                <li class="breadcrumb-item active">Usuários</li>
+              </ol>
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+      </div>
+      <!-- /.content-header -->
+  
+      <!-- Main content -->
+      <section class="content">
+        <div class="container-fluid">
+            
+          <!-- /.row -->
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-header row border-bottom-0 align-items-center">
+                  
+                  <div class="card-title col-12 col-md">
+                    <h5>Todos os Usuários</h5> 
+                  </div>
+  
+                  <div class="card-tools col-12 col-md">
+
+                    <form id="formListUsers" class="formListUsers input-group input-group-sm">
+                      
+                      <select class="custom-select mr-2 inputsListUser" name="selectStoreOrders" id="selectStoreOrders">
+                        <option value="0">Clientes</option>
+                        <option value="1">Admin</option>
+                      </select>
+
+                      <select class="custom-select mr-2 inputsListUser" name="selectStatusOrders" id="selectStatusOrders">
+                        <option value="1">Ativo</option>
+                        <option value="0">Inativo</option>
+                      </select>
+
+                      <input type="text" name="table_search" class="form-control inputsListUser float-right" placeholder="Search">
+  
+                      <div class="input-group-append">
+                        <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                      </div>
+
+                    </form>
+                  </div>
+                  
+                </div>
+                
+                <!-- /.card-header -->
+                <div id="tbListUsers" class="card-body table-responsive p-0" style="max-height: 450px;">
+                  
+                  {if="isset($userData) && $userData != 0"}
+                  <table class="table table-head-fixed table-hover text-nowrap">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>E-mail</th>
+                        <th>Whatsapp</th>
+                        <th>Cpf</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {loop="$userData"}
+                      <tr style="cursor: pointer;" onclick="window.location.assign('/admin/users/{$value.idUser}/')">
+                        <td>{$key + 1}</td>
+                        <td>{$value.nameUser} {$value.surnameUser}</td>
+                        <td>{$value.emailUser}</td>
+                        <td>
+                          {if="isset($value.whatsappUser) && !empty($value.whatsappUser) && strlen($value.whatsappUser) == 11"}
+                          {function="maskTel($value.whatsappUser)"}
+                          {else}
+                          Sem Whatsapp
+                          {/if}
+                        </td>
+                        <td>
+                          {if="isset($value.cpfUser) && !empty($value.cpfUser) && strlen($value.cpfUser) == 11"}
+                          {function="maskCpf($value.cpfUser)"}
+                          {else}
+                          Sem CPF
+                          {/if}
+                        </td>
+                        <td>{if="$value.statusUser == 1"}Ativo{else}Inativo{/if}</td>
+                      </tr>
+                      {/loop}
+                    </tbody>
+                  </table>
+                  {else}
+                  <p class="h6 text-center border-top py-3">
+                    <b><i>NENHUM DADO ENCONTRADO</i></b>
+                  </p>
+                  {/if}
+                </div>
+                <!-- /.card-body -->
+              </div>
+              <!-- /.card -->
+            </div>
+          </div>
+          <!-- /.row -->
+
+        </div><!-- /.container-fluid -->
+      </section>
+      <!-- /.content -->
+
+        
+        

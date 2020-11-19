@@ -1,0 +1,130 @@
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1 class="m-0 text-dark">Loja {$id} - Pagamento</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+              <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="/admin/">Home</a></li>
+                <li class="breadcrumb-item"><a href="/admin/stores/">Lojas</a></li>
+                <li class="breadcrumb-item active">Loja {$id}</li>
+                <li class="breadcrumb-item active">Pagamento</li>
+              </ol>
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+      </div>
+      <!-- /.content-header -->
+  
+      <!-- Main content -->
+      <section class="content">
+        <div class="container-fluid">
+            
+          <!-- /.row -->
+          <div class="row">
+
+            <div class="col-12">
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">Opções de Pagamento&nbsp;</h3> 
+                  <a href="#" class="text-success py-1" data-toggle="modal" data-target="#modalPayment" data-type="1" data-id="0" data-modal-title="Adicionar uma Opção de Pagamento" data-id-type="0" data-desc=""> <i class="far fa-plus-square"></i> Adicionar</a>
+                </div>
+
+                <!-- /.card-header -->
+                <div class="card-body">
+                  
+                  <div id="alertsDeletePayOption">
+            
+                    {if="$errorRegister != ''"}
+                    <div class="alert alert-danger alert-dismissible fade show text-left" role="alert">
+                      
+                        <span>{$errorRegister}</span>
+                        
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+        
+                    </div>
+                    {/if}
+        
+                    {if="$successMsg != ''"}	
+        
+                    <div class="alert alert-success alert-dismissible fade show text-left" role="alert">
+                        
+                        <span>{$successMsg}</span>
+                        
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+        
+                    </div>
+        
+                    {/if}
+                  
+                  </div>
+
+                  <div id="dataPayOption" class="row">
+
+                    {if="$storePay != 0"}
+                    <!-- /.card-header -->
+                    <div class="card-body table-responsive p-0 col-sm-12">
+                      <table class="table table-head-fixed table-hover text-nowrap">
+                        <thead>
+                          <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>Descrição</th>
+                            <th>Tipo</th>
+                            <th>Opções</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {loop="$storePay"}
+                          <tr id="trPayOption{$value.idPayment}">
+                            <td>{$key + 1}</td>
+                            <td>{$value.name}</td>
+                            <td>{$value.description}</td>
+                            <td>
+                              {if="$value.type == 1"}Na Retirada{/if}
+                              {if="$value.type == 2"}Na Entrega{/if}
+                              {if="$value.type == 3"}Online{/if}
+                            </td>
+                            <td>
+
+                              <button type="button" class="btn btn-tool px-1" data-toggle="modal" data-target="#modalPayment" data-type="2" data-id="{$value.idPayment}" data-modal-title="Alterar uma Opção de Pagamento" data-id-type="{$value.idPaymentType}" data-desc="{$value.description}"> <i class="fas fa-pen"></i></button>
+                            
+                              <button type="button" class="btnDeletePayOption btn btn-tool px-1" data-type="3" data-id="{$value.idPayment}" data-store="{$id}"><i class="far fa-trash-alt"></i></button>
+
+                            </td>
+                          </tr>
+                          {/loop}
+                        </tbody>
+                      </table>
+                    </div>
+                    <!-- /.card-body -->
+                    {else}
+                    <p class="h6">
+                      <b><i>Sem Dados</i></b>
+                    </p>
+                    {/if}
+
+                  </div>
+                  <!-- /.row -->
+
+                </div>
+                <!-- /.card-body -->
+              </div>
+              <!-- /.card -->
+            </div>
+
+          </div>
+          <!-- /.row -->
+
+        </div><!-- /.container-fluid -->
+      </section>
+      <!-- /.content -->
+
+        
+        

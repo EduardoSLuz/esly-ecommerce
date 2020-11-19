@@ -1,0 +1,45 @@
+<script>
+
+    $('#filterProduct').val("{$dep.or}");
+
+    $('.subSearch').on('submit', function(e) {
+
+        var url = $(this).attr("action");
+        var sub = this.searchSub.value;
+
+        e.preventDefault();
+
+        window.location.href = url + '?{if="$dep.or != 0"}&order={$dep.or}{/if}&subs='+sub+'{if="!empty($dep.mark)"}&mark={$dep.mark}{/if}{if="$dep.filter != 0"}&min={$dep.filter.min}&max={$dep.filter.max}{/if}';
+
+    });
+
+    $('.filterPrice').on('submit', function(e) {
+
+        var url = $(this).attr("action");
+        var min = this.minPrice.value;
+        var max = this.maxPrice.value;
+
+        e.preventDefault();
+
+        window.location.href = url + '?{if="$dep.or != 0"}&order={$dep.or}{/if}{if="!empty($dep.subs)"}&mark={$dep.subs}{/if}{if="!empty($dep.mark)"}&mark={$dep.mark}{/if}&min='+min+'&max='+max;
+
+    });
+
+    $('#filterProduct').on("change", function(e) {
+
+        var val = $(this).val();
+        var param = "&order="+val;
+
+        if(val == 0){
+            param = "";
+        }
+
+        window.location.href = '/loja-{$ID}/departaments/{$dep.name}-{$dep.cat}/?'+param+'{if="$dep.subs != 0"}&subs={$dep.subs}{/if}{if="!empty($dep.mark)"}&mark={$dep.mark}{/if}{if="$dep.filter != 0"}&min={$dep.filter.min}&max={$dep.filter.max}{/if}';
+
+    });
+
+    $('.closeSubs').on("click", function(e) {
+        window.location.href = '/loja-{$ID}/departaments/{$dep.name}-{$dep.cat}/?{if="$dep.or != 0"}&order={$dep.or}{/if}{if="!empty($dep.mark)"}&mark={$dep.mark}{/if}{if="$dep.filter != 0"}&min={$dep.filter.min}&max={$dep.filter.max}{/if}';
+    });
+
+</script>

@@ -1,0 +1,497 @@
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1 class="m-0 text-dark">Loja {$id} - Layout</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+              <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="/admin/">Home</a></li>
+                <li class="breadcrumb-item"><a href="/admin/stores/">Lojas</a></li>
+                <li class="breadcrumb-item active">Loja {$id}</li>
+                <li class="breadcrumb-item active">Layout</li>
+              </ol>
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+      </div>
+      <!-- /.content-header -->
+  
+      <!-- Main content -->
+      <section class="content">
+        <div class="container-fluid">
+            
+          <!-- /.row -->
+          <div class="row">
+            
+            <div class="col-md-6">
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">Cabeçalho de Departamentos</h3>
+                </div>
+
+                <!-- /.card-header -->
+                <div class="card-body">
+                  
+                  <div id="dataLayoutHeader" class="row">
+
+                    {if="$storeLayoutHeader != 0"}
+                    <div class="card-body table-responsive p-0 col-sm-12">
+                      <table class="table table-head-fixed table-hover text-nowrap">
+                        <thead>
+                          <tr>
+                            <th>ID</th>
+                            <th>Descrição</th>
+                            <th>Tipo</th>
+                            <th>Status</th>
+                            <th>Opções</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {loop="$storeLayoutHeader"}
+                          <tr>
+                            <td>{$key + 1}</td>
+                            <td>{$value.description}</td>
+                            <td>
+                              {if="$value.type == 1"}Departamento{/if}
+                              {if="$value.type == 2"}Página{/if}
+                            </td>
+                            <td>
+                              {if="$value.status == 1"}
+                              Ativo
+                              {else}
+                              Inativo
+                              {/if}
+                            </td>
+                            <td>
+                              <button type="button" class="btn btn-tool px-1" data-toggle="modal" data-target="#modalHeaderDep" data-type="2" data-id="{$value.idLayoutHeader}" data-modal-title="Alterar um Cabeçalho" data-id-type="{$value.type}" data-desc="{$value.description}" data-dep="{$value.departament}" data-link="{$value.link}" data-status="{$value.status}"> <i class="fas fa-pen"></i></button> 
+                            </td>
+                          </tr>
+                          {/loop}
+                        </tbody>
+                      </table>
+                    </div>
+                    {else}
+                    <p class="h6">
+                      <b><i>Sem Dados</i></b>
+                    </p>
+                    {/if}
+
+                  </div>
+                  <!-- /.row -->
+                </div>
+                <!-- /.card-body -->  
+
+              </div>
+              <!-- /.card -->
+                
+            </div>
+
+            <div class="col-md-6">
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">Infomações da loja&nbsp;</h3>
+                </div>
+
+                <!-- /.card-header -->
+                <div class="card-body">
+                  
+                  <div id="alertsLayoutInfo">
+            
+                    {if="$errorRegister != ''"}
+                    <div class="alert alert-danger alert-dismissible fade show text-left" role="alert">
+                      
+                        <span>{$errorRegister}</span>
+                        
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+        
+                    </div>
+                    {/if}
+        
+                    {if="$successMsg != ''"}	
+        
+                    <div class="alert alert-success alert-dismissible fade show text-left" role="alert">
+                        
+                        <span>{$successMsg}</span>
+                        
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+        
+                    </div>
+        
+                    {/if}
+                  
+                  </div>
+                  
+                  <div class="row">
+
+                    <div class="col-sm-12">
+                      {if="$storeLayoutInfo !=0"}
+                      <p>Exibir:</p>
+
+                      <!-- checkbox -->
+                      <div class="form-group clearfix">
+                        <div class="icheck-primary d-inline">
+                          <input type="checkbox" class="btnsLayoutInfo" id="infoStore" name="infoStore" data-ly="lyInfo1" data-id="{$storeLayoutInfo.0.idLayoutInfo}" data-type="2" data-store="{$id}" {if="$storeLayoutInfo.0.lyInfo1 == 1"}checked{/if}>
+                          <label for="infoStore">
+                            Sobre a Empresa
+                          </label>
+                        </div>
+                      </div>
+                      
+                      <div class="form-group clearfix">
+                        <div class="icheck-primary d-inline">
+                          <input type="checkbox" class="btnsLayoutInfo" id="infoStores" name="infoStores" data-ly="lyInfo2" data-id="{$storeLayoutInfo.0.idLayoutInfo}" data-type="2" data-store="{$id}" {if="$storeLayoutInfo.0.lyInfo2 == 1"}checked{/if}>
+                          <label for="infoStores">
+                            Nossas Lojas
+                          </label>
+                        </div>
+                      </div>
+
+                      <div class="form-group clearfix">
+                        <div class="icheck-primary d-inline">
+                          <input type="checkbox" class="btnsLayoutInfo" id="infoPartners" name="infoPartners" data-ly="lyInfo3" data-id="{$storeLayoutInfo.0.idLayoutInfo}" data-type="2" data-store="{$id}" {if="$storeLayoutInfo.0.lyInfo3 == 1"}checked{/if}>
+                          <label for="infoPartners">
+                            Parceiros
+                          </label>
+                        </div>
+                      </div>
+
+                      <div class="form-group clearfix">
+                        <div class="icheck-primary d-inline">
+                          <input type="checkbox" class="btnsLayoutInfo" id="infoHelp" name="infoHelp" data-ly="lyInfo4" data-id="{$storeLayoutInfo.0.idLayoutInfo}" data-type="2" data-store="{$id}" {if="$storeLayoutInfo.0.lyInfo4 == 1"}checked{/if}>
+                          <label for="infoHelp">
+                            Perguntas Frequentes
+                          </label>
+                        </div>
+                      </div>
+
+                      <div class="form-group clearfix">
+                        <div class="icheck-primary d-inline">
+                          <input type="checkbox" class="btnsLayoutInfo" id="infoContact" name="infoContact" data-ly="lyInfo5" data-id="{$storeLayoutInfo.0.idLayoutInfo}" data-type="2" data-store="{$id}" {if="$storeLayoutInfo.0.lyInfo5 == 1"}checked{/if}>
+                          <label for="infoContact">
+                            Promoções
+                          </label>
+                        </div>
+                      </div>
+                      
+                      {if="0==1"}
+                      <div class="form-group clearfix">
+                        <div class="icheck-primary d-inline">
+                          <input type="checkbox" class="btnsLayoutInfo" id="infoContactWork" name="infoContactWork" data-ly="lyInfo6" data-id="{$storeLayoutInfo.0.idLayoutInfo}" data-type="2" data-store="{$id}" {if="$storeLayoutInfo.0.lyInfo6 == 1"}checked{/if}>
+                          <label for="infoContactWork">
+                            Fale Conosco
+                          </label>
+                        </div>
+                      </div>
+
+                      <div class="form-group clearfix">
+                        <div class="icheck-primary d-inline">
+                          <input type="checkbox" class="btnsLayoutInfo" id="infoPromo" name="infoPromo" data-ly="lyInfo7" data-id="{$storeLayoutInfo.0.idLayoutInfo}" data-type="2" data-store="{$id}" {if="$storeLayoutInfo.0.lyInfo7 == 1"}checked{/if}>
+                          <label for="infoPromo">
+                            Trabalhe Conosco 
+                          </label>
+                        </div>
+                      </div>
+                      {/if}
+
+                      {else}
+                      <p class="h6">
+                        <b><i>Sem Dados</i></b>
+                      </p>
+                      {/if} 
+                    </div>
+
+                  </div>
+
+                </div>
+                  <!-- /.row -->
+
+                </div>
+                <!-- /.card-body -->
+              </div>
+              <!-- /.card -->
+
+              <div class="col-md-6">
+                <div class="card">
+                  <div class="card-header">
+                    <h3 class="card-title">Rodapé da página&nbsp;</h3>
+                  </div>
+  
+                  <!-- /.card-header -->
+                  <div class="card-body">
+                    
+                    <div id="alertsLayoutFooter">
+            
+                      {if="$errorRegister != ''"}
+                      <div class="alert alert-danger alert-dismissible fade show text-left" role="alert">
+                        
+                          <span>{$errorRegister}</span>
+                          
+                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                          </button>
+          
+                      </div>
+                      {/if}
+          
+                      {if="$successMsg != ''"}	
+          
+                      <div class="alert alert-success alert-dismissible fade show text-left" role="alert">
+                          
+                          <span>{$successMsg}</span>
+                          
+                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                          </button>
+          
+                      </div>
+          
+                      {/if}
+                    
+                    </div>
+
+                    <div class="row">
+
+                      <div class="col-sm-12">
+                        
+                        {if="$storeLayoutFooter != 0"}
+                        <p>Exibir:</p>
+  
+                        <!-- checkbox -->
+                        <div class="form-group clearfix">
+                          <div class="icheck-primary d-inline">
+                            <input type="checkbox" class="btnsLayoutFooter" id="layoutSocial" name="layoutSocial" data-ly="lyFooter1" data-id="{$storeLayoutFooter.0.idLayoutFooter}" data-type="2" data-store="{$id}" {if="$storeLayoutFooter.0.lyFooter1 == 1"}checked{/if}>
+                            <label for="layoutSocial">
+                              Redes Sociais
+                            </label>
+                          </div>
+                        </div>
+                        
+                        <div class="form-group clearfix">
+                          <div class="icheck-primary d-inline">
+                            <input type="checkbox" class="btnsLayoutFooter" id="layoutSuport" name="layoutSuport" data-ly="lyFooter2" data-id="{$storeLayoutFooter.0.idLayoutFooter}" data-type="2" data-store="{$id}" {if="$storeLayoutFooter.0.lyFooter2 == 1"}checked{/if}>
+                            <label for="layoutSuport">
+                              Suporte
+                            </label>
+                          </div>
+                        </div>
+  
+                        <div class="form-group clearfix">
+                          <div class="icheck-primary d-inline">
+                            <input type="checkbox" class="btnsLayoutFooter" id="layoutInstitutional" name="layoutInstitutional" data-ly="lyFooter3" data-id="{$storeLayoutFooter.0.idLayoutFooter}" data-type="2" data-store="{$id}" {if="$storeLayoutFooter.0.lyFooter3 == 1"}checked{/if}>
+                            <label for="layoutInstitutional">
+                              Institucional
+                            </label>
+                          </div>
+                        </div>
+  
+                        <div class="form-group clearfix">
+                          <div class="icheck-primary d-inline">
+                            <input type="checkbox" class="btnsLayoutFooter" id="layoutPayment" name="layoutPayment" data-ly="lyFooter4" data-id="{$storeLayoutFooter.0.idLayoutFooter}" data-type="2" data-store="{$id}" {if="$storeLayoutFooter.0.lyFooter4 == 1"}checked{/if}>
+                            <label for="layoutPayment">
+                              Formas de Pagamento
+                            </label>
+                          </div>
+                        </div>
+  
+                        <div class="form-group clearfix">
+                          <div class="icheck-primary d-inline">
+                            <input type="checkbox" class="btnsLayoutFooter" id="layoutApp" name="layoutApp" data-ly="lyFooter5" data-id="{$storeLayoutFooter.0.idLayoutFooter}" data-type="2" data-store="{$id}" {if="$storeLayoutFooter.0.lyFooter5 == 1"}checked{/if}>
+                            <label for="layoutApp">
+                              Baixe Nosso App
+                            </label>
+                          </div>
+                        </div>
+                        
+                        <div class="form-group clearfix">
+                          <div class="icheck-primary d-inline">
+                            <input type="checkbox" class="btnsLayoutFooter" id="layoutSecurity" name="layoutSecurity" data-ly="lyFooter6" data-id="{$storeLayoutFooter.0.idLayoutFooter}" data-type="2" data-store="{$id}" {if="$storeLayoutFooter.0.lyFooter6 == 1"}checked{/if}>
+                            <label for="layoutSecurity">
+                              Site Seguro
+                            </label>
+                          </div>
+                        </div>
+  
+                        <div class="form-group clearfix">
+                          <div class="icheck-primary d-inline">
+                            <input type="checkbox" class="btnsLayoutFooter" id="layoutPromo" name="layoutPromo" data-ly="lyFooter7" data-id="{$storeLayoutFooter.0.idLayoutFooter}" data-type="2" data-store="{$id}" {if="$storeLayoutFooter.0.lyFooter7 == 1"}checked{/if}>
+                            <label for="layoutPromo">
+                              Receba Ofertas Exclusivas
+                            </label>
+                          </div>
+                        </div>
+  
+                        <div class="form-group clearfix">
+                          <div class="icheck-primary d-inline">
+                            <input type="checkbox" class="btnsLayoutFooter" id="layoutInfo" name="layoutInfo" data-ly="lyFooter8" data-id="{$storeLayoutFooter.0.idLayoutFooter}" data-type="2" data-store="{$id}" {if="$storeLayoutFooter.0.lyFooter8 == 1"}checked{/if}>
+                            <label for="layoutInfo">
+                              Mais informações
+                            </label>
+                          </div>
+                        </div>
+                        {else}
+                        <p class="h6">
+                          <b><i>Sem Dados</i></b>
+                        </p>
+                        {/if} 
+
+                      </div>
+  
+                    </div>
+                    <!-- /.row -->
+                  </div>
+                  <!-- /.card-body -->  
+  
+                </div>
+                <!-- /.card -->
+                  
+              </div>
+
+              <div class="col-md-6">
+                <div class="card">
+                  <div class="card-header">
+                    <h3 class="card-title">Cores da página &nbsp;
+                      <button type="submit" class="btn btn-sm btn-outline-primary" form="formLayoutColor">Salvar</button>
+                    </h3>
+                  </div>
+  
+                  <!-- /.card-header -->
+                  <div class="card-body">
+                    
+                    <div id="alertsLayoutColor">
+            
+                      {if="$errorRegister != ''"}
+                      <div class="alert alert-danger alert-dismissible fade show text-left" role="alert">
+                        
+                          <span>{$errorRegister}</span>
+                          
+                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                          </button>
+          
+                      </div>
+                      {/if}
+          
+                      {if="$successMsg != ''"}	
+          
+                      <div class="alert alert-success alert-dismissible fade show text-left" role="alert">
+                          
+                          <span>{$successMsg}</span>
+                          
+                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                          </button>
+          
+                      </div>
+          
+                      {/if}
+                    
+                    </div>
+
+                    {if="isset($storeLayoutColor) && $storeLayoutColor != 0"}
+                    <form id="formLayoutColor" class="formLayoutColor row" data-id="{$storeLayoutColor.0.idLayoutColor}" data-type="2" data-store="{$id}">
+                      
+                      <div class="col-lg-6 col-12">
+                        <label for="selectThemeColor">Tema</label>
+                        
+                        <div class="input-group">
+                          <select name="selectThemeColor" id="selectThemeColor" class="custom-select" data-store="{$id}">
+                            <option value="5">Amarelo</option>
+                            <option value="1">Azul</option>
+                            <option value="6">Ciano</option>
+                            <option value="2">Cinza</option>
+                            <option value="3">Verde</option>
+                            <option value="4">Vermelho</option>
+                            <option value="0">Personalizado</option>
+                          </select>
+  
+                          <div class="input-group-append">
+                            <span class="input-group-text iconThemeColor"><i class="fas fa-square-full" style="color: {$storeLayoutColor.0.options.hd.options.bck.value};"></i></span>
+                          </div>
+                        </div>
+
+                      </div>
+
+                      <details class="detailsLayoutColor col-md-12 mt-3">
+
+                        <summary>Detalhes</summary>
+
+                        {$ct = 0}
+                        {loop="$storeLayoutColor.0.options"}
+                        <div class="col-md-12 row">
+  
+                          <p class="h5 col-md-12">
+                            {$value.name}
+                          </p>
+                          
+                          {if="isset($value.options) && count($value.options) > 0"}
+                          {$keyMaster = $key}
+                          {loop="$value.options"}
+                          {$ct = $ct + 1}
+                          <div class="form-group col-lg-6 col-12">
+                            <label for="{$keyMaster}_{$key}">{$value.title}</label>
+    
+                            <div class="input-group my-colorLy{$ct}">
+                              <input type="text" class="form-control" id="{$keyMaster}_{$key}"  name="{$keyMaster}_{$key}" value="{$value.value}">
+    
+                              <div class="input-group-append">
+                                <span class="input-group-text"><i class="{$value.icon} colorsLyFooter{$ct}" style="color: {$value.value};"></i></span>
+                              </div>
+                            </div>
+                          </div>
+                          {/loop}
+                          {else}
+                          <p class="h6">
+                            <b><i>Sem Dados</i></b>
+                          </p>
+                          {/if}
+  
+                        </div>
+                        {/loop}
+                      </details>  
+
+                      <script>
+                        
+                        let theme = "{$storeLayoutColor.0.theme}";
+
+                        document.getElementById("selectThemeColor").value = theme;
+                        
+                        if(theme == 0)
+                        {
+                          document.querySelector(".detailsLayoutColor").setAttribute("open", "true")
+                        }
+
+                      </script>
+                      
+                    </form>
+                    {else}
+                    <p class="h6">
+                      <b><i>Sem Dados</i></b>
+                    </p>
+                    {/if}
+
+                    <!-- /.row -->
+                  </div>
+                  <!-- /.card-body -->  
+  
+                </div>
+                <!-- /.card -->
+                  
+              </div>
+
+            </div>
+
+          </div>
+          <!-- /.row -->
+
+        </div><!-- /.container-fluid -->
+      </section>
+      <!-- /.content -->
+
+        
+        

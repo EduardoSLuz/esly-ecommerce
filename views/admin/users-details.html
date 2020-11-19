@@ -1,0 +1,339 @@
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1 class="m-0 text-dark">
+                Usuário - 
+                {if="isset($userData) && isset($userData.0.nameUser) && !empty($userData.0.nameUser)"}
+                {$userData.0.nameUser} {$userData.0.surnameUser}
+                {else}
+                Registro
+                {/if}
+              </h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+              <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="/admin/">Home</a></li>
+                <li class="breadcrumb-item"><a href="/admin/users/">Usuários</a></li>
+                <li class="breadcrumb-item active">
+                  {if="isset($userData) && isset($userData.0.nameUser) && !empty($userData.0.nameUser)"}
+                  {$userData.0.nameUser} {$userData.0.surnameUser}
+                  {else}
+                  Registro
+                  {/if}
+                </li>
+              </ol>
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+      </div>
+      <!-- /.content-header -->
+  
+      <!-- Main content -->
+      <section class="content">
+        <div class="container-fluid">
+            
+          <!-- /.row -->
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">Cadastro</h3>
+                </div>
+                
+                <!-- /.card-header -->
+                <div class="card-body">
+
+                  <div id="alertsUserDetails">
+            
+                    {if="$errorRegister != ''"}
+                    <div class="alert alert-danger alert-dismissible fade show text-left" role="alert">
+                      
+                        <span>{$errorRegister}</span>
+                        
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+        
+                    </div>
+                    {/if}
+        
+                    {if="$successMsg != ''"}	
+        
+                    <div class="alert alert-success alert-dismissible fade show text-left" role="alert">
+                        
+                        <span>{$successMsg}</span>
+                        
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+        
+                    </div>
+        
+                    {/if}
+                  
+                  </div>
+                  
+                  <form id="formUserDetails" class="formUserDetails row" method="POST" data-type="2" data-id='{if="isset($userData) && $userData != 0"}{$userData.0.idUser}{else}0{/if}'>
+
+                    {if="isset($userData) && $userData != 0"}
+
+                    <div class="form-group col-md-4">
+                      <label for="inputName">Nome</label>
+                      <input type="text" id="inputName" name="inputName" class="form-control" value="{$userData.0.nameUser} {$userData.0.surnameUser}" placeholder="Digite o nome">
+                    </div>
+
+                    <div class="form-group col-md-5">
+                      <label for="inputEmail">E-mail</label>
+                      <input type="email" id="inputEmail" name="inputEmail" class="form-control" value="{$userData.0.emailUser}" placeholder="Digite o e-mail">
+                    </div>
+
+                    <div class="form-group col-md-3 col-sm-3 col-lg-2">
+                      <label for="inputCpf">Cpf</label>
+                      <input type="text" id="inputCpf" name="inputCpf" class="form-control text-center maskCpf" value="{$userData.0.cpfUser}" placeholder="000.000.000-00">
+                    </div>
+
+                    <div class="form-group col-md-2 col-sm-2 col-lg-1">
+                      <label for="selectStatus">Status</label>
+                      <select name="selectStatus" id="selectStatus" class="custom-select">
+                        <option value="0">Inativo</option>
+                        <option value="1">Ativo</option>
+                      </select>
+                    </div>
+
+                    <div class="form-group col-md-3 col-sm-3 col-lg-2">
+                      <label for="inputTelephone">Telefone</label>
+                      <input type="text" id="inputTelephone" name="inputTelephone" class="form-control text-center maskTel" value="{$userData.0.telephoneUser}" placeholder="(00) 00000-0000">
+                    </div>
+
+                    <div class="form-group col-md-3 col-sm-3 col-lg-2">
+                      <label for="inputWp">Whatsapp</label>
+                      <input type="text" id="inputWp" name="inputWp" class="form-control text-center maskTel" value="{$userData.0.whatsappUser}" placeholder="(00) 00000-0000">
+                    </div>
+
+                    <div class="form-group col-md-2">
+                      <label for="selectGenre">Gênero</label>
+                      <select name="selectGenre" id="selectGenre" class="custom-select">
+                        <option value="0">Selecione um Gênero</option>
+                        <option value="1">Feminino</option>
+                        <option value="2">Masculino</option>
+                        <option value="3">Outros</option>
+                      </select>
+                    </div>
+
+                    <div class="form-group col-md-2 col-sm-2 col-lg-1">
+                      <label for="selectType">Tipo</label>
+                      <select name="selectType" id="selectType" class="custom-select">
+                        <option value="0">Cliente</option>
+                        <option value="1">Admin</option>
+                      </select>
+                    </div>
+
+                    <div class="form-group col-md-3 col-sm-3 col-lg-2">
+                      <label for="inputDateBirth">Data de Nascimento</label>
+                      <input type="date" id="inputDateBirth" name="inputDateBirth" class="form-control text-center" value="{$userData.0.dateBirthUser}">
+                    </div>
+
+                    <div class="col-sm-12 text-right">
+                      <button type="submit" class="btn btn-primary px-5">Salvar</button>
+                    </div>
+
+                    <script>
+                      document.getElementById("selectStatus").value = "{$userData.0.statusUser}";
+                      document.getElementById("selectType").value = "{$userData.0.admin}";
+                      document.getElementById("selectGenre").value = "{$userData.0.genreUser}";
+                    </script>
+                    
+                    {else}
+                    <p class="h6 col-md-12">
+                      <b><i>NENHUM DADO ENCONTRADO</i></b>
+                    </p>
+                    {/if}
+
+                  </form>
+                  <!-- /.row -->
+
+                </div>
+                <!-- /.card-body -->
+              </div>
+              <!-- /.card -->
+            </div>
+
+            <div class="col-md-6">
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">Dispositivos Cadastrados</h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body table-responsive p-0" style="max-height: 350px;">
+                  
+                  {if="isset($userData.0.devices) && $userData.0.devices != 0"}
+                  <table class="table table-head-fixed table-hover text-nowrap">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Dispositivo</th>
+                        <th>Ultimo Acesso</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {loop="$userData.0.devices"}
+                      <tr>
+                        <td>{$key + 1}</td>
+                        <td>{$value.device}</td>
+                        <td>{function="date("H:i", strtotime($value.timeAccess))"} - {function="date("d/m/Y", strtotime($value.dateAccess))"} </td>
+                      </tr>
+                      {/loop}
+                    </tbody>
+                  </table>
+                  {else}
+                  <p class="h6 text-center py-3">
+                    <b><i>NENHUM DADO ENCONTRADO</i></b>
+                  </p>
+                  {/if}
+                </div>
+                <!-- /.card-body -->
+              </div>
+              <!-- /.card -->
+            </div>
+
+            <div class="col-md-6">
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">Endereços</h3>
+                </div>
+                <!-- /.card-header -->
+                <div id="tbUsersAddress" class="card-body table-responsive p-0" style="max-height: 350px;">
+                  
+                  {if="isset($userData.0.address) && $userData.0.address != 0"}
+                  <table class="table table-head-fixed table-hover text-nowrap">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Cep</th>
+                        <th>Cidade</th>
+                        <th>Opções</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {loop="$userData.0.address"}
+                      <tr>
+                        <td>{$key + 1}</td>
+                        <td>{if="isset($value.cep) && strlen($value.cep) == 8"}{function="maskCep($value.cep)"}{/if}</td>
+                        <td>
+                          {if="!empty($value.city) && !empty($value.uf)"}
+                          {$value.city} - {$value.uf}
+                          {/if}
+                        </td>
+                        <td>
+                          <button type="button" class="btn btn-tool px-1" data-toggle="modal" data-target="#modalUserAddress" data-type="2" data-id="{$value.idAddress}" data-user="{$userData.0.idUser}" data-modal-title="Alterar o Endereço" data-city="{$value.codeCity}" data-cep='{if="isset($value.cep) && strlen($value.cep) == 8"}{function="maskCep($value.cep)"}{/if}' data-district="{$value.district}" data-street="{$value.street}" data-number="{$value.number}" data-complement="{$value.complement}" data-reference="{$value.reference}"> <i class="fas fa-pen"></i> </button>
+                        </td>
+                      </tr>
+                      {/loop}
+                    </tbody>
+                  </table>
+                  {else}
+                  <p class="h6 text-center py-3">
+                    <b><i>NENHUM DADO ENCONTRADO</i></b>
+                  </p>
+                  {/if}
+
+                </div>
+                <!-- /.card-body -->
+              </div>
+              <!-- /.card -->
+            </div>
+
+            <div class="col-12">
+              <div class="card">
+                <div class="card-header row pb-1">
+                  
+                  <div class="card-title col-md-6">
+                    <h5>Pedidos</h5> 
+                  </div>
+  
+                  <form id="formOrdersUser" class="formOrdersUser col-md-6 table-responsive input-group-sm d-flex flex-row" data-id="{$userData.0.idUser}">
+
+                    <select class="custom-select inputsOrdersUser mr-2" name="selectStoreOrders" id="selectStoreOrders" style="width: 100px;">
+                      {if="isset($stores) && $stores != 0"}
+                      {loop="$stores"}
+                      <option value="{$value.idStore}">Loja {$value.store}</option>
+                      {/loop}
+                      {else}
+                      <option value="0">Vazio</option>
+                      {/if}
+                    </select>
+
+                    <select class="custom-select inputsOrdersUser mr-2" name="selectStoreOrders" id="selectStoreOrders" style="width: 250px;">
+                      <option value="0">Status</option>
+                      {if="isset($ordersStatus) && $ordersStatus != 0"}
+                      {loop="$ordersStatus"}
+                      <option value="{$value.idOrderStatus}">{$value.descStatus}</option>
+                      {/loop}
+                      {/if}
+                    </select>
+
+                    <input type="date" id="inputStoreOrdersDateIni" name="inputStoreOrdersDateIni" class="form-control inputsOrdersUser mr-2" value='{function="date("Y-m-01")"}'>
+                    <input type="date" id="inputStoreOrdersDateFin" name="inputStoreOrdersDateFin" class="form-control inputsOrdersUser" value='{function="date("Y-m-d")"}'>
+
+                  </form>
+                  
+                </div>
+                <!-- /.card-header -->
+                <div id="tbOrdersUsers" class="card-body table-responsive p-0" style="max-height: 450px;">
+                  {if="isset($userData.0.orders) && $userData.0.orders != 0"}
+                  <table class="table table-head-fixed table-hover text-nowrap">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Cliente</th>
+                        <th>Data</th>
+                        <th>Status</th>
+                        <th>Pago</th>
+                        <th>Frete</th>
+                        <th>Agendamento</th>
+                        <th>Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {loop="$userData.0.orders"}
+                      <tr style="cursor: pointer;" onclick="window.location.assign('/admin/orders/{$value.idOrder}/')">
+                        <td>{$key + 1}</td>
+                        <td>{$userData.0.nameUser} {$userData.0.surnameUser}</td>
+                        <td>{function="date("H:i", strtotime($value.timeInsert))"} - {function="date("d/m/Y", strtotime($value.dateInsert))"}</td>
+                        <td>{$value.descStatus}</td>
+                        <td>
+                          {if="$value.paid == 1"}
+                          Sim
+                          {else}
+                          Não
+                          {/if}
+                        </td>
+                        <td>{$value.freight}</td>
+                        <td>{function="date("H:i", strtotime($value.timeInitial))"} às {function="date("H:i", strtotime($value.timeFinal))"} - {function="date("d/m/Y", strtotime($value.dateHorary))"}</td>
+                        <td>R$ {function="maskPrice($value.total)"}</td>
+                      </tr>
+                      {/loop}
+                    </tbody>
+                  </table>
+                  {else}
+                  <p class="h6 text-center py-3">
+                    <b><i>NENHUM DADO ENCONTRADO</i></b>
+                  </p>
+                  {/if}
+                </div>
+                <!-- /.card-body -->
+              </div>
+              <!-- /.card -->
+            </div>
+            
+          </div>
+          <!-- /.row -->
+
+        </div><!-- /.container-fluid -->
+      </section>
+      <!-- /.content -->
+
+        
+        

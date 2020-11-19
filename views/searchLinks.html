@@ -1,0 +1,63 @@
+{if="$search.subs"}
+<p class="h6 text-second-site-section">Filtros selecionados</p>
+<hr>
+
+<p>
+	<i class="fas fa-times text-danger cursorPointer closeSubs"></i> <span class="text-link-site-section">{$search.subs}</span>
+</p>
+{/if}
+
+<p class="h6 text-second-site-section">Buscar nos resultados</p>
+<hr>
+
+<p>
+	<form class="input-group mb-2 subSearch" action="/loja-{$ID}/search/">
+
+		<input type="text" class="form-control" name="searchSub" >
+		
+		<div class="input-group-append">
+			<button type="submit" class="btn btn-main-site-section text-btn-site-section"><i class="fas fa-search"></i></button>
+		</div>
+
+	</form>
+
+</p>
+
+{if="$search.marks != 0"}
+<p class="mt-4 h6 text-second-site-section">Marca</p>
+<hr>
+
+<div class="overflow-auto max-height">
+
+	{loop="$search.marks"}
+	{if="!empty($search.mark)"}
+	<p class="my-2 h6">
+		<a href='?s={$search.s}{if="$search.or != 0"}&order={$search.or}{/if}{if="!empty($search.subs)"}&subs={$search.subs}{/if}{if="$search.filter != 0"}&min={$search.filter.min}&max={$search.filter.max}{/if}{if="$search.page > 1"}&page={$search.page}{/if}' class="font-weight-normal text-decoration-none text-link-site-section" > <i class="fas fa-times text-danger"></i> </a> <span class="text-main-site-section">{$value}</span>
+	</p>
+	{else}
+	<p class="my-2 h6">
+		<a href='?s={$search.s}{if="$search.or != 0"}&order={$search.or}{/if}{if="!empty($search.subs)"}&subs={$search.subs}{/if}&mark={$value}{if="$search.filter != 0"}&min={$search.filter.min}&max={$search.filter.max}{/if}{if="$search.page > 1"}&page={$search.page}{/if}' class="font-weight-normal text-decoration-none text-link-site-section" >{$value}</a>
+	</p>
+	{/if}
+	{/loop}
+	
+</div>
+{/if}
+
+
+<p class="mt-4 h6 text-second-site-section">Preço</p>
+<hr>
+
+<form class="filterPrice" action="/loja-{$ID}/search/">
+
+	<div class="input-group input-group-sm">
+		<input type="text" class="form-control text-center maskMoney2" name="minPrice" value="{$search.filterPrice.min}">
+		<a class="h4 text-second-site-section">&nbsp;-&nbsp;</a>
+		<input type="text" class="form-control text-center maskMoney2" name="maxPrice" value="{$search.filterPrice.max}">
+	</div>
+
+	<div class="text-left mt-2">
+		<button type="submit" class="btn btn-main-site-section text-btn-site-section btn-sm px-3">Filtrar</button>
+	</div>
+
+</form>

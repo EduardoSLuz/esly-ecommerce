@@ -25,20 +25,21 @@
 						Editar Endereço de Entrega
 					</p>
 
-					<?php if( $errorRegister != '' ){ ?>
+					<div id="alertsAccountAddressEdit" class="my-0">
+
+						<?php if( $errorRegister != '' ){ ?>
 						<div class="alert alert-danger alert-dismissible fade show text-left" role="alert">
 							
 							<span><?php echo htmlspecialchars( $errorRegister, ENT_COMPAT, 'UTF-8', FALSE ); ?></span>
 							
 							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-						  		<span aria-hidden="true">&times;</span>
+								<span aria-hidden="true">&times;</span>
 							</button>
 
 						</div>
-					<?php } ?>
+						<?php } ?>
 
-					<?php if( $successMsg != '' ){ ?>	
-
+						<?php if( $successMsg != '' ){ ?>	
 						<div class="alert alert-success alert-dismissible fade show text-left" role="alert">
 								
 							<span><?php echo htmlspecialchars( $successMsg, ENT_COMPAT, 'UTF-8', FALSE ); ?></span>
@@ -48,69 +49,78 @@
 							</button>
 
 						</div>
-
-					<?php } ?>
-
-					<div>
-
-						<form class="row" action="/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/account/address/edit/" method="post">
-							
-							<div class="col-md-4 mt-3">
-								<label for="cityAddress">Cidade:</label>
-								<select id="cityAddress" name="cityAddress" class="custom-select" required>
-									<option value>Selecione uma cidade:</option>
-									<?php $counter1=-1;  if( isset($state) && ( is_array($state) || $state instanceof Traversable ) && sizeof($state) ) foreach( $state as $key1 => $value1 ){ $counter1++; ?>
-									<optgroup label="<?php echo htmlspecialchars( $value1["nameState"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
-										<?php $counter2=-1;  if( isset($value1["city"]) && ( is_array($value1["city"]) || $value1["city"] instanceof Traversable ) && sizeof($value1["city"]) ) foreach( $value1["city"] as $key2 => $value2 ){ $counter2++; ?>
-										<option value="<?php echo htmlspecialchars( $value2["idCity"], ENT_COMPAT, 'UTF-8', FALSE ); ?>"><?php echo htmlspecialchars( $value2["nameCity"], ENT_COMPAT, 'UTF-8', FALSE ); ?></option>
-										<?php } ?>
-									</optgroup>
-									<?php } ?>
-								</select>
-							</div>
-
-							<div class="col-md-4 mt-3">
-								<label for="cepAddress">Cep:</label>
-								<input type="text" class="form-control maskCep" id="cepAddress" name="cepAddress" placeholder="_ _ _ _ _ - _ _ _" value="<?php echo htmlspecialchars( $userAddress["0"]["cep"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" required>
-							</div>
-							
-							<div class="col-md-4 mt-3">
-								<label for="districtAddress">Bairro:</label>
-                       			<input type="text" class="form-control" id="districtAddress" name="districtAddress" placeholder="Insira o bairro" value="<?php echo htmlspecialchars( $userAddress["0"]["district"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" maxlength="150" required>
-							</div>
-
-							<div class="col-md-9 mt-3">
-								<label for="streetAddress">Rua:</label>
-                        		<input type="text" class="form-control" id="streetAddress" name="streetAddress" placeholder="Insira a rua" value="<?php echo htmlspecialchars( $userAddress["0"]["street"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" maxlength="150" required>
-							</div>
-
-							<div class="col-md-3 mt-3">
-								<label for="numberAddress">Número:</label>
-                        		<input type="text" class="form-control" id="numberAddress" name="numberAddress" placeholder="N°" value="<?php echo htmlspecialchars( $userAddress["0"]["number"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" maxlength="20" required>
-							</div>
-
-							<div class="col-md-6 mt-3">
-								<label for="complementAddress">Complemento:</label>
-                        		<input type="text" class="form-control" id="complementAddress" name="complementAddress" placeholder="Complemento" value="<?php echo htmlspecialchars( $userAddress["0"]["complement"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" maxlength="100">	
-							</div>
-
-							<div class="col-md-6 mt-3">
-								<label for="referenceAddress">Ponto de Referência:</label>
-                        		<input type="text" class="form-control" id="referenceAddress" name="referenceAddress" placeholder="Referência" value="<?php echo htmlspecialchars( $userAddress["0"]["reference"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" maxlength="100">	
-							</div>
-
-							<div class="col-md-6 mt-3">
-								<input class="cursorPointer" id="mainAddress" name="mainAddress" type="checkbox" <?php if( $userAddress["0"]["mainAddress"] > 0 ){ ?>checked<?php } ?>> <a class="cursorPointer" onclick="ExecuteClick('mainAddress')">É o endereço principal</a>
-							</div>
-
-							<div class="col-md-12 mt-2 text-right">
-								<a href="/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/account/address/" class="btn btn-light btn-sm border border-secondary">Voltar</a>
-                				<input type="submit" class="btn <?php echo htmlspecialchars( $layout["btnLayout"], ENT_COMPAT, 'UTF-8', FALSE ); ?> btn-sm px-4" value="Salvar">
-							</div>
-
-						</form>
+						<?php } ?>
 
 					</div>
+
+
+					<form id="formAccountAddressEdit" class="formAccountAddressEdit row my-0" method="POST" data-store="<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>" data-code="<?php echo htmlspecialchars( $codeAddress, ENT_COMPAT, 'UTF-8', FALSE ); ?>">
+						
+						<div class="col-md-4 my-2">
+							<label for="cityAddress">Cidade:</label>
+							<select name="cityAddress" id="cityAddress" class="custom-select select2bs4">
+								<?php if( isset($cities) && $cities != 0 ){ ?>
+								<option value="0">Selecione uma Cidade</option>
+								<?php $counter1=-1;  if( isset($cities) && ( is_array($cities) || $cities instanceof Traversable ) && sizeof($cities) ) foreach( $cities as $key1 => $value1 ){ $counter1++; ?>
+								<optgroup label="<?php echo htmlspecialchars( $value1["state"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
+									<?php $kState = $key1; ?>
+									<?php $kUf = $value1["uf"]; ?>
+									<?php if( isset($value1["city"]) && count($value1["city"]) > 0 ){ ?>
+									<?php $counter2=-1;  if( isset($value1["city"]) && ( is_array($value1["city"]) || $value1["city"] instanceof Traversable ) && sizeof($value1["city"]) ) foreach( $value1["city"] as $key2 => $value2 ){ $counter2++; ?>
+									<option value="<?php echo htmlspecialchars( $kState, ENT_COMPAT, 'UTF-8', FALSE ); ?>_<?php echo htmlspecialchars( $key2, ENT_COMPAT, 'UTF-8', FALSE ); ?>"><?php echo htmlspecialchars( $value2, ENT_COMPAT, 'UTF-8', FALSE ); ?> - <?php echo htmlspecialchars( $kUf, ENT_COMPAT, 'UTF-8', FALSE ); ?></option>
+									<?php } ?>
+									<?php }else{ ?>
+									<option value="0">Sem Dados</option>
+									<?php } ?>
+								</optgroup>
+								<?php } ?>
+								<?php }else{ ?>
+								<option value="0">Sem Dados</option>
+								<?php } ?>
+							</select>
+						</div>
+
+						<div class="col-md-4 my-2">
+							<label for="cepAddress">Cep:</label>
+							<input type="text" class="form-control maskCep" id="cepAddress" name="cepAddress" placeholder="_ _ _ _ _ - _ _ _" value="<?php echo htmlspecialchars( $userAddress["0"]["cep"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" required>
+						</div>
+						
+						<div class="col-md-4 my-2">
+							<label for="districtAddress">Bairro:</label>
+							<input type="text" class="form-control" id="districtAddress" name="districtAddress" placeholder="Insira o bairro" value="<?php echo htmlspecialchars( $userAddress["0"]["district"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" maxlength="150" required>
+						</div>
+
+						<div class="col-md-9 my-2">
+							<label for="streetAddress">Rua:</label>
+							<input type="text" class="form-control" id="streetAddress" name="streetAddress" placeholder="Insira a rua" value="<?php echo htmlspecialchars( $userAddress["0"]["street"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" maxlength="150" required>
+						</div>
+
+						<div class="col-md-3 my-2">
+							<label for="numberAddress">Número:</label>
+							<input type="text" class="form-control" id="numberAddress" name="numberAddress" placeholder="N°" value="<?php echo htmlspecialchars( $userAddress["0"]["number"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" maxlength="20" required>
+						</div>
+
+						<div class="col-md-6 my-2">
+							<label for="complementAddress">Complemento:</label>
+							<input type="text" class="form-control" id="complementAddress" name="complementAddress" placeholder="Complemento" value="<?php echo htmlspecialchars( $userAddress["0"]["complement"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" maxlength="100">	
+						</div>
+
+						<div class="col-md-6 my-2">
+							<label for="referenceAddress">Ponto de Referência:</label>
+							<input type="text" class="form-control" id="referenceAddress" name="referenceAddress" placeholder="Referência" value="<?php echo htmlspecialchars( $userAddress["0"]["reference"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" maxlength="100">	
+						</div>
+
+						<div class="col-md-6 my-2">
+							<input class="cursorPointer" id="mainAddress" name="mainAddress" type="checkbox" <?php if( $userAddress["0"]["mainAddress"] > 0 ){ ?>checked<?php } ?>> <a class="cursorPointer" onclick="ExecuteClick('mainAddress')">É o endereço principal</a>
+						</div>
+
+						<div class="col-md-12 mt-2 text-right">
+							<a href="/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/account/address/" class="btn btn-light btn-sm border border-secondary">Voltar</a>
+							<input type="submit" class="btn <?php echo htmlspecialchars( $layout["btnLayout"], ENT_COMPAT, 'UTF-8', FALSE ); ?> btn-sm px-4" value="Salvar">
+						</div>
+
+					</form>
+
 
 				</div>
 
@@ -121,19 +131,24 @@
 	</section>
 
 	<script> 
-		var city = "<?php echo htmlspecialchars( $userAddress["0"]["idCity"], ENT_COMPAT, 'UTF-8', FALSE ); ?>";
+		var city = "<?php echo htmlspecialchars( $userAddress["0"]["codeCity"], ENT_COMPAT, 'UTF-8', FALSE ); ?>";
 		if(city != 0)document.getElementById('cityAddress').value = city;
 	</script>
 
-	<div id="mySidenav" class="sidenav shadow cart-BtnFloat">
-		<a href="javascript:void(0)" class="closebtn text-dark" onclick="closeNav()">
-			<i class="fas fa-times h4"></i>
-		</a>
-		
-		<div class="mx-3">
+	<div id="myBarnav" class="shadow cart-BtnFloat">
 				
-			<?php require $this->checkTemplate("accountLinks");?>
+		<nav id="menu-site">
 			
-		</div>
+			<div class="backdrop"></div>
+			<div class="menu-info border px-2">
+				
+				<div class="text-right">
+					<a class="close-menu text-dark h4 cursorPointer"><i class="fas fa-times"></i></a>
+				</div>
+				
+				<?php require $this->checkTemplate("accountLinks");?>
+			</div>
+
+		</nav>
 
 	</div>

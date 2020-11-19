@@ -10,7 +10,7 @@ class User extends Model {
 
 	const SESSION = "User";
 	const COOKIE = "Cookie_User";
-	const LOGIN_FIELDS = "nameUser, surnameUser, emailUser";
+	const LOGIN_FIELDS = "nameUser, surnameUser, emailUser, admin";
 
 	public static function getRegisterValues()
 	{
@@ -66,14 +66,15 @@ class User extends Model {
 
 	}
 
-	public static function verifyUser($email)
-	{
+	public static function verifyUser($email, $id = 0)
+	{	
+
+		$code = $id > 0 && is_numeric($id) ? "AND idUser != :ID" : "";
+		$param = $id > 0 && is_numeric($id) ? [":EMAIL"=>$email, ":ID" => intval($id)] : [":EMAIL"=>$email];  
 
 		$sql = new Sql($_SESSION[Sql::DB]);
 
-		$results = $sql->count("SELECT emailUser FROM user WHERE emailUser = :EMAIL", [
-			":EMAIL" => $email
-		]);
+		$results = $sql->count("SELECT emailUser FROM user WHERE emailUser = :EMAIL $code", $param);
 
 		return $results === 0 ? true : false;
 
@@ -93,7 +94,7 @@ class User extends Model {
 
 		$array = serialize($array);
 
-		User::setCookies(User::COOKIE, $array, time() + (60*60*24*30));
+		User::setCookies(User::COOKIE, "", time() + (60*60*24*30));
 
 	}
 
@@ -136,12 +137,55 @@ class User extends Model {
 
 	}
 
+	public static function getDevice()
+	{
+
+		$device = substr(strstr(strstr($_SERVER["HTTP_USER_AGENT"], ')', true), '('), 1);
+
+		return $device;
+
+	}
+
+	public static function saveDevice()
+	{
+
+		$sql = new Sql($_SESSION[Sql::DB]);
+		
+		$results = $sql->select("SELECT idUserDevice FROM user_device AS us_dv INNER JOIN user AS us ON us_dv.idUser = us.idUser WHERE us.emailUser = :EMAIL AND us_dv.device = :DEVICE", [
+			":EMAIL" => $_SESSION[User::SESSION]['emailUser'],
+			":DEVICE" => User::getDevice()
+		]);
+
+		if(count($results) > 0)
+		{
+			$sql->query("UPDATE user_device SET dateAccess = :DATE, timeAccess = :TIME WHERE idUserDevice = :ID", [
+				":DATE" => date("Y-m-d"),
+				":TIME" => date("H:i:s"),
+				":ID" => $results[0]['idUserDevice']
+			]);
+		} else{
+			
+			$result = $sql->select("SELECT idUser FROM user WHERE emailUser = :EMAIL", [
+				":EMAIL" => $_SESSION[User::SESSION]['emailUser']
+			]);
+
+			$sql->query("INSERT INTO user_device (idUser, device, dateAccess, timeAccess) VALUES (:ID, :DEVICE, :DATE, :TIME)", [
+				":ID" => $result[0]['idUser'],
+				":DEVICE" => User::getDevice(),
+				":DATE" => date("Y-m-d"),
+				":TIME" => date("H:i:s")
+			]);
+
+		}
+
+	}
+
 	public static function login($email, $pass)
 	{
 
 		$sql = new Sql($_SESSION[Sql::DB]);
 
-		$results = $sql->select("SELECT ".User::LOGIN_FIELDS.", passUser FROM user WHERE emailUser = :EMAIL", [
+		$results = $sql->select("SELECT ".User::LOGIN_FIELDS.", passUser, statusUser FROM user WHERE emailUser = :EMAIL", [
 			":EMAIL" => strtolower($email)
 		]);
 
@@ -157,10 +201,16 @@ class User extends Model {
 
 			$user = new User();
 
+			if($data['statusUser'] == 0) $sql->query("UPDATE user SET statusUser = :ID WHERE emailUser = :EMAIL", [":ID" => 1, ":EMAIL" => $data['emailUser']]);
+
+			unset($data['passUser']);
+			unset($data['statusUser']);
+
 			$user->setData($data);
 
 			$_SESSION[User::SESSION] = $user->getValues();
-
+			User::saveDevice();
+			
 			return true;
 
 		} else {
@@ -190,6 +240,7 @@ class User extends Model {
 			$user->setData($data);
 
 			$_SESSION[User::SESSION] = $user->getValues();
+			User::saveDevice();
 			
 			return true;
 		
@@ -227,6 +278,24 @@ class User extends Model {
 
 	}
 
+	public static function desactive()
+	{
+
+		if(!isset($_SESSION[User::SESSION]['emailUser']))
+		{
+			throw new \Exception("O SITE NÃO PODE EXECUTAR O QUE VOCÊ ESTA TENTANDO FAZER!");
+			exit;	
+		}
+
+		$sql = new Sql($_SESSION[Sql::DB]);
+
+		$sql->query("UPDATE user SET statusUser = :ID WHERE emailUser = :EMAIL", [
+			":ID" => 0,
+			":EMAIL" => $_SESSION[User::SESSION]['emailUser']
+		]);
+
+	}
+
 	public static function getCodeRecovery($code)
 	{
 
@@ -257,18 +326,21 @@ class User extends Model {
 
 		$st = Store::listAll($store);
 
-		$mailer = new Mailer($email, $data['nameUser'], "Redefinir senha no ".$st[0]['nameStore']." E-Commerce", "forgot", array(
+		$mailer = new Mailer($email, $data['nameUser'], "Redefinir Senha - ".utf8_decode($st[0]['nameStore'])." E-Commerce", "forgot", array(
 			"name" => $data['nameUser'],
 			"link" => $link,
 			"store" => [
+				"ID" => $st[0]['store'],
 				"nameStore" => $st[0]['nameStore'],
 				"nameBase" => strstr($_SESSION[Sql::DB]['db_name'], '-', true),
 				"HTTP" => $_SERVER['HTTP_HOST'],
-				"social" => Store::listSocial()
+				"social" => Store::listInfoSocial()
 			]
-		));				
+		), utf8_decode($st[0]['nameStore']));				
 
-		$mailer->send();
+		$res = $mailer->send();
+		
+		return $res;
 		
 	}
 
@@ -294,16 +366,17 @@ class User extends Model {
 
 	}
 
-	public static function verifyCPF($code)
+	public static function verifyCPF($code, $id = 0)
 	{
 
 		$sql = new Sql($_SESSION[Sql::DB]);
 
-		$results = $sql->select("SELECT emailUser, cpfUser FROM user WHERE cpfUser = :CODE ", [
-			":CODE" => User::cryptCode(User::decryptCPF($code))
+		$results = $sql->select("SELECT emailUser, cpfUser FROM user WHERE cpfUser = :CODE AND idUser != :ID", [
+			":CODE" => User::cryptCode(User::decryptCPF($code)),
+			":ID" => $id != 0 ? intval($id) : User::getId()
 		]);
 		
-		return count($results) > 0 && $results[0]['emailUser'] != $_SESSION[User::SESSION]['emailUser']  ? true : false;
+		return count($results) > 0 ? true : false;
 
 	}
 
@@ -346,11 +419,14 @@ class User extends Model {
 
 		$sql = new Sql($_SESSION[Sql::DB]);
 
-		$sql->query("INSERT INTO user (nameUser, emailUser, passUser, recoveryUser) VALUES(:NAMEUSER, :EMAIL, :PASS, :CODE)", [
+		$sql->query("INSERT INTO user (nameUser, emailUser, passUser, recoveryUser, statusUser, dateInsert, timeInsert) VALUES(:NAMEUSER, :EMAIL, :PASS, :CODE, :STATUS, :DTIN, :TMIN)", [
 			":NAMEUSER" => User::nameSave($this->getemailUser()),
 			":EMAIL" => strtolower($this->getemailUser()),
 			":PASS" => User::getPassword($this->getpassUser()),
-			":CODE" => User::getCodeRecovery($this->getemailUser())
+			":CODE" => User::getCodeRecovery($this->getemailUser()),
+			":DTIN" => date("Y-m-d"),
+			":TMIN" => date("H:i:s"),
+			":STATUS" => 1
 		]);
 
 		$results = $sql->count("SELECT emailUser FROM user WHERE emailUser = :EMAIL", [
@@ -379,13 +455,33 @@ class User extends Model {
 
 		if($results > 0)
 		{
-
 			User::refreshLogin();
-			User::setSuccessMsg("Dados atualizados com sucesso!");
+		} 
 
-		} else{
-			User::setErrorRegister("Não a nada a ser atualizado!");
-		}
+		return $results > 0 ? true : false;
+
+	}
+
+	public function updateUser()
+	{
+
+		$sql = new Sql($_SESSION[Sql::DB]);
+
+		$select = $sql->count("UPDATE user SET nameUser = :NAME, surnameUser = :SURNAME, emailUser = :EMAIL, telephoneUser = :TEL, whatsappUser = :WP, genreUser = :GENRE, cpfUser = :CPF, dateBirthUser = :BIRTH, admin = :ADM, statusUser = :STATUS WHERE idUser = :ID", [
+			":NAME" => $this->getname(),
+			":SURNAME" => $this->getsurname(),
+			":EMAIL" => $this->getemail(),
+			":TEL" => $this->gettelephone(),
+			":WP" => $this->getwhatsapp(),
+			":GENRE" => $this->getgenre(),
+			":CPF" => $this->getcpf(),
+			":BIRTH" => $this->getbirth(),
+			":ADM" => $this->getadmin(),
+			":STATUS" => $this->getstatus(),
+			":ID" => $this->getidUser()
+		]);
+
+		return $select > 0 ? true : false;
 
 	}
 
@@ -430,6 +526,187 @@ class User extends Model {
 		}
 
 		return count($results) == 1 ? true : false;
+
+	}
+
+
+	public static function getId()
+	{
+
+		$results = [];
+
+		if(isset($_SESSION[User::SESSION]['emailUser']))
+		{
+			$sql = new Sql($_SESSION[Sql::DB]);
+
+			$results = $sql->select("SELECT idUser FROM user WHERE emailUser = :EMAIL", [
+				":EMAIL" => $_SESSION[User::SESSION]['emailUser']
+			]);
+		}
+ 
+		return count($results) > 0 ? $results[0]['idUser'] : 0;
+
+	}
+
+	public static function getData()
+	{
+
+		$id = User::getId();
+		$sql = new Sql($_SESSION[Sql::DB]);
+
+		$results = $sql->select("SELECT nameUser, surnameUser, emailUser, telephoneUser, whatsappUser, genreUser, cpfUser, dateBirthUser, statusUser  FROM user WHERE idUser = :ID", [
+			":ID" => $id
+		]);
+
+		return count($results) == 1 ? $results : 0;
+
+	}
+
+	public static function listUsers($id = 0, $pm = [])
+	{	
+
+		$array = [];
+		
+		$code = $id > 0 ? "WHERE us.idUser = :ID": "WHERE us.admin = :ADMIN AND us.statusUser = :STATUS" ;
+		$code = $code." AND us.admin != 2";
+
+		if($id > 0)
+		{
+			$param[":ID"] = intval($id);
+		} else {
+			
+			$param = [
+				":ADMIN" => isset($pm[":ADMIN"]) ? $pm[":ADMIN"] : 0,
+				":STATUS" => isset($pm[":STATUS"]) ? $pm[":STATUS"] : 1
+			];
+
+		}
+
+		$sql = new Sql($_SESSION[Sql::DB]);
+
+		$select = $sql->select("SELECT DISTINCT us.idUser, us.nameUser, us.surnameUser, us.emailUser, us.telephoneUser, us.whatsappUser, us.genreUser, us.cpfUser, us.dateBirthUser, us.admin, us.statusUser FROM user AS us $code ORDER BY us.nameUser", $param);
+
+		if(count($select) > 0)
+		{
+			foreach ($select as $key => $value) {
+				$value['telephoneUser'] = User::decryptCode($value['telephoneUser']);
+				$value['whatsappUser'] = User::decryptCode($value['whatsappUser']);
+				$value['cpfUser'] = User::decryptCode($value['cpfUser']);
+
+				if($id > 0)
+				{
+
+					$param = [
+						":ID" => intval($value['idUser']),
+						":STORE" => 0,
+						":STATUS" => 0,
+						":INI" => date("Y-m-01"),
+						":FIN" => date("Y-m-d"),
+					];
+					$param = array_merge($param, $pm);
+
+					if(isset($param[':STATUS']) && $param[':STATUS'] > 0)
+					{
+						$code = "AND ors_st.idOrderStatus = :STATUS";
+					} else {
+						$code = "";
+						unset($param[':STATUS']);
+					}
+					
+					// DEVICES
+					$device = $sql->select("SELECT idUserDevice, device, dateAccess, timeAccess FROM user_device WHERE idUser = :ID", [
+						":ID" => intval($value['idUser'])
+					]);
+						
+					$value['devices'] = is_array($device) && count($device) > 0 ? $device : 0;
+
+					// ADDRESS
+					$address = $sql->select("SELECT idAddress, street, number, district, cep, complement, reference, mainAddress, codeCity, city, uf FROM address WHERE idUser = :ID", [
+						":ID" => intval($value['idUser'])
+					]);
+
+					$value['address'] = is_array($address) && count($address) > 0 ? $address : 0;
+
+					// ORDERS
+					$order = $sql->select("SELECT ors.idOrder, ors.dateInsert, ors.timeInsert, ors.paid, ors.freight, ors.dateHorary, ors.timeInitial, ors.timeFinal, ors.total, ors_st.idOrderStatus, ors_st.descStatus FROM orders AS ors INNER JOIN orders_status AS ors_st ON ors.idOrderStatus = ors_st.idOrderStatus WHERE ors.idUser = :ID AND ors.idStore = :STORE AND ors.dateInsert >= :INI AND ors.dateInsert <= :FIN $code ORDER by ors.dateInsert", $param);  	
+
+					$value['orders'] = is_array($order) && count($order) > 0 ? $order : 0; 
+
+				} else if(isset($pm['desc']) && !empty($pm['desc']) && $id == 0){
+					
+					if(strstr(strtolower($value['nameUser']." ".$value['surnameUser']), $pm['desc']) != false) $array[count($array)] = $value;
+
+					continue;
+					
+				}
+
+				$array[$key] = $value;
+
+			}
+		}
+
+		return count($array) > 0 ? $array : 0;
+
+	}
+
+	public static function listAllUsers($id = 0)
+	{
+
+		$array = [];
+		$code = $id > 0 ? "WHERE idUser = :ID": "" ;
+		$param = $id > 0 ? [":ID" => intval($id)] : [];
+
+		$sql = new Sql($_SESSION[Sql::DB]);
+
+		$select = $sql->select("SELECT nameUser, surnameUser, emailUser, telephoneUser, whatsappUser, genreUser, cpfUser, dateBirthUser, admin, statusUser FROM user $code", $param);
+
+		if(count($select) > 0)
+		{
+			foreach ($select as $key => $value) {
+				$value['telephoneUser'] = User::decryptCode($value['telephoneUser']);
+				$value['whatsappUser'] = User::decryptCode($value['whatsappUser']);
+				$value['cpfUser'] = User::decryptCode($value['cpfUser']);
+
+				$array[$key] = $value;
+			}
+		}
+
+		return count($select) > 0 ? $array : 0;
+
+	}
+
+	public static function selectUser($store = 0, $query = "", $param = [])
+	{
+
+		$query = $store > 0 ? "WHERE idUser = :ID ".$query: $query ;
+		$param = $store > 0 ? array_merge([":ID" => intval($store)], $param) : $param;
+
+		$sql = new Sql($_SESSION[Sql::DB]);
+
+		$select = $sql->select("SELECT idUser, dateInsert FROM user $query", $param);
+
+		return count($select) > 0 ? $select : 0;
+
+	}
+
+	public static function verifyData()
+	{
+
+		$res = 0;
+		$user = User::getData();
+
+		if($user != 0)
+		{
+			$user = $user[0];
+
+			if(empty($user['nameUser']) || empty($user['surnameUser']) || empty($user['cpfUser']) || empty($user['telephoneUser']) || empty($user['whatsappUser']) || empty($user['dateBirthUser']))
+			{
+				$res = 1;
+			}
+
+		}
+
+		return $res == 1 ? true : false;
 
 	}
 

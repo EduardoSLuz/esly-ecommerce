@@ -1,0 +1,267 @@
+<style>
+
+    @media (min-width: 0px)
+    {
+
+        .img-LogoIni
+        { 
+            background: url("");
+            text-align: center;
+        }
+
+    }
+
+    @media (min-width: 992px)
+    {
+        .img-LogoIni
+        { 
+            background: url("..{$imgs.1.src}");
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            text-align: left;
+        }
+    }
+
+    /* HEADER */
+    .bg-site-header{
+        background-color: {$layoutColor.0.options.hd.options.bck.value};
+    }
+
+    /* BUTTON MAIN HEADER */
+    .btn-main-site-header{
+        background-color: {$layoutColor.0.options.hd.options.bck.value};
+    }
+
+    .btn-main-site-header:hover{
+        box-shadow: 100vw 100vw 100vw rgb(0, 0, 0, 0.15) inset;
+    }
+
+    .btn-outline-main-site-header{
+        color: {$layoutColor.0.options.hd.options.bck.value};
+    }
+
+    .btn-outline-main-site-header:hover{
+        box-shadow: 100vw 100vw 100vw rgb(0, 0, 0, 0.15) inset;
+        color: {$layoutColor.0.options.hd.options.tx.value};
+        background-color: {$layoutColor.0.options.hd.options.bck.value};
+    }
+
+    /* BUTTON DEP HEADER */
+    .btndep-site-header{
+        background-color: {$layoutColor.0.options.hd.options.btndep.value};
+    }
+
+    .btndep-site-header:hover{
+        box-shadow: 0 0 0.4em grey, 100vw 100vw 100vw rgb(0, 0, 0, 0.1) inset;
+    }
+
+    /* DROPDOWN DEP HEADER */
+    .text-dep-site-header, .text-dep-site-header:hover{
+        color: {$layoutColor.0.options.sc.options.tx.value};
+    }
+
+    .dropdown-menu > li a:hover,
+    .dropdown-menu > li.show {
+        background: {$layoutColor.0.options.sc.options.tx.value};
+        color: {$layoutColor.0.options.hd.options.tx.value};
+    }
+
+    .dropdown-menu > li.show > a{
+        color: {$layoutColor.0.options.hd.options.tx.value};
+    }
+    
+    /* TEXT MAIN HEADER */
+    .text-main-site-header, .text-main-site-header:hover{
+        color: {$layoutColor.0.options.hd.options.bck.value};
+    }
+
+    /* TEXT HEADER */
+    .text-site-header, .text-site-header:hover{
+        color: {$layoutColor.0.options.hd.options.tx.value};
+    }
+
+    a.text-site-header:hover{
+        filter: brightness(85%); 
+        color: {$layoutColor.0.options.hd.options.tx.value};
+    }
+
+    /* SECTION */
+   
+    /* BG SECTION */
+    .bg-site-section{
+        background-color: {$layoutColor.0.options.sc.options.bck.value};
+    }
+
+    /* TEXT MAIN SECTION */
+    .text-main-site-section, a.text-main-site-section:hover{
+        color: {$layoutColor.0.options.sc.options.tx.value};
+    }
+
+    .text-main-site-section:hover{
+        filter: brightness(85%); 
+    }
+
+    /* TEXT SECOND SECTION */
+    .text-second-site-section, .text-second-site-section:hover{
+        color: {$layoutColor.0.options.sc.options.txsec.value};
+    }
+
+    .text-second-site-section:hover{
+        filter: brightness(85%); 
+    }
+
+    /* TEXT LINK SECTION */
+    .text-link-site-section, .text-link-site-section:hover{
+        color: {$layoutColor.0.options.sc.options.txlk.value};
+    }
+
+    a.text-link-site-section:hover{
+        filter: brightness(85%); 
+        color: {$layoutColor.0.options.sc.options.txlk.value};
+    }
+
+    /* BUTTON MAIN SECTION */
+    .btn-main-site-section{
+        background-color: {$layoutColor.0.options.sc.options.btn.value};
+    }
+
+    .btn-main-site-section:hover{
+        box-shadow: 100vw 100vw 100vw rgb(0, 0, 0, 0.15) inset;
+    }
+
+    .btn-outline-main-site-section{
+        border: 1px solid {$layoutColor.0.options.sc.options.btn.value};
+        color: {$layoutColor.0.options.sc.options.btn.value};
+    }
+
+    .btn-outline-main-site-section:hover{
+        background-color: {$layoutColor.0.options.sc.options.btn.value};
+        color: {$layoutColor.0.options.sc.options.txbtn.value};
+    }
+
+    /* BUTTON SECOND SECTION */
+    .btn-second-site-section{
+        background-color: {$layoutColor.0.options.sc.options.btnsec.value};
+    }
+
+    .btn-second-site-section:hover{
+        box-shadow: 100vw 100vw 100vw rgb(0, 0, 0, 0.15) inset;
+    }
+
+    .btn-outline-second-site-section{
+        border: 1px solid {$layoutColor.0.options.sc.options.btnsec.value};
+        color: {$layoutColor.0.options.sc.options.btnsec.value};
+    }
+
+    .btn-outline-second-site-section:hover{
+        background-color: {$layoutColor.0.options.sc.options.btnsec.value};
+        color: {$layoutColor.0.options.sc.options.txbtn.value};
+    }
+
+    /* BUTTON CART SECTION */
+    .btn-cart-site-section{
+        background-color: {$layoutColor.0.options.sc.options.btncr.value};
+    }
+
+    .btn-cart-site-section:hover{
+        box-shadow: 100vw 100vw 100vw rgb(0, 0, 0, 0.15) inset;
+    }
+
+    /* TEXT BUTTONS SECTION */
+    .text-btn-site-section, .text-btn-site-section:hover{
+        color: {$layoutColor.0.options.sc.options.txbtn.value};
+    }
+
+    /* FOOTER SOCIAL */
+   
+    /* BG FOOTER SOCIAL */
+    .bg-site-footer-social{
+        background-color: {$layoutColor.0.options.ftsc.options.bck.value};
+    }
+
+    /* TEXT FOOTER SOCIAL */
+    .text-site-footer-social, .text-site-footer-social:hover{
+        color: {$layoutColor.0.options.ftsc.options.tx.value};
+    }
+
+    a.text-site-footer-social:hover{
+        filter: brightness(85%); 
+        color: {$layoutColor.0.options.ftsc.options.tx.value};
+    }
+
+    /* FOOTER MAIN */
+   
+    /* BG FOOTER MAIN */
+    .bg-site-footer-main{
+        background-color: {$layoutColor.0.options.ft.options.bck.value};
+    }
+
+    /* TEXT FOOTER MAIN */
+    .text-site-footer-main, .text-site-footer-main:hover{
+        color: {$layoutColor.0.options.ft.options.tx.value};
+    }
+
+    a.text-site-footer-main:hover{
+        filter: brightness(85%); 
+        color: {$layoutColor.0.options.ft.options.tx.value};
+    }
+
+    /* BUTTON MAIN FOOTER MAIN */
+    .btn-main-site-footer-main{
+        background-color: {$layoutColor.0.options.ft.options.btn.value};
+    }
+
+    .btn-main-site-footer-main:hover{
+        box-shadow: 100vw 100vw 100vw rgb(0, 0, 0, 0.15) inset;
+    }
+
+    .btn-outline-main-site-footer-main{
+        color: {$layoutColor.0.options.ft.options.btn.value};
+    }
+
+    .btn-outline-main-site-footer-main:hover{
+        box-shadow: 100vw 100vw 100vw rgb(0, 0, 0, 0.15) inset;
+        background-color: {$layoutColor.0.options.ft.options.btn.value};
+    }
+
+    /* BUTTON SECOND FOOTER MAIN */
+    .btn-second-site-footer-main{
+        background-color: {$layoutColor.0.options.ft.options.btnsec.value};
+    }
+
+    .btn-second-site-footer-main:hover{
+        box-shadow: 100vw 100vw 100vw rgb(0, 0, 0, 0.15) inset;
+    }
+
+    .btn-outline-second-site-footer-main{
+        color: {$layoutColor.0.options.ft.options.btnsec.value};
+    }
+
+    .btn-outline-second-site-footer-main:hover{
+        box-shadow: 100vw 100vw 100vw rgb(0, 0, 0, 0.15) inset;
+        background-color: {$layoutColor.0.options.ft.options.btnsec.value};
+    }
+
+    /* TEXT BUTTONS FOOTER MAIN */
+    .text-btn-site-footer-main, .text-btn-site-footer-main:hover{
+        color: {$layoutColor.0.options.ft.options.txbtn.value};
+    }
+
+    /* FOOTER COPY */
+   
+    /* BG FOOTER COPY */
+    .bg-site-footer-copy{
+        background-color: {$layoutColor.0.options.ftcp.options.bck.value};
+    }
+
+    /* TEXT FOOTER COPY */
+    .text-site-footer-copy, .text-site-footer-copy:hover{
+        color: {$layoutColor.0.options.ftcp.options.tx.value};
+    }
+
+    a.text-site-footer-copy:hover{
+        filter: brightness(85%); 
+        color: {$layoutColor.0.options.ftcp.options.tx.value};
+    }
+
+</style>

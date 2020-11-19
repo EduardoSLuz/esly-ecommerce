@@ -94,12 +94,14 @@ class Model {
 
 	}
 
+	// SET COKKIE IF SAVE LOGIN
 	public static function setCookies($name, $value, $time = 0, $path = '/', $secure = false, $httponly = false ){
 
 		setcookie($name, $value, $time, $path, $_SERVER['HTTP_HOST'], $secure, $httponly);
 
 	}
 
+	// FUNCTIONS DECRYPT E CRYPT
 	public static function getPassword($password)
 	{
 
@@ -144,6 +146,15 @@ class Model {
 
 	}
 
+	public static function decryptCnpj($code)
+	{
+
+		$code = substr($code, 0, 2).substr($code, 3, 3).substr($code, 7, 3).substr($code, 11, 4).substr($code, 16);
+
+		return $code;
+
+	}
+
 	public static function decryptCPF($code)
 	{
 
@@ -156,7 +167,7 @@ class Model {
 	public static function decryptTel($code)
 	{
 
-		$code = substr($code, 1, 2).substr($code, 5, 5).substr($code, 11);
+		$code = str_replace(["(", ")", " ", "-"], "", $code);;
 
 		return $code;
 
@@ -168,6 +179,34 @@ class Model {
 		$code = substr($code, 0, 5).substr($code, 6);
 
 		return $code;
+
+	}
+
+	public static function decryptLineBreak($code)
+	{
+
+		$code = str_replace(array("\r\n", "\r", "\n"), "&#013;", $code);
+
+		return $code;
+
+	}
+
+	public static function decryptMoney($code)
+	{
+		return floatval(str_replace(',', '.', str_replace('.', '', $code)));
+	}
+
+	public static function validDate($date = "")
+	{
+
+		return empty($date) || $date == 0 || strlen($date) != 10 || strstr($date, '-') == false || substr($date, 4, 1) != "-" || substr($date, 7, 1) != "-" || !is_numeric(substr($date, 0, 4)) || !is_numeric(substr($date, 5, 2)) || !is_numeric(substr($date, 8)) ? false : true;
+
+	}
+
+	public static function validTime($time = "")
+	{
+
+		return empty($time) || strlen($time) < 5 || strlen($time) >  8 || strstr($time, ':') == false || substr($time, 2, 1) != ":" || strlen($time) == 8 && substr($time, 5, 1) != ":" || !is_numeric(substr($time, 0, 2)) || !is_numeric(substr($time, 3, 2)) || strlen($time) == 8 && !is_numeric(substr($time, 7)) || substr($time, 0, 2) > 24 || substr($time, 3, 2) > 59 || strlen($time) == 8 && substr($time, 7) > 59 ? false : true;
 
 	}
 

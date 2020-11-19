@@ -27,11 +27,11 @@
                     
                     <select name="SelectStoresModal" id="SelectStoresModal" class="custom-select">
                         {loop="$storeAll"}
-                        <option value="{$value.store}">Loja {$value.store}</option>
+                        {if="$value.statusStore == 1"}<option value="{$value.store}">Loja {$value.store}</option>{/if}
                         {/loop}
                     </select>
                     
-                    <a class="btn {$layout.btnLayout} text-white w-100 mt-3" onclick="window.location.href = '/loja-'+$('#SelectStoresModal').val()+'/'">Acessar</a>
+                    <button type="button" class="btn btn-main-site-section text-btn-site-section w-100 mt-3" onclick="window.location.href = '/loja-'+$('#SelectStoresModal').val()+'/'">Acessar</button>
 
                     <p class="mt-2">
                         Não encontrou a loja? No momento, o serviço de delivery está atendendo à algumas regiões.
@@ -71,29 +71,31 @@
             <div class="modal-body py-0">
                 
                 <div class="pb-3">
-                    {if="$storeRegion != 0"}
+                    {if="isset($storeRegion) && $storeRegion != 0"}
                 
-                    {loop="$storeRegion"}
+                    {loop="$storeRegion.0.city"}
                         
-                    <p class="h5 my-2"><i class="fas fa-map-marked-alt"></i> <i>{$value.nameState}</i></p>
+                    <p class="h5 my-2"><i class="fas fa-map-marked-alt"></i> <i>{$value.name}</i> - <b>{$value.uf}</b> </p>
 
                     <ul class="list-group mb-3">
-                        {loop="$value.city"}
-                        <li class="list-group-item py-2 border-left-0 border-right-0 rounded-0"><i class="fas fa-map-marker-alt"></i> <b>{$value.nameCity}:</b>
+                        <li class="list-group-item py-2 border-left-0 border-right-0 rounded-0"><i class="fas fa-map-marker-alt"></i>
+                        {if="$value.onlyCity == 0"}
 
-                            <select class="border-0">
-                            {loop="$value.regions"}
-                                <option><i>{$value.districtRegion}</i></option>
-                            {/loop}
-                            </select>
-                        </li>   
+                        {$regions = $value.regions}
+                        {loop="$value.regions"}
+                         <b> {$value.district}{if=" $key < (count($regions) - 1)"},{else}.{/if}</b>
                         {/loop}
+                        
+                        {else}
+                        <b> Toda Cidade.</b>
+                        {/if}
+                        </li>   
                     </ul>
 
                     {/loop}
 
                     {else}
-                    <p><b>SEM DADOS</b></p>
+                    <p class="text-center border-top border-bottom h5 py-2"><i>SEM DADOS</i></p>
                     {/if}
                 </div>
                 
@@ -125,79 +127,78 @@
                 
                 <div class="row">
 
-                    <div class="col-md">
+                    <div class="col-md px-5">
                         
-                        {if="$storeHorary != 0"}
+                        {if="isset($storeHorary) && $storeHorary != 0"}
                         <p class="h5">
-                            Horários de retirada
+                            Horários de Retirada
                         </p>
 
-                            {loop="$storeHorary"}
-                            <p class="mt-3">
-                                <b>{$value.dayName}{if="$value.dayCode < 6"}-Feira{/if}:</b><br>
-                                
-                                {function="date('H:i', strtotime($value.timeInitial))"} às {function="date('H:i', strtotime($value.timeFinal))"}
+                        <hr>
 
-                                {if="$value.timeInitial2 > $value.timeInitial"}
-                                    <br>{function="date('H:i', strtotime($value.timeInitial2))"} às {function="date('H:i', strtotime($value.timeFinal2))"}
-                                {/if}
-                            </p>
-                            {/loop}
+                            <div class="row justify-content-md-center">
+                                {loop="$storeHorary.0.details"}
+                                <p class="mt-3 col-md-6">
+                                    <b>{$value.name}{if="$key < 6"}-Feira{/if}:</b><br>
+                                    
+                                    {$withdrawal = $value.withdrawal}
+                                    {loop="$value.withdrawal"}
+                                    
+                                    {if="$key == 0"}
+                                    {function="date('H:i', strtotime($value.init))"} às {function="date('H:i', strtotime($value.final))"}
+                                    {/if}
+
+                                    {if="$key == 1 && $withdrawal.1.init > $withdrawal.0.init"}
+                                    <br>{function="date('H:i', strtotime($value.init))"} às {function="date('H:i', strtotime($value.final))"}
+                                    {/if}
+
+                                    {/loop}
+                                    
+                                </p>
+                                {/loop}
+                            </div>
+                        
+                        <hr>    
 
                         </ul>
                         {/if}
 
                     </div>
 
-                    <div class="col-md">
-                        
+                    <div class="col-md px-5">
+
+                        {if="isset($storeHorary) && $storeHorary != 0"}
                         <p class="h5">
                             Horários de Entrega
                         </p>
+                        <hr>
 
-                        <select id="selectDeliveryType" class="custom-select" onchange="alterDeliveryType('selectDeliveryType')">
-                            {if="$deliveryType != false"}
-                            
-                            <option value="0">Selecione o tipo de entrega:</option>
-                            {loop="$deliveryType"}
-                            <option value="{$value.idDeliveryType}">{$value.nameType}</option>    
-                            {/loop}
-                            
-                            {else}
-                            <option><b>SEM OPÇÕES DE ENTREGA</b></option>
-                            {/if}
-                        </select>
-                        
-                        <div class="mt-3">
-                            
-                            {if="$deliveryHorary != false"}
-                            
-                            {loop="$deliveryHorary"}
-                            <div class="dvHorarys dvHorary{$value.idDeliveryType} d-none">
-                                
-                                {loop="$value.horary"}
-                                
-                                {if="$value.timeHorary2 != 0 || $value.timeHorary != 0"}
-                                <p class="mt-3">
-                                    <b>{$value.dayName}{if="$value.dayCode < 6"}-Feira{/if}:</b><br>
+                            <div class="row justify-content-md-center">
+                                {loop="$storeHorary.0.details"}
+                                <p class="mt-3 col-md-6">
+                                    <b>{$value.name}{if="$key < 6"}-Feira{/if}:</b><br>
                                     
-                                    {if="$value.timeHorary != 0"}
-                                    {function="date('H:i', strtotime($value.timeInitial))"} às {function="date('H:i', strtotime($value.timeFinal))"}
-                                    {/if}
+                                    {$delivery= $value.delivery}
+                                    {loop="$value.delivery"}
                                     
-                                    {if="$value.timeInitial2 > $value.timeInitial && $value.timeHorary2 != 0"}
-                                    <br>{function="date('H:i', strtotime($value.timeInitial2))"} às {function="date('H:i', strtotime($value.timeFinal2))"}
+                                    {if="$key == 0"}
+                                    {function="date('H:i', strtotime($value.init))"} às {function="date('H:i', strtotime($value.final))"}
                                     {/if}
+
+                                    {if="$key == 1 && $delivery.1.init > $delivery.0.init"}
+                                    <br>{function="date('H:i', strtotime($value.init))"} às {function="date('H:i', strtotime($value.final))"}
+                                    {/if}
+
+                                    {/loop}
+                                    
                                 </p>
-                                {/if}
-                                
                                 {/loop}
-
                             </div>
-                            {/loop}
 
-                            {/if}
-                        </div>
+                        <hr>
+
+                        </ul>
+                        {/if}
 
                     </div>
 
@@ -211,10 +212,7 @@
   
 </div>
 
-<!-- MODELS ACCOUNT -->
-
-<!-- MODAL MY ADDRESS  
-    <div class="modal fade" id="ModalAddress" tabindex="-1" role="dialog" aria-labelledby="ModalAddress" aria-hidden="true">
+<div class="modal fade" id="ModalAddress" tabindex="-1" role="dialog" aria-labelledby="ModalAddress" aria-hidden="true">
 			
     <div class="modal-dialog">
      
@@ -230,62 +228,370 @@
         
             <div class="modal-body px-4">
                 
-                <p class="h4 font-weight-normal"><i class="fas fa-map-marker-alt"></i> <a id="titleAddress">Cadastrar Endereço de Entrega</a></p>
+                <p class="h4 font-weight-normal"><i class="fas fa-map-marker-alt"></i> <a id="modal-title">Cadastrar Endereço de Entrega</a></p>
 
-                <div class="row">
+                <div id="alertModalAddress">
 
-                    <div class="col-md-6">
+                    {if="$errorRegister != ''"}
+                    <div class="alert alert-danger alert-dismissible fade show text-left" role="alert">
+                        
+                        <span>{$errorRegister}</span>
+                        
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+    
+                    </div>
+                    {/if}
+
+                    {if="$successMsg != ''"}	
+                    <div class="alert alert-success alert-dismissible fade show text-left" role="alert">
+                        
+                        <span>{$successMsg}</span>
+                        
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+        
+                    </div>
+                    {/if}
+
+                </div>
+
+                <form id="modalFormAddress" class="modalFormAddress row" data-store="{$ID}" data-type="0" data-code="0">
+
+                    <div class="col-md-6 mb-2">
                         <label for="CityAddress">Cidade:</label>
-                        <select class="custom-select">
-                            <option>Selecione uma cidade</option>
-                            <option>Campo Grande - MS</option>
-                            <option>Corumba - MS</option>
+                        <select id="cityAddress" name="cityAddress" class="select2bs4">
+                            {if="isset($cities) && $cities != 0"}
+                            <option value="0">Selecione uma Cidade</option>
+                            {loop="$cities"}
+                            <optgroup label="{$value.state}">
+                                {$kState = $key}
+                                {$kUf = $value.uf}
+                                {if="isset($value.city) && count($value.city) > 0"}
+                                {loop="$value.city"}
+                                <option value="{$kState}_{$key}">{$value} - {$kUf}</option>
+                                {/loop}
+                                {else}
+                                <option value="0">Sem Dados</option>
+                                {/if}
+                            </optgroup>
+                            {/loop}
+                            {else}
+                            <option value="0">Sem Dados</option>
+                            {/if}
                         </select>
                     </div>
 
-                    <div class="col-md-6">
-                        <label for="CepAddress">Cep:</label>
-                        <input type="text" class="form-control" id="CepAddress" name="CepAddress" placeholder="_____-___">
-                        <a class="tx-IconCart">Somente Números</a>
+                    <div class="col-md-6 mb-2">
+                        <label for="cepAddress">Cep:</label>
+                        <input type="text" class="form-control maskCep inputSearchCep" id="cepAddress" name="cepAddress" placeholder="_____-___">
                     </div>
 
-                    <div class="col-md-12">
-                        <label for="DistrictAddress">Bairro:</label>
-                        <input type="text" class="form-control" id="DistrictAddress" name="DistrictAddress">	
+                    <div class="col-md-12 my-2">
+                        <label for="districtAddress">Bairro:</label>
+                        <input type="text" class="form-control cepDistrict" id="districtAddress" name="districtAddress" placeholder="Digite o Bairro">	
                     </div>
 
-                    <div class="col-md-12">
-                        <label for="StreetAddress">Rua:</label>
-                        <input type="text" class="form-control" id="StreetAddress" name="StreetAddress">	
+                    <div class="col-md-12 my-2">
+                        <label for="streetAddress">Rua:</label>
+                        <input type="text" class="form-control cepStreet" id="streetAddress" name="streetAddress" placeholder="Digite a rua">	
                     </div>
 
-                    <div class="col-md-6">
-                        <label for="NumberAddress">Número:</label>
-                        <input type="text" class="form-control" id="NumberAddress" name="NumberAddress">	
+                    <div class="col-md-6 my-2">
+                        <label for="numberAddress">Número:</label>
+                        <input type="text" class="form-control" id="numberAddress" name="numberAddress" placeholder="Ex: 257">	
                     </div>
 
-                    <div class="col-md-6">
-                        <label for="ComplementAddress">Complemento:</label>
-                        <input type="text" class="form-control" id="ComplementAddress" name="ComplementAddress">	
+                    <div class="col-md-6 my-2">
+                        <label for="complementAddress">Complemento:</label>
+                        <input type="text" class="form-control" id="complementAddress" name="complementAddress" placeholder="Complemento">	
                     </div>
 
-                    <div class="col-md-12">
-                        <label for="ReferenceAddress">Ponto de Referência:</label>
-                        <input type="text" class="form-control" id="ReferenceAddress" name="ReferenceAddress">
-                        <a><input type="checkbox"> É o endereço principal</a>
+                    <div class="col-md-12 my-2">
+                        <label for="referenceAddress">Ponto de Referência:</label>
+                        <input type="text" class="form-control" id="referenceAddress" name="referenceAddress" placeholder="Ponto de Referência">
                     </div>
 
-                </div>
+                    <div class="col-md-12 my-0">
+                        <input id="mainAddress" name="mainAddress" type="checkbox" class="cursorPointer"> 
+                        <label for="mainAddress" class="cursorPointer">É o endereço principal</label>
+                    </div>
+
+                </form>
                 
             </div>
 
             <div class="modal-footer text-right px-4 pb-3">
                 <button type="button" class="btn btn-light btn-sm border border-secondary" data-dismiss="modal">Sair</button>
-                <button type="button" class="btn btn-primary btn-sm">Salvar</button>
+                <button type="submit" class="btn btn-main-site-section text-btn-site-section btn-sm" form="modalFormAddress">Salvar</button>
             </div>
       
         </div>
     
     </div>
   
-</div> -->
+</div>
+
+{if="isset($order) && isset($order.payment) && $order.payment != 0"}
+<!-- MODAL Comment Product   -->
+<div class="modal fade" id="ModalCommentProduct" tabindex="-1" role="dialog" aria-labelledby="ModalCommentProduct" aria-hidden="true">
+    
+    <div class="modal-dialog">
+        
+        <div class="modal-content">
+        
+            <div class="modal-header border-bottom-0">
+
+                <button type="button" class="close btn btn-light p-2" data-dismiss="modal" aria-label="Close">
+                    <i class="fas fa-times"></i>
+                </button>
+        
+            </div>
+
+            <form id="formObsProduct" class="formObsProduct" data-store="{$ID}">
+                
+                <div class="modal-body px-4">
+                
+                    <p class="h5 font-weight-normal">Observação sobre o pedido:</p>
+
+                    <div id="alertModalObsProduct">
+                        
+                        {if="$errorRegister != ''"}
+                        <div class="alert alert-danger alert-dismissible fade show text-left" role="alert">
+                            
+                            <span>{$errorRegister}</span>
+                            
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+        
+                        </div>
+                        {/if}
+
+                        {if="$successMsg != ''"}	
+        
+                        <div class="alert alert-success alert-dismissible fade show text-left" role="alert">
+                            
+                            <span>{$successMsg}</span>
+                            
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+            
+                        </div>
+            
+                        {/if}
+
+                    </div>
+                    
+                    <div id="msgFormOrder"></div>
+
+                    <div class="my-3">
+                        
+                        <div class="my-2">
+                            <textarea class="form-control" name="inputObsProduct" rows="7" placeholder="Escolher laranjas maduras e bonitas">{if="isset($order) && isset($order.payment) && isset($cart.obs)"}{$cart.obs}{/if}</textarea>
+                        </div>
+    
+                    </div>
+                    
+                </div>
+    
+                <div class="modal-footer text-right px-4 pb-3">
+                    <button type="button" class="btn btn-light btn-sm border border-secondary" data-dismiss="modal">Sair</button>
+                    <button type="submit" class="btn btn-sm btn-main-site-section text-btn-site-section">Salvar</button>
+                </div>
+
+            </form>
+        
+        </div>
+    
+    </div>
+    
+</div>
+{/if}
+
+{if="isset($orders)"}
+<!-- Modal Order Cancel   -->
+<div class="modal fade" id="modalOrderCancel" tabindex="-1" role="dialog" aria-labelledby="modalOrderCancel" aria-hidden="true">
+    
+    <div class="modal-dialog modal-sm modal-dialog-centered">
+        
+        <div class="modal-content">
+
+            <form id="formOrderCancel" class="formOrderCancel p-2" data-store="{$ID}" data-id="0">
+                
+                <div class="modal-body text-center border-top border-bottom border-secondary">
+                
+                    <p class="h5"><i>Você quer mesmo cancelar esse pedido?</i></p>
+
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal">Não</button>
+                        <button type="submit" class="btn btn-sm btn-success">Sim</button>
+                    </div>
+               
+                </div>
+    
+            </form>
+        
+        </div>
+    
+    </div>
+    
+</div>
+{/if}
+
+<!-- Modal Msg Alert   -->
+<div class="modal fade" id="modalMsgAlert" tabindex="-1" role="dialog" aria-labelledby="modalMsgAlert" aria-hidden="true">
+    
+    <div class="modal-dialog modal-sm modal-dialog-centered">
+        
+        <div class="modal-content">
+
+            <form id="formMsgAlert" class="formMsgAlert p-2" data-store="{$ID}" data-id="0">
+                
+                <div class="modal-body text-center ">
+                
+                    <p id="titleTextMsg" class="h5"><i>Msg de Alerta</i></p>
+
+                    <div>
+                        <button id="btnMsg2" type="button" class="btn btn-sm btn-light border" data-dismiss="modal">Sair</button>
+                        <a id="btnMsg" href="/" class="btn btn-sm btn-success">Ir para a página</a>
+                    </div>
+               
+                </div>
+    
+            </form>
+        
+        </div>
+    
+    </div>
+    
+</div>
+
+<div class="modal fade" id="modalMsgAlertLinks" tabindex="-1" role="dialog" aria-labelledby="modalMsgAlertLinks" aria-hidden="true">
+    
+    <div class="modal-dialog modal-sm modal-dialog-centered">
+        
+        <div class="modal-content">
+
+            <form id="formMsgAlertLinks" class="formMsgAlertLinks p-2" data-store="{$ID}" data-id="0">
+                
+                <div class="modal-body text-center ">
+                
+                    <p id="titleTextMsgLinks" class="h5 mb-3"><i>Msg de Alerta</i></p>
+
+                    <div>
+                        <a id="btnMsgLinks" href="/" class="btn btn-sm btn-outline-second-site-section">Fazer Login</a>
+                        <a id="btnMsgLinks2" href="/" class="btn btn-sm btn-outline-second-site-section">Cadastrar-se</a>
+                    </div>
+               
+                </div>
+    
+            </form>
+        
+        </div>
+    
+    </div>
+    
+</div>
+
+ 
+<div class="modal fade" id="modalUserRegister" tabindex="-1" role="dialog" aria-labelledby="modalUserRegister" aria-hidden="true">
+			
+    <div class="modal-dialog modal-dialog-centered">
+     
+        <div class="modal-content">
+        
+            <div class="modal-header border-bottom-0">
+
+                <button type="button" class="close btn btn-light p-2" data-dismiss="modal" aria-label="Close">
+                    <i class="fas fa-times"></i>
+                </button>
+        
+            </div>
+        
+            <div class="modal-body px-4">
+                
+                <p class="h4 font-weight-normal">Complete seu Cadastro</p>
+
+                <div id="alertModalAccountData">
+
+                    {if="$errorRegister != ''"}
+                    <div class="alert alert-danger alert-dismissible fade show text-left" role="alert">
+                        
+                        <span>{$errorRegister}</span>
+                        
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+    
+                    </div>
+                    {/if}
+
+                    {if="$successMsg != ''"}	
+                    <div class="alert alert-success alert-dismissible fade show text-left" role="alert">
+                        
+                        <span>{$successMsg}</span>
+                        
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+        
+                    </div>
+                    {/if}
+
+                </div>
+
+                <form id="modalFormAccountData" class="modalFormAccountData row justify-content-md-center" data-store="{$ID}">
+
+                    <div class="col-md-12 my-2">
+                        <label for="modalInputName">Nome Completo:</label>
+                        <input type="text" class="form-control" id="modalInputName" name="modalInputName" placeholder="Digite seu nome completo">
+                    </div>
+
+                    <div class="col-md-6 my-2">
+                        <label for="modalInputCpf">Cpf:</label>
+                        <input type="text" class="form-control maskCpf" id="modalInputCpf" name="modalInputCpf" placeholder="___.___.___-__">
+                    </div>
+
+                    <div class="col-md-6 my-2">
+                        <label for="modalInputDateBirth">Data de Nascimento:</label>
+                        <input type="date" class="form-control" id="modalInputDateBirth" name="modalInputDateBirth">
+                    </div>
+
+                    <div class="col-md-6 my-2">
+                        <label for="modalInputTelephone">Telefone:</label>
+                        <input type="text" class="form-control maskTel" id="modalInputTelephone" name="modalInputTelephone" placeholder="(__) ____-____">
+                    </div>
+
+                    <div class="col-md-6 my-2">
+                        <label for="modalInputWhatsapp">Whatsapp:</label>
+                        <input type="text" class="form-control maskTel" id="modalInputWhatsapp" name="modalInputWhatsapp" placeholder="(__) ____-____">
+                    </div>
+
+                    <div class="col-md-6 my-2">
+                        <label for="modalSelectGenre">Genêro:</label>
+                        <select name="modalSelectGenre" id="modalSelectGenre" class="custom-select">
+                            <option value="0">Selecione seu gênero</option>
+                            <option value="1">Feminino</option>
+                            <option value="2">Masculino</option>
+                            <option value="3">Outros</option>
+                        </select>
+                    </div>
+
+                </form>
+                
+            </div>
+
+            <div class="modal-footer text-right px-4 pb-3">
+                <button type="button" class="btn btn-light btn-sm border border-secondary" data-dismiss="modal">Sair</button>
+                <button type="submit" class="btn btn-main-site-section text-btn-site-section btn-sm" form="modalFormAccountData">Salvar</button>
+            </div>
+      
+        </div>
+    
+    </div>
+  
+</div>

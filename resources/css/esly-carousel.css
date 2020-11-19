@@ -25,6 +25,8 @@
 {
 	width: 14rem;
 	height: 350px;
+	border-radius: 10px;
+	
 }
 
 .card-CarouselSearch
@@ -84,8 +86,7 @@
 		width: 9.5rem;
 		height: 300px;
 		border:none;
-		border-bottom-left-radius: 20px;
-		border-bottom-right-radius: 20px;
+		border-radius: 10px;
 	}
 
 	.card-CarouselSearch
@@ -120,8 +121,7 @@
 		width: 8.5rem;
 		height: 300px;
 		border: solid 1px lightgray;
-		border-bottom-left-radius: 20px;
-		border-bottom-right-radius: 20px;
+		border-radius: 10px;
 	}
 
 	.card-CarouselSearch
@@ -168,14 +168,13 @@
 		width: 11.5rem;
 		height: 365px;
 		border: solid 1px lightgray;
-		border-bottom-left-radius: 5px;
-		border-bottom-right-radius: 5px;
+		border-radius: 10px;
 	}
 
 	.card-CarouselSearch
 	{
-		width: 11.5rem;
-		height: 330px;
+		width: 12.5rem;
+		height: 360px;
 		border: solid 1px lightgray;
 		border-bottom-left-radius: 5px;
 		border-bottom-right-radius: 5px;
@@ -209,12 +208,13 @@
 	{ 
 		width: 11rem;
 		height: 330px;
+		border-radius: 10px;
 	}
 
 	.card-CarouselSearch
 	{
-		width: 13rem;
-		height: 330px;
+		width: 13.5rem;
+		height: 400px;
 	}
 
 	.card-ImgRes
@@ -238,12 +238,13 @@
 	{ 
 		width: 11rem;
 		height: 330px;
+		border-radius: 10px;
 	}
 
 	.card-CarouselSearch
 	{
-		width: 13rem;
-		height: 350px;
+		width: 14rem;
+		height: 300px;
 	}
 	
 }
@@ -267,7 +268,7 @@
 	.card-CarouselSearch
 	{
 		width: 15rem;
-		height: 350px;
+		height: 300px;
 	}
 	
 }
@@ -286,6 +287,7 @@
 	{ 
 		width: 14rem;
 		height: 330px;
+		border-radius: 10px;
 	}
 
 	.card-CarouselSearch

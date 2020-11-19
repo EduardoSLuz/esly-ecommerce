@@ -1,0 +1,42 @@
+5<script>
+
+    var type = '{if="$order != 0"} {$order.type} {else} 0 {/if}';
+    var freigth = '{if="$order != 0"} {$order.freigth.type} {else} 0 {/if}';
+    var address = '{if="$order != 0 && $order.address != 0"} {$order.address} {else} 0 {/if}';
+    var horary = '{if="$order != 0 && $order.horary != 0"} {$order.horary.id} {else} 0 {/if}';
+    var time = '{if="$order != 0 && $order.horary != 0"} {$order.horary.time} {else} 0 {/if}';
+    var pay = '{if="$order != 0 && $order.payment != 0"} {$order.payment.id} {else} 0 {/if}';
+    var value = '{if="$order != 0 && $order.payment != 0"} {$order.payment.value} {else} 0 {/if}';
+
+    if(type == 1)
+    {
+        freigth = ("#divFreigth"+freigth).replace(/ /gi, "");
+        $("#divDelivery").click();
+        $(freigth).click();
+
+    } 
+    
+    if(address != 0)
+    {
+        add = ("#divAddress"+address).replace(/ /gi, "");
+        $(add).click();
+    }
+
+    if(horary != 0 && time != 0)
+    {
+        hr = ("#divHorary"+horary+"-"+time).replace(/ /gi, "");
+        $(hr).click();
+    }
+
+    if(pay != 0)
+    {
+        pay = ("#divPay"+pay).replace(/ /gi, "");
+        $(pay).click();
+    }
+
+    if(value > 0)
+    {
+        $("#inputMoney").val('{if="$order != 0 && $order.payment != 0"}{function="maskPrice($order.payment.value)"}{else}0{/if}');
+    }
+
+</script>

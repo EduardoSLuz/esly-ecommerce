@@ -3,157 +3,160 @@
 		<div class="ct-ini mt-mobNavbar">
 			
 			<nav aria-label="breadcrumb" class="bar-display NoPrintabled">
-				<ol class="breadcrumb bg-white px-0">
-					<li class="breadcrumb-item"><a href="/loja-{$links.idStore}/">Home</a></li>
-					<li class="breadcrumb-item"><a href="/loja-{$links.idStore}/">Loja {$links.idStore}</a></li>
-				  	<li class="breadcrumb-item active" aria-current="page">Cart</li>
+				<ol class="breadcrumb bg-site-section px-0">
+					<li class="breadcrumb-item"><a href="/loja-{$ID}/" class="text-link-site-section">Home</a></li>
+					<li class="breadcrumb-item"><a href="/loja-{$ID}/" class="text-link-site-section">Loja {$ID}</a></li>
+				  	<li class="breadcrumb-item text-link-site-section" aria-current="page">Carrinho</li>
 				</ol>
 			</nav>
 
 			<div>
 
 				<div class="NoPrintabled">
-					<p class="h4 font-weight-normal">Carrinho</p>
+					<p class="h4 font-weight-normal text-second-site-section">Carrinho</p>
 
-					<p class="mt-4 h6 font-weight-normal text-secondary">
-						<i class="fas fa-store"></i> Unidade de atendimento: Loja {$links.idStore}
+					<p class="mt-4 h6 font-weight-normal text-second-site-section">
+						<i class="fas fa-store"></i> Unidade de atendimento: Loja {$ID}
 					</p>
 				</div>
 
+				{if="$errorRegister != ''"}
+				<div class="alert alert-danger alert-dismissible fade show text-left" role="alert">
+					
+					<span>{$errorRegister}</span>
+					
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+
+				</div>
+				{/if}
+
+				{if="$cart.items != 0"}
 				<p class="tx-09em mt-3 text-right NoPrintabled">
 					
-					<button type="button" class="btn btn-sm btn-light border border-dark" data-toggle="modal" data-target="#ModalSaveListShop">
-						<i class="far fa-save"></i> Salvar lista de compras 
-					</button>
-					
-					<button type="button" class="btn btn-sm btn-light border border-dark ml-2 d-mobile" onclick="PrinterHTML()">
-						<i class="fas fa-print"></i> Imprimir lista 
-					</button>
-					
-					<button type="button" id="PopRemoveCart" class="btn btn-sm btn-light border border-dark ml-2" data-toggle="popover" data-placement="left" data-trigger="focus " title="Deseja mesmo remover o carrinho?" data-html="true" data-content="
-					<div class='text-center'>
-						<a class='btn btn-sm btn-success cursorPointer text-white'>Remover</a>
-					</div>
-					"><i class="far fa-trash-alt"></i> Remover carrinho 
+					<button type="button" class="btn btn-sm btn-outline-danger ml-2 PopRemoveItem" data-toggle="popover" data-placement="top" data-trigger="hover" data-boundary="window" data-html="true" data-content="
+					<span class='text-center'>
+						Você ira mesmo remover o carrinho?
+					</span>
+					" data-action="/loja-{$ID}/checkout/cart/product/0/delete/" data-id="0" data-key=""><i class="far fa-trash-alt"></i> <b>Remover carrinho</b> 
 					</button>
 				</p>	
 
 				<div id="TitlePrinter" class="display-None">
-					<span>https://{$links.HTTP}/loja-{$links.idStore}/cart/</span>
-					<p><br>Carrinho (Loja 01) - Emitido em 15/07/2020</p>
+					<span class="text-second-site-section">https://{$HTTP}/loja-{$ID}/cart/</span>
+					<p class="text-second-site-section"><br>Carrinho (Loja 01) - Emitido em {function="date('d/m/Y')"} às {function="date('H:i:s')"}</p>
 				</div>
 				
 				<div id="InfoPrinter" class="display-None my-3">
-					<p class="tx-09em font-weight-normal">
+					<p class="tx-09em font-weight-normal text-second-site-section">
 						Marque a opção <b>Similar</b> para substituir o produto em caso de indisponibilidade no momento da separação ou deixe o campo desmarcado caso não deseje substituí-lo.
 					</p>
 				</div>
 
 				<div class="NoPrintabled">
-					<p class="tx-09em font-weight-normal d-mobile">
+					<p class="tx-09em font-weight-normal d-mobile text-second-site-section">
 						Marque a opção <b>Similar</b> para substituir o produto em caso de indisponibilidade no momento da separação ou deixe o campo desmarcado caso não deseje substituí-lo.
 					</p>
 	
-					<p class="tx-09em font-weight-normal d-mobile-show">
+					<p class="tx-09em font-weight-normal d-mobile-show text-second-site-section">
 						Marque a opção <b>Similar</b> para substituir o produto em caso de indisponibilidade.
 					</p>
 				</div>
 
 				<div class="table-responsive mt-2 scroll-null">
 					<div class="table-ini">
-						<table class="table table-sm">
+						<table class="table table-sm bg-white border">
 							<thead>
-								<tr class="tx-09em">
-									<th class="font-weight-normal pr-5 border-bottom-0">Item</th>
-									<th class="font-weight-normal text-center px-5 border-bottom-0">Quantidade</th>
-									<th class="font-weight-normal text-center px-4 border-bottom-0">Subtotal</th>
-									<th class="font-weight-normal text-center px-4 border-bottom-0 NoPrintabled">
-										<button type="button" id="PopCleanCart" class="btn btn-danger btn-sm cursorPointer text-white" data-toggle="popover" data-placement="left" data-trigger="focus " title="Deseja mesmo limpar o carrinho?" data-html="true" data-content="
-											<div class='text-center'>
-												<a class='btn btn-sm btn-success cursorPointer text-white'>Limpar</a>
-											</div>
-										">
-											<i class="fas fa-times"></i> <b class="font-weight-normal d-mobile">Limpar carrinho</b>
-										</button>
+								<tr class="">
+									<th class="font-weight-normal border-right text-second-site-section align-middle px-3 py-3">Item</th>
+									<th class="font-weight-normal border-right text-second-site-section text-center align-middle">Quantidade</th>
+									<th class="font-weight-normal border-right text-second-site-section text-center align-middle">Subtotal</th>
+									<th class="font-weight-normal border-right text-second-site-section text-center align-middle NoPrintabled">
+										<a class="text-danger cursorPointer PopRemoveItem" data-toggle="popover" data-placement="top" data-trigger="hover" data-boundary="window" data-html="true" data-content="
+											<span class='text-center'>
+												Você ira mesmo limpar o carrinho?
+											</span>
+										" data-action="/loja-{$ID}/checkout/cart/product/0/delete/" data-id="0" data-key="">
+											<i class="fas fa-times"></i> <b class="d-mobile">Limpar carrinho</b>
+										</a>
 									</th>
-									<th class="font-weight-normal text-center px-4 border-bottom-0">Similar <i class="fas fa-question-circle"></i></th>
+									<th class="font-weight-normal text-center text-second-site-section align-middle">
+										Similar 
+										<i class="fas fa-question-circle" data-toggle="tooltip" data-placement="top" title="Marque para permitir a troca por similar caso não tenha o item no momento da separação." data-boundary="window"></i>
+									</th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
+								{loop="$cart.items"}
+								<tr id="checkoutCart{$key}">
 									<td>
 										<div class="row NoPrintabled">
 											<div class="col-md-2 bar-display">
-												<img src="/resources/imgs/produtos/panettone arcor.png" class="img-fluid" width="150px">
+												<img src='{$value.image}' class="img-fluid" width="150px" alt="Produto {$value.descProduct}">
 											</div>
 											<div class="col-md" >
-												<a href="/loja-{$links.idStore}/products/produto/" class="tx-tableMobile td-ini text-decoration-none d-inline-block text-truncate text-break font-weight-normal text-dark">	
-													PANETTONE ARCOR PREMIUM CHOCOLATE 530G
+												<a href="/loja-{$ID}/product/{$value.descProduct}/" class="tx-tableMobile td-ini text-decoration-none d-inline-block text-truncate text-break font-weight-normal text-second-site-section">	
+													{$value.descProduct}
 												</a>
 												
-												<p class="mt-2 tx-IconCart">
-													<a>R$ 9,00</a><br>
-													<a class="tx-1em cursorPointer" data-toggle="modal" data-target="#ModalCommentProduct"><i class="far fa-square"></i> Adicionar Observação</a>
+												<p class="mt-2">
+													<b>R$ {function="maskPrice($value.priceItem)"}</b><br>
 												</p>
 	
 											</div>
 										</div>
 
-										<div class="display-None py-3">
-											<span>	
-												PANETTONE ARCOR PREMIUM CHOCOLATE 530G
+										<div class="display-None py-auto">
+											<span class="text-second-site-section">	
+												{$value.descProduct}
 											</span>
 											
-											<p class="tx-IconCart">
-												<span>R$ 9,00</span>
+											<p class="text-second-site-section">
+												<b>R$ {function="maskPrice($value.priceItem)"}</b>
 											</p>
 										</div>
 									</td>
-									<td class="text-center">
+									<td class="text-center align-middle">
 
 										<div class="NoPrintabled">
 
-											<div class="btn-group">
-												<button type="button" class="btn btn-primary btn-sm" onClick="removeItem('inputCard')">-</button>
-
-												<input id="inputCard" type="number" min="1" class="btn btn-light btn-sm ipt-cart-sm text-center" value="1">
-
-												<button type="button" class="btn btn-primary btn-sm" onClick="addItem('inputCard')">+</button>
-											</div><br> 
-
-											<button type="button" class="mt-2 btn btn-primary btn-sm" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-html="true" data-content="Atualizar quantidade do item">Atualizar</button>
+											<form class="formUpdateItem" data-id="{$key}" action="/loja-{$ID}/checkout/cart/product/{$value.idCartItem}/update/" data-store="{$ID}">
+												<div class="btn-group">
+													<button type="submit" class="btn btn-main-site-section text-btn-site-section btn-sm" onClick="removeItem('inputCart{$key}')">-</button>
+	
+													<input id="inputCart{$key}" name="inputCart" type="number" min="1" class="btn btn-light ipt-cart-sm text-center btn-sm" value="{$value.quantity}">
+	
+													<button type="submit" class="btn btn-main-site-section text-btn-site-section btn-sm" onClick="addItem('inputCart{$key}')">+</button>
+												</div><br> 
+											</form>
+											
 										</div>
 
-										<div class="display-None py-4">
-											<span> 1 </span>
+										<div id="itemQtd" class="display-None">
+											<span class="text-second-site-section"> {$value.quantity} </span>
 										</div>
 										
 									</td>
-									<td class="py-4 text-center">
+									<td class="text-center align-middle">
 										
-										<div class="NoPrintabled">
-											<a class="tx-tableMobile"> R$ 9,00</a>
-										</div>
-
-										<div class="display-None">
-											<span class="tx-tableMobile"> R$ 9,00</span>
+										<div id="itemTotal" class="text-decoration-none">
+											<span class="tx-tableMobile text-second-site-section"> R$ {function="maskPrice($value.totalItem)"}</span>
 										</div>
 
 									</td>
 									
-									<td class="py-4 text-center NoPrintabled">
-										<button id="PopRemoveItem" class="btn btn-sm btn-outline-danger" data-toggle="popover" data-placement="left" data-trigger="focus " title="Deseja mesmo remover esse item?" data-html="true" data-content="
-											<div class='text-center'>
-												<p>PANETTONE ARCOR PREMIUM CHOCOLATE 530G</p>
-												<a class='btn btn-sm btn-success cursorPointer text-white'>Remover</a>
-											</div>
-										"><i class="fas fa-times"></i>
-									</button>
+									<td class="text-center NoPrintabled align-middle">
+										<a id="PopRemoveItem" class="h5 text-danger cursorPointer PopRemoveItem" data-toggle="popover" data-placement="left" data-trigger="hover" title="Você ira remover esse item?" data-html="true" data-content="
+											<p class='text-center'>{$value.descProduct}</p>
+										" data-action="/loja-{$ID}/checkout/cart/product/{$value.idCartItem}/delete/" data-id="1" data-key="{$key}"><i class="fas fa-times"></i>
+										</a>
 									</td>
-									<td class="py-4 text-center">
-										<input type="checkbox">
+									<td class="text-center align-middle">
+										<input type="checkbox" class="checkSimilar cursorPointer" name="checkSimilar" data-action="/loja-{$ID}/checkout/cart/product/{$value.idCartItem}/update/" data-key="{$key}" {if="$value.similar == 1"}checked{/if} data-store="{$ID}">
 									</td>
 								</tr>
+								{/loop}
 							</tbody>
 							
 						</table>
@@ -165,7 +168,7 @@
 				</div>
 
 				<div class="NoPrintabled">
-					<p class="tx-IconCart font-weight-normal border-bottom">
+					<p class="tx-IconCart font-weight-normal text-second-site-section border-bottom pb-2">
 						O preço e a disponibilidade dos itens estão sujeitos a alterações. O carrinho de compras é um local temporário para armazenar uma lista de seus itens e reflete o preço mais atualizado de cada um deles.<br>
 						<a class="d-mobile">Você tem um cupom de desconto? Solicitamos que você insira seu código abaixo.</a>
 					</p>
@@ -174,39 +177,72 @@
 				<div class="row">
 
 					<div class="col-md-5 NoPrintabled">
-						<label for="InputCoupon">Cupom Desconto:</label>
+						{if="0 == 1"}
+						<label for="InputCoupon" class="text-second-site-section">Cupom Desconto:</label>
 
-						<div class="input-group text-center px-0 col-md-6">
+						<form action="/loja-{$ID}/checkout/cart/promo/" method="POST">
+							<div class="input-group text-center px-0 col-md-6">
 
-							<input type="text" id="InputCoupon" class="form-control" placeholder="Informe seu cupom">
-
-							<div class="input-group-prepend">
-								<button type="button" id="BtnAplica" class="input-group-text btn btn-secondary rounded-right">Aplicar</button>
+								<input type="text" id="inputPromo" name="inputPromo" class="form-control" placeholder="Informe seu cupom" maxlength="25">
+	
+								<div class="input-group-prepend">
+									<button type="submit" id="BtnAplica" class="input-group-text btn btn-light rounded-right">Aplicar</button>
+								</div>
+	
 							</div>
 
-						</div>
+							{if="$cart.idPromo != 0 && $cart.promoInfo != 0"}
+							<p class="h6 font-weight-normal mt-2">
+								<i class="fas fa-caret-right"></i> <i>Cupom aplicado:</i> <b>{$cart.promoInfo.code} - {$cart.promoInfo.title}</b>
+							</p>
+							{/if}
+						</form>
+						{/if}
+
+						<label for="InputFreigth" class="text-second-site-section">Simular Frete:</label>
+
+						<form class="formFreigth" action="/loja-{$ID}/checkout/cart/freigth/" data-store="{$ID}" method="POST">
+							<div class="input-group text-center px-0 col-md-8">
+
+								<input type="text" id="inputFreigth" name="inputFreigth" class="freightSimulator form-control maskCep" placeholder="_____-___" value='{if="isset($freight) && $freight != 0"}{$freight.cep}{/if}'>
+	
+								<div class="input-group-prepend">
+									<button type="submit" id="BtnFreigth" class="input-group-text btn btn-outline-second-site-section rounded-right">Calcular</button>
+								</div>
+	
+							</div>
+
+							<p id="priceFreigth" class="mt-1">
+								{if="isset($freight) && $freight != 0"}
+								
+								{if="$freight.details.0.status == 1 || $freight.details.1.status == 1"}
+								
+								<span class="text-second-site-section"><i class="fas fa-angle-double-right"></i> {if="$freight.onlyCity == 0"}{$freight.district},{/if} {$freight.city} - {$freight.uf}:</span><br>
+								
+								{loop="$freight.details"}
+								
+								{if="$value.status == 1"}
+								<i class="px-3 text-second-site-section"><b>{$value.name}</b> - {if="$value.value > 0"}R$ {function="maskPrice($value.value)"}{else}<a class="text-success">Grátis</a>{/if}<br></i>
+								{/if}
+
+								{/loop}
+								
+								{else}
+								
+								<i class="text-second-site-section">Frete Indisponível</i>
+
+								{/if}
+								
+								{/if}
+							</p>
+						</form>
 						
 					</div>
 
-					<div class="col-md-4 mt-mobNavbar NoPrintabled">
-						<label for="InputFreigth">Simular Frete:</label>
-
-						<div class="input-group text-center px-0 col-md-8">
-
-							<input type="text" id="InputFreigth" class="form-control" placeholder="_____-___">
-
-							<div class="input-group-prepend">
-								<button type="button" id="BtnAplica" class="input-group-text btn btn-secondary rounded-right">Calcular</button>
-							</div>
-
-						</div>
+					<div class="col-md-7 text-right mt-mobNavbar">
 						
-					</div>
-
-					<div class="col-md-3 text-right mt-mobNavbar">
-						
-						<p class="h5 font-weight-normal">
-							<span class="text-secondary">Subtotal:</span>  <b>R$ 9,90</b>
+						<p id="cartTotal" class="h5 font-weight-normal">
+							<span class="text-secondary">Subtotal:</span>  <b>R${function="maskPrice($cart.totalCart)"}</b>
 						</p>
 						
 					</div>
@@ -219,15 +255,26 @@
 					<div class="row">
 						
 						<div class="col-6">
-							<a href="/loja-{$links.idStore}/" class="btn btn-sm btn-light border border-dark"><i class="fas fa-arrow-left"></i> <b class="font-weight-normal d-mobile">Continuar comprando</b></a>
+							<a href="/loja-{$ID}/" class="btn btn-sm btn-light border border-dark"><i class="fas fa-arrow-left"></i> <b class="font-weight-normal d-mobile">Continuar comprando</b></a>
 						</div>
 
 						<div class="col-6 text-right">
-							<a href="/loja-{$links.idStore}/checkout/delivery-pickup/" class="btn btn-sm btn-primary">Finalizar compra <i class="fas fa-arrow-right"></i></a>
+							{if="isset($userValues.login) && $userValues.login == false"}
+							<button class="btn btn-sm btn-main-site-section text-btn-site-section" data-toggle="modal" data-target="#modalMsgAlertLinks" data-title="Faça login ou cadastre-se para finalizar seu pedido!" data-link="/loja-{$ID}/login/" data-text="Fazer Login" data-link2="/loja-{$ID}/register/" data-text2="Cadastrar-se">Finalizar compra <i class="fas fa-arrow-right"></i></button>
+							{else}
+							<button type="button" class="btn btn-sm btn-main-site-section text-btn-site-section btnCheckCart" data-store="{$ID}">Finalizar compra <i class="fas fa-arrow-right"></i></button>
+							{/if}
 						</div>
 
 					</div>
 				</div>
+				{else}
+				<p class="h1 my-3 font-weight-normal text-second-site-section">
+					O carrinho está vazio <i class="far fa-grimace"></i>
+				</p>
+
+				<a href="/loja-{$ID}/" class="btn btn-sm btn-outline-main-site-section">Fazer compras</a>
+				{/if}
 				
 
 			</div>
@@ -236,177 +283,8 @@
 
 	</section>
 
-	<!-- MODALS PAGE INICIO -->
-
-		<!-- MODAL ALTER STORES -->
-		<div class="modal fade" id="ModalAlterStores" tabindex="-1" role="dialog" aria-labelledby="ModalAlterStores" aria-hidden="true">
-			
-			<div class="modal-dialog modal-dialog-centered modal-sm">
-			 
-				<div class="modal-content">
-				
-					<div class="modal-header border-bottom-0">
-				  
-						<button type="button" class="close btn btn-light p-2" data-dismiss="modal" aria-label="Close">
-							<i class="fas fa-times"></i>
-						</button>
-				
-					</div>
-				
-					<div class="modal-body">
-						
-						<h4 class="text-center">
-							Seja bem vindo!
-						</h4>
-
-						<p>
-							Em qual das lojas você deseja acessar?
-						</p>
-						
-						<select name="SelectStoresModal" id="SelectStoresModal" class="custom-select">
-							<option value="1">Loja 01</option>
-							<option value="2">Loja 02</option>
-							<option value="3">Loja 03</option>
-						</select>
-						
-						<button type="button" class="btn btn-primary text-white w-100 mt-3">Acessar</button>
-
-						<p class="mt-2">
-							Não encontrou a loja? No momento, o serviço de delivery está atendendo à algumas regiões.
-						</p>
-
-						<p>
-							Conheça todas as lojas disponíveis para as compras.
-						</p>
-						
-					</div>
-			  
-				</div>
-			
-			</div>
-		  
-		</div>
-
-		<!-- MODAL CONSULTATION REGIONS  -->
-		<div class="modal fade" id="ModalConsultationRegions" tabindex="-1" role="dialog" aria-labelledby="ModalConsultationRegions" aria-hidden="true">
-			
-			<div class="modal-dialog modal-dialog-centered modal-sm">
-			 
-				<div class="modal-content">
-				
-					<div class="modal-header border-bottom-0 pb-2">
-						
-						<h5 class="text-left">
-							<i class="fas fa-truck"></i> Regiões Atendidas
-						</h5>
-
-						<button type="button" class="close btn btn-light p-2" data-dismiss="modal" aria-label="Close">
-							<i class="fas fa-times"></i>
-						</button>
-				
-					</div>
-				
-					<div class="modal-body py-0">
-						
-						<h5 class="font-weight-normal">Loja 01</h5>
-						<hr>
-
-						<ul class="txList-StyleNone text-left">
-							<li><i class="fas fa-map-marker-alt"></i> Centro</li>
-							<li><i class="fas fa-map-marker-alt"></i> Jardim Noroeste</li>
-							<li><i class="fas fa-map-marker-alt"></i> Jardim São Conrado</li>
-							<li><i class="fas fa-map-marker-alt"></i> Nova Bahia</li>
-							<li><i class="fas fa-map-marker-alt"></i> Tiradentes</li>
-						</ul>
-						
-						
-					</div>
-			  
-				</div>
-			
-			</div>
-		  
-		</div>
-
-		<!-- MODAL CONSULTATION HORARY  -->
-		<div class="modal fade" id="ModalConsultationHorary" tabindex="-1" role="dialog" aria-labelledby="ModalConsultationHorary" aria-hidden="true">
-			
-			<div class="modal-dialog modal-lg">
-			 
-				<div class="modal-content">
-				
-					<div class="modal-header border-bottom-0">
-
-						<button type="button" class="close btn btn-light p-2" data-dismiss="modal" aria-label="Close">
-							<i class="fas fa-times"></i>
-						</button>
-				
-					</div>
-				
-					<div class="modal-body">
-						
-						<div class="row">
-
-							<div class="col-md">
-								
-								<p class="h5">
-									Horários de retirada
-								</p>
-
-								<p class="mt-3">
-									<b>Segunda-Feira:</b><br>
-									09:00 - 12:00<br>
-									14:00 - 18:00
-								</p>
-
-								<p>
-									<b>Terça-Feira até Sexta-Feira:</b><br>
-									08:00 - 12:00<br>
-									13:00 - 20:00
-								</p>
-
-								<p>
-									<b>Sábado e Domingo</b><br>
-									09:00 - 15:00<br>
-									
-								</p>
-
-							</div>
-
-							<div class="col-md">
-								
-								<p class="h5">
-									Horários de Entrega
-								</p>
-
-								<label for="SelectRegionModal">Escolha um região:</label><br>
-								<div class="input-group">
-									
-									<select id="SelectRegionModal" class="custom-select">
-										<option>Centro</option>
-										<option>Jardim Noroeste</option>
-										<option>Jardim São Conrado</option>
-									</select>
-
-									<div class="input-group-append">
-										<button type="button" class="btn btn-primary"><i class="fas fa-search"></i></button>
-									</div>
-								</div>
-
-
-							</div>
-
-						</div>
-						
-					</div>
-			  
-				</div>
-			
-			</div>
-		  
-		</div>
-
-		<!-- MODAL SAVE LIST SHOPPING  -->
+	{if="0==1"}
+	<!-- MODAL SAVE LIST SHOPPING 
 		<div class="modal fade" id="ModalSaveListShop" tabindex="-1" role="dialog" aria-labelledby="ModalSaveListShop" aria-hidden="true">
 			
 			<div class="modal-dialog">
@@ -448,7 +326,7 @@
 		  
 		</div>
 
-		<!-- MODAL Comment Product  -->
+		MODAL Comment Product  
 		<div class="modal fade" id="ModalCommentProduct" tabindex="-1" role="dialog" aria-labelledby="ModalCommentProduct" aria-hidden="true">
 			
 			<div class="modal-dialog">
@@ -488,4 +366,5 @@
 			
 			</div>
 		  
-		</div>
+		</div> -->
+	{/if}

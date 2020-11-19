@@ -1,0 +1,45 @@
+<script>
+    
+    $('#filterProduct').val("{$search.or}");
+
+    $('.subSearch').on('submit', function(e) {
+
+        var url = $(this).attr("action");
+        var sub = this.searchSub.value;
+
+        e.preventDefault();
+
+        window.location.href = url + '?s={$search.s}{if="$search.or != 0"}&order={$search.or}{/if}&subs='+sub+'{if="!empty($search.mark)"}&mark={$search.mark}{/if}{if="$search.filter != 0"}&min={$search.filter.min}&max={$search.filter.max}{/if}';
+
+    });
+
+    $('.filterPrice').on('submit', function(e) {
+
+        var url = $(this).attr("action");
+        var min = this.minPrice.value;
+        var max = this.maxPrice.value;
+
+        e.preventDefault();
+
+        window.location.href = url + '?s={$search.s}{if="$search.or != 0"}&order={$search.or}{/if}{if="!empty($search.subs)"}&mark={$search.subs}{/if}{if="!empty($search.mark)"}&mark={$search.mark}{/if}&min='+min+'&max='+max;
+
+    });
+
+    $('#filterProduct').on("change", function(e) {
+
+        var val = $(this).val();
+        var param = "&order="+val;
+
+        if(val == 0){
+            param = "";
+        }
+
+        window.location.href = '/loja-{$ID}/search/?s={$search.s}'+param+'{if="$search.subs != 0"}&subs={$search.subs}{/if}{if="!empty($search.mark)"}&mark={$search.mark}{/if}{if="$search.filter != 0"}&min={$search.filter.min}&max={$search.filter.max}{/if}{if="$search.page > 1"}&page={$search.page}{/if}';
+
+    });
+
+    $('.closeSubs').on("click", function(e) {
+        window.location.href = '/loja-{$ID}/search/?s={$search.s}{if="$search.or != 0"}&order={$search.or}{/if}{if="!empty($search.mark)"}&mark={$search.mark}{/if}{if="$search.filter != 0"}&min={$search.filter.min}&max={$search.filter.max}{/if}';
+    });
+    
+</script>

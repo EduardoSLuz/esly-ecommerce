@@ -2,19 +2,12 @@
 <html lang="pt-br">
   <head>
 
-    <meta charset="utf-8">
+	<meta charset="utf-8">
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<meta property="og:url" content="https://{$HTTP}" />
-  	<meta property="og:type" content="website" />
-  	<meta property="og:title" content="Site Ecommerce" />
-  	<meta property="og:description" content="Venha Conhecer" />
-  	<meta property="og:image" content="https://{$HTTP}/resources/imgs/code.jpg" />
-  	<meta property="og:image:width" content="150px" />
-  	<meta property="og:image:height" content="150px" />
-	<meta property="fb:app_id" content="113869198637480" />
 
-    <title>Astemac | Loja</title>
+    <title>{function="strstr($store.0.nameStore, " ", true)"} | {$headerTitle}</title>
     
     <!-- Bootstrap -->   
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
@@ -27,6 +20,10 @@
 	
 	<!-- JS DO GOOGLE RECAPTCHA -->
 	<script src="https://www.google.com/recaptcha/api.js"></script>
+
+	<!-- Select2 -->
+	<link rel="stylesheet" href="/resources/admin/plugins/select2/css/select2.min.css">
+	<link rel="stylesheet" href="/resources/admin/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
 	
 	<!--  Custom CSS  -->
 	<link href="/resources/css/esly-area.css" rel="stylesheet">  
@@ -36,42 +33,71 @@
 	<link href="/resources/css/esly-form.css" rel="stylesheet">  
 	<link href="/resources/css/esly-text.css" rel="stylesheet">  
  	<link rel="stylesheet" href="/resources/css/bootnavbar.css">
+ 	<link rel="stylesheet" href="/resources/css/barnav.css">
 	<link rel="stylesheet" href="/resources/css/owl.carousel.min.css">
 	<link rel="stylesheet" href="/resources/css/owl.theme.default.min.css">  
-	<link rel="stylesheet" href="/resources/css/sidenav.css"> 
+	<link rel="icon" type="image" href='{if="$ID != 0"}{$imgs.5.src}{else}{$imgs.6.src}{/if}'>
+
+	{if="isset($layoutColor.0) && is_array($layoutColor.0)"}{include="../resources/js/html/layout"}{/if}
 	  
   </head>
-  <body class="{$layout.bgLayout}">
+  <body class="bg-site-section">
 	
 	{if="$type === 1"}
-
-	<section class="{$layout.bgH1Layout} bar-display" style="filter: saturate(85%);">
-		
+	
+	<section class="bg-site-header bar-display shadow-header">
+	
 		<div class="bcg-ini ct-center py-1">
 		
 			<div class="ct-ini">
 				
-				<div class="row {$layout.txH1Layout}">
+				<div class="row text-site-header">
 
-					<div class="col-7">
+					<div class="col-6">
 						<span><small>
-							Você esta navegando na <a class="text-light mr-1 cursorPointer" data-toggle="modal" data-target="#ModalAlterStores"><b><u>loja {$ID}</u></b> <i class="fas fa-angle-down"></i></a>
-							{loop="$storeSocial"}
-                				<a href="{$value.linkSocial}" target="__blank" class="{$layout.txFooterLayout} mr-1"><i class="{$value.iconSocial}"></i></a>   
-            				{/loop}
+							Você esta navegando na 
+							<a class="cursorPointer text-site-header" data-toggle="modal" data-target="#ModalAlterStores">
+								<b><u>loja {$ID}</u></b> 
+								<i class="fas fa-angle-down"></i>
+							</a>
+							{if="isset($storeSocial) && $storeSocial != 0"}
+							{loop="$storeSocial.0"}
+								{if="$value.idSocialType != 5 && $value.idSocialType != 6"}
+								<a href="{$value.link}" target="__blank" class="text-site-header mx-1"><i class="{$value.icon}"></i></a>
+								{/if}   
+							{/loop}
+							{/if}
 						</small></span>
 					</div>
 
-					<div class="col-5">
+					<div class="col-6">
 						<div class="text-right">
 
-							<span><small>
-								<a class="text-white cursorPointer" data-toggle="modal" data-target="#ModalConsultationRegions"><i class="fas fa-truck"></i> Regiões Atendidas</a> &nbsp; 
-								<a class="text-white cursorPointer" data-toggle="modal" data-target="#ModalConsultationHorary"><i class="far fa-clock"></i> Horários</a> &nbsp;
-								<a href="/loja-{$ID}/our-stores/" class="text-white"><i class="fas fa-map-marker-alt"></i> Todas as lojas</a> &nbsp;
-								<a class="text-white cursorPointer"><i class="fas fa-mobile-alt"></i> {function="maskTel($store.0.telephoneStore)"}</a>
-								{if="$userValues.login"}<a href="/loja-{$ID}/logout/" class="text-white"><i class="fas fa-sign-out-alt"></i> Sair</a>{/if}
-							</small></span>
+							<small>
+								
+								<a class="text-site-header cursorPointer" data-toggle="modal" data-target="#ModalConsultationRegions">
+									<i class="fas fa-truck"></i> 
+									Regiões Atendidas
+								</a> &nbsp; 
+								
+								<a class="text-site-header cursorPointer" data-toggle="modal" data-target="#ModalConsultationHorary">
+									<i class="far fa-clock"></i> 
+									Horários
+								</a> &nbsp;
+								
+								<a class="text-site-header" href="/loja-{$ID}/our-stores/">
+									<i class="fas fa-map-marker-alt"></i> 
+									Todas as lojas
+								</a> &nbsp;
+								
+								<a id="telStore" class="text-site-header cursorPointer">
+									<i class="fas fa-mobile-alt"></i> 
+									{function="maskTel($store.0.telephoneStore)"}
+								</a>
+
+								{if="$userValues.login"}<a href="/loja-{$ID}/logout/" class="text-site-header"><i class="fas fa-sign-out-alt"></i> Sair</a>{/if}
+							
+							</small>
 
 						</div>
 					
@@ -84,194 +110,220 @@
 		</div>
 	
 	</section>
-	  
-	<section id="Navbar-Desktop" class="{$layout.bgH2Layout} sticky-top navbar-ini">
 		
-		<div class="bcg-ini ct-center navbar-prime">
-			<nav class="navbar navbar-expand-lg navbar-light ct-ini">
-				
-				<a class="navbar-brand" href="/loja-{$ID}/">
-					<img src="/resources/imgs/logos/logo.png" width="220px" class="d-inline-block align-top imgLogo" alt="" loading="lazy">
-				</a>
-
-				<div class="nav-item border-0 navbar-display my-0">
-					<button type="button" class="btn btn-sm {$layout.btnH2Layout} text-white border-0" onclick="ShowHideBarMobile()" data-toggle="collapse" data-target="#BarMobile" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
-						<i id="MenuMobile" class="fas fa-bars"></i><br>
-						<small>Menu</small>
-					</button>
-					<button type="button" class="btn btn-sm {$layout.btnH2Layout} text-white border-0" onclick="AlterNavbar('Navbar-Desktop', 'NavbarMobile-Pesquisa')">
-						<i class="fas fa-search"></i><br>
-						<small>Buscar</small>
-					</button>
-					<button type="button" class="btn btn-sm {$layout.btnH2Layout} text-white border-0" data-toggle="modal" data-target="#ModalAlterStores">
-						<i class="fas fa-store"></i><br>
-						<small>Lojas</small>
-					</button>
-					
-				</div>
-
-				<div class="collapse navbar-collapse" id="navbarNav">
-					<ul class="navbar-nav">
-						 <li class="nav-item ml-3 mr-3">
-							<form class="input-group mt-2 bg-white border border-white-50 bd-Rd10 ipt-barSearch" method="GET" action="/loja-{$ID}/search/">&nbsp;
-							
-								<input type="text" class="form-control null-bd" placeholder="Encontre um produto" name="s">
-
-								<div class="input-group-prepend">
-									<button type="button" class="bg-white null-bd" id="Btn-Audio">
-										<a href="#"><i class="fas fa-microphone {$layout.txH3Layout}"></i></a>
-									</button>
-
-									<button type="submit" class="ml-1 bg-white null-bd" id="Btn-Search">
-										<i class="fas fa-search {$layout.txH3Layout}"></i>
-									</button>&nbsp;&nbsp;
-									
-								</div>
-							</form>
-						</li>
-
-						<a class="cursorPointer">
-							<button class="nav-item ml-3 text-center text-light btn {$layout.btnH2Layout}" data-toggle="modal" data-target="#ModalAlterStores">
-								<i class="fas fa-store"></i><br>
-								<small>Lojas</small>					
-							</button>
-						</a>
-						<a href='/loja-{$ID}/{if="$userValues.login"}account/requests{else}login{/if}/'>
-							<button class="nav-item text-center text-light btn {$layout.btnH2Layout}">
-								<i class="far fa-user"></i><br>
-								<small>{if="$userValues.login"}{function="substr($userValues.nameUser, 0, 12)"}{else}Conta{/if}</small>						
-							</button>
-						</a>
-						
-
-						<a id="PopCart" {if="$userValues.login === false"} href='/loja-{$ID}/login/' {/if} data-toggle="popover" data-placement="bottom" data-trigger='{if="$userValues.login"}focus {else}hover{/if}' data-html="true" data-content='
-							{if="$userValues.login === false"}
-							
-								<i class="far fa-user"></i> Faça login para acessar o carrinho
-
-							{else}
-
-								<div>
-									<div class="table-responsive">
-										<div class="table-ini">
-											
-											<div class="border-bottom py-2">
-												<span>PANETTONE ARCOR PREMIUM CHOCOLATE 530G</span>
-												<small><br>1 X R$ 9,90</small>
-											</div>
-
-											<div class="border-bottom py-2">
-												<span>PANETTONE ARCOR PREMIUM CHOCOLATE 530G</span>
-												<small><br>1 X R$ 9,90</small>
-											</div>
-
-											<div class="border-bottom py-2">
-												<span>PANETTONE ARCOR PREMIUM CHOCOLATE 530G</span>
-												<small><br>1 X R$ 9,90</small>
-											</div>
-
-											<div class="border-bottom py-2">
-												<span>PANETTONE ARCOR PREMIUM CHOCOLATE 530G</span>
-												<small><br>1 X R$ 9,90</small>
-											</div>
-
-											<div class="border-bottom py-2">
-												<span>PANETTONE ARCOR PREMIUM CHOCOLATE 530G</span>
-												<small><br>1 X R$ 9,90</small>
-											</div>
-
-											<div class="border-bottom py-2">
-												<span>PANETTONE ARCOR PREMIUM CHOCOLATE 530G</span>
-												<small><br>1 X R$ 9,90</small>
-											</div>
+	<section id="Navbar-Desktop" class="bg-site-header sticky-top">
+		
+		<div class="navbar-prime">
 			
+			<div class="ct-center">
+
+				<nav class="navbar navbar-expand-lg navbar-light row">
+				
+					<a class="col-lg-2 col-md-4 col-3" href="/loja-{$ID}/">
+						<picture>
+							<source srcset="{$imgs.5.src}" media="(max-width: 600px)">
+							<img src="{$imgs.2.src}" class="d-inline-block align-top img-fluid logo-responsive" alt="Logo Loja-{$ID}">
+						</picture>
+					</a>
+	
+					<div class="col navbar-display my-0 px-0">
+						
+						<div class="btn-group w-100">
+							<button type="button" class="btn btn-sm btn-main-site-header text-site-header border-0" onclick="ShowHideBarMobile()" data-toggle="collapse" data-target="#BarMobile" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+								<i id="MenuMobile" class="fas fa-bars"></i><br>
+								<small>Menu</small>
+							</button>
+							<button type="button" class="btn btn-sm btn-main-site-header text-site-header border-0" onclick="AlterNavbar('Navbar-Desktop', 'NavbarMobile-Pesquisa')">
+								<i class="fas fa-search"></i><br>
+								<small>Buscar</small>
+							</button>
+							<button type="button" class="btn btn-sm btn-main-site-header text-site-header border-0" data-toggle="modal" data-target="#ModalAlterStores">
+								<i class="fas fa-store"></i><br>
+								<small>Lojas</small>
+							</button>
+						</div>
+						
+					</div>
+	
+					<div class="collapse navbar-collapse col" id="navbarNav">
+						
+						<ul class="navbar-nav w-100 d-flex">
+							<li class="nav-item flex-fill">
+								
+								<form method="GET" action="/loja-{$ID}/search/" class="mb-0">
+									
+									<div class="input-group w-100 bg-white rounded-0 mt-3">
+
+										<input type="search" class="form-control null-bd" placeholder="Encontre um produto" data-action="/loja-{$ID}/menu/" id="listSearch" name="s" value='{if="isset($s)"}{$s}{/if}' autocomplete="off">
+
+										<div class="input-group-prepend">
+											
+											{if="0 == 1"}
+											<button type="button" class="bg-white null-bd" id="Btn-Audio">
+												<a href="#"><i class="fas fa-microphone {$layout.txH3Layout}"></i></a>
+											</button>
+											{/if}
+
+											<button type="submit" class="ml-1 bg-white null-bd px-3" id="Btn-Search">
+												<i class="fas fa-search text-main-site-header"></i>
+											</button>
+											
+										</div>
+
+										<div id="menuSearch" class="dropdown-menu dropdown-menu-left w-100 py-0 rounded-0" >
+									
+											<div id="menuProducts" class="list-group my-0">
+
+												<p class="my-2 px-2">Buscar algum produto</p>
+
+											</div>
+											
+										</div>
+
+									</div>
+								</form>
+
+							</li>
+	
+							<a class="cursorPointer">
+								<button class="nav-item ml-3 text-center text-light btn btn-main-site-header text-site-header" data-toggle="modal" data-target="#ModalAlterStores">
+									<i class="fas fa-store"></i><br>
+									<small>Lojas</small>					
+								</button>
+							</a>
+							<a id="loginUser" href='/loja-{$ID}/{if="$userValues.login"}account/requests{else}login{/if}/'>
+								<button class="nav-item text-center text-light btn btn-main-site-header text-site-header">
+									<i class="far fa-user"></i><br>
+									<small>{if="$userValues.login"}{function="substr($userValues.nameUser, 0, 12)"}{else}Conta{/if}</small>						
+								</button>
+							</a>
+							
+							<div id="dropdownBootstrap" class="btn-group dropdownBootstrap">
+
+								<button class="text-center btn btn-main-site-header text-site-header" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="window.location.assign('/loja-{$ID}/checkout/cart/')">
+									<i class="fas fa-shopping-cart"></i>	
+									<br><small id="cartUser"><b>{if="$cart === false"}0{else} {if="$cart.items == 0"}0{else}{$cart.totalItems}{/if} {/if}</b></small>						
+								</button>
+
+								<div id="dropdownMenuBootstrap" class="mt-1 dropdown-menu menu-right dropdown-menu-right bg-site-section " style="max-height: 628.275px;width: 350px" aria-labelledby="dropdownMenuReference">
+									
+									{if="$cart.items != 0"}
+									<div class="px-3">
+										<div class="table-responsive">
+											<div class="table-ini">
+												
+												{loop="$cart.items"}
+												<div class="border-bottom text-second-site-section py-2">
+													<span>{$value.descProduct}</span>
+													<small><br>{$value.quantity} X R$ {function="maskPrice($value.priceItem)"}</small>
+												</div>
+												{/loop}
+	
+											</div>
+										</div>
+										
+										<div class="py-2">
+											<span class="text-link-site-section font-weight-bold">
+												Subtotal: 
+												<span class="text-second-site-section">R$ {function="maskPrice($cart.totalCart)"}</span>
+											</span>
+										</div>
+										
+										<div class="text-center mb-2">
+											<a href="/loja-{$ID}/checkout/cart/" class="btn btn-sm btn-main-site-section text-btn-site-section w-100">Ver Carrinho</a>
 										</div>
 									</div>
-									
-									<div class="py-3">
-										<span>Subtotal: <b>R$ 9,90</b></span>
-									</div>
-									
+									{else}
 									<div class="text-center">
-										<a href="/loja-{$ID}/checkout/cart/" class="btn btn-sm {$layout.btnH2Layout} w-100">Ver Carrinho</a>
+										<span class="px-2 text-second-site-section"><i>SEM ITENS NO CARRINHO!</i></span>
 									</div>
+									{/if}
 								</div>
 
-							{/if}
-						'>
-							<button class="nav-item text-center text-light btn {$layout.btnH2Layout}">
-								<i class="fas fa-shopping-cart"></i>	
-								<br><small><b>{if="$userValues.login"}6{else}0{/if}</b></small>						
-							</button>
-						</a>
-						
-					 </ul>
+							</div>
+							
+						</ul>
+					
+					</div>
 				
-				</div>
-			
-			</nav>
+				</nav>
+		
+			</div>
 
 		</div>
-	
-	 </section>
 
-	<section id="NavbarMobile-Pesquisa" class="{$layout.bgH2Layout} display-None">
+		<div id="alertBoxCartNot" class="position-fixed my-lg-0 my-2 offset-lg-9 col-lg-3 offset-md-8 col-md-4 d-none">
+
+			<div id="alertCartNot" class="alert alert-success alertCartNot fade text-center my-0" role="alert">
+							
+				<span>Produto Adicionado ao Carrinho</span>
+				
+			</div>
+	
+		</div>
+	
+	</section>
+
+	<section id="NavbarMobile-Pesquisa" class="bg-site-header display-None">
 			
 		<nav class="navbar navbar-expand-lg navbar-light">
 					
-				<div class="btn-group width-T100">
+			<div class="btn-group width-T100">
 
-					<form class="input-group bg-white border border-white-50 bd-Rd10" method="GET" action="/loja-{$ID}/search/">&nbsp;
-								
-						<input type="text" class="form-control null-bd" placeholder="Encontre um produto" name="s">
-
-						<div class="input-group-prepend">
-							<button type="button" class="bg-white null-bd" id="Btn-AudioMob">
-								<a href="#"><i class="fas fa-microphone {$layout.txH3Layout}"></i></a>
-							</button>
-
-							<button type="submit" class="ml-1 bg-white null-bd" id="Btn-SearchMob">
-								<i class="fas fa-search {$layout.txH3Layout}"></i>
-							</button>&nbsp;&nbsp;
+				<form class="input-group bg-white border border-white-50 bd-Rd10" method="GET" action="/loja-{$ID}/search/">&nbsp;
 							
-						</div>
+					<input type="search" class="form-control null-bd" placeholder="Encontre um produto" name="s" value='{if="isset($s) && !empty($s)"}{$s}{/if}' autocomplete="off">
 
-					</form>
+					<div class="input-group-prepend">
+						
+						{if="0 == 1"}
+						<button type="button" class="bg-white null-bd" id="Btn-AudioMob">
+							<a href="#"><i class="fas fa-microphone {$layout.txH3Layout}"></i></a>
+						</button>
+						{/if}
 
-					<button type="button" class="btn {$layout.btnH2Layout} bd-RdNull" onclick="AlterNavbar('NavbarMobile-Pesquisa', 'Navbar-Desktop')">Voltar</button>
+						<button type="submit" class="ml-1 bg-white null-bd" id="Btn-SearchMob">
+							<i class="fas fa-search text-main-site-header"></i>
+						</button>&nbsp;&nbsp;
+						
+					</div>
 
-				</div>
-			
-			</nav>
+				</form>
+
+				<button type="button" class="btn btn-main-site-header text-site-header" bd-RdNull" onclick="AlterNavbar('NavbarMobile-Pesquisa', 'Navbar-Desktop')">Voltar</button>
+
+			</div>
+		
+		</nav>
 
 	</section>
 
-	<section id="BarMobile" class="{$layout.bgLayout} collapse display-None">
+	<section id="BarMobile" class="bg-site-section collapse display-None">
 		
-		<div class="bcg-ini btn-group navbar-displayNone width-T100">
+		<div class="bcg-ini btn-group navbar-displayNone width-T100"> 
 			
-			<a href="/loja-{$ID}/our-stores/" class="btn {$layout.btnH1Layout} border-0 bd-RdNull py-2">
+			<a href="/loja-{$ID}/our-stores/" class="btn btn-outline-main-site-header text-btn-site-header border-0 bd-RdNull">
 				<i class="fas fa-map-marker-alt"></i><br>
-				<small>Nossas Lojas</small>
+				<small>Lojas</small>
 			</a>
 
-			<button type="button" class="btn {$layout.btnH1Layout} border-0 bd-RdNull py-2" data-toggle="modal" data-target="#ModalConsultationRegions">
+			<button type="button" class="btn btn-outline-main-site-header text-btn-site-header border-0 bd-RdNull" data-toggle="modal" data-target="#ModalConsultationRegions">
 				<i class="fas fa-truck"></i><br>
 				<small>Regiões</small>
 			</button>
 
-			<button type="button" class="btn {$layout.btnH1Layout} border-0 bd-RdNull py-2" data-toggle="modal" data-target="#ModalConsultationHorary">
+			<button type="button" class="btn btn-outline-main-site-header text-btn-site-header border-0 bd-RdNull" data-toggle="modal" data-target="#ModalConsultationHorary">
 				<i class="far fa-clock"></i><br>
 				<small>Horários</small>
 			</button>
 
-			<a href='/loja-{$ID}/{if="$userValues.login"}account/requests/{else}login/{/if}' class="btn {$layout.btnH1Layout} border-0 bd-RdNull py-2">
+			<a href='/loja-{$ID}/{if="$userValues.login"}account/requests/{else}login/{/if}' class="btn btn-outline-main-site-header text-btn-site-header border-0 bd-RdNull">
 				<i class="far fa-user"></i><br>
 				<small>{if="$userValues.login"}{function="substr($userValues.nameUser, 0, 12)"}{else}Entrar{/if}</small>
 			</a>
 
 			{if="$userValues.login"}
-				<a href="/loja-{$ID}/logout/" class="btn {$layout.btnH1Layout} border-0 bd-RdNull py-2">
+				<a href="/loja-{$ID}/logout/" class="btn btn-outline-main-site-header text-btn-site-header border-0 bd-RdNull">
 					<i class="fas fa-sign-out-alt"></i><br>
 					<small>Sair</small>
 				</a>
@@ -282,104 +334,99 @@
 		<div id="DepartamentosMobile" class="navbar-displayNone">
 
 			<a class="btn border border-left-0 border-right-0 w-100 bd-RdNull py-SubMobile text-left" href="/loja-{$ID}/">
-				<b class="font-weight-normal mx-2 tx-SubMobile text-dark">Inicio</b>
+				<b class="font-weight-normal mx-2 tx-SubMobile text-second-site-section">Inicio</b>
 			</a>
 
+			{loop="$departaments"}
+			{if="$key <= 12"}
+			{$departamentos = $value.name}
 			<div class="btn-group w-100">
-				<a href="/loja-{$ID}/search/" id="BarLimpeza" class="btn border border-top-0 border-left-0 border-right-0 bd-RdNull w-100 text-left py-SubMobile">
-					<b class="font-weight-normal mx-2 tx-SubMobile text-dark">Limpeza</b>
+				<a href="/loja-{$ID}/departaments/{$value.name}-0/" id="Bar{$key}" class="btn border border-top-0 border-left-0 border-right-0 bd-RdNull w-100 text-left py-SubMobile">
+					<b class="font-weight-normal mx-2 tx-SubMobile text-second-site-section">{$value.name}</b>
 				</a>
-				<button type="button" class="btn border border-top-0 bd-RdNull" data-toggle="collapse" data-target="#SubBarLimpeza" aria-expanded="false" aria-controls="SubBarLimpeza" onclick="ShowHideSubBarMobile('SubBarLimpeza', 'SubMenuLimpeza')">
-					<i id="SubMenuLimpeza" class="fas fa-chevron-down text-dark"></i>
+				<button type="button" class="btn border border-top-0 bd-RdNull" data-toggle="collapse" data-target="#SubBar{$key}" aria-expanded="false" aria-controls="SubBar{$key}" onclick="ShowHideSubBarMobile('SubBar{$key}', 'SubMenu{$key}')">
+					<i id="SubMenu{$key}" class="fas fa-chevron-down text-second-site-section"></i>
 				</button>
 			</div>
 
-			<div id="SubBarLimpeza" class="collapse bg-light">
+			<div id="SubBar{$key}" class="collapse bg-light">
 				
-				<a href="/loja-{$ID}/search/?s=produto" class="btn border border-top-0 border-left-0 border-right-0 bd-RdNull w-100 text-left py-SubMobile">
-					<b class="font-weight-normal mx-2 tx-SubMobile text-dark">Produto #1</b>
+				{loop="$value.category"}
+				<a href="/loja-{$ID}/departaments/{$departamentos}-{$value.name}/" class="btn border border-top-0 border-left-0 border-right-0 bd-RdNull w-100 text-left py-SubMobile">
+					<b class="font-weight-normal mx-2 tx-SubMobile text-second-site-section">{$value.name}</b>
 				</a>
-
-				<a href="/loja-{$ID}/search/?s=produto" class="btn border border-top-0 border-left-0 border-right-0 bd-RdNull w-100 text-left py-SubMobile">
-					<b class="font-weight-normal mx-2 tx-SubMobile text-dark">Produto #2</b>
-				</a>
-				
-				<a href="/loja-{$ID}/search/?s=produto" class="btn border border-top-0 border-left-0 border-right-0 bd-RdNull w-100 text-left py-SubMobile">
-					<b class="font-weight-normal mx-2 tx-SubMobile text-dark">Produto #3</b>
-				</a>
+				{/loop}
 				
 			</div>
+			{/if}
+			{/loop}
 
-			<div class="btn-group w-100">
-				<a href="/loja-{$ID}/search/" id="BarOtsDep" class="btn border border-top-0 border-left-0 border-right-0 bd-RdNull w-100 text-left py-SubMobile">
-					<b class="font-weight-normal mx-2 tx-SubMobile text-dark">Outros Departamentos</b>
-				</a>
-				<button type="button" class="btn border border-top-0 bd-RdNull" data-toggle="collapse" data-target="#SubBarOtsDep" aria-expanded="false" aria-controls="SubBarOtsDep" onclick="ShowHideSubBarMobile('SubBarOtsDep', 'SubMenuOtsDep')">
-					<i id="SubMenuOtsDep" class="fas fa-chevron-down text-dark"></i>
-				</button>
-			</div>
-
-			<div id="SubBarOtsDep" class="collapse bg-light">
-				
-				<a href="/loja-{$ID}/search/?s=produto" class="btn border border-top-0 border-left-0 border-right-0 bd-RdNull w-100 text-left py-SubMobile">
-					<b class="font-weight-normal mx-2 tx-SubMobile text-dark">Produto #1</b>
-				</a>
-
-				<a href="/loja-{$ID}/search/?s=produto" class="btn border border-top-0 border-left-0 border-right-0 bd-RdNull w-100 text-left py-SubMobile">
-					<b class="font-weight-normal mx-2 tx-SubMobile text-dark">Produto #2</b>
-				</a>
-				
-				<a href="/loja-{$ID}/search/?s=produto" class="btn border border-top-0 border-left-0 border-right-0 bd-RdNull w-100 text-left py-SubMobile">
-					<b class="font-weight-normal mx-2 tx-SubMobile text-dark">Produto #3</b>
-				</a>
-				
-			</div>
+			<a class="btn border border-left-0 border-right-0 w-100 bd-RdNull py-SubMobile text-left" href="/loja-{$ID}/departaments/">
+				<b class="font-weight-normal mx-2 tx-SubMobile text-second-site-section">VER TODOS</b>
+			</a>
 			
 			
 		</div>
 	
 	</section>
-	 
-	<section class="{$layout.bgH3Layout} bar-display">
-		  
-		  <div class="ct-center">
-			  <nav class="navbar navbar-expand-sm navbar-light bcg-ini ct-ini" id="main_navbar">
+		
+	<section class="bg-site-header bar-display">
+			
+			<div class="ct-center">
+				<nav class="navbar navbar-expand-sm navbar-light main_navbar bcg-ini ct-ini" id="main_navbar">
 
 				<div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-				  <ul class="navbar-nav">
+					<ul class="navbar-nav w-100 row">
 
-						<li class="nav-item dropdown btn {$layout.btnH3Layout} btn-sm rounded-pill p-0 my-auto">
+						<li class="nav-item dropdown btn btndep-site-header btn-sm p-auto my-auto col-md-1">
 
-						  <a class="nav-link align-top {$layout.txH3Layout}" href="/loja-{$ID}/departaments" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								 <i class="fas fa-bars"></i> Departamentos
-						  </a>
+							<a class="text-main-site-header nav-item align-top h4" href="/loja-{$ID}/departaments" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<i class="fas fa-bars"></i>
+							</a>
 
-						  <ul class="dropdown-menu rounded ml-3" aria-labelledby="navbarDropdown">
-
-								<li class="nav-item dropdown">
-									<a class="dropdown-item text-decoration-none" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="window.location.assign('/loja-{$ID}/search/')">
-										Limpeza
+								<ul class="dropdown-menu bg-site-section rounded ml-2 menu-left" aria-labelledby="navbarDropdown">
+								
+								{loop="$departaments"}
+								{if="$key < 12"}
+								<li class="nav-item text-dep-site-header dropdown">
+									<a class="dropdown-item text-decoration-none border d-flex" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="window.location.assign('/loja-{$ID}/departaments/{$value.name}-0/')">
+										<span class="flex-grow-1 pr-2">{$value.name}</span> <span class="pl-2"><i class="fas fa-angle-right"></i></span>
 									</a>
 
 									<!-- WARNING: STYLE CANNOT BE REMOVED, STYLE OF UTMOST IMPORTANCE -->
-									<ul class="dropdown-menu row DropDownIni-Menu" aria-labelledby="navbarDropdown1" style="top: -30%;"> 
+									<ul class="dropdown-menu bg-site-section row DropDownIni-Menu" aria-labelledby="navbarDropdown1" style="top: {$value.top}%;"> 
 
-										<a class="ml-3 h5" href="/loja-{$ID}/search/"><b>Limpeza</b></a>
-
+										<a class="ml-3 h5 text-dep-site-header" href="/loja-{$ID}/departaments/{$value.name}-0/"><b>{$value.name}</b></a>
+										{$departamentos = $value.name}
 										<div class="ml-2 d-flex flex-row">
 
-											<div class="p-2">
-												<a href="/loja-{$ID}/search/?s=produto" class="Line-2em">Item #1</a><br>
-												<a href="/loja-{$ID}/search/?s=produto" class="Line-2em">Item #2</a><br>
-												<a href="/loja-{$ID}/search/?s=produto" class="Line-2em">Item #3</a><br>
-												<a href="/loja-{$ID}/search/?s=produto" class="Line-2em">Item #4</a><br>
-												<a href="/loja-{$ID}/search/?s=produto" class="Line-2em">Item #5</a><br>
-												<a href="/loja-{$ID}/search/?s=produto" class="Line-2em">Item #6</a><br>
-												<a href="/loja-{$ID}/search/?s=produto" class="Line-2em">Item #7</a><br>
-												<a href="/loja-{$ID}/search/?s=produto" class="Line-2em">Item #8</a><br>
-												<a href="/loja-{$ID}/search/?s=produto" class="Line-2em">Item #9</a><br>
-												<a href="/loja-{$ID}/search/?s=produto" class="Line-2em">Item #10</a>
+											<div class="px-2">
+												{loop="$value.category"}
+												{if="$key < 10"}
+												<p class="Line-2em my-1"><a href="/loja-{$ID}/departaments/{$departamentos}-{$value.name}/" class="text-decoration-none text-dep-site-header">{$value.name}</a></p>
+												{/if}
+												{/loop}
+											</div>
+
+											<div class="px-2">
+												{loop="$value.category"}
+												{if="$key >= 10 && $key < 20"}
+												<p class="Line-2em my-1"><a href="/loja-{$ID}/departaments/{$departamentos}-{$value.name}/" class="text-decoration-none text-dep-site-header">{$value.name}</a></p>
+												{/if}
+												{/loop}
+											</div>
+
+											<div class="px-2">
+												{loop="$value.category"}
+												{if="$key >= 20 && $key < 29"}
+												<p class="Line-2em my-1"><a href="/loja-{$ID}/departaments/{$departamentos}-{$value.name}/" class="text-decoration-none text-dep-site-header">{$value.name}</a></p>
+												{/if}
+												{/loop}
+												
+												{if="count($value.category) >= 30"}
+												<p class="Line-2em"><a href="/loja-{$ID}/departaments/" class="text-decoration-none text-dep-site-header">VER TODOS</a></p>
+												{/if}
 											</div>
 
 										</div>
@@ -387,30 +434,48 @@
 									</ul>
 
 								</li>
+								{/if}
+								{/loop}
 
-								<li class="nav-item dropdown">
-									<a class="dropdown-item text-decoration-none" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="window.location.assign('/loja-{$ID}/search/')">
-										Bebidas
+								{if="count($departaments) >= 11"}
+								<li class="nav-item text-dep-site-header dropdown">
+									<a class="dropdown-item text-decoration-none border d-flex" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="window.location.assign('/loja-{$ID}/departaments/')">
+										<span class="flex-grow-1 pr-2">MAIS DEPARTAMENTOS</span> <span class="pl-2"><i class="fas fa-angle-right"></i></span>
 									</a>
 
 									<!-- WARNING: STYLE CANNOT BE REMOVED, STYLE OF UTMOST IMPORTANCE -->
-									<ul class="dropdown-menu row DropDownIni-Menu" style="top: -130%" aria-labelledby="navbarDropdown1"> 
+									<ul class="dropdown-menu row DropDownIni-Menu" style="top: {$departaments.0.topMax}%" aria-labelledby="navbarDropdown1"> 
 
-										<a class="ml-3 h5" href="/loja-{$ID}/search/"><b>Bebidas</b></a>
+										<a class="ml-3 h5 text-dep-site-header" href="/loja-{$ID}/departaments/"><b>Mais Departamentos</b></a>
 
 										<div class="ml-2 d-flex flex-row">
 
-											<div class="p-2">
-												<a href="/loja-{$ID}/search/?s=produto" class="Line-2em">Item #1</a><br>
-												<a href="/loja-{$ID}/search/?s=produto" class="Line-2em">Item #2</a><br>
-												<a href="/loja-{$ID}/search/?s=produto" class="Line-2em">Item #3</a><br>
-												<a href="/loja-{$ID}/search/?s=produto" class="Line-2em">Item #4</a><br>
-												<a href="/loja-{$ID}/search/?s=produto" class="Line-2em">Item #5</a><br>
-												<a href="/loja-{$ID}/search/?s=produto" class="Line-2em">Item #6</a><br>
-												<a href="/loja-{$ID}/search/?s=produto" class="Line-2em">Item #7</a><br>
-												<a href="/loja-{$ID}/search/?s=produto" class="Line-2em">Item #8</a><br>
-												<a href="/loja-{$ID}/search/?s=produto" class="Line-2em">Item #9</a><br>
-												<a href="/loja-{$ID}/search/?s=produto" class="Line-2em">Item #10</a>
+											<div class="px-2">
+												{loop="$departaments"}
+												{if="$key >= 12 && $key < 22"}
+												<p class="Line-2em my-1"><a href="/loja-{$ID}/departaments/{$value.name}-0/" class="text-decoration-none text-dep-site-header">{$value.name}</a></p>
+												{/if}
+												{/loop}
+											</div>
+
+											<div class="px-2">
+												{loop="$departaments"}
+												{if="$key >= 22 && $key < 32"}
+												<p class="Line-2em my-1"><a href="/loja-{$ID}/departaments/{$value.name}-0/" class="text-decoration-none text-dep-site-header">{$value.name}</a></p>
+												{/if}
+												{/loop}
+											</div>
+
+											<div class="px-2">
+												{loop="$departaments"}
+												{if="$key >= 32 && $key < 42"}
+												<p class="Line-2em my-1"><a href="/loja-{$ID}/departaments/{$value.name}-0/" class="text-decoration-none text-dep-site-header">{$value.name}</a></p>
+												{/if}
+												{/loop}
+												
+												{if="count($departaments) >= 42"}
+												<p class="Line-2em"><a href="/loja-{$ID}/departaments/" class="text-decoration-none text-dep-site-header">VER TODOS</a></p>
+												{/if}
 											</div>
 
 										</div>
@@ -418,51 +483,18 @@
 									</ul>
 
 								</li>
-
-								<li class="nav-item dropdown">
-									<a class="dropdown-item text-decoration-none" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="window.location.assign('/loja-{$ID}/departaments/')">
-										Mais Departamentos
-									</a>
-
-									<!-- WARNING: STYLE CANNOT BE REMOVED, STYLE OF UTMOST IMPORTANCE -->
-									<ul class="dropdown-menu row DropDownIni-Menu" style="top: -230%" aria-labelledby="navbarDropdown1"> 
-
-										<a class="ml-3 h5" href="/loja-{$ID}/departaments/"><b>Mais Departamentos</b></a>
-
-										<div class="ml-2 d-flex flex-row">
-
-											<div class="p-2">
-												<a href="/loja-{$ID}/search/?s=produto" class="Line-2em">Item #1</a><br>
-												<a href="/loja-{$ID}/search/?s=produto" class="Line-2em">Item #2</a><br>
-												<a href="/loja-{$ID}/search/?s=produto" class="Line-2em">Item #3</a><br>
-												<a href="/loja-{$ID}/search/?s=produto" class="Line-2em">Item #4</a><br>
-												<a href="/loja-{$ID}/search/?s=produto" class="Line-2em">Item #5</a><br>
-												<a href="/loja-{$ID}/search/?s=produto" class="Line-2em">Item #6</a><br>
-												<a href="/loja-{$ID}/search/?s=produto" class="Line-2em">Item #7</a><br>
-												<a href="/loja-{$ID}/search/?s=produto" class="Line-2em">Item #8</a><br>
-												<a href="/loja-{$ID}/search/?s=produto" class="Line-2em">Item #9</a><br>
-												<a href="/loja-{$ID}/departaments/" class="Line-2em">Ver Todos</a>
-											</div>
-
-										</div>
-
-									</ul>
-
-								</li>
+								{/if}
 
 							</ul>
 
 						</li>
 
-						<li class="nav-item text-break">
 
-							<a class="btn {$layout.btnH2Layout} rounded-pill px-btn text-light" href="/loja-{$ID}/departaments/">Bebidas</a>
-							<a class="btn {$layout.btnH2Layout} rounded-pill px-btn text-light" href="/loja-{$ID}/promotions/">Promoções</a>
-							<a class="btn {$layout.btnH2Layout} rounded-pill px-btn text-light" href="/loja-{$ID}/promotions/">Cupons</a>
-							<a class="btn {$layout.btnH2Layout} rounded-pill px-btn text-light" href="/loja-{$ID}/departaments/">Churrasco</a>
-							<a class="btn {$layout.btnH2Layout} rounded-pill px-btn text-light" href="/loja-{$ID}/help/">Dúvidas</a>
-							<a class="btn {$layout.btnH2Layout} rounded-pill px-btn text-light" href="/loja-{$ID}/departaments/">Cervejas</a>
-							<a class="btn {$layout.btnH2Layout} rounded-pill px-btn text-light" href="/loja-{$ID}/departaments/">Frutas</a>
+						<li class="nav-item text-break d-flex col-md-11">
+							
+							{loop="$layoutHeader"}
+							<a class='btn btn-main-site-header text-site-header flex-fill text-light {if="$value.status == 0"}invisible{/if}' href="{$value.link}">{$value.description}</a>
+							{/loop}
 
 						</li>
 
@@ -471,49 +503,25 @@
 
 				</div>
 			</nav>
-	  	</div>  
+			</div>  
 	</section>
-	
+		
 	{else}
 
-	<section class="{$layout.bgLayout}  sticky-top">
+		<section class="bg-site-header sticky-top">
 		
-		<div class="abs-center-x bcg-ini">
-
-			<nav class="navbar navbar-expand-lg sticky-top bar-ini">
-
-				<a href="/" class="navbar-brand {$layout.txLayout}  abs-center-x">
-					<img src="/resources/imgs/logos/logo.png" alt="Logo Astemac" width="240px" height="66px" class="img-fluid">
-				</a>
-				
-				<!--
-					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="{$layout.txLayout} "><i class="fas fa-bars"></i></span>
-					</button>
-
-					<div class="collapse navbar-collapse" id="navbarSupportedContent">
-					
-						<ul class="navbar-nav mr-auto"> </ul>
-
-						<form class="form-inline my-2 my-lg-0">
-
-							<ul class="navbar-nav mr-auto">
-						
-								<li class="nav-item">
-									<a class="nav-link {$layout.txLayout} " href="#"><i class="fas fa-user"></i></a>
-								</li>
-							
-							</ul>	
-					
-						</form>
-				
-					</div> 
-				-->
+			<div class="abs-center-x bcg-ini">
+	
+				<nav class="navbar navbar-expand-lg sticky-top bar-ini bg-site-header">
+	
+					<a href="/" class="navbar-brand abs-center-x">
+						<img src="{$imgs.0.src}" alt="Logo Astemac" width="240px" height="66px" class="img-fluid">
+					</a>
+			
+				</nav>
 		
-			</nav>
-	
-		</div>
-	
-	</section>	
+			</div>
+		
+		</section>	
 
 	{/if}

@@ -1,0 +1,1 @@
+{    "freight" : {        "0" : {             "name" : "Normal",             "value" : 10.5,             "status" : 0         },         "1" : {             "name" : "Express",             "value" : 10.5,             "status" : 1         }     } }

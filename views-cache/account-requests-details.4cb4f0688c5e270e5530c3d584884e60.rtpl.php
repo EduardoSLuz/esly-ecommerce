@@ -3,11 +3,11 @@
 		<div class="ct-ini mt-mobNavbar">
 			
 			<nav aria-label="breadcrumb" class="bar-display">
-				<ol class="breadcrumb bg-white">
-				  <li class="breadcrumb-item"><a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/">Home</a></li>
-				  <li class="breadcrumb-item"><a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/account/requests/">Account</a></li>
-				  <li class="breadcrumb-item"><a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/account/requests/">Requests</a></li>
-				  <li class="breadcrumb-item active" aria-current="page">Request #1</li>
+				<ol class="breadcrumb bg-site-section">
+				  <li class="breadcrumb-item"><a href="/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/" class="text-link-site-section">Home</a></li>
+				  <li class="breadcrumb-item"><a href="/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/account/requests/" class="text-link-site-section">Conta</a></li>
+				  <li class="breadcrumb-item"><a href="/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/account/requests/" class="text-link-site-section">Pedidos</a></li>
+				  <li class="breadcrumb-item text-link-site-section" aria-current="page">Pedido #<?php echo htmlspecialchars( $orders["0"]["idOrder"], ENT_COMPAT, 'UTF-8', FALSE ); ?></li>
 				</ol>
 			</nav>
 
@@ -15,82 +15,100 @@
 
 				<div class="col-md-3 bar-display">
 					
-					<div class="list-group">
-						<a class="list-group-item list-group-item-action py-4 font-weight-light">
-							<span class="h5 font-weight-normal">User</span>
-							<span><br>9 de Julho de 2020 às 14:40</span>
-						</a>
-						<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/account/requests/" class="list-group-item list-group-item-action"><i class="fas fa-shopping-bag"></i> Pedidos</a>
-						<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/account/shopping-list/" class="list-group-item list-group-item-action"><i class="far fa-heart"></i> Lista de compra</a>
-						<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/account/data/" class="list-group-item list-group-item-action"><i class="far fa-user"></i> Meus dados</a>
-						<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/account/address/" class="list-group-item list-group-item-action"><i class="fas fa-map-marker-alt"></i> Endereços</a>
-						<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/logout/" class="list-group-item list-group-item-action"><i class="fas fa-sign-out-alt"></i> Sair</a>
-					</div>
+					<?php require $this->checkTemplate("accountLinks");?>
 
 				</div>
 
 				<div class="col-md">
-					<p class="h4 font-weight-normal">Pedidos #1</p>
+					<p class="h4 font-weight-normal text-second-site-section">
+						Pedido #<?php echo htmlspecialchars( $orders["0"]["idOrder"], ENT_COMPAT, 'UTF-8', FALSE ); ?> - <?php echo date("H:i", strtotime($orders["0"]["timeInsert"])); ?> <?php echo date("d/m/Y", strtotime($orders["0"]["dateInsert"])); ?>
+					</p>
 
 					<div class="mt-3">
-						<table class="table table-hover tx-IconCart mb-0">
+						<table class="table table-hover tx-IconCart mb-0 bg-white">
 							<tbody>
 								<tr>
-									<td class="p-4">
+									<td class="py-4 px-3 text-second-site-section">
 										<p>
 											<span>Loja:</span>
-											<span><br>Loja 01</span>
+											<span><br>Loja <?php echo htmlspecialchars( $orders["0"]["infoStore"]["store"], ENT_COMPAT, 'UTF-8', FALSE ); ?></span>
 										</p>
 			
 										<p>
 											<span>Endereço:</span>
-											<span><br>Rua Itaberaba 740, Bairro Centro, 88000-000 - Florianópolis/SC</span>
+											<span><br>
+												<?php echo htmlspecialchars( $orders["0"]["address"]["0"]["street"], ENT_COMPAT, 'UTF-8', FALSE ); ?>, <?php echo htmlspecialchars( $orders["0"]["address"]["0"]["number"], ENT_COMPAT, 'UTF-8', FALSE ); ?> - <?php echo htmlspecialchars( $orders["0"]["address"]["0"]["district"], ENT_COMPAT, 'UTF-8', FALSE ); ?>, <?php echo htmlspecialchars( $orders["0"]["address"]["0"]["city"], ENT_COMPAT, 'UTF-8', FALSE ); ?> - <?php echo htmlspecialchars( $orders["0"]["address"]["0"]["uf"], ENT_COMPAT, 'UTF-8', FALSE ); ?>, <?php echo maskCep($orders["0"]["address"]["0"]["cep"]); ?>
+											</span>
 										</p>
 			
 										<p>
 											<span>Fone:</span>
-											<span><br>(00) 00000-0000</span>
+											<span><br>
+												<?php if( $orders["0"]["infoStore"]["telephoneStore"] != 0 ){ ?> <?php echo maskTel($orders["0"]["infoStore"]["telephoneStore"]); ?> <?php }else{ ?> <b>Sem Telefone</b> <?php } ?>
+											</span>
 										</p>
 			
 										<p>
 											<span>Whatsapp:</span>
-											<span><br>(00) 00000-0000</span>
+											<span><br>
+												<?php if( $orders["0"]["infoStore"]["whatsappStore"] != 0 ){ ?> <?php echo maskTel($orders["0"]["infoStore"]["whatsappStore"]); ?> <?php }else{ ?> <b>Sem Whatsapp</b> <?php } ?>
+											</span>
 										</p>
 			
 										<p>
 											<span>Email:</span>
-											<span><br>Suporte@email.com</span>
+											<span><br>
+												<?php if( $orders["0"]["infoStore"]["emailStore"] != '' ){ ?> <?php echo htmlspecialchars( $orders["0"]["infoStore"]["emailStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?> <?php }else{ ?> <b>Sem e-mail</b> <?php } ?>
+											</span>
 										</p>
 									</td>
-									<td class="p-4">
+									<td class="p-4 text-second-site-section">
 										<p class="font-weight-bold">
 											<span>Status do pedido:</span>
-											<span class="text-danger"><br>Pendente</span>
+											<span class='<?php if( $orders["0"]["idOrderStatus"] < 6 ){ ?>text-primary<?php } ?> <?php if( $orders["0"]["idOrderStatus"] == 9 ){ ?>text-danger<?php } ?> <?php if( $orders["0"]["idOrderStatus"] >= 6 && $orders["0"]["idOrderStatus"] <= 7 ){ ?>text-success<?php } ?>'><br>
+												<?php echo htmlspecialchars( $orders["0"]["descStatus"], ENT_COMPAT, 'UTF-8', FALSE ); ?>
+											</span>
 										</p>
 			
 										<p>
 											<span>Modalidade:</span>
-											<span class="h6"><br>Entregar</span>
+											<span class="h6"><br>
+												<?php if( $orders["0"]["typeModality"] == 1 ){ ?>
+												Retirada
+												<?php }else{ ?>
+												Entrega - <i><u><?php if( $orders["0"]["typeFreight"] == 0 ){ ?>Normal<?php }else{ ?>Express<?php } ?></u></i>
+												<?php } ?>
+											</span>
 										</p>
 			
 										<p>
 											<span>Forma de pagamento:</span>
-											<span><br>Elo</span>
+											<span><br>
+												<b><?php echo htmlspecialchars( $orders["0"]["payment"]["pay"], ENT_COMPAT, 'UTF-8', FALSE ); ?> <?php if( $orders["0"]["payment"]["pay"] == 'Dinheiro' ){ ?>- Troco para R$ <?php echo maskPrice($orders["0"]["changePay"]); ?><?php } ?></b>
+											</span>
 										</p>
 			
 										<p>
-											<span>Reagendamento para:</span>
-											<span><br>20 de Julho de 2020: 08:00 as 12:00</span>
+											<span>Agendamento para:</span>
+											<span><br>
+												<?php echo ucwords(strftime('%d ', strtotime($orders["0"]["dateHorary"]))); ?> de 
+												<?php echo ucwords(strftime('%B', strtotime($orders["0"]["dateHorary"]))); ?> de 
+												<?php echo ucwords(strftime('%Y', strtotime($orders["0"]["dateHorary"]))); ?> 
+												- <?php echo date('H:i', strtotime($orders["0"]["timeInitial"])); ?> às <?php echo date('H:i', strtotime($orders["0"]["timeFinal"])); ?></span>
 										</p>
 			
+										<?php if( $orders["0"]["typeModality"] == 2 ){ ?>
 										<p>
 											<span>Endereço de entrega:</span>
-											<span><br>Shis Qi 27, Bairro Conjunto 6, 88000000 - Brasília - Ponto de Referência perto do shopping</span>
+											<span><br>
+												<?php echo htmlspecialchars( $orders["0"]["address"]["1"]["street"], ENT_COMPAT, 'UTF-8', FALSE ); ?>, <?php echo htmlspecialchars( $orders["0"]["address"]["1"]["number"], ENT_COMPAT, 'UTF-8', FALSE ); ?> - <?php echo htmlspecialchars( $orders["0"]["address"]["1"]["district"], ENT_COMPAT, 'UTF-8', FALSE ); ?>, <?php echo htmlspecialchars( $orders["0"]["address"]["1"]["city"], ENT_COMPAT, 'UTF-8', FALSE ); ?> - <?php echo htmlspecialchars( $orders["0"]["address"]["1"]["uf"], ENT_COMPAT, 'UTF-8', FALSE ); ?>, <?php echo maskCep($orders["0"]["address"]["1"]["cep"]); ?>
+											</span>
 										</p>
+										<?php } ?>
 			
 										<p>
-											<span>Nome de quem receberá as compras:</span>
-											<span><br>Eduardo luz</span>
+											<span>Nome de quem <?php if( $orders["0"]["typeModality"] == 2 ){ ?>receberá<?php }else{ ?>retirará<?php } ?> as compras:</span>
+											<span><br><?php echo htmlspecialchars( $orders["0"]["nameRes"], ENT_COMPAT, 'UTF-8', FALSE ); ?></span>
 										</p>
 									</td>
 								</tr>
@@ -98,55 +116,104 @@
 						</table>
 					</div>
 
-					<div class="table-responsive-lg">
-						<table class="table table-sm table-hover tx-IconCart text-truncate">
+					<?php if( isset($orders["0"]["status"]) && is_array($orders["0"]["status"]) ){ ?>
+					<div class="table-responsive-lg my-0">
+
+						<table class="table">
+							<thead>
+								<tr>
+									<td class="d-flex justify-content-center text-center">
+										
+										<?php $counter1=-1;  if( isset($orders["0"]["status"]) && ( is_array($orders["0"]["status"]) || $orders["0"]["status"] instanceof Traversable ) && sizeof($orders["0"]["status"]) ) foreach( $orders["0"]["status"] as $key1 => $value1 ){ $counter1++; ?>
+										<div class="px-4">
+											<p class="my-0 h1 text-success"><i class="far fa-check-circle"></i></p>
+											<span class="text-second-site-section"><i><?php echo htmlspecialchars( $value1["name"], ENT_COMPAT, 'UTF-8', FALSE ); ?></i></span>
+											<p class="my-0 text-second-site-section"><small>
+												<?php echo date('d/m/Y', strtotime($value1["date"])); ?>
+												<?php echo date('H:i', strtotime($value1["time"])); ?> 
+											</small></p>
+										</div>
+										<?php } ?>
+
+									</td>
+								</tr>
+							</thead>	
+						</table>
+
+					</div>
+					<?php } ?>
+
+					<div class="table-responsive scroll-null table-ini-sm">
+						<table class="table table-hover text-truncate bg-white border">
 							<thead>
 							  <tr class="text-center">
-								<th class="font-weight-normal text-left">Item</th>
-								<th class="font-weight-normal">Observação</th>
-								<th class="font-weight-normal">Quantidade</th>
-								<th class="font-weight-normal">Preço unidade</th>
-								<th class="font-weight-normal">Subtotal</th>
+								<th class="font-weight-normal border-right text-second-site-section">Item</th>
+								<th class="font-weight-normal border-right text-second-site-section">Similar</th>
+								<th class="font-weight-normal border-right text-second-site-section">Preço unidade</th>
+								<th class="font-weight-normal border-right text-second-site-section">Quantidade</th>
+								<th class="font-weight-normal border-right text-second-site-section">Subtotal</th>
+								<th class="font-weight-normal border-right text-second-site-section">Desconto</th>
+								<th class="font-weight-normal border-right text-second-site-section">Total</th>
 							  </tr>
 							</thead>
 							<tbody>
-								<tr class="cursorPointer text-center" onclick="window.location.assign('/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/produto/')">
-									<th scope="row" class="py-2 text-left">
-										<a class="font-weight-normal">
-											PANETTONE ARCOR PREMIUM CHOCOLATE 530G
+								<?php $counter1=-1;  if( isset($orders["0"]["cart"]["items"]) && ( is_array($orders["0"]["cart"]["items"]) || $orders["0"]["cart"]["items"] instanceof Traversable ) && sizeof($orders["0"]["cart"]["items"]) ) foreach( $orders["0"]["cart"]["items"] as $key1 => $value1 ){ $counter1++; ?>
+								<tr class="cursorPointer text-center" onclick="window.location.assign('/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/<?php echo htmlspecialchars( $value1["descProduct"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/')">
+									<th scope="row" class="py-2">
+										<a class="font-weight-normal text-second-site-section">
+											<?php echo htmlspecialchars( $value1["descProduct"], ENT_COMPAT, 'UTF-8', FALSE ); ?>
 										</a>
 									</th>
 									<td class="py-2">
-										<a class="text-decoration-none text-danger h5"> - </a>
+										<a class="text-decoration-none text-second-site-section"> <i class='<?php if( $value1["similar"] == 1 ){ ?>fas fa-check<?php }else{ ?>fas fa-times<?php } ?>'></i> </a>
 									</td>
 									<td class="py-2">
-										<a class="text-decoration-none text-dark">1</a>
+										<a class="text-decoration-none text-second-site-section">
+											R$ <?php echo maskPrice($value1["priceItem"]); ?>
+										</a>
 									</td>
 									<td class="py-2">
-										<a class="text-decoration-none text-dark">
-											R$ 9,90
+										<a class="text-decoration-none text-second-site-section"><?php echo htmlspecialchars( $value1["quantity"], ENT_COMPAT, 'UTF-8', FALSE ); ?></a>
+									</td>
+									<td class="py-2">	
+										<a class="text-decoration-none text-second-site-section">
+											R$ <?php echo maskPrice($value1["priceItem"] * $value1["quantity"]); ?>
 										</a>
 									</td>
 									<td class="py-2">	
-										<a class="text-decoration-none text-dark">
-											R$ 9,90
+										<a class="text-decoration-none text-second-site-section">
+											R$ <?php echo maskPrice($value1["discount"]); ?>
+										</a>
+									</td>
+									<td class="py-2">	
+										<a class="text-decoration-none text-second-site-section">
+											R$ <?php echo maskPrice($value1["totalItem"]); ?>
 										</a>
 									</td>
 								</tr>
+								<?php } ?>
 							</tbody>
 						</table>
 					</div>
 
-					<div class="row">
+					<div class="row my-2">
+						
 						<div class="col-6">
-							<button type="button" class="btn btn-sm btn-primary"><i class="fas fa-shopping-cart"></i> Recomprar Itens</button>
+
+							<?php if( $orders["0"]["idOrderStatus"] >= 2 && $orders["0"]["idOrderStatus"] < 5 ){ ?>
+							<button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modalOrderCancel" data-id="<?php echo htmlspecialchars( $orders["0"]["idOrder"], ENT_COMPAT, 'UTF-8', FALSE ); ?>"><i class="fas fa-times"></i> Cancelar Pedido</button>
+							<?php } ?>
+
 						</div>
 						
 						<div class="col-6 text-right">
-							<p class="tx-IconCart">
-								<span>Valor dos itens: R$ 9,90</span>
-								<span><br>Frete + agendamento: R$ 10,00</span>
-								<span class="font-weight-bold"><br>TOTAL: R$ 14,90</span>
+							<p class="tx-IconCart text-second-site-section">
+								<span>Valor dos itens: R$ <?php echo maskPrice($orders["0"]["cart"]["totalCart"]); ?></span>
+								<span><br>Frete + agendamento: R$ <?php echo maskPrice($orders["0"]["priceFreight"] + $orders["0"]["priceHorary"]); ?></span>
+								<?php if( ($orders["0"]["discount"] - $orders["0"]["cart"]["discountCart"]) > 0 ){ ?>
+								<span><br>Desconto: R$ <?php echo maskPrice($orders["0"]["discount"] - $orders["0"]["cart"]["discountCart"]); ?></span>
+								<?php } ?>
+								<span class="font-weight-bold"><br>TOTAL: R$ <?php echo maskPrice($orders["0"]["total"]); ?></span>
 							</p>
 						</div>	
 					</div>
@@ -159,195 +226,4 @@
 
 	</section>
 	
-	<div id="mySidenav" class="sidenav shadow cart-BtnFloat">
-		<a href="javascript:void(0)" class="closebtn text-dark" onclick="closeNav()">
-			<i class="fas fa-times h4"></i>
-		</a>
-		
-		<div class="mx-3">
-				
-			<div class="list-group">
-				<a class="list-group-item list-group-item-action py-4 font-weight-light">
-					<span class="h5 font-weight-normal">User</span>
-					<span><br>9 de Julho de 2020 às 14:40</span>
-				</a>
-				<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/account/requests/" class="list-group-item list-group-item-action"><i class="fas fa-shopping-bag"></i> Pedidos</a>
-				<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/account/shopping-list/" class="list-group-item list-group-item-action"><i class="far fa-heart"></i> Lista de compra</a>
-				<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/account/data/" class="list-group-item list-group-item-action"><i class="far fa-user"></i> Meus dados</a>
-				<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/account/address/" class="list-group-item list-group-item-action"><i class="fas fa-map-marker-alt"></i> Endereços</a>
-				<a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/logout/" class="list-group-item list-group-item-action"><i class="fas fa-sign-out-alt"></i> Sair</a>
-			</div>
-			
-		</div>
-
-	</div>
-
-	<!-- MODALS PAGE INICIO -->
-
-		<!-- MODAL ALTER STORES -->
-		<div class="modal fade" id="ModalAlterStores" tabindex="-1" role="dialog" aria-labelledby="ModalAlterStores" aria-hidden="true">
-			
-			<div class="modal-dialog modal-dialog-centered modal-sm">
-			 
-				<div class="modal-content">
-				
-					<div class="modal-header border-bottom-0">
-				  
-						<button type="button" class="close btn btn-light p-2" data-dismiss="modal" aria-label="Close">
-							<i class="fas fa-times"></i>
-						</button>
-				
-					</div>
-				
-					<div class="modal-body">
-						
-						<h4 class="text-center">
-							Seja bem vindo!
-						</h4>
-
-						<p>
-							Em qual das lojas você deseja acessar?
-						</p>
-						
-						<select name="SelectStoresModal" id="SelectStoresModal" class="custom-select">
-							<option value="1">Loja 01</option>
-							<option value="2">Loja 02</option>
-							<option value="3">Loja 03</option>
-						</select>
-						
-						<button class="btn btn-primary text-white w-100 mt-3">Acessar</button>
-
-						<p class="mt-2">
-							Não encontrou a loja? No momento, o serviço de delivery está atendendo à algumas regiões.
-						</p>
-
-						<p>
-							Conheça todas as lojas disponíveis para as compras.
-						</p>
-						
-					</div>
-			  
-				</div>
-			
-			</div>
-		  
-		</div>
-
-		<!-- MODAL CONSULTATION REGIONS  -->
-		<div class="modal fade" id="ModalConsultationRegions" tabindex="-1" role="dialog" aria-labelledby="ModalConsultationRegions" aria-hidden="true">
-			
-			<div class="modal-dialog modal-dialog-centered modal-sm">
-			 
-				<div class="modal-content">
-				
-					<div class="modal-header border-bottom-0 pb-2">
-						
-						<h5 class="text-left">
-							<i class="fas fa-truck"></i> Regiões Atendidas
-						</h5>
-
-						<button type="button" class="close btn btn-light p-2" data-dismiss="modal" aria-label="Close">
-							<i class="fas fa-times"></i>
-						</button>
-				
-					</div>
-				
-					<div class="modal-body py-0">
-						
-						<h5 class="font-weight-normal">Loja 01</h5>
-						<hr>
-
-						<ul class="txList-StyleNone text-left">
-							<li><i class="fas fa-map-marker-alt"></i> Centro</li>
-							<li><i class="fas fa-map-marker-alt"></i> Jardim Noroeste</li>
-							<li><i class="fas fa-map-marker-alt"></i> Jardim São Conrado</li>
-							<li><i class="fas fa-map-marker-alt"></i> Nova Bahia</li>
-							<li><i class="fas fa-map-marker-alt"></i> Tiradentes</li>
-						</ul>
-						
-						
-					</div>
-			  
-				</div>
-			
-			</div>
-		  
-		</div>
-
-		<!-- MODAL CONSULTATION HORARY  -->
-		<div class="modal fade" id="ModalConsultationHorary" tabindex="-1" role="dialog" aria-labelledby="ModalConsultationHorary" aria-hidden="true">
-			
-			<div class="modal-dialog modal-lg">
-			 
-				<div class="modal-content">
-				
-					<div class="modal-header border-bottom-0">
-
-						<button type="button" class="close btn btn-light p-2" data-dismiss="modal" aria-label="Close">
-							<i class="fas fa-times"></i>
-						</button>
-				
-					</div>
-				
-					<div class="modal-body">
-						
-						<div class="row">
-
-							<div class="col-md">
-								
-								<p class="h5">
-									Horários de retirada
-								</p>
-
-								<p class="mt-3">
-									<b>Segunda-Feira:</b><br>
-									09:00 - 12:00<br>
-									14:00 - 18:00
-								</p>
-
-								<p>
-									<b>Terça-Feira até Sexta-Feira:</b><br>
-									08:00 - 12:00<br>
-									13:00 - 20:00
-								</p>
-
-								<p>
-									<b>Sábado e Domingo</b><br>
-									09:00 - 15:00<br>
-									
-								</p>
-
-							</div>
-
-							<div class="col-md">
-								
-								<p class="h5">
-									Horários de Entrega
-								</p>
-
-								<label for="SelectRegionModal">Escolha um região:</label><br>
-								<div class="input-group">
-									
-									<select id="SelectRegionModal" class="custom-select">
-										<option>Centro</option>
-										<option>Jardim Noroeste</option>
-										<option>Jardim São Conrado</option>
-									</select>
-
-									<div class="input-group-append">
-										<button type="button" class="btn btn-primary"><i class="fas fa-search"></i></button>
-									</div>
-								</div>
-
-
-							</div>
-
-						</div>
-						
-					</div>
-			  
-				</div>
-			
-			</div>
-		  
-		</div>
+	<?php require $this->checkTemplate("accountBar");?>

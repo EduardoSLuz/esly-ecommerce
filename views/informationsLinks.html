@@ -1,31 +1,31 @@
 <div class="list-group">
 
-	{if="$storeInstitution.0.infoStore == 1"}
-		<a href="/loja-{$ID}/info/" class="infoStore list-group-item list-group-item-action">Sobre a empresa</a>
+	{if="$storeInstitution.0.lyInfo1 == 1"}
+		<a href="/loja-{$ID}/info/" class="lyInfo1 list-group-item list-group-item-action">Sobre a empresa</a>
 	{/if}
 
-	{if="$storeInstitution.0.allStore == 1"}
-		<a href="/loja-{$ID}/our-stores/" class="allStore list-group-item list-group-item-action">Nossas Lojas</a>
+	{if="$storeInstitution.0.lyInfo2 == 1"}
+		<a href="/loja-{$ID}/our-stores/" class="lyInfo2 list-group-item list-group-item-action">Nossas Lojas</a>
 	{/if}
 
-	{if="$storeInstitution.0.partnerStore == 1"}
-		<a href="/loja-{$ID}/partners/" class="partnerStore list-group-item list-group-item-action">Parceiros</a>
+	{if="$storeInstitution.0.lyInfo3 == 1"}
+		<a href="/loja-{$ID}/partners/" class="lyInfo3 list-group-item list-group-item-action">Parceiros</a>
 	{/if}
 
-	{if="$storeInstitution.0.helpStore == 1"}
-		<a href="/loja-{$ID}/help/" class="helpStore list-group-item list-group-item-action">Perguntas Frequentes</a>
+	{if="$storeInstitution.0.lyInfo4 == 1"}
+		<a href="/loja-{$ID}/help/" class="lyInfo4 list-group-item list-group-item-action">Perguntas Frequentes</a>
 	{/if}
 	
-	{if="$storeInstitution.0.contactStore == 1"}
-		<a href="/loja-{$ID}/contact/" class="contactStore list-group-item list-group-item-action">Fale Conosco</a>
+	{if="$storeInstitution.0.lyInfo6 == 1"}
+		<a href="/loja-{$ID}/contact/" class="lyInfo6 list-group-item list-group-item-action">Fale Conosco</a>
 	{/if}
 	
-	{if="$storeInstitution.0.workStore == 1"}
-		<a href="/loja-{$ID}/contact-work/" class="workStore list-group-item list-group-item-action">Trabalhe Conosco</a>
+	{if="$storeInstitution.0.lyInfo7 == 1"}
+		<a href="/loja-{$ID}/contact-work/" class="lyInfo7 list-group-item list-group-item-action">Trabalhe Conosco</a>
 	{/if}
 
-	{if="$storeInstitution.0.promotionStore == 1"}
-		<a href="/loja-{$ID}/promotions/" class="promotionStore list-group-item list-group-item-action">Promoções</a>
+	{if="$storeInstitution.0.lyInfo5 == 1"}
+		<a href="/loja-{$ID}/promotions/" class="lyInfo5 list-group-item list-group-item-action">Promoções</a>
 	{/if}
 
 </div>
@@ -34,8 +34,8 @@
 	var x = document.getElementsByClassName("{$info}");
 
 	for (var i = 0; i < x.length; i++) {
-		x[i].classList.add("list-group-item-{$layout.colorLayout}"); 
-		x[i].classList.add("active"); 
+		x[i].classList.add("btn-main-site-section"); 
+		x[i].classList.add("text-btn-site-section"); 
 	}
 	
 </script>

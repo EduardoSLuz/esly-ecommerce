@@ -1,0 +1,13 @@
+/* Scroll */
+::-webkit-scrollbar 
+{
+	width: 1px;
+	height: 2.5px;
+}
+  
+::-webkit-scrollbar-thumb 
+{
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: lightgray; 
+}

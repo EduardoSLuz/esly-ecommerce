@@ -414,7 +414,7 @@
                             <tr>
                               <td class="body-signature-cell">
                                 <p>Obrigado!</p>
-                                <p class="body-signature"><img src="http://{$store.HTTP}/resources/clients/{$store.nameBase}/imgs/logo.png" alt="Logo"></p>
+                                <p class="body-signature"><img src="http://{$store.HTTP}/resources/clients/{$store.nameBase}/stores/loja-{$store.ID}/imgs/logo.png" alt="Logo"></p>
                               </td>
                             </tr>
                           </table>
@@ -437,12 +437,17 @@
           <td class="container">
             <div class="content">
               <span class="footer-group">
-                {if="count($store.social) > 0"}
-                {loop="$store.social"}
-                <a href="{$value.linkSocial}">{$value.nameSocial} | </a>
-                {/loop}
+                {if="isset($store.social.0) && count($store.social.0) > 0"}
+                {loop="$store.social.0"}
+                
+                {if="$value.idSocialType != 5 && $value.idSocialType != 6"}
+                <a href="{$value.link}">{$value.name} | </a>
                 {/if}
-                <a href="https://astemac.com.br">Astemac</a>
+
+                {/loop}
+
+                {/if}
+                <a href="https://astemac.com.br"><i>Astemac</i></a>
               </span>
             </div>
           </td>

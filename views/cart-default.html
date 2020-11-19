@@ -4,8 +4,8 @@
 			
 			<nav aria-label="breadcrumb" class="bar-display NoPrintabled">
 				<ol class="breadcrumb bg-white px-0">
-					<li class="breadcrumb-item"><a href="/loja-{$links.idStore}/">Home</a></li>
-					<li class="breadcrumb-item"><a href="/loja-{$links.idStore}/">Loja {$links.idStore}</a></li>
+					<li class="breadcrumb-item"><a href="/loja-{$ID}/">Home</a></li>
+					<li class="breadcrumb-item"><a href="/loja-{$ID}/">Loja {$ID}</a></li>
 				  	<li class="breadcrumb-item active" aria-current="page">Cart</li>
 				</ol>
 			</nav>
@@ -16,10 +16,12 @@
 					<p class="h4 font-weight-normal">Carrinho</p>
 
 					<p class="mt-4 h6 font-weight-normal text-secondary">
-						<i class="fas fa-store"></i> Unidade de atendimento: Loja {$links.idStore}
+						<i class="fas fa-store"></i> Unidade de atendimento: Loja {$ID}
 					</p>
 
-					<p class="h2 my-3 font-weight-normal">O carrinho está vazio</p>
+					<p class="h2 my-3 font-weight-normal">O carrinho está vazio
+						<a href="/loja-{$ID}/" class="btn btn-sm {$layout.btnH1Layout}">Fazer compras</a>
+					</p>
 
 				</div>
 

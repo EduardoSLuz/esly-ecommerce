@@ -15,7 +15,7 @@
 .DropDownIni-Menu
 {
 	width: 500px; 
-	height: 380px;  
+	height: 435px;  
 	overflow: hidden;
 }
 
@@ -171,7 +171,7 @@ input[type=number]::-webkit-inner-spin-button
 	/* Inputs */	
 	.ipt-barSearch
 	{ 
-		width: 40em;
+		width: 52em;
 	}
 	
 }
@@ -182,7 +182,7 @@ input[type=number]::-webkit-inner-spin-button
 	
 	/* Inputs */
 	.ipt-barSearch{ 
-		width: 40em;
+		width: 45em;
 	}
 	
 }
@@ -194,7 +194,7 @@ input[type=number]::-webkit-inner-spin-button
 	/* Inputs */
 	.ipt-barSearch
 	{ 
-		width: 45em;
+		width: 51.5em;
 	}
 	
 }

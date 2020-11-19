@@ -1,20 +1,5 @@
-    var SizeDesktop = window.matchMedia("(min-width: 992px)");
-	var SizeMobile = window.matchMedia("(max-width: 991px)");
-
-// Sidenav 
-/* Set the width of the side navigation to 250px */
-function openNav() {
-    document.getElementById("mySidenav").style.width = "90%";
-    $('.BtnsFloat').addClass("d-none");		
-
-}
-
-/* Set the width of the side navigation to 0 */
-function closeNav() {
-    document.getElementById("mySidenav").style.width = "0";
-    $('.BtnsFloat').removeClass("d-none");		
-
-} 
+var SizeDesktop = window.matchMedia("(min-width: 992px)");
+var SizeMobile = window.matchMedia("(max-width: 991px)");
     
 function showCart(IdCard, MySubCard, CardPr){
     
@@ -59,11 +44,16 @@ function alterPriceItem(cardPriceInt, cardPriceDec, newPriceInt, newPriceDec){
 
 function addItem(InputCard){
     var Item = parseInt(document.getElementById(InputCard).value, 10);
+    var Max = document.getElementById(InputCard).max;
     
-    if(Item <= 0 || !parseInt(Item)){
+    if(Max == ""){
+        Max = 999;
+    }
+    
+    if(Item <= 0 || !parseInt(Item || Item == Max)){
         Item = 1;
     }
-    else{
+    else if(Item < Max){
         Item = Item + 1;
     }
     
@@ -72,9 +62,16 @@ function addItem(InputCard){
 
 function removeItem(InputCard){
     var Item = parseInt(document.getElementById(InputCard).value, 10);
+    var Max = document.getElementById(InputCard).max;
     
+    if(Max == ""){
+        Max = 999;
+    }
+
     if(Item > 1){
         Item = Item - 1;
+    } else if(Item == Max){
+        Item = 1;
     }
         
     document.getElementById(InputCard).value = Item;
@@ -230,6 +227,10 @@ function ExitPopover(){
     $('#PopoverRemoveCart').popover('hide');
 }
 
+function alterText(id, text){
+    document.getElementById(id).innerHTML=text;
+}
+
 // Funções Page index
 function alterStores(select){
     var slt = document.getElementById(select);
@@ -314,3 +315,83 @@ $(document).ready(function(){
     }
     
  });
+
+ $('.selectType').on('click', function(e) {
+
+    $('.divSelect').addClass('d-none');
+    $('.titleSelect').addClass('font-weight-normal');
+    $('.selectType').removeClass('border-dark');
+    $('.selectType #iconCheck').removeClass();
+    $('.selectType .inputType').removeAttr('checked');
+
+    $(this.children[0]).removeClass('font-weight-normal');
+    $(this.children[1]).addClass('fas fa-check');
+    $(this.children[2]).prop('checked', true);
+    $(this).addClass('border-dark');
+    
+    $("#textType").text($(this).attr("data-text"));
+    $("#"+$(this).attr("data-div")).removeClass('d-none');
+
+});
+
+$('.selectFreigth').on('click', function(e) {
+
+    $('.selectFreigth').removeClass('border-dark');
+    $('.selectFreigth #iconCheck').removeClass();
+    $('.selectFreigth .inputFreigth').removeAttr('checked');
+
+    $(this.children[1]).addClass('fas fa-check');
+    $(this.children[2]).prop('checked', true);
+    $(this).addClass('border-dark');
+    
+});
+
+$('.selectAddress').on('click', function(e) {
+
+    $('.selectAddress').removeClass('border-dark');
+    $('.selectAddress #iconCheck').removeClass();
+    $('.selectAddress .inputAddress').removeAttr('checked');
+
+    $(this.children[1]).addClass('fas fa-check');
+    $(this.children[2]).prop('checked', true);
+    $(this).addClass('border-dark');
+    
+});
+
+$('.selectHorary').on('click', function(e) {
+
+    $('.selectHorary').removeClass('border-dark');
+    $('.selectHorary .inputType').removeAttr('checked');
+    $('.selectHorary .inputDate').removeAttr('checked');
+
+    $(this.children[0]).prop('checked', true);
+    $(this.children[1]).prop('checked', true);
+    $(this).addClass('border-dark');
+});
+
+$('.selectPay').on('click', function(e) {
+
+    $('.divPay').addClass('d-none');
+    $('.titleSelect').addClass('font-weight-normal');
+    $('.selectPay').removeClass('border-dark');
+    $('.selectPay #iconCheck').removeClass();
+    $('.selectPay .inputType').removeAttr('checked');
+    $('#inputMoney').val(0);
+    $('#inputMoney').prop('disabled', true);
+
+    $(this.children[0]).removeClass('font-weight-normal');
+    $(this.children[1]).addClass('fas fa-check');
+    $(this.children[2]).prop('checked', true);
+    $(this).addClass('border-dark');
+    
+    $("#div"+$(this).attr("data-div")).removeClass('d-none');
+
+    if($(this).attr("data-div") == 'Dinheiro'){
+        $('#inputMoney').removeAttr('disabled');
+    }
+
+});
+
+// click me
+$(".clickMe").click();
+$(".clickMe").removeClass("clickMe");

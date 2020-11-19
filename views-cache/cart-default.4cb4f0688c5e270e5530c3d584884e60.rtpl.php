@@ -4,8 +4,8 @@
 			
 			<nav aria-label="breadcrumb" class="bar-display NoPrintabled">
 				<ol class="breadcrumb bg-white px-0">
-					<li class="breadcrumb-item"><a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/">Home</a></li>
-					<li class="breadcrumb-item"><a href="/loja-<?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/">Loja <?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?></a></li>
+					<li class="breadcrumb-item"><a href="/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/">Home</a></li>
+					<li class="breadcrumb-item"><a href="/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/">Loja <?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?></a></li>
 				  	<li class="breadcrumb-item active" aria-current="page">Cart</li>
 				</ol>
 			</nav>
@@ -16,10 +16,12 @@
 					<p class="h4 font-weight-normal">Carrinho</p>
 
 					<p class="mt-4 h6 font-weight-normal text-secondary">
-						<i class="fas fa-store"></i> Unidade de atendimento: Loja <?php echo htmlspecialchars( $links["idStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>
+						<i class="fas fa-store"></i> Unidade de atendimento: Loja <?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>
 					</p>
 
-					<p class="h2 my-3 font-weight-normal">O carrinho está vazio</p>
+					<p class="h2 my-3 font-weight-normal">O carrinho está vazio
+						<a href="/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/" class="btn btn-sm <?php echo htmlspecialchars( $layout["btnH1Layout"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">Fazer compras</a>
+					</p>
 
 				</div>
 

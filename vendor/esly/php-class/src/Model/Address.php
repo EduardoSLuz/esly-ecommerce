@@ -38,28 +38,62 @@ class Address extends Model {
 	{	
 
 		$array = [];
-		$ct = 0;
 
-		$param = [ ":EMAIL" => strtolower($_SESSION[User::SESSION]['emailUser']) ];
+		$param = [ ":ID" => User::getId() ];
 
-		$code = $id !== 0 ? "AND ad.idAddress = :CODE" : "";
-		if($id !== 0) $param[':CODE'] = User::decryptCode($id); 
+		$code = $id !== 0 ? "AND idAddress = :CODE" : "";
+		if($id !== 0) $param[':CODE'] = !is_numeric($id) ? Address::decryptCode($id) : $id; 
 
 		$sql = new Sql($_SESSION[Sql::DB]);
 
-		$results = $sql->select("SELECT ad.idAddress, ad.street, ad.number, ad.district, ad.cep, ad.complement, ad.reference, ad.mainAddress, ad.idCity, ct.nameCity, sts.nickState FROM address AS ad INNER JOIN city AS ct ON ad.idCity = ct.idCity INNER JOIN states AS sts ON ct.idState = sts.idState INNER JOIN user AS us ON ad.idUser = us.idUser WHERE us.emailUser = :EMAIL $code ORDER BY ad.idAddress DESC", $param);
+		$results = $sql->select("SELECT idAddress, street, number, district, cep, complement, reference, mainAddress, city, uf, codeCity FROM address WHERE idUser = :ID $code ORDER BY idAddress DESC", $param);
 
-		$array = $results;
+        if(is_array($results) && count($results) > 0)
+        {
 
-		foreach ($results as $key => $value) {
-			$ct += 1;
-			$array[$key]['idAddress'] = User::cryptCode($value['idAddress']);
-			$array[$key]['ID'] = $ct; 
-		}
+            foreach ($results as $key => $value) {
 
-		return $results > 0 ? $array : false;
+                $value['idAddress'] = User::cryptCode($value['idAddress']);
+		        $array[$key] = $value;
 
-	}
+            }
+    
+        }
+
+		return is_array($array) && count($array) > 0 ? $array : false;
+
+    }
+    
+    public static function listAddressFreigth($id = 0, $opts = [])
+    {
+
+        $ct = 0;
+        $array = [];
+
+        $select = Address::listAddress($id);
+
+        if(is_array($select) && count($select) > 0)
+        {
+
+            foreach ($select as $key => $value) {
+
+                $value['freight'] = Store::listFreightCep(["cep" => $value['cep'], "id" => $opts['store']], 1);
+                $value['code'] = $value['idAddress'];
+                $value['idAddress'] = Address::decryptCode($value['idAddress']);
+
+                $value['freight'] = is_array($value['freight']) && count($value['freight']) > 0 && isset($value['freight']['details'][$opts['type']]) && $value['freight']['details'][$opts['type']]['status'] == 1 ? floatval($value['freight']['details'][$opts['type']]['value']) : 0;
+
+                $ct += $value['freight'] != 0 ? 1 : 0;
+
+                $array[$key] = $value;
+
+            }
+
+        }
+
+        return is_array($array) && count($array) > 0 && $ct > 0 ? $array : 0;
+
+    }
 
 	public static function deleteAddress($code)
 	{
@@ -76,23 +110,36 @@ class Address extends Model {
 
 	public static function activeMainAddress($code, $num)
 	{
+        
+        $res = 0;
+        $code = !is_numeric($code) ? User::decryptCode($code) : $code;
+        $sql = new Sql($_SESSION[Sql::DB]);
 
-		$sql = new Sql($_SESSION[Sql::DB]);
+        $select = Address::listAddress($code);
 
-		if($num != 0)
-		{
-			$results = User::listAll();
+        if(is_array($select) && count($select) == 1)
+        {
 
-			$sql->query("UPDATE address SET mainAddress = :ID WHERE IdUser = :CODE", [
-				":ID" => 0,
-				":CODE" => $results['idUser']
-			]);
-		}
+            if($num >= 0 && $num <= 1)
+            {
 
-		$sql->query("UPDATE address SET mainAddress = :ID WHERE idAddress = :CODE", [
-			":ID" => $num,
-			":CODE" => User::decryptCode($code)
-		]);
+                $results = User::listAll();
+
+                $teste = $sql->count("UPDATE address SET mainAddress = :ID WHERE idUser = :CODE", [
+                    ":ID" => 0,
+                    ":CODE" => $results['idUser']
+                ]);
+
+            }
+
+            $res = $sql->count("UPDATE address SET mainAddress = :ID WHERE idAddress = :CODE", [
+                ":ID" => $num,
+                ":CODE" => $code
+            ]);
+
+        }
+        
+        return $res == 1 ? true : false;
 
     }
 
@@ -115,9 +162,8 @@ class Address extends Model {
 
 		$sql = new Sql($_SESSION[Sql::DB]);
 
-        $results = $sql->count("UPDATE address SET idCity = :CITY, street = :STREET, number = :NUMBER, district = :DISTRICT, cep = :CEP, complement = :COMPLEMENT, reference = :REFERENCE, mainAddress = :MAINADD WHERE idAddress = :ID", [
+        $results = $sql->count("UPDATE address SET  street = :STREET, number = :NUMBER, district = :DISTRICT, cep = :CEP, complement = :COMPLEMENT, reference = :REFERENCE, mainAddress = :MAINADD, city = :CITY, uf = :UF, codeCity = :CODE WHERE idAddress = :ID", [
             ":ID" => Address::decryptCode($this->getidAddress()),
-            ":CITY" => $this->getcity(),
             ":STREET" => $this->getstreet(),
             ":NUMBER" => $this->getnumber(),
             ":DISTRICT" => $this->getdistrict(),
@@ -125,17 +171,14 @@ class Address extends Model {
             ":COMPLEMENT" => $this->getcomplement(),
             ":REFERENCE" => $this->getreference(),
             ":MAINADD" => $this->getmainAddress(),
+            ":CITY" => $this->getcity(),
+            ":UF" => $this->getuf(),
+            ":CODE" => $this->getcode()
         ]);
-
-        if($results > 0)
-        {
             
-            Address::setSuccessMsg("ENDEREÇO ATUALIZADO COM SUCESSO!");
-            Address::activeMainAddress($this->getidAddress(), $this->getmainAddress());
+        $res = Address::activeMainAddress($this->getidAddress(), $this->getmainAddress());
 
-        } else {
-		    Address::setErrorRegister("NADA FOI ATUALIZADO!");
-        }
+        return $results > 0 || $res ? true : false;
 
     }
 
@@ -144,11 +187,10 @@ class Address extends Model {
         
         $sql = new Sql($_SESSION[Sql::DB]);
 
-        $res = User::listAll();
+        $id = User::getId();
 
-        $results = $sql->count("INSERT INTO address (idCity, idUser, street, number, district, cep, complement, reference, mainAddress) VALUES (:CITY, :ID, :STREET, :NUMBER, :DISTRICT, :CEP, :COMPLEMENT, :REFERENCE, :MAINADD)", [
-            ":ID" => $res['idUser'],
-            ":CITY" => $this->getcity(),
+        $results = $sql->count("INSERT INTO address (idUser, street, number, district, cep, complement, reference, mainAddress, city, uf, codeCity) VALUES (:ID, :STREET, :NUMBER, :DISTRICT, :CEP, :COMPLEMENT, :REFERENCE, :MAINADD, :CITY, :UF, :CODE)", [
+            ":ID" => $id,
             ":STREET" => $this->getstreet(),
             ":NUMBER" => $this->getnumber(),
             ":DISTRICT" => $this->getdistrict(),
@@ -156,25 +198,65 @@ class Address extends Model {
             ":COMPLEMENT" => $this->getcomplement(),
             ":REFERENCE" => $this->getreference(),
             ":MAINADD" => $this->getmainAddress(),
+            ":CITY" => $this->getcity(),
+            ":UF" => $this->getuf(),
+            ":CODE" => $this->getcode()
         ]);
 
         if($results == 1)
         {
             
             $res = $sql->select("SELECT idAddress FROM address WHERE idUser = :ID ORDER BY idAddress DESC LIMIT 1", [
-                ":ID" => $res['idUser']
+                ":ID" => $id
             ]);
             
-            Address::setSuccessMsg("ENDEREÇO INSERIDO COM SUCESSO!");
-            Address::activeMainAddress(Address::cryptCode($res[0]['idAddress']), $this->getmainAddress());
+            if(is_array($res) && count($res) == 1) Address::activeMainAddress(Address::cryptCode($res[0]['idAddress']), $this->getmainAddress());
 
-        } else {
-		    Address::setErrorRegister("NADA FOI INSERIDO!");
-        }
+        } 
 
         unset($_SESSION[Address::REGISTER_VALUES]);
+
+        return isset($res) && $results == 1 ? true : false;
         
     }
+
+    public function updateAddress()
+    {
+     
+        $sql = new Sql($_SESSION[Sql::DB]);
+
+        $update = $sql->count("UPDATE address SET street = :STREET, number = :NUM, district = :DIS, cep = :CEP, complement = :COM, reference = :REF, codeCity = :COD, city = :CITY, uf = :UF WHERE idAddress = :ADR AND idUser = :ID", [
+            ":STREET" => $this->getstreet(),
+            ":NUM" => $this->getnumber(),
+            ":DIS" => $this->getdistrict(),
+            ":CEP" => $this->getcep(),
+            ":COM" => $this->getcomplement(),
+            ":REF" => $this->getreference(),
+            ":COD" => $this->getcodeCity(),
+            ":CITY" => $this->getcity(),
+            ":UF" => $this->getuf(),
+            ":ADR" => $this->getidAddress(),
+            ":ID" => $this->getidUser()
+        ]);
+
+        return $update > 0 ? true : false;
+        
+    }
+
+    public static function listAll($id = 0)
+    {
+        
+		$code = $id > 0 ? "WHERE idAddress = :ID": "" ;
+		$param = $id > 0 ? [":ID" => intval($id)] : [];
+
+		$sql = new Sql($_SESSION[Sql::DB]);
+
+		$select = $sql->select("SELECT idAddress, idUser, street, number, district, cep, complement, reference, mainAddress, codeCity, city, uf FROM address $code", $param);
+        
+		return count($select) > 0 ? $select : 0;
+
+    }
+
      
 }
 

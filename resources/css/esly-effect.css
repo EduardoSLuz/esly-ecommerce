@@ -26,6 +26,53 @@
 	display: none;
 }
 
+/* Dropdown */
+.menu-right:before {
+    position: absolute;
+    top: -7px;
+    right: 5%;
+    display: inline-block;
+    border-right: 7px solid transparent;
+    border-bottom: 7px solid #ccc;
+    border-left: 7px solid transparent;
+    border-bottom-color: rgba(0, 0, 0, 0.2);
+    content: '';
+}
+
+.menu-right:after {
+    position: absolute;
+    top: -6px;
+    right: 5%;
+    display: inline-block;
+    border-right: 6px solid transparent;
+    border-bottom: 6px solid #ffffff;
+    border-left: 6px solid transparent;
+    content: '';
+}
+
+.menu-left:before {
+    position: absolute;
+    top: -7px;
+    right: 90%;
+    display: inline-block;
+    border-right: 7px solid transparent;
+    border-bottom: 7px solid #ccc;
+    border-left: 7px solid transparent;
+    border-bottom-color: rgba(0, 0, 0, 0.2);
+    content: '';
+}
+
+.menu-left:after {
+    position: absolute;
+    top: -6px;
+    right: 90%;
+    display: inline-block;
+    border-right: 6px solid transparent;
+    border-bottom: 6px solid #ffffff;
+    border-left: 6px solid transparent;
+    content: '';
+}
+
 /* Effects */
 .abs-center-x 
 {
@@ -107,7 +154,27 @@
 	box-shadow: 0 0 0.4em gray;
 }
 
+.shadow-header
+{
+	filter: saturate(85%); 
+	box-shadow: inset 0px 0px 0.1px 0px #000;
+}
+
 /*Medias só com min-width*/
+
+@media (max-width: 600px)
+{
+	.logo-responsive{
+		max-height: 50px;
+	}
+}
+
+@media (min-width: 601px)
+{
+	.logo-responsive{
+		max-height: 65px;
+	}
+}
 
 /* Size >=160% */
 @media (min-width: 0px)

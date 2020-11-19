@@ -1,0 +1,245 @@
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1 class="m-0 text-dark">Loja {$id} - Horários</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+              <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="/admin/">Home</a></li>
+                <li class="breadcrumb-item"><a href="/admin/stores/">Lojas</a></li>
+                <li class="breadcrumb-item active">Loja {$id}</li>
+                <li class="breadcrumb-item active">Horários</li>
+              </ol>
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+      </div>
+      <!-- /.content-header -->
+  
+      <!-- Main content -->
+      <section class="content">
+        <div class="container-fluid">
+            
+          <!-- /.row -->
+          <div class="row">
+            
+            <div class="col-12">
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">Horários de Funcionamento da Loja &nbsp;</h3> 
+                </div>
+
+                <!-- /.card-header -->
+                <div class="card-body">
+                  
+                  <div id="dataHorary"  class="row">
+
+                    {if="isset($storeHorary) && $storeHorary != 0"}
+                    <!-- /.card-header -->
+                    <div class="card-body table-responsive p-0 col-sm-12" style="max-height: 350px;">
+                      <table class="table table-head-fixed table-hover text-nowrap">
+                        <thead>
+                          <tr>
+                            <th>ID</th>
+                            <th>Dia</th>
+                            <th>Periodos</th>
+                            <th>Opções</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {loop="$storeHorary.0.details"}
+                          <tr>
+                            <td>{$key}</td>
+                            <td>{$value.name}</td>
+                            <td>
+                              {if="isset($value.horary) && $value.horary != 0"}
+                              {loop="$value.horary"}
+                              
+                              {if="$value.init != '00:00' && $value.final != '00:00'"} 
+                              {if="$key != 0"}<br>{/if} {$value.init} às {$value.final}
+                              {/if}
+
+                              {/loop}
+                              {/if}
+                            </td>
+                            <td>
+                              <button type="button" class="btn btn-tool px-1" data-toggle="modal" data-target="#modalHorary" data-type="1" data-id="{$storeHorary.0.idHorary}" data-modal-title="Alterar Horários de Funcionamento da Loja" data-id-day="{$key}" data-day="{$value.name}" data-details='{function="json_encode($value.horary)"}'> <i class="fas fa-pen"></i></button>
+                            </td>
+                          </tr>
+                          {/loop}
+                        </tbody>
+                      </table>
+                    </div>
+                    <!-- /.card-body -->
+                    {else}
+                    <p class="h6 col-sm-12">
+                      <b><i>Sem Dados</i></b>
+                    </p>
+                    {/if}
+
+                  </div>
+                  <!-- /.row -->
+
+                </div>
+                <!-- /.card-body -->
+              </div>
+              <!-- /.card -->
+            </div>
+
+            <div class="col-12">
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">Horários para Entrega &nbsp;</h3> 
+                </div>
+
+                <!-- /.card-header -->
+                <div class="card-body">
+                  
+                  <div id="dataDelivery" class="row">
+                   
+                    {if="isset($storeHorary) && $storeHorary != 0"}
+                    <!-- /.card-header -->
+                    <div class="card-body table-responsive p-0 col-sm-12" style="max-height: 350px;">
+                      <table class="table table-head-fixed table-hover text-nowrap">
+                        <thead>
+                          <tr>
+                            <th>ID</th>
+                            <th>Dia</th>
+                            <th>Periodos</th>
+                            <th>Valores</th>
+                            <th>Opções</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {loop="$storeHorary.0.details"}
+                          <tr>
+                            <td>{$key}</td>
+                            <td>{$value.name}</td>
+                            <td>
+                              {if="isset($value.delivery) && $value.delivery != 0"}
+                              {loop="$value.delivery"}
+                              
+                              {if="$value.init != '00:00' && $value.final != '00:00'"} 
+                              {if="$key != 0"}<br>{/if} {$value.init} às {$value.final}
+                              {/if}
+
+                              {/loop}
+                              {/if}
+                            </td>
+                            <td>
+                              {if="isset($value.delivery) && $value.delivery != 0"}
+                              {loop="$value.delivery"}
+                              
+                              {if="$key != 0"}<br>{/if} R$ {function="maskPrice($value.value)"}
+
+                              {/loop}
+                              {/if}
+                            </td>
+                            <td>
+                              <button type="button" class="btn btn-tool px-1" data-toggle="modal" data-target="#modalHorary" data-type="2" data-id="{$storeHorary.0.idHorary}" data-modal-title="Alterar Horários de Entrega" data-id-day="{$key}" data-day="{$value.name}" data-details='{function="json_encode($value.delivery)"}'> <i class="fas fa-pen"></i></button>
+                            </td>
+                          </tr>
+                          {/loop}
+                        </tbody>
+                      </table>
+                    </div>
+                    <!-- /.card-body -->
+                    {else}
+                    <p class="h6 col-sm-12">
+                      <b><i>Sem Dados</i></b>
+                    </p>
+                    {/if}
+
+                  </div>
+                  <!-- /.row -->
+
+                </div>
+                <!-- /.card-body -->
+              </div>
+              <!-- /.card -->
+            </div>
+
+            <div class="col-12">
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">Horários para Retirada &nbsp;</h3> 
+                </div>
+
+                <!-- /.card-header -->
+                <div class="card-body">
+                  
+                  <div id="dataWithdrawal" class="row">
+
+                    {if="isset($storeHorary) && $storeHorary != 0"}
+                    <!-- /.card-header -->
+                    <div class="card-body table-responsive p-0 col-sm-12" style="max-height: 350px;">
+                      <table class="table table-head-fixed table-hover text-nowrap">
+                        <thead>
+                          <tr>
+                            <th>ID</th>
+                            <th>Dia</th>
+                            <th>Periodos</th>
+                            <th>Valores</th>
+                            <th>Opções</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {loop="$storeHorary.0.details"}
+                          <tr>
+                            <td>{$key}</td>
+                            <td>{$value.name}</td>
+                            <td>
+                              {if="isset($value.withdrawal) && $value.withdrawal != 0"}
+                              {loop="$value.withdrawal"}
+                              
+                              {if="$value.init != '00:00' && $value.final != '00:00'"} 
+                              {if="$key != 0"}<br>{/if} {$value.init} às {$value.final}
+                              {/if}
+
+                              {/loop}
+                              {/if}
+                            </td>
+                            <td>
+                              {if="isset($value.withdrawal) && $value.withdrawal != 0"}
+                              {loop="$value.withdrawal"}
+                              
+                              {if="$key != 0"}<br>{/if} R$ {function="maskPrice($value.value)"}
+
+                              {/loop}
+                              {/if}
+                            </td>
+                            <td>
+                              <button type="button" class="btn btn-tool px-1" data-toggle="modal" data-target="#modalHorary" data-type="3" data-id="{$storeHorary.0.idHorary}" data-modal-title="Alterar Horários de Retirada" data-id-day="{$key}" data-day="{$value.name}" data-details='{function="json_encode($value.withdrawal)"}'> <i class="fas fa-pen"></i></button>
+                            </td>
+                          </tr>
+                          {/loop}
+                        </tbody>
+                      </table>
+                    </div>
+                    <!-- /.card-body -->
+                    {else}
+                    <p class="h6 col-sm-12">
+                      <b><i>Sem Dados</i></b>
+                    </p>
+                    {/if}
+
+                  </div>
+                  <!-- /.row -->
+
+                </div>
+                <!-- /.card-body -->
+              </div>
+              <!-- /.card -->
+            </div>
+
+          </div>
+          <!-- /.row -->
+
+        </div><!-- /.container-fluid -->
+      </section>
+      <!-- /.content -->
+
+        
+        

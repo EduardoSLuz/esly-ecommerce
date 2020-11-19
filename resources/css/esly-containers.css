@@ -215,11 +215,6 @@
 		margin-left:6em;
 	}
 
-	.ct-ini
-	{ 
-		margin-right:6.5em;
-	 	margin-left:6.5em;
-	}
 	
 }
 
@@ -246,12 +241,6 @@
 		margin-left:12.5em;
 	}
 	
-	.ct-ini
-	{ 
-		margin-right:13.4em;
-	 	margin-left:13.4em;
-	}
-	
 }
 
 /* Size 75% */
@@ -261,14 +250,8 @@
 	/* Containers */
 	.ct-center, .ct-null
 	{ 
-		margin-right:17em;
-		margin-left:17em;
-	}
-	
-	.ct-ini
-	{
-		margin-right:0px;
-	 	margin-left:0px;
+		margin-right:15em;
+		margin-left:15em;
 	}
 	
 }
@@ -280,16 +263,10 @@
 	/* Containers */
 	.ct-center, .ct-null
 	{ 
-		margin-right:25em;
-		margin-left:25em;
+		margin-right:20em;
+		margin-left:20em;
 	}
-	
-	.ct-ini
-	{ 
-		margin-right:0px;
-	 	margin-left:0px;
-	}
-	
+
 }
 
 /* Size 50% */
@@ -299,14 +276,8 @@
 	/* Containers */
 	.ct-center, .ct-null
 	{ 
-		margin-right:48em;
-		margin-left:48em;
-	}
-	
-	.ct-ini
-	{
-		margin-right:0px;
-	 	margin-left:0px;
+		margin-right:45em;
+		margin-left:45em;
 	}
 	
 }
@@ -318,14 +289,8 @@
 	/* Containers */
 	.ct-center, .ct-null
 	{ 
-		margin-right:95em;
-		margin-left:95em;
-	}
-	
-	.ct-ini
-	{ 
-		margin-right:0px;
-	 	margin-left:0px;
+		margin-right:70em;
+		margin-left:70em;
 	}
 	
 }
@@ -337,14 +302,8 @@
 	/* Containers */
 	.ct-center, .ct-null
 	{ 
-		margin-right:141em;
-		margin-left:141em;
-	}
-	
-	.ct-ini
-	{ 
-		margin-right:0px;
-	 	margin-left:0px;
+		margin-right:110em;
+		margin-left:110em;
 	}
 	
 }

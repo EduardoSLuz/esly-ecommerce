@@ -1,0 +1,76 @@
+<p class="h6 text-second-site-section">Relacionados</p>
+<hr>
+
+<div class="overflow-auto max-height mb-2">
+
+	{loop="$dep.category"}
+	<p class="h6">
+		<a href='/loja-{$ID}/departaments/{$dep.name}-{$value.name}/?{if="$dep.or != 0"}&order={$dep.or}{/if}{if="$dep.subs != 0"}&subs={$dep.subs}{/if}{if="!empty($dep.mark)"}&mark={$dep.mark}{/if}{if="$dep.filter != 0"}&min={$dep.filter.min}&max={$dep.filter.max}{/if}{if="$dep.page > 1"}&page={$dep.page}{/if}' class="font-weight-normal text-decoration-none text-link-site-section" ><i class="fas fa-arrow-right"></i> {$value.name}</a>
+	</p>
+	{/loop}
+	
+</div>
+
+{if="$dep.subs"}
+<p class="h6 text-second-site-section">Filtros selecionados</p>
+<hr>
+
+<p>
+	<i class="fas fa-times text-danger cursorPointer closeSubs"></i> <span class="text-link-site-section">{$dep.subs}</span>
+</p>
+{/if}
+
+<p class="h6 text-second-site-section">Buscar nos resultados</p>
+<hr>
+
+<p>
+	<form class="input-group mb-2 subSearch" action="/loja-{$ID}/departaments/{$dep.name}-{$dep.cat}/">
+
+		<input type="text" class="form-control" name="searchSub" >
+		
+		<div class="input-group-append">
+			<button type="submit" class="btn btn-main-site-section text-btn-site-section"><i class="fas fa-search"></i></button>
+		</div>
+
+	</form>
+
+</p>
+
+{if="$dep.marks != 0"}
+<p class="mt-4 h6 text-second-site-section">Marca</p>
+<hr>
+
+<div class="overflow-auto max-height">
+
+	{loop="$dep.marks"}
+	{if="!empty($dep.mark)"}
+	<p class="my-2 h6">
+		<a href='?{if="$dep.or != 0"}&order={$dep.or}{/if}{if="!empty($dep.subs)"}&subs={$dep.subs}{/if}{if="$dep.filter != 0"}&min={$dep.filter.min}&max={$dep.filter.max}{/if}{if="$dep.page > 1"}&page={$dep.page}{/if}' class="font-weight-normal text-decoration-none text-link-site-section" > <i class="fas fa-times text-danger"></i> </a> <span class="{$layout.txLayout}">{$value}</span>
+	</p>
+	{else}
+	<p class="my-2 h6">
+		<a href='?{if="$dep.or != 0"}&order={$dep.or}{/if}{if="!empty($dep.subs)"}&subs={$dep.subs}{/if}&mark={$value}{if="$dep.filter != 0"}&min={$dep.filter.min}&max={$dep.filter.max}{/if}{if="$dep.page > 1"}&page={$dep.page}{/if}' class="font-weight-normal text-decoration-none text-link-site-section" >{$value}</a>
+	</p>
+	{/if}
+	{/loop}
+	
+</div>
+{/if}
+
+
+<p class="mt-4 h6 text-second-site-section">Preço</p>
+<hr>
+
+<form class="filterPrice" action="/loja-{$ID}/departaments/{$dep.name}-{$dep.cat}/">
+
+	<div class="input-group input-group-sm">
+		<input type="text" class="form-control text-center maskMoney2" name="minPrice" value="{$dep.filterPrice.min}">
+		<a class="h4 text-second-site-section">&nbsp;-&nbsp;</a>
+		<input type="text" class="form-control text-center maskMoney2" name="maxPrice" value="{$dep.filterPrice.max}">
+	</div>
+
+	<div class="text-left mt-2">
+		<button type="submit" class="btn btn-main-site-section text-btn-site-section btn-sm px-3">Filtrar</button>
+	</div>
+
+</form>

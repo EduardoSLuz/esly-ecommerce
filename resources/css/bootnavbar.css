@@ -15,6 +15,7 @@
     left: auto;
 }
 
+/*
 .dropdown-menu > li a:hover,
 .dropdown-menu > li.show {
 	background: #007bff;
@@ -23,6 +24,7 @@
 .dropdown-menu > li.show > a{
 	color: white;
 }
+*/
 
 @media (min-width: 768px) {
     .dropdown-menu .dropdown .dropdown-menu {

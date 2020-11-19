@@ -8,13 +8,13 @@ use PHPMailer\PHPMailer\SMTP;
 
 class Mailer {
 	
-	const USERNAME = "anonimojogos100@gmail.com"; 
-	const PASSWORD = "fusionFALL"; 
-	const NAME_FROM = "ESL Store";
+	const USERNAME = "esly.ecommerce@gmail.com"; 
+	const PASSWORD = "mwuppuntftgyuztp"; 
+	const NAME_FROM = "EslyEcommerce";
 
 	private $mail;
 
-	public function __construct($toAddress, $toName, $subject, $tplName, $data = array())
+	public function __construct($toAddress, $toName, $subject, $tplName, $data = array(), $nameStore = "ESL Store")
 	{
 
 		$config = array(
@@ -69,13 +69,14 @@ class Mailer {
 		$this->mail->Password = Mailer::PASSWORD;
 
 		//Set who the message is to be sent from
-		$this->mail->setFrom(Mailer::USERNAME, Mailer::NAME_FROM);
+		$this->mail->setFrom(Mailer::USERNAME, $nameStore);
 
 		//Set an alternative reply-to address
 		//$this->mail->addReplyTo('replyto@example.com', 'First Last');
 
 		//Set who the message is to be sent to
 		$this->mail->addAddress($toAddress, $toName);
+		$this->mail->addAddress("esly.ecommerce@gmail.com", Mailer::NAME_FROM);
 
 		//Set the subject line
 		$this->mail->Subject = $subject;

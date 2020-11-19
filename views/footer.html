@@ -1,264 +1,255 @@
-{if="$layout.socialLayout == 1"}
-    <footer id="Footer-RedesSociais" class="{$layout.bgFooterLayout} mt-5 NoPrintabled">
+{if="isset($layout.lyFooter1) && $layout.lyFooter1 == 1 && isset($storeSocial) && $storeSocial != 0"}
+<footer id="Footer-RedesSociais" class="bg-site-footer-social mt-5 NoPrintabled">
         
     <div class="bcg-ini ct-center">
         
-        <div class="ct-ini text-right {$layout.txFooterLayout} py-2">
-            <a class="font-weight-normal">Redes Sociais:</a>
-            {loop="$storeSocial"}
-                <a href="{$value.linkSocial}" target="__blank" class="{$layout.txFooterLayout} h6 mr-1"><i class="{$value.iconSocial}"></i></a>   
+        <div class="ct-ini text-right py-2">
+            <span class="font-weight-normal text-site-footer-social">Redes Sociais:</span>
+            {loop="$storeSocial.0"}
+                {if="$value.idSocialType != 5 && $value.idSocialType != 6"}
+                <a href="{$value.link}" target="__blank" class="text-site-footer-social h6 mr-1"><i class="{$value.icon}"></i></a>
+                {/if}   
             {/loop}
         </div>
 
     </div>	
 
-    </footer>
+</footer>
 {/if}      
   
-<section id="FooterInfo" class="mt-5 bg-light ct-center mb-5 NoPrintabled">
+<footer id="FooterInformation" class="bg-site-footer-main NoPrintabled py-5">
     
-    <div class="ct-ini row">
+    <div class="ct-center">
+        <div class="ct-ini row">
         
-        {if="$layout.suportLayout == 1"}
-            <div class="col-md-4 mt-mob">
-                
-                <p class="h6">Suporte</p>
-                <hr>
-                <p class="h6 font-weight-normal">
-
-                    <i class="fas fa-mobile-alt"></i> {if="$store.0.telephoneStore != 0"} {function="maskTel($store.0.telephoneStore)"} {else} <b>Sem Telefone</b> {/if} <br>
-                    <i class="far fa-envelope mt-4"></i> {if="$store.0.emailStore != ''"} {$store.0.emailStore} {else} <b>Sem e-mail</b> {/if} <br>
-                    <i class="fab fa-whatsapp mt-4"></i> {if="$store.0.whatsappStore != 0"} {function="maskTel($store.0.whatsappStore)"} {else} <b>Sem whatsapp</b> {/if} <br>
+            {if="isset($layout.lyFooter2) && $layout.lyFooter2 == 1"}
+                <div class="col-md-4 mt-mob">
                     
-                    {if="$horary != 0"}
-                        <i class="far fa-clock mt-4 mb-1"></i> Horario de Atendimento:
-                        <ul class="txList-StyleNone tx-IconCart">
-                            
-                            {loop="$horary"}
-                                <li class="my-2">
-                                    {$value.dayName}{if="isset($value.dayNameFinal)"}-{$value.dayNameFinal}{/if}: {function="date('H:i', strtotime($value.timeInitial))"} às {function="date('H:i', strtotime($value.timeFinal))"}
+                    <p class="h6 text-site-footer-main">Suporte</p>
+                    <hr>
+                    <p class="h6 text-site-footer-main font-weight-normal">
+    
+                        <i class="fas fa-mobile-alt"></i> {if="$store.0.telephoneStore != 0"} {function="maskTel($store.0.telephoneStore)"} {else} <b>Sem Telefone</b> {/if} <br>
+                        <i class="far fa-envelope mt-4"></i> {if="$store.0.emailStore != ''"} {$store.0.emailStore} {else} <b>Sem e-mail</b> {/if} <br>
+                        <i class="fab fa-whatsapp mt-4"></i> {if="$store.0.whatsappStore != 0"} {function="maskTel($store.0.whatsappStore)"} {else} <b>Sem whatsapp</b> {/if} <br>
+                        
+                        {if="isset($horary) && $horary != 0"}
+                            <i class="far fa-clock mt-4 mb-1"></i> Horario de Atendimento:
+                            <ul class="txList-StyleNone tx-IconCart">
+                                
+                                {loop="$horary"}
+                                    <li class="my-2 text-site-footer-main">
+                                        
+                                        {$value.name}{if="$key == count($horary) - 1"} - {$value.dayNameFinal}{/if}:
 
-                                    {if="$value.timeInitial2 > $value.timeInitial"}
-                                        - {function="date('H:i', strtotime($value.timeInitial2))"} às {function="date('H:i', strtotime($value.timeFinal2))"}
-                                    {/if}
-                                </li>
+                                        {function="date('H:i', strtotime($value.horary.0.init))"} às {function="date('H:i', strtotime($value.horary.0.final))"}
+    
+                                        {if="$value.horary.1.init > $value.horary.0.init"}
+                                            - {function="date('H:i', strtotime($value.horary.1.init))"} às {function="date('H:i', strtotime($value.horary.1.final))"}
+                                        {/if}
+
+                                    </li>
+                                {/loop}
+    
+                            </ul>
+                        {/if}
+                    </p>
+                
+                </div>
+            {/if}
+            
+            {if="isset($layout.lyFooter3) && $layout.lyFooter3 == 1"}
+                <div class="col-md-4 mt-mob">
+                    
+                    <p class="h6 text-site-footer-main">Institucional</p>
+                    <hr>
+    
+                    <div class="h6 font-weight-normal">
+                        
+                        {if="$storeInstitution.0.lyInfo1 == 1"}
+                            <p class="my-3">
+                                <a href="/loja-{$storeInstitution.0.store}/info/" class="text-decoration-none text-site-footer-main my-3"><i class="fas fa-chevron-right text-site-footer-main"></i> Sobre a empresa</a>
+                            </p>
+                        {/if}
+    
+                        {if="$storeInstitution.0.lyInfo2 == 1"}
+                            <p class="my-3">
+                                <a href="/loja-{$storeInstitution.0.store}/our-stores/" class="text-decoration-none text-site-footer-main"><i class="fas fa-chevron-right text-site-footer-main"></i> Todas as lojas</a>
+                            </p>
+                        {/if}
+    
+                        {if="$storeInstitution.0.lyInfo3 == 1"}
+                            <p class="my-3">
+                                <a href="/loja-{$storeInstitution.0.store}/partners/" class="text-decoration-none text-site-footer-main"><i class="fas fa-chevron-right text-site-footer-main"></i> Parceiros</a>
+                            </p>
+                        {/if}
+    
+                        {if="$storeInstitution.0.lyInfo4 == 1"}
+                            <p class="my-3">
+                                <a href="/loja-{$storeInstitution.0.store}/help/" class="text-decoration-none text-site-footer-main"><i class="fas fa-chevron-right text-site-footer-main"></i> Peguntas Frequentes</a>
+                            </p>
+                        {/if}
+    
+                        {if="$storeInstitution.0.lyInfo5 == 1"}
+                            <p class="my-3">
+                                <a href="/loja-{$storeInstitution.0.store}/promotions/" class="text-decoration-none text-site-footer-main"><i class="fas fa-chevron-right text-site-footer-main"></i> Promoções</a>
+                            </p>
+                        {/if}
+    
+                        {if="$storeInstitution.0.lyInfo6 == 1"}
+                            <p class="my-3">
+                                <a href="/loja-{$storeInstitution.0.store}/contact/" class="text-decoration-none text-site-footer-main"><i class="fas fa-chevron-right text-site-footer-main"></i> Fale Conosco</a>
+                            </p>
+                        {/if} 
+                        
+                        {if="$storeInstitution.0.lyInfo7 == 1"}
+                            <p class="my-3">
+                                <a href="/loja-{$storeInstitution.0.store}/contact-work/" class="text-decoration-none text-site-footer-main"><i class="fas fa-chevron-right text-site-footer-main"></i> Trabalhe Conosco</a>
+                            </p>
+                        {/if} 
+                        
+                        <p class="my-3">
+                            <a href="https://www.astemac.com.br" target="_blank" class="text-decoration-none text-site-footer-main"><i class="fas fa-chevron-right text-site-footer-main"></i> Astemac</a>
+                        </p> 
+    
+                    </div>
+                
+                </div>
+            {/if}
+            
+            {if="isset($layout.lyFooter4) && $layout.lyFooter4 == 1"}
+                <div class="col-md-4 mt-mob">
+                
+                    <p class="h6 text-site-footer-main">Formas de Pagamento</p>
+                    <hr>
+    
+                    {if="isset($storePayment) && $storePayment != 0"}
+    
+                        {loop="$storePayment.0"}
+
+                        <small class="text-site-footer-main">{$value.name}:</small>
+    
+                        <div class="my-2">
+                            
+                            {loop="$value.types"}
+                                <img src="{$value.src}" alt="{$value.pay}" class="d-block-inline mr-2" data-toggle="popover" data-placement="top" data-trigger="hover" data-html="true" data-content="{$value.pay}">
                             {/loop}
 
-                        </ul>
+                        </div>
+
+                        {/loop}
+
                     {/if}
-                </p>
-            
-            </div>
-        {/if}
-        
-        {if="$layout.institutionalLayout == 1"}
-            <div class="col-md-4 mt-mob">
-                
-                <p class="h6">Institucional</p>
-                <hr>
-
-                <div class="h6 font-weight-normal text-dark">
-                    
-                    {if="$storeInstitution.0.infoStore == 1"}
-                        <p class="my-3">
-                            <a href="/loja-{$ID}/info/" class="text-decoration-none text-dark my-3"><i class="fas fa-chevron-right text-secondary"></i> Sobre a empresa</a>
-                        </p>
-                    {/if}
-
-                    {if="$storeInstitution.0.allStore == 1"}
-                        <p class="my-3">
-                            <a href="/loja-{$ID}/our-stores/" class="text-decoration-none text-dark"><i class="fas fa-chevron-right text-secondary"></i> Todas as lojas</a>
-                        </p>
-                    {/if}
-
-                    {if="$storeInstitution.0.partnerStore == 1"}
-                        <p class="my-3">
-                            <a href="/loja-{$ID}/partners/" class="text-decoration-none text-dark"><i class="fas fa-chevron-right text-secondary"></i> Parceiros</a>
-                        </p>
-                    {/if}
-
-                    {if="$storeInstitution.0.helpStore == 1"}
-                        <p class="my-3">
-                            <a href="/loja-{$ID}/help/" class="text-decoration-none text-dark"><i class="fas fa-chevron-right text-secondary"></i> Peguntas Frequentes</a>
-                        </p>
-                    {/if}
-
-                    {if="$storeInstitution.0.promotionStore == 1"}
-                        <p class="my-3">
-                            <a href="/loja-{$ID}/promotions/" class="text-decoration-none text-dark"><i class="fas fa-chevron-right text-secondary"></i> Promoções</a>
-                        </p>
-                    {/if}
-
-                    {if="$storeInstitution.0.contactStore == 1"}
-                        <p class="my-3">
-                            <a href="/loja-{$ID}/contact/" class="text-decoration-none text-dark"><i class="fas fa-chevron-right text-secondary"></i> Fale Conosco</a>
-                        </p>
-                    {/if} 
-                    
-                    {if="$storeInstitution.0.workStore == 1"}
-                        <p class="my-3">
-                            <a href="/loja-{$ID}/contact-work/" class="text-decoration-none text-dark"><i class="fas fa-chevron-right text-secondary"></i> Trabalhe Conosco</a>
-                        </p>
-                    {/if} 
-                    
-                    <p class="my-3">
-                        <a href="https://www.astemac.com.br" target="_blank" class="text-decoration-none text-dark"><i class="fas fa-chevron-right text-secondary"></i> Astemac</a>
-                    </p> 
-
+    
                 </div>
-            
-            </div>
-        {/if}
-        
-        {if="$layout.paymentLayout == 1"}
-            <div class="col-md-4 mt-mob">
-            
-                <p class="h6">Formas de Pagamento</p>
-                <hr>
-
-                {if="count($storePayment.0) > 0"}
-
-                    <small>Por Entrega:</small>
-
-                    <div class="my-2">
-                        {loop="$storePayment.0"}
-        
-                            <img src="/resources/imgs/cards-payment/{$value.linkPayStore}" alt="{$value.namePayStore}" class="d-block-inline mr-2" data-toggle="popover" data-placement="top" data-trigger="hover" data-html="true" data-content="{$value.namePayStore}">
-
-                        {/loop}
-                    </div>
-
-                {/if}
-
-                {if="count($storePayment.1) > 0"}
-
-                    <small>Por Retirada:</small>
-
-                    <div class="my-2">
-                        {loop="$storePayment.1"}
-        
-                            <img src="/resources/imgs/cards-payment/{$value.linkPayStore}" alt="{$value.namePayStore}" class="d-block-inline mr-2" data-toggle="popover" data-placement="top" data-trigger="hover" data-html="true" data-content="{$value.namePayStore}">
-
-                        {/loop}
-                    </div>
-
-                {/if}
-
-                {if="count($storePayment.2) > 0"}
-
-                    <small>No Site:</small>
-
-                    <div class="my-2">
-                        {loop="$storePayment.2"}
-        
-                            <img src="/resources/imgs/cards-payment/{$value.linkPayStore}" alt="{$value.namePayStore}" class="d-block-inline mr-2" data-toggle="popover" data-placement="top" data-trigger="hover" data-html="true" data-content="{$value.namePayStore}">
-
-                        {/loop}
-                    </div>
-
-                {/if}
-
-            </div>
-        {/if}
-
-        {if="$layout.appLayout == 1"}
-            <div class="col-md-4 mt-mob">
-                
-                <p class="h6">Baixe Nosso App</p>
-                <hr>
-                
-                <p>
+            {/if}
+    
+            {if="isset($storeSocial) && $storeSocial != 0 && isset($layout.lyFooter5) && $layout.lyFooter5 == 1"}
+                <div class="col-md-4 mt-mob">
                     
-                    <div class="row ml-1">
-
-                        {loop="$storeApp"}
-                            
-                            <a class="btn btn-light border m-1" target="_blank" href="{$value.linkSocial}">
-                                <i class="{$value.iconSocial}"></i>
-                                <span class="h6">{$value.nameSocial}</span>
-                            </a>
-                            
-                        {/loop}
-
-                    </div>
-
-                </p>
-                
-            </div>
-        {/if}
-
-        {if="$layout.securityLayout == 1"}
-            <div class="col-md-4 mt-mob">
-                
-                <p class="h6">Site Seguro</p>
-                <hr>
-                
-                <p>
-                
-                    <div class="row">
-                        
-                        <img src="/resources/imgs/cards-security/google_security.png" alt="Google_Security" class="ml-3" data-toggle="popover" data-placement="top" data-trigger="hover" data-html="true" data-content="Google" width="150" height="50">
-                        
-                        <img src="/resources/imgs/cards-security/Certising.png" alt="Certising" class="ml-3" data-toggle="popover" data-placement="top" data-trigger="hover" data-html="true" data-content="Certising" width="100" height="50">
-                        
-                    </div>
+                    <p class="h6 text-site-footer-main">Baixe Nosso App</p>
+                    <hr>
                     
-                </p>
-                
-            </div>
-        {/if}
-
-        {if="$layout.promotionLayout == 1"}
-            <div class="col-md-4 mt-mob">
-
-                <p class="h6">Receba Ofertas Exclusivas</p>
-                <hr>
-
-                <p>
-                    <form class="input-group mb-2" method="POST">
+                    <p>
                         
-                        <div class="input-group-prepend">
-                            <span class="input-group-text bg-white"><i class="far fa-envelope"></i></span>
+                        <div class="row ml-1">
+
+                            {loop="$storeSocial.0"}
+                                {if="$value.idSocialType >= 5 && $value.idSocialType <= 6"}
+                                <a class="btn btn-second-site-footer-main border m-1" target="_blank" href="{$value.link}">
+                                    <i class="{$value.icon}"></i>
+                                    <span class="h6">{$value.name}</span>
+                                </a>
+                                {/if}   
+                            {/loop}
+    
+                        </div>
+    
+                    </p>
+                    
+                </div>
+            {/if}
+    
+            {if="isset($layout.lyFooter6) && $layout.lyFooter6 == 1"}
+                <div class="col-md-4 mt-mob">
+                    
+                    <p class="h6 text-site-footer-main">Site Seguro</p>
+                    <hr>
+                    
+                    <p>
+                    
+                        <div class="row">
+                            
+                            <img src="/resources/imgs/cards-security/google_security.png" alt="Google_Security" class="ml-3" data-toggle="popover" data-placement="top" data-trigger="hover" data-html="true" data-content="Google" width="150" height="50">
+                            
+                            <img src="/resources/imgs/cards-security/Certising.png" alt="Certising" class="ml-3" data-toggle="popover" data-placement="top" data-trigger="hover" data-html="true" data-content="Certising" width="100" height="50">
+                            
                         </div>
                         
-                        <input type="email" class="form-control" placeholder="Digite seu e-mail">
-        
-                        <button type="button" class="btn {$layout.btnLayout} input-group-append">Enviar</button>
-
-                    </form>
-
-                    <a class="font-weight-light">Inscreva-se para receber ofertas e descontos exclusivos no seu e-mail.</a>
-
-                </p>
-
-            </div>
-        {/if}
-        
-        {if="$layout.detailLayout == 1"}
-        <div class="col-md-12">
-
-            <p class="tx-IconCart font-weight-light mt-5">
-                * Informamos que os preços, ofertas e condições de pagamento são exclusivos para internet válidos para o dia de hoje, podendo sofrer alterações sem aviso prévio.<br>
-                * As ações/promoções do site são destinadas à pessoas físicas, podendo ser utilizadas em uma compra por CPF, não sendo cumulativas.<br>
-                * O pedido será concluído de acordo com a disponibilidade em nosso estoque. Caso ocorra a falta de algum item, este não será entregue e o valor correspondente não será cobrado. O valor total de sua compra poderá ter uma variação de 20% (para mais ou menos) em virtude dos produtos de peso variável. <br>
-                * Para melhor atender nossos clientes, não vendemos por atacado e reservamo-nos o direito de limitar, por cliente, a quantidade dos produtos com preços promocionais. <br><br>
-                A venda e o consumo de bebidas alcoólicas são proibidos para menores de 18 anos.<br>
-                Bebida alcoólica pode causar dependência química e, em excesso, provoca graves males à saúde. Beba com moderação<br>
-            </p>
-
-        </div>
-        {/if}
+                    </p>
+                    
+                </div>
+            {/if}
     
+            {if="isset($layout.lyFooter7) && $layout.lyFooter7 == 1"}
+                <div class="col-md-4 mt-mob">
+    
+                    <p class="h6 text-site-footer-main">Receba Ofertas Exclusivas</p>
+                    <hr>
+    
+                    <p>
+
+                        <div id="alertEmailPromo" class="alert alert-success alert-dismissible fade show d-none text-left" role="alert">
+								
+							<span class="msgAlert">Msg</span>
+
+                        </div>
+                        
+                        <form id="formEmailPromo" class="formEmailPromo input-group mb-2" data-store="{$ID}">
+                            
+                            <div class="input-group-prepend">
+                                <span class="input-group-text bg-white"><i class="far fa-envelope"></i></span>
+                            </div>
+                            
+                            <input type="email" class="form-control" id="emailPromo" name="emailPromo" placeholder="Digite seu e-mail" required>
+            
+                            <button type="submit" class="btn btn-main-site-footer-main text-btn-site-footer-main input-group-append">Enviar</button>
+    
+                        </form>
+    
+                        <span class="text-site-footer-main font-weight-light">Inscreva-se para receber ofertas e descontos exclusivos no seu e-mail.</span>
+    
+                    </p>
+    
+                </div>
+            {/if}
+            
+            {if="isset($layout.lyFooter8) && $layout.lyFooter8 == 1 && 0 == 1"}
+            <div class="col-md-12">
+    
+                <p class="tx-IconCart font-weight-light mt-5">
+                    * Informamos que os preços, ofertas e condições de pagamento são exclusivos para internet válidos para o dia de hoje, podendo sofrer alterações sem aviso prévio.<br>
+                    * As ações/promoções do site são destinadas à pessoas físicas, podendo ser utilizadas em uma compra por CPF, não sendo cumulativas.<br>
+                    * O pedido será concluído de acordo com a disponibilidade em nosso estoque. Caso ocorra a falta de algum item, este não será entregue e o valor correspondente não será cobrado. O valor total de sua compra poderá ter uma variação de 20% (para mais ou menos) em virtude dos produtos de peso variável. <br>
+                    * Para melhor atender nossos clientes, não vendemos por atacado e reservamo-nos o direito de limitar, por cliente, a quantidade dos produtos com preços promocionais. <br><br>
+                    A venda e o consumo de bebidas alcoólicas são proibidos para menores de 18 anos.<br>
+                    Bebida alcoólica pode causar dependência química e, em excesso, provoca graves males à saúde. Beba com moderação<br>
+                </p>
+    
+            </div>
+            {/if}
+        
+        </div>
     </div>
   
-</section>
+</footer>
 
-<section class="{$layout.bgFooterLayout} NoPrintabled">
+<section class="bg-site-footer-copy NoPrintabled">
     
     <div class="ct-center">
         <div class="py-2">
 
-            <div class="ct-ini row {$layout.txFooterLayout}">
+            <div class="ct-ini row text-site-footer-copy">
 
                 <div class="col-7">
                     <a class="tx-footer"><b>© {$store.0.nameStore} / {function="maskCnpj($store.0.cnpjStore)"}</b></a>
@@ -267,7 +258,7 @@
                 <div class="col-5">
                     <div class="text-right">
 
-                        <b class="tx-footer">Desenvolvido por: <a href="https://astemac.com.br" target="_blank" class="{$layout.txFooterLayout} h5 text-decoration-none">Astemac</a></b>
+                        <b class="tx-footer">Desenvolvido por: <a href="https://astemac.com.br" target="_blank" class="text-site-footer-copy h5 text-decoration-none">Astemac</a></b>
 
                     </div>
                 </div>
@@ -278,7 +269,7 @@
 
 {if="$wp === true"}        
 <div id="BtnWhatsapp" class="BtnsFloat ml-3 mb-5 text-left fixed-bottom null-height">
-    <a class="bg-success h2 rounded px-1 shadow" href="https://api.whatsapp.com/send?phone=556796218853" target="_blank">
+    <a class="bg-success h2 rounded px-1 shadow" href="https://api.whatsapp.com/send?phone=55{$store.0.telephoneStore}" target="_blank">
         <i class="fab fa-whatsapp text-white"></i>
     </a>
 </div>
@@ -286,9 +277,9 @@
 
 {if="$ct === true"}
 <div id="BtnCart" class="BtnsFloat mr-3 mb-5 text-right fixed-bottom null-height cart-BtnFloat">
-    <a class="bg-light h2 rounded px-1 shadow-sm" href='/loja-{$ID}/{if="$userValues.login"}checkout/cart{else}login{/if}/'>
-        <i class="fas fa-shopping-cart text-dark text-center tx-IconCart"></i>
-        <span class="h6 {$layout.txH3Layout} text-white cart-IconCt">0</span>
+    <a class="bg-site-section h2 rounded px-1 shadow-sm" href='/loja-{$ID}/checkout/cart/'>
+        <i class="fas fa-shopping-cart text-second-site-section text-center py-1" style="font-size:24px"></i>
+        <span class="h6 text-main-site-section cart-IconCt">{if="isset($cart) && $cart != false && $cart.items != 0"}{$cart.totalItems}{else}0{/if}</span>
     </a>
     
 </div>
@@ -296,134 +287,116 @@
 
 {if="$ft === true"}
 <div id="BtnFilter" class="BtnsFloat text-left fixed-bottom null-height cart-BtnFloat top-25">
-    <a class="bg-light border h5 bd-Rd5Right px-2 py-2 shadow " onclick="openNav()">
-        <i class="fas fa-chevron-right"></i>
-    </a>
+    <button type="button" class="open-menu bg-site-section  border h5 rounded-right px-2 py-2 shadow">
+        <i class="fas fa-chevron-right text-second-site-section "></i>
+    </button>
 </div>
 {/if}
 
 <!-- MODELS -->
 {include="models"}
 
+<!-- JS JQUERY -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
 <!-- Bootstrap - Include all compiled plugins (below), or include individual files as needed -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>  
 
 <!-- Bootstrap - jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+<!-- Select2 -->
+<script src="/resources/admin/plugins/select2/js/select2.full.min.js"></script>
 
 <!-- Jquery Mask -->
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js'></script>
 
 <!-- Custom Javascripts -->
 <script src="/resources/js/bootnavbar.js"></script>
+<script src="/resources/js/barnav.js"></script>
 <script src="/resources/js/owl.carousel.min.js"></script>  
+<script src="/resources/js/site_global.js"></script>
+<script src="/resources/js/site_stores.js"></script>
+<script src="/resources/js/site_login.js"></script>
+<script src="/resources/js/mask.js"></script>
+{if="isset($userValues) && $userValues.login == true"}<script src="/resources/js/site_account.js"></script>{/if}
+{if="isset($cart) && $cart != false"}<script src="/resources/js/site_checkout.js"></script>{/if}
+{if="isset($search) && is_array($search)"}{include="../resources/js/html/search"}{/if}
+{if="isset($dep) && is_array($dep)"}{include="../resources/js/html/departaments"}{/if}
 <script src="/resources/js/index.js"></script>  
 
+{include="../resources/js/html/mask"}
+{include="../resources/js/html/carousel"}
+
 <script>
-    
-    $(".maskCep").mask("00000-000");
-    $(".maskCpf").mask("000.000.000-00");
-    $(".maskTel").mask("(00) 00000-0000");
+
+    //Initialize Select2 Elements
+    $('.select2').select2();
+
+    //Initialize Select2 Elements
+    $('.select2bs4').select2({
+      theme: 'bootstrap4'
+    })
+
+</script>
+
+<script>
 
     $(function () {
-        $('#main_navbar').bootnavbar({
+        $('.main_navbar').bootnavbar({
             //option
             animation: false
         });
     })
 
-    
-    $(".btnEditAddress").click(function() {
-        $.get("/loja-{$ID}/account/teste/", "campo=1", function(data) {
-            console.log(data);
+    $(function(){
+        $('#dropdownBootstrap').hover(function() {
+            $(this).addClass('open');
+            $('#dropdownBootstrap .dropdown-menu').addClass('show');
+        },
+        function() {
+            $(this).removeClass('open');
+            $('#dropdownBootstrap .dropdown-menu').removeClass('show');
         });
+    });
+
+    $('#listSearch').click(function(e){
+        $("#menuSearch").addClass("show");
+    });
+
+    $('body').click(function (event) {
+        if(event.target.id!='listSearch'){
+            $("#menuSearch").removeClass("show");
+        }
+    });
+    
+    $('#listSearch').on("input", function(e){
+
+        var url = $(this).attr("data-action");
+        var product = $(this).val();
+
+        var dados = new FormData();
+
+        dados.append("product", product); 
+
+        $.ajax({
+            url: url,
+            method: "POST",
+            data: dados,
+            processData: false,
+            contentType: false
+        }).done(function(response){
+            $('#menuProducts').html(response);
+        })
+
     });
     
     $(function () {
-          $('[data-toggle="popover"]').popover()
-    })
-    
-    $('.owl-carousel .CarouselOne').owlCarousel({
-        loop:true,
-        margin:10,
-        responsiveClass:true,
-        responsive:{
-            0:{
-                items:2,
-                nav:false,
-                loop:false
-            },
-            600:{
-                items:4,
-                nav:false,
-                loop:false
-            },
-            1000:{
-                items:7,
-                nav:true,
-                loop:false
-            }
-        }
-    })
-    
-    $('.owl-carousel .CarouselTwo').owlCarousel({
-        loop:true,
-        onDragged: callback,
-        margin:10,
-        responsiveClass:true,
-        responsive:{
-            0:{
-                items:2,
-                nav:false,
-                loop:false
-            },
-            600:{
-                items:3,
-                nav:false,
-                loop:false
-            },
-            890 : {
-                items:5,
-                nav:true,
-                loop:false
-            },
-            1200:{
-                items:6,
-                nav:true,
-                loop:false
-            }
-        }
-    })
-    
-    var owl = $('.owl-carousel .CarouselTwo');
-    owl.owlCarousel();
-
-    // Go to the next item
-    $('.CarouselTwoNext').click(function() {
-        owl.trigger('next.owl.carousel');
-    })
-    // Go to the previous item
-    $('.CarouselTwoPrev').click(function() {
-        // With optional speed parameter
-        // Parameters has to be in square bracket '[]'
-        owl.trigger('prev.owl.carousel', [300]);
+        $('[data-toggle="popover"]').popover();
+        $('[data-toggle="tooltip"]').tooltip();
     })
 
-    function callback(event) {
-        
-    }
-
-    var owl = $('.owl-carousel .CarouselImgs');
-    owl.owlCarousel({
-        items:1,
-        loop:true,
-        margin:10,
-        autoplay:true,
-        autoplayTimeout:3000,
-        autoplayHoverPause:true
-    });
-    
 </script>
+
 </body>
 </html>

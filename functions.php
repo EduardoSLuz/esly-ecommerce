@@ -3,7 +3,7 @@
 function maskTel($number)
 {
 
-    $number = "(".substr($number, 0, 2).") ".substr($number, 2, 5)."-".substr($number, 7);
+    $number = strlen($number) == 9 ? "(".substr($number, 0, 2).") ".substr($number, 2, 4)."-".substr($number, 6) : "(".substr($number, 0, 2).") ".substr($number, 2, 5)."-".substr($number, 7);
     return $number;
     
 }
@@ -16,6 +16,14 @@ function maskCep($number)
     
 }
 
+function maskCpf($number)
+{
+
+    $number = substr($number, 0, 3).".".substr($number, 3, 3).".".substr($number, 6, 3)."-".substr($number, 9);
+    return $number;
+    
+}
+
 function maskCnpj($number)
 {
 
@@ -23,4 +31,22 @@ function maskCnpj($number)
     return $number;
 
 }
+
+function maskPrice($value)
+{
+    $price = strstr(floatval($value), '.') != false ? floatval(strstr(floatval($value), '.', true).substr(strstr(floatval($value), '.'), 0, 3)) : floatval($value);
+
+    return number_format($price, 2, ',', '.');
+}
+
+function porcenDif($val, $val2)
+{
+
+    $res = ($val2/$val) - 1;
+
+    $res = $res * 100;
+
+    return intval($res);
+}
+
 ?>

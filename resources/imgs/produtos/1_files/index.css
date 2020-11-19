@@ -1,0 +1,62 @@
+@font-face { 
+	font-family: MyFont;
+    src: url("Play-Regular.ttf"); 
+}
+
+body{
+	font-family: MyFont;
+	background-color: #1E4C6D;
+}
+
+.MyFont {
+	font-family: MyFont;
+}
+.text-grey{
+	color: lightgray;
+}
+
+.text-ini{
+	color: #1E4C6D;
+}
+
+.link-ini{
+	border:none;
+	color: #1E4C6D;
+}
+
+.bg-ini {
+	background-color: #1E4C6D;
+}
+
+.bd-lgg {
+	border: solid lightgrey 1px;
+}
+
+.bd-lgg2 {
+	border: solid lightgrey 2px;
+}
+
+.input-ini {
+   width: 100%;
+   border: none;
+   border-bottom: 1px solid #1E4C6D;
+   outline: none;
+}
+
+.flashCor{
+	animation-name: flashCor;
+	animation-duration: 1.5s;
+	animation-iteration-count: infinite;
+}
+
+@keyframes flashCor{
+	0%{
+		color: red; 
+	}
+	50%{
+		color: blue;
+	}
+	100%{
+		color: red;
+	}
+}

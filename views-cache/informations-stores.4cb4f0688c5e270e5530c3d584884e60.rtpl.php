@@ -3,9 +3,9 @@
 		<div class="ct-ini mt-mobNavbar">
 			
 			<nav aria-label="breadcrumb" class="bar-display">
-				<ol class="breadcrumb <?php echo htmlspecialchars( $layout["bgLayout"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
-				  <li class="breadcrumb-item"><a href="/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/">Home</a></li>
-				  <li class="breadcrumb-item active" aria-current="page">Nossas Lojas</li>
+				<ol class="breadcrumb bg-site-section">
+				  <li class="breadcrumb-item"><a href="/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/" class="text-link-site-section">Home</a></li>
+				  <li class="breadcrumb-item text-link-site-section" aria-current="page">Nossas Lojas</li>
 				</ol>
 			</nav>
 
@@ -19,47 +19,59 @@
 
 				<div class="col-md">
 
-					<p class="h5 text-uppercase font-weight-normal">Nossas Lojas</p>
+					<p class="h5 text-uppercase font-weight-normal text-second-site-section">Nossas Lojas</p>
 					<hr>
 					
 					<div class="row">
 
-						<?php $counter1=-1;  if( isset($storeAll) && ( is_array($storeAll) || $storeAll instanceof Traversable ) && sizeof($storeAll) ) foreach( $storeAll as $key1 => $value1 ){ $counter1++; ?>
+						<?php if( isset($listAll) && $listAll != 0 ){ ?>
+						<?php $counter1=-1;  if( isset($listAll) && ( is_array($listAll) || $listAll instanceof Traversable ) && sizeof($listAll) ) foreach( $listAll as $key1 => $value1 ){ $counter1++; ?>
 
+							<?php if( $value1["statusStore"] == 1 ){ ?>
 							<div class="col-sm-6 mb-4">
 								<div class="card">
-									
-									<img src="/resources/imgs/banners/lojas/loja01.jpg" class="card-img-top max-height2" alt="...">
+
+									<img src="/resources/clients/<?php echo htmlspecialchars( $nameBase, ENT_COMPAT, 'UTF-8', FALSE ); ?>/stores/loja-<?php echo htmlspecialchars( $value1["store"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/imgs/loja<?php echo htmlspecialchars( $value1["store"], ENT_COMPAT, 'UTF-8', FALSE ); ?>.png" class="card-img-top max-height2" alt="Banner Loja<?php echo htmlspecialchars( $value1["store"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
 									
 									<div class="card-body">
-										<p class="card-title h5 font-weight-normal"><?php echo htmlspecialchars( $value1["nameStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?> - Loja <?php echo htmlspecialchars( $value1["store"], ENT_COMPAT, 'UTF-8', FALSE ); ?></p>
+										<p class="card-title h5 font-weight-normal">
+											<a href="/loja-<?php echo htmlspecialchars( $value1["store"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/" class="text-second-site-section"><?php echo htmlspecialchars( $value1["nameStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?> - Loja <?php echo htmlspecialchars( $value1["store"], ENT_COMPAT, 'UTF-8', FALSE ); ?></a>
+										</p>
 										
 										<p class="card-text font-weight-normal">
 											
-											<a href="https://www.google.com/maps/place/<?php echo htmlspecialchars( $value1["streetStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>, <?php echo htmlspecialchars( $value1["numberStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?> - <?php echo htmlspecialchars( $value1["districtStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>, <?php echo htmlspecialchars( $value1["nameCity"], ENT_COMPAT, 'UTF-8', FALSE ); ?> - <?php echo htmlspecialchars( $value1["nickState"], ENT_COMPAT, 'UTF-8', FALSE ); ?>, <?php echo htmlspecialchars( $value1["cepStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/" class="text-decoration-none text-dark" target="_blank"><i class="fas fa-map-marker-alt"></i>
-											<?php echo htmlspecialchars( $value1["streetStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>, <?php echo htmlspecialchars( $value1["numberStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?> - <?php echo htmlspecialchars( $value1["districtStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>, <?php echo htmlspecialchars( $value1["nameCity"], ENT_COMPAT, 'UTF-8', FALSE ); ?> - <?php echo htmlspecialchars( $value1["nickState"], ENT_COMPAT, 'UTF-8', FALSE ); ?>, <?php echo maskCep($value1["cepStore"]); ?></a>
+											<a href="https://www.google.com/maps/place/<?php echo htmlspecialchars( $value1["streetStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>, <?php echo htmlspecialchars( $value1["numberStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?> - <?php echo htmlspecialchars( $value1["districtStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>, <?php echo htmlspecialchars( $value1["city"], ENT_COMPAT, 'UTF-8', FALSE ); ?> - <?php echo htmlspecialchars( $value1["uf"], ENT_COMPAT, 'UTF-8', FALSE ); ?>, <?php echo htmlspecialchars( $value1["cepStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/" class="text-decoration-none text-second-site-section" target="_blank"><i class="fas fa-map-marker-alt"></i>
+											<?php echo htmlspecialchars( $value1["streetStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>, <?php echo htmlspecialchars( $value1["numberStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?> - <?php echo htmlspecialchars( $value1["districtStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>, <?php echo htmlspecialchars( $value1["city"], ENT_COMPAT, 'UTF-8', FALSE ); ?> - <?php echo htmlspecialchars( $value1["uf"], ENT_COMPAT, 'UTF-8', FALSE ); ?>, <?php echo maskCep($value1["cepStore"]); ?></a>
 											<br>
 
-											<i class="fas fa-phone-alt"></i> <a><?php echo maskTel($value1["telephoneStore"]); ?></a>
+											<i class="fas fa-phone-alt text-second-site-section"></i> <a><?php echo maskTel($value1["telephoneStore"]); ?></a>
 											<br>
 
-											<i class="fab fa-whatsapp"></i> <a><?php echo maskTel($value1["whatsappStore"]); ?></a>
+											<i class="fab fa-whatsapp text-second-site-section"></i> <a><?php echo maskTel($value1["whatsappStore"]); ?></a>
 											<br>
 											
-											<i class="far fa-envelope"></i> <a><?php echo htmlspecialchars( $value1["emailStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?></a>
+											<i class="far fa-envelope text-second-site-section"></i> <a><?php echo htmlspecialchars( $value1["emailStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?></a>
 
 											<?php if( $value1["horary"] != 0 && count($value1["horary"]) > 0 ){ ?>
-												<p class="font-weight-bold my-0"><i class="far fa-clock"></i> Horário de Atendimento:</p>
+												<p class="font-weight-bold my-0 text-second-site-section"><i class="far fa-clock"></i> Horário de Atendimento:</p>
 													
-												<?php $counter2=-1;  if( isset($value1["horary"]) && ( is_array($value1["horary"]) || $value1["horary"] instanceof Traversable ) && sizeof($value1["horary"]) ) foreach( $value1["horary"] as $key2 => $value2 ){ $counter2++; ?>
-													<p class="my-1">
-														<?php echo htmlspecialchars( $value2["dayName"], ENT_COMPAT, 'UTF-8', FALSE ); ?><?php if( isset($value2["dayNameFinal"]) ){ ?>-<?php echo htmlspecialchars( $value2["dayNameFinal"], ENT_COMPAT, 'UTF-8', FALSE ); ?><?php } ?>: <?php echo date('H:i', strtotime($value2["timeInitial"])); ?> às <?php echo date('H:i', strtotime($value2["timeFinal"])); ?>
-
-														<?php if( $value2["timeInitial2"] > $value2["timeInitial"] ){ ?>
-															- <?php echo date('H:i', strtotime($value2["timeInitial2"])); ?> às <?php echo date('H:i', strtotime($value2["timeFinal2"])); ?>
+												<ul class="txList-StyleNone">
+                                
+													<?php $counter2=-1;  if( isset($value1["horary"]) && ( is_array($value1["horary"]) || $value1["horary"] instanceof Traversable ) && sizeof($value1["horary"]) ) foreach( $value1["horary"] as $key2 => $value2 ){ $counter2++; ?>
+													<li class="my-1 text-second-site-section">
+														
+														<?php echo htmlspecialchars( $value2["name"], ENT_COMPAT, 'UTF-8', FALSE ); ?><?php if( $key2 == count($horary) - 1 ){ ?> - <?php echo htmlspecialchars( $value2["dayNameFinal"], ENT_COMPAT, 'UTF-8', FALSE ); ?><?php } ?>:
+				
+														<?php echo date('H:i', strtotime($value2["horary"]["0"]["init"])); ?> às <?php echo date('H:i', strtotime($value2["horary"]["0"]["final"])); ?>
+					
+														<?php if( $value2["horary"]["1"]["init"] > $value2["horary"]["0"]["init"] ){ ?>
+															- <?php echo date('H:i', strtotime($value2["horary"]["1"]["init"])); ?> às <?php echo date('H:i', strtotime($value2["horary"]["1"]["final"])); ?>
 														<?php } ?>
-													</p>
-												<?php } ?>
+				
+													</li>
+													<?php } ?>
+						
+												</ul>
 
 											<?php } ?>
 						
@@ -67,7 +79,9 @@
 									</div>
 								</div>
 							</div>
+							<?php } ?>
 
+						<?php } ?>
 						<?php } ?>
 
 					  </div>
@@ -80,187 +94,4 @@
 
 	</section>
 
-	<div id="mySidenav" class="sidenav shadow cart-BtnFloat">
-		<a href="javascript:void(0)" class="closebtn text-dark" onclick="closeNav()">
-			<i class="fas fa-times h4"></i>
-		</a>
-		
-		<div class="mx-3">
-
-			<p class="h5 font-weight-normal">Outras Páginas</p>
-				
-			<?php require $this->checkTemplate("informationsLinks");?>
-			
-		</div>
-
-	</div>
-	
-	<!-- MODALS PAGE INICIO -->
-
-		<!-- MODAL ALTER STORES -->
-		<div class="modal fade" id="ModalAlterStores" tabindex="-1" role="dialog" aria-labelledby="ModalAlterStores" aria-hidden="true">
-			
-			<div class="modal-dialog modal-dialog-centered modal-sm">
-			 
-				<div class="modal-content">
-				
-					<div class="modal-header border-bottom-0">
-				  
-						<button type="button" class="close btn btn-light p-2" data-dismiss="modal" aria-label="Close">
-							<i class="fas fa-times"></i>
-						</button>
-				
-					</div>
-				
-					<div class="modal-body">
-						
-						<h4 class="text-center">
-							Seja bem vindo!
-						</h4>
-
-						<p>
-							Em qual das lojas você deseja acessar?
-						</p>
-						
-						<select name="SelectStoresModal" id="SelectStoresModal" class="custom-select">
-							<option value="1">Loja 01</option>
-							<option value="2">Loja 02</option>
-							<option value="3">Loja 03</option>
-						</select>
-						
-						<button type="button" class="btn btn-primary text-white w-100 mt-3">Acessar</button>
-
-						<p class="mt-2">
-							Não encontrou a loja? No momento, o serviço de delivery está atendendo à algumas regiões.
-						</p>
-
-						<p>
-							Conheça todas as lojas disponíveis para as compras.
-						</p>
-						
-					</div>
-			  
-				</div>
-			
-			</div>
-		  
-		</div>
-
-		<!-- MODAL CONSULTATION REGIONS  -->
-		<div class="modal fade" id="ModalConsultationRegions" tabindex="-1" role="dialog" aria-labelledby="ModalConsultationRegions" aria-hidden="true">
-			
-			<div class="modal-dialog modal-dialog-centered modal-sm">
-			 
-				<div class="modal-content">
-				
-					<div class="modal-header border-bottom-0 pb-2">
-						
-						<h5 class="text-left">
-							<i class="fas fa-truck"></i> Regiões Atendidas
-						</h5>
-
-						<button type="button" class="close btn btn-light p-2" data-dismiss="modal" aria-label="Close">
-							<i class="fas fa-times"></i>
-						</button>
-				
-					</div>
-				
-					<div class="modal-body py-0">
-						
-						<h5 class="font-weight-normal">Loja 01</h5>
-						<hr>
-
-						<ul class="txList-StyleNone text-left">
-							<li><i class="fas fa-map-marker-alt"></i> Centro</li>
-							<li><i class="fas fa-map-marker-alt"></i> Jardim Noroeste</li>
-							<li><i class="fas fa-map-marker-alt"></i> Jardim São Conrado</li>
-							<li><i class="fas fa-map-marker-alt"></i> Nova Bahia</li>
-							<li><i class="fas fa-map-marker-alt"></i> Tiradentes</li>
-						</ul>
-						
-						
-					</div>
-			  
-				</div>
-			
-			</div>
-		  
-		</div>
-
-		<!-- MODAL CONSULTATION HORARY  -->
-		<div class="modal fade" id="ModalConsultationHorary" tabindex="-1" role="dialog" aria-labelledby="ModalConsultationHorary" aria-hidden="true">
-			
-			<div class="modal-dialog modal-lg">
-			 
-				<div class="modal-content">
-				
-					<div class="modal-header border-bottom-0">
-
-						<button type="button" class="close btn btn-light p-2" data-dismiss="modal" aria-label="Close">
-							<i class="fas fa-times"></i>
-						</button>
-				
-					</div>
-				
-					<div class="modal-body">
-						
-						<div class="row">
-
-							<div class="col-md">
-								
-								<p class="h5">
-									Horários de retirada
-								</p>
-
-								<p class="mt-3">
-									<b>Segunda-Feira:</b><br>
-									09:00 - 12:00<br>
-									14:00 - 18:00
-								</p>
-
-								<p>
-									<b>Terça-Feira até Sexta-Feira:</b><br>
-									08:00 - 12:00<br>
-									13:00 - 20:00
-								</p>
-
-								<p>
-									<b>Sábado e Domingo</b><br>
-									09:00 - 15:00<br>
-									
-								</p>
-
-							</div>
-
-							<div class="col-md">
-								
-								<p class="h5">
-									Horários de Entrega
-								</p>
-
-								<label for="SelectRegionModal">Escolha um região:</label><br>
-								<div class="input-group">
-									
-									<select id="SelectRegionModal" class="custom-select">
-										<option>Centro</option>
-										<option>Jardim Noroeste</option>
-										<option>Jardim São Conrado</option>
-									</select>
-
-									<div class="input-group-append">
-										<button type="button" class="btn btn-primary"><i class="fas fa-search"></i></button>
-									</div>
-								</div>
-
-
-							</div>
-
-						</div>
-						
-					</div>
-			  
-				</div>
-			
-			</div>
-		  
-		</div>
+	<?php require $this->checkTemplate("informationsBar");?>

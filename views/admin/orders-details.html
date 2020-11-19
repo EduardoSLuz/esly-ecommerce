@@ -1,0 +1,419 @@
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1 class="m-0 text-dark">
+                Pedido 
+                {if="isset($orders) && $orders != 0"}
+                  #{$orders.0.idOrder} {if="$orders.0.codOrder > 0"}- Server #{$orders.0.codOrder}{/if}
+                {/if}
+              </h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+              <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="/admin/">Home</a></li>
+                <li class="breadcrumb-item"><a href="/admin/orders/">Pedidos</a></li>
+                <li class="breadcrumb-item active">
+                  Pedido 
+                  {if="isset($orders) && $orders != 0"}
+                  #{$orders.0.idOrder}
+                  {/if}
+                </li>
+              </ol>
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+      </div>
+      <!-- /.content-header -->
+  
+      <!-- Main content -->
+      <section class="content">
+        <div class="container-fluid">
+            
+          <!-- /.row -->
+          <div class="row">
+            <div class="col-12">
+  
+              <!-- Main content -->
+              <div class="invoice p-3 mb-3">
+                <!-- title row -->
+                <div class="row">
+                  <div class="col-12">
+                    <h4>
+                      <i class="fas fa-globe"></i> {$orders.0.infoStore.nameStore} E-commerce.
+                      <small class="float-right">
+                        Data: {function="date("H:i", strtotime($orders.0.timeInsert))"} - {function="date("d/m/Y", strtotime($orders.0.dateInsert))"} 
+                      </small>
+                    </h4>
+                  </div>
+                  <!-- /.col -->
+                </div>
+                <!-- info row -->
+                <div class="row invoice-info">
+                  {if="isset($orders.0.address.0)"}
+                  <div class="col-sm-4 invoice-col">
+                    De
+                    <address>
+                   
+                      <strong>{$orders.0.infoStore.nameStore}.</strong><br>
+                      
+                      <i>{$orders.0.address.0.street}, {$orders.0.address.0.number} - {$orders.0.address.0.district}</i>
+                      <br> <i>{$orders.0.address.0.city} - {$orders.0.address.0.uf}, {function="maskCep($orders.0.address.0.cep)"}</i>
+                      
+                      {if="isset($orders.0.address.0.complement) && !empty($orders.0.address.0.complement)"}
+                      <br><i>{$orders.0.address.0.complement}</i>
+                      {/if}
+                      
+                      <br> Telefone: {if="$orders.0.infoStore.telephoneStore != 0"} {function="maskTel($orders.0.infoStore.telephoneStore)"} {else} <b>Sem Telefone</b> {/if} <br> E-mail: {if="$orders.0.infoStore.emailStore != ''"} {$orders.0.infoStore.emailStore} {else} <b>Sem e-mail</b> {/if}
+                      <br> Whatsapp: {if="$orders.0.infoStore.whatsappStore != 0"} {function="maskTel($orders.0.infoStore.whatsappStore)"} {else} <b>Sem whatsapp</b> {/if}
+                   
+                    </address>
+                  </div>
+                  {/if}
+                  <!-- /.col -->
+                  <div class="col-sm-4 invoice-col">
+                    Para
+                    <address>
+                    
+                      <strong>{$orders.0.infoUser.nameUser}{if="!empty($orders.0.infoUser.surnameUser)"} {$orders.0.infoUser.surnameUser}.{else}.{/if}</strong>
+                      
+                      {if="isset($orders.0.address.1)"}
+                      
+                      <br><i>{$orders.0.address.1.street}, {$orders.0.address.1.number} - {$orders.0.address.1.district}</i>
+                      <br> <i>{$orders.0.address.1.city} - {$orders.0.address.1.uf}, {function="maskCep($orders.0.address.1.cep)"}</i>
+
+                      {if="isset($orders.0.address.1.complement) && !empty($orders.0.address.1.complement)"}
+                      <br><i>{$orders.0.address.1.complement}</i>
+                      {/if}
+                      
+                      {/if}
+
+                      <br> Telefone: {if="$orders.0.infoUser.telephoneUser != 0"} {function="maskTel($orders.0.infoUser.telephoneUser)"} {else} <b>Sem Telefone</b> {/if} <br> E-mail: {if="$orders.0.infoUser.emailUser != ''"} {$orders.0.infoUser.emailUser} {else} <b>Sem e-mail</b> {/if}
+                      <br> Whatsapp: {if="$orders.0.infoUser.whatsappUser != 0"} {function="maskTel($orders.0.infoUser.whatsappUser)"} {else} <b>Sem whatsapp</b> {/if}
+                    
+                    </address>
+                  </div>
+                  <!-- /.col -->
+                  <div class="col-sm-4 invoice-col">
+                    <p class="mb-2">
+                      <b>Tipo:</b>
+                      {if="$orders.0.typeModality == 1"}Retirada{/if}
+                      
+                      {if="$orders.0.typeModality == 2"}
+                      
+                      Entrega - <i><u>{if="$orders.0.typeFreight == 0"}Normal{else}Express{/if}</u></i>
+                      
+                      {/if}<br>
+                      <b>Status:</b> {$orders.0.descStatus}
+                    </p>
+                    <p class="mb-2">
+                      <b>Pago:</b> 
+                      
+                      {if="$orders.0.paid == 1"}
+                      Sim
+                      {else}
+                      Não
+                      {/if}
+                      <br>
+
+                      {if="0==1"}
+                      <b>Código da Venda:</b> 1303030<br>
+                      <a href="#"><b>Ver Nota Fiscal</b></a>
+                      {/if}
+
+                    </p>
+                    
+                  </div>
+                  <!-- /.col -->
+                </div>
+                <!-- /.row -->
+  
+                <!-- Table row -->
+                <div class="row">
+                  
+                  <div class="col-md-12 my-2 no-print">
+                    
+
+                    {if="isset($orders) && $orders.0.idOrderStatus >= 2 && $orders.0.idOrderStatus < 4"}
+                    <a href="#" class="text-success" data-toggle="modal" data-target="#modalOrderItem" data-type="1" data-id="0" data-modal-title="Adicionar um Item" data-order="{$orders.0.idOrder}" data-cart="{$orders.0.cart.idCart}" data-item="0" data-qtd="1" data-similar="1" data-price="0" data-discount="0" data-total="0"> <i class="fas fa-plus"></i> Adicionar</a>
+                    {/if}
+
+                    <button type="button" target="_blank" class="btn btn-sm btn-default float-right" onclick="window.print();"><i class="fas fa-print"></i> </button>
+
+                  </div>
+
+                  <div class="col-12 table-responsive">
+                    <table id="tbOrderItem" class="table table-striped">
+                      <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Produto</th>
+                        <th>Similar</th>
+                        <th>Preço Item</th>
+                        <th>Qtd</th>
+                        <th>Subtotal</th>
+                        <th>Desconto</th>
+                        <th>Total</th>
+                        <th>Opções</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      {if="isset($orders.0.cart) && $orders.0.cart.items != 0"}
+
+                      {loop="$orders.0.cart.items"}
+                      <tr>
+                        <td>{$key + 1}</td>
+                        <td>{$value.descProduct}</td>
+                        <td>{if="$value.similar == 1"}Sim{else}Não{/if}</td>
+                        <td>R$ {function="maskPrice($value.priceItem)"}</td>
+                        <td>{$value.quantity}</td>
+                        <td>R$ {function="maskPrice($value.priceItem * $value.quantity)"}</td>
+                        <td>R$ {function="maskPrice($value.discount)"}</td>
+                        <td>R$ {function="maskPrice($value.totalItem)"}</td>
+                        <td>
+                          
+                          {if="isset($orders) && $orders.0.idOrderStatus >= 2 && $orders.0.idOrderStatus < 4"}
+                          <button type="button" class="btn btn-tool px-1" data-toggle="modal" data-target="#modalOrderItem" data-type="2" data-id="{$value.idCartItem}" data-modal-title="Alterar um Item" data-order="{$orders.0.idOrder}" data-cart="{$orders.0.cart.idCart}" data-item="{$value.codProduct}" data-qtd="{$value.quantity}" data-similar="{$value.similar}" data-price="{$value.priceItem}" data-discount="{$value.discount}" data-total="{$value.totalItem}"> <i class="fas fa-pen"></i> </button>
+                          <button type="button" class="btnOrderItemDelete btn btn-tool px-1" data-type="3" data-id="{$value.idCartItem}" data-order="{$orders.0.idOrder}"><i class="far fa-trash-alt"></i></button>
+                          {else}
+                          <i class="fas fa-check px-3"></i>
+                          {/if}
+
+                        </td>
+                      </tr>
+                      {/loop}
+
+                      {else}
+                      <tr class="h6 text-center py-3">
+                        <td colspan="8"><b><i>NENHUM PRODUTO ENCONTRADO</i></b></td>
+                      </tr>
+                      {/if}
+                      </tbody>
+                    </table>
+                  </div>
+                  <!-- /.col -->
+                </div>
+
+                {if="isset($orders.0.cart) && !empty($orders.0.cart.obsCart)"}
+                <div class="my-2">
+                      
+                  <details>
+                    <summary class="h5"> <i>Observações do Pedido</i></summary>
+                    <p>{$orders.0.cart.obsCart}</p>                    
+                  </details>
+
+                  <hr>
+                  
+                </div>
+                {/if}
+  
+                <div class="row">
+
+                  <div class="col-md-6 my-2">
+                    
+                    <p class="h5 font-weight-light mb-3">
+                      Nome de quem irá {if="$orders.0.typeModality == 1"}retirar{else}receber{/if}:<br>
+                      <b>{$orders.0.nameRes}</b>
+                    </p>
+
+                    {if="isset($orders.0.payment) && $orders.0.payment != 0"}
+                    <p id="opOrderPayment" class="h5 font-weight-light">
+                      <span>Opção de Pagamento:</span> 
+                      
+                      {if="isset($orders) && $orders.0.idOrderStatus >= 2 && $orders.0.idOrderStatus < 4"}
+                      <button type="button" class="btn btn-tool px-1" data-toggle="modal" data-target="#modalOrderPay" data-type="2" data-id="{$orders.0.idOrder}" data-modal-title="Alterar o Pagamento do Pedido" data-payment="{$orders.0.payment.idPayment}" data-change="{$orders.0.changePay}"> <i class="fas fa-pen"></i> </button> 
+                      {else}
+                      <i class="fas fa-check"></i>
+                      {/if}
+
+                      <br> <i>{$orders.0.payment.pay} - {$orders.0.payment.description}&nbsp;</i>
+                      <img src="/resources/imgs/cards-payment/{$orders.0.payment.image}" class="my-0" alt="{$orders.0.payment.pay}" title="{$orders.0.payment.pay}">  
+                      {if="$orders.0.payment.pay == 'Dinheiro'"} <i> - Troco para: R$ {function="maskPrice($orders.0.changePay)"}</i>{/if}
+                    </p>
+                    {/if}
+
+                    {if="isset($orders) && $orders != 0"}
+                    <p id="opOrderHorary" class="h5 font-weight-light mt-1 mb-3">
+                      <span>Agendamento:</span> 
+
+                      {if="isset($orders) && $orders.0.idOrderStatus >= 2 && $orders.0.idOrderStatus < 4"}
+                      <button type="button" class="btn btn-tool px-1" data-toggle="modal" data-target="#modalOrderHorary" data-type="2" data-id="{$orders.0.idOrder}" data-modal-title="Alterar o Agendamento" data-date="{$orders.0.dateHorary}" data-init="{$orders.0.timeInitial}" data-final="{$orders.0.timeFinal}" data-value="{$orders.0.priceHorary}"> <i class="fas fa-pen"></i> </button> 
+                      {else}
+                      <i class="fas fa-check"></i>
+                      {/if}
+                      
+                      <br> <span class="h5">
+                        <i>
+                         {function="utf8_encode(ucwords(strftime('%A', strtotime($orders.0.dateHorary))))"} - {function="date('d/m/Y', strtotime($orders.0.dateHorary))"} 
+                         <br>{function="date('H:i', strtotime($orders.0.timeInitial))"} às {function="date('H:i', strtotime($orders.0.timeFinal))"}
+                        </i>
+                      </span>
+                    </p>
+                    {/if}
+
+                    <p class="h5 font-weight-light my-1">
+                      
+                      Promoção Aplicada: 
+                      {if="isset($orders) && isset($orders.0.idPromo)"}
+                      
+                      {if="isset($orders) && $orders.0.idOrderStatus >= 2 && $orders.0.idOrderStatus < 4"}
+                      <button type="button" class="btn btn-tool px-0" data-toggle="modal" data-target="#modalOrderPromo" data-type="2" data-id="{$orders.0.idOrder}" data-modal-title="Alterar a Promoção" data-promo="{$orders.0.idPromo}"> <i class="fas fa-pen"></i> </button> 
+                      {else}
+                      <i class="fas fa-check"></i>
+                      {/if}
+
+                      {if="$orders.0.idPromo != 0"}
+                      <button type="button" class="btn btn-tool px-0 btnOrderPromoDelete" data-type="3" data-id="{$orders.0.idOrder}"> <i class="fas fa-trash-alt"></i> </button> 
+                      {/if}
+
+                      {/if}
+                    </p>
+                    <div id="opOrderPromo" class="h5 my-1">
+                      {if="isset($orders) && $orders.0.idPromo != 0"}
+                      <span>{$orders.0.title}</span>
+                      {else}
+                      <span><i>*Sem Promoção Aplicada*</i></span>
+                      {/if}
+                    </div>
+                    
+                  </div>
+                  <!-- /.col -->
+                  <div class="col-md-6 my-2">
+                    <p class="lead">
+                      
+                      Ultima Atualização {function="date('H:i', strtotime($orders.0.timeUpdate))"} - {function="date('d/m/Y', strtotime($orders.0.dateUpdate))"}
+                      
+                      {if="isset($orders) && $orders.0.idOrderStatus >= 2 && $orders.0.idOrderStatus <= 3"} &nbsp;
+                      <button id="btnOrderAlert" type="button" class="btn btn-sm btn-outline-info" data-id="{$orders.0.idOrder}" data-toggle="modal" data-target="#modalOrderAlert">
+                        <i class="far fa-paper-plane"></i>
+                      </button>
+                      {/if}
+
+                    </p>
+  
+                    <div class="table-responsive">
+                      <table id="tbValuesOrder" class="table">
+                        
+                        {if="isset($orders.0.subtotal)"}
+                        <tr>
+                          <th style="width:50%">Subtotal:</th>
+                          <td>R$ {function="maskPrice($orders.0.subtotal)"}</td>
+                        </tr>
+                        {/if}
+
+                        {if="isset($orders) && $orders.0.typeModality == 2"}
+                        <tr>
+                          <th>Frete</th>
+                          <td>
+                            {if="$orders.0.priceFreight > 0"} R$ {function="maskPrice($orders.0.priceFreight)"} {else} <i class="text-success">Grátis</i> {/if}
+                          </td>
+                        </tr>
+                        {/if}
+                        
+                        <tr>
+                          <th>Agendamento:</th>
+                          <td>
+                            {if="$orders.0.priceHorary > 0"} R$ {function="maskPrice($orders.0.priceHorary)"} {else} <i class="text-success">Grátis</i> {/if}
+                          </td>
+                        </tr>
+                        
+                        {if="isset($orders) && $orders.0.discount > 0"}
+                        <tr>
+                          <th>Desconto Subtotal:</th>
+                          <td>R$ {function="maskPrice($orders.0.discount)"}</td>
+                        </tr>
+                        {/if}
+                        
+                        {if="isset($orders.0.total)"}
+                        <tr>
+                          <th>Total:</th>
+                          <td>R$ {function="maskPrice($orders.0.total)"}</td>
+                        </tr>
+                        {/if}
+                        
+                      </table>
+                    </div>
+                  </div>
+                  <!-- /.col -->
+                </div>
+                <!-- /.row -->
+  
+                <!-- this row will not appear when printing -->
+                <div class="no-print">
+                  <div class="row">
+                    
+                    <div class="col-md-6 col-12 my-1">
+                      {if="isset($orders) && $orders.0.idOrderStatus != 9"}
+                      <button type="button" class="btnOrderStatus btn btn-outline-danger" data-status="9" data-id="{$orders.0.idOrder}">
+                        <i class="fas fa-times"></i>
+                        Cancelar
+                      </button>
+
+                      <div id="overlayOrderCancel" class="btn d-none">
+                        <div class="overlay d-flex justify-content-center align-items-center">
+                            <i class="fas fa-1x fa-sync fa-spin"></i>
+                        </div>
+                      </div>
+                      
+                      {/if}
+                    </div>
+                    
+                    <div class="col-md-6 col-12 my-1 text-right">
+                      
+                      <div id="overlayOrderStatus" class="btn d-none">
+                        <div class="overlay d-flex justify-content-center align-items-center">
+                            <i class="fas fa-1x fa-sync fa-spin"></i>
+                        </div>
+                      </div>
+
+                      {if="isset($orders) && $orders.0.idOrderStatus == 2"}
+                      <button type="button" class="btnOrderStatus btn btn-success" data-status="3" data-id="{$orders.0.idOrder}">
+                        <i class="fas fa-clipboard-list"></i>
+                        Separar Pedido
+                      </button>
+                      {/if}
+
+                      {if="isset($orders) && $orders.0.idOrderStatus == 3"}
+                      <button type="button" class="btnOrderStatus btn btn-success" data-status="4" data-id="{$orders.0.idOrder}">
+                        <i class="fas fa-shopping-basket"></i>
+                        Confirmar Separação
+                      </button>
+                      {/if}
+
+                      {if="isset($orders) && $orders.0.idOrderStatus == 4 && $orders.0.typeModality == 1"}
+                      <button type="button" class="btnOrderStatus btn btn-success" data-status="7" data-id="{$orders.0.idOrder}">
+                        <i class="fas fa-check"></i>
+                        Confirmar Retirada
+                      </button>
+                      {/if}
+
+                      {if="isset($orders) && $orders.0.idOrderStatus == 4 && $orders.0.typeModality == 2"}
+                      <button type="button" class="btnOrderStatus btn btn-success" data-status="5" data-id="{$orders.0.idOrder}">
+                        <i class="fas fa-truck"></i>
+                        Confirmar Envio
+                      </button>
+                      {/if}
+
+                      {if="isset($orders) && $orders.0.idOrderStatus == 5 && $orders.0.typeModality == 2"}
+                      <button type="button" class="btnOrderStatus btn btn-success" data-status="6" data-id="{$orders.0.idOrder}">
+                        <i class="fas fa-check"></i>
+                        Confirmar Entrega
+                      </button>
+                      {/if}
+
+                    </div>  
+
+                  </div>
+                </div>
+              </div>
+              <!-- /.invoice -->
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+
+        </div><!-- /.container-fluid -->
+      </section>
+      <!-- /.content -->
+
+        
+        

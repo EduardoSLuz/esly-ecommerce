@@ -414,7 +414,7 @@
                             <tr>
                               <td class="body-signature-cell">
                                 <p>Obrigado!</p>
-                                <p class="body-signature"><img src="http://<?php echo htmlspecialchars( $store["HTTP"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/resources/clients/<?php echo htmlspecialchars( $store["nameBase"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/imgs/logo.png" alt="Logo"></p>
+                                <p class="body-signature"><img src="http://<?php echo htmlspecialchars( $store["HTTP"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/resources/clients/<?php echo htmlspecialchars( $store["nameBase"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/stores/loja-<?php echo htmlspecialchars( $store["ID"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/imgs/logo.png" alt="Logo"></p>
                               </td>
                             </tr>
                           </table>
@@ -437,16 +437,23 @@
           <td class="container">
             <div class="content">
               <span class="footer-group">
-                <?php if( count($store["social"]) > 0 ){ ?>
+                <?php if( isset($store["social"]["0"]) && count($store["social"]["0"]) > 0 ){ ?>
 
-                <?php $counter1=-1;  if( isset($store["social"]) && ( is_array($store["social"]) || $store["social"] instanceof Traversable ) && sizeof($store["social"]) ) foreach( $store["social"] as $key1 => $value1 ){ $counter1++; ?>
+                <?php $counter1=-1;  if( isset($store["social"]["0"]) && ( is_array($store["social"]["0"]) || $store["social"]["0"] instanceof Traversable ) && sizeof($store["social"]["0"]) ) foreach( $store["social"]["0"] as $key1 => $value1 ){ $counter1++; ?>
 
-                <a href="<?php echo htmlspecialchars( $value1["linkSocial"], ENT_COMPAT, 'UTF-8', FALSE ); ?>"><?php echo htmlspecialchars( $value1["nameSocial"], ENT_COMPAT, 'UTF-8', FALSE ); ?> | </a>
+                
+                <?php if( $value1["idSocialType"] != 5 && $value1["idSocialType"] != 6 ){ ?>
+
+                <a href="<?php echo htmlspecialchars( $value1["link"], ENT_COMPAT, 'UTF-8', FALSE ); ?>"><?php echo htmlspecialchars( $value1["name"], ENT_COMPAT, 'UTF-8', FALSE ); ?> | </a>
                 <?php } ?>
 
+
                 <?php } ?>
 
-                <a href="https://astemac.com.br">Astemac</a>
+
+                <?php } ?>
+
+                <a href="https://astemac.com.br"><i>Astemac</i></a>
               </span>
             </div>
           </td>

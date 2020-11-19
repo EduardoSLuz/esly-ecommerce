@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<!-- saved from url=(0029)https://www.astemacms.com.br/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+   <!-- Metas, Links e Javascripts -->
+   
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta http-equiv="Content-Language" content="pt-br">
+   <link href="./1_files/bootstrap-4.3.1.css" rel="stylesheet">
+   <link href="./1_files/index.css" rel="stylesheet">
+   <link rel="icon" href="https://www.astemacms.com.br/IconeAst.ico" type="image/x-icon">
+   <link rel="shortcut icon" href="https://www.astemacms.com.br/IconeAst.ico" type="image/x-icon">
+   <link rel="stylesheet" href="./1_files/all.css">
+   <link rel="stylesheet" href="./1_files/v4-shims.css"> 
+   <script src="./1_files/jquery.min.js.download"></script>
+   <script src="./1_files/bootstrap.min.js.download" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+   <script src="./1_files/popper.min.js.download" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+   <script src="./1_files/jquery.mask.min.js.download"></script>
+   <script src="./1_files/index.js.download"></script>
+   <!-- Title Link -->
+   <title>Astemac | Inicio</title>  
+  </head>
+  <body class="modal-open">
+
+   <!-- Ajax POST -->
+   <script>
+  
+    $(function(){
+        $('.formMdLg').submit(function(){
+          $.ajax({
+           url: 'Login.php',
+           type: 'POST',
+           data: $('.formMdLg').serialize(),
+            success: function( data ){
+              if( data != ''){
+               $('.RpMdLg').html(data);            
+              }
+              else{
+               alert('Sem Resposta!');
+              }
+            }
+          });
+         return false;
+        });
+    });
+ </script> <script>
+  
+    $(function(){
+        $('.formRcSn').submit(function(){
+          $.ajax({
+           url: 'index.Senha.php',
+           type: 'POST',
+           data: $('.formRcSn').serialize(),
+            success: function( data ){
+              if( data != ''){
+               $('.RecebeDadosRcSn').html(data);            
+              }
+              else{
+               alert('Sem Resposta!');
+              }
+            }
+          });
+         return false;
+        });
+    });
+ </script> <script>
+  
+    $(function(){
+        $('.formNvSn').submit(function(){
+          $.ajax({
+           url: 'index.SenhaNova.php',
+           type: 'POST',
+           data: $('.formNvSn').serialize(),
+            success: function( data ){
+              if( data != ''){
+               $('.RecebeDadosNvSn').html(data);            
+              }
+              else{
+               alert('Sem Resposta!');
+              }
+            }
+          });
+         return false;
+        });
+    });
+ </script>     
+   <!-- Menu Inicial e MODALS Page -->
+   <nav class="navbar navbar-expand-lg" style="background-color: white">
+      <div class="container">
+       <a href="https://www.astemacms.com.br/index.php" class="navbar-brand text-primary"><img src="./1_files/logo.png" width="100px" class="img-fluid" alt="Logo Astemac"></a>
+       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> <span class="text-primary"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" width="30" height="30" focusable="false"><title>Menu</title><path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" d="M4 7h22M4 15h22M4 23h22"></path></svg></span> </button>
+        
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            
+            <li class="nav-item">
+             <a class="nav-link text-ini" href="https://www.astemacms.com.br/index.php">Inicio <span class="sr-only">(current)</span></a>
+            </li>
+            
+            <li class="nav-item">
+             <a class="nav-link text-primary" href="https://www.astemacms.com.br/Downloads.php">Downloads</a>
+            </li>
+
+            
+			         
+          </ul>
+
+          <form class="form-inline my-2 my-lg-0">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item"> <a class="nav-link text-primary" href="https://www.astemacms.com.br/#" data-toggle="modal" data-target="#ModalLogin">Entrar</a></li>
+		        </ul>	
+          </form>
+        </div>
+      </div>
+    </nav><div class="modal fade show" id="ModalLogin" tabindex="-1" role="dialog" aria-modal="true" style="display: block;">
+         <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content col-lg-10 offset-lg-1">
+           <div class="modal-header">
+            <h5 class="modal-title text-ini" id="TSp">Entrar</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">×</span> </button>
+           </div>
+           <form id="FormMdLg" class="formMdLg" method="POST">
+            <div class="RpMdLg"></div>
+            <div class="modal-body">
+             <div class="form-row">
+              <div class=" col-md-6 col-lg-12">
+               <input type="email" class="form-control" id="InputMl" name="InputMl" placeholder="Digite seu e-mail" autocomplete="off">
+               <a id="Txt_Email" class="text-danger"><br></a>
+               <input type="password" class="form-control" id="InputSn" name="InputSn" placeholder="Digite sua senha" autocomplete="off">
+               <a id="Txt_Senha" class="text-danger"><br></a>
+               <a href="https://www.astemacms.com.br/#" data-toggle="modal" data-target="#ModalES" data-dismiss="modal">Esqueci minha senha </a> <br> 
+               <a href="https://www.astemacms.com.br/Cadastro.php">Ainda não tenho conta</a>
+              </div>   
+             </div> 
+            </div>
+            <div class="modal-footer">
+             <input type="submit" class="btn btn-primary" value="Entrar">
+            </div>
+           </form>
+          </div>
+         </div>
+        </div><div class="modal fade" id="ModalES" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content col-lg-10 offset-lg-1">
+              <div class="modal-header">
+               <h5 class="modal-title text-ini" id="exampleModalLongTitle">Recuperar a senha</h5>
+               <button type="button" class="close" data-toggle="modal" data-target="#ModalLogin" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">×</span> </button>
+              </div>
+              
+              <form class="formRcSn" method="POST"> 
+                <div class="RecebeDadosRcSn"></div>
+
+                <div class="modal-body">
+                  <div class="form-row">
+                    <div class="form-group col-md-6 col-lg-12">
+                     <input type="email" class="form-control" id="InputEmail" name="InputEmail" placeholder="Digite o e-mail para recuperação">
+                     <a id="Txt_Mail" class="text-danger"></a>
+                    </div>
+                  </div> 
+                </div>
+            
+                <div class="modal-footer">
+                 <input type="submit" class="btn btn-primary btn-sm" value="✔">
+                 <input type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#ModalLogin" data-dismiss="modal" value="X">
+                </div>
+              </form>
+            </div>
+          </div>
+        </div><div class="modal fade" id="ModalCds" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+         <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content col-lg-10 offset-lg-1">
+           <div class="modal-header">
+            <h5 class="modal-title text-ini" id="exampleModalLongTitle">Cadastro Pedente</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">×</span> </button>
+           </div>
+           <form> 
+            <div class="modal-body">
+             <div class="form-row">
+              <div class="form-group col-md-6 col-lg-12">
+               <h5 class="text-center text-ini" id="TxtCds"><a id="TitleMd">Cadastro feito com sucesso!</a><br><br>
+               <a id="TxtMd">Agora foi enviado na caixa de entrada do seu e-mail uma mensagem de confirmação de e-mail, após confirmar, você terá que aguardar a confirmação do seu usário feito por um administrador do site, pode levar algum tempo, por isso aguarde<br><br>
+               Ps: *Caso não ache a mensagem na sua caixa de entrada, tente procurar na caixa de spam ou na lixeira*</a></h5>
+              </div>
+             </div> 
+            </div>
+            <div class="modal-footer">
+             <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Fechar</button>
+            </div>
+           </form>
+          </div>
+         </div>
+        </div><script type="text/javascript">
+     $('#ModalLogin').on('shown.bs.modal', function () { $('#InputMl').focus(); });
+    </script><div class="modal fade" id="ModalNvSn" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content col-lg-10 offset-lg-1">
+              <div class="modal-header">
+               <h5 class="modal-title text-ini" id="exampleModalLongTitle">Nova senha</h5>
+               <button type="button" class="close" data-toggle="modal" data-target="#ModalLogin" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">×</span> </button>
+              </div>
+              
+              <form class="formNvSn" method="POST"> 
+                <div class="RecebeDadosNvSn"></div>
+
+                <div class="modal-body">
+                  <div class="form-row">
+                    <div class="form-group col-md-6 col-lg-12">
+                     <input type="password" class="form-control" id="InputSenha" name="InputSenha" placeholder="Digite sua nova senha">
+                     <a id="Txt_InputSenha" class="text-danger"><br></a>
+                     <input type="password" class="form-control" id="InputSenhaRp" name="InputSenhaRp" placeholder="Digite novamente a sua nova senha">
+                     <a id="Txt_InputSenhaRp" class="text-danger"></a>
+                    </div>
+                  </div> 
+                </div>
+            
+                <div class="modal-footer">
+                 <input type="submit" class="btn btn-primary btn-sm" value="✔">
+                 <input type="button" class="btn btn-danger btn-sm" data-dismiss="modal" value="X">
+                </div>
+              </form>
+            </div>
+          </div>
+        </div> 
+
+    <div class="container mt-4">
+	   <h2 class="text-grey">Inicio</h2>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <div class="jumbotron bg-light bd-lgg2">
+            <h2 class="text-center mt-3 text-ini">Cadastre-se</h2>
+            <h5 class="text-center mt-4 text-ini">Se você ja for cliente, basta clicar <a href="https://www.astemacms.com.br/Cadastro.php">aqui</a> para se cadastrar, caso ainda não seja cliente da Astemac e deseja ser, aqui embaixo tem informações para contato:</h5>
+            <h4 class="text-center mt-5 text-ini">Telefone: (67) 3326-7056 | WhatsApp: (67) 98442-1364 | E-mail: astemac@terra.com.br</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container mt-4">
+      <div class="row text-center">
+        <div class="col-md-4 pb-1 pb-md-0 col-lg-5">
+          <div class="card">
+            <div class="card-body bg-light bd-lgg2">
+             <h3 class="card-title mt-2 text-ini">Conexão Remota</h3>
+             <p class="card-text text-justify mt-3 text-ini">Baixe <a href="https://www.astemacms.com.br/Downloads.php">aqui</a> todos os programas de conexão remota que a Astemac disponibiliza para fazer a manutenção de seus clientes.</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-4 pb-1 pb-md-0 col-lg-1"> </div>
+        
+        <div class="col-md-4 pb-1 pb-md-0 offset-lg-1 col-lg-5">
+          <div class="card">
+            <div class="card-body bg-light bd-lgg2">
+             <h3 class="card-title mt-2 text-ini">Suporte</h3>
+             <p class="card-text text-justify mt-3 text-ini">Tenha acesso ao suporte online, onde tem vídeos e artigos para sanar qualquer duvida técnica ou curiosidade.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container mt-4"></div>
+   
+   <!-- Barra Final -->
+   <footer class="text-center">
+     <div class="container">
+           <div class="row">
+             <div class="col-12 fixed-bottom bg-light">
+               <a><i class="far fa-copyright"></i> Astemac 2020</a>
+             </div>
+           </div>
+     </div>
+    </footer>  
+
+
+<div id="UMS_TOOLTIP" style="position: absolute; cursor: pointer; z-index: 2147483647; background: transparent; top: -100000px; left: -100000px;"></div><div class="modal-backdrop fade show"></div></body><umsdataelement id="UMSSendDataEventElement"></umsdataelement></html>

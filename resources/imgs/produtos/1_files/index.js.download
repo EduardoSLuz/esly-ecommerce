@@ -1,0 +1,5 @@
+// Esvaziar qualquer input
+function ClearInput(Input,InputHidden){
+ document.getElementById(Input).value='';
+ document.getElementById(InputHidden).value='0';
+}
