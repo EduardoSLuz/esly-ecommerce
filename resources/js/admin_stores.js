@@ -1107,3 +1107,70 @@ $('.btnDeleteImages').on('click', function(e) {
     })
 
 });
+
+// Modal Products Config
+$('#modalProductsConfig').on('show.bs.modal', function (e) {
+        
+    var button = $(e.relatedTarget); 
+    var type = button.data('type'); 
+    var id = button.data('id'); 
+    var store = button.data('store'); 
+    var src = button.data('src'); 
+    var name = button.data('name'); 
+    var modal = $(this);
+
+    if(src == "") src = "/resources/imgs/logos/default.png";
+
+    modal.find('.modal-title .modal-subtitle').text(`#${id} ${name}`);
+    modal.find('#formModalProductConfig').attr("data-type", type);
+    modal.find('#formModalProductConfig').attr("data-id", id);
+    modal.find('#formModalProductConfig').attr("data-archive", src);
+    modal.find('#formModalProductConfig').attr("data-store", store);
+    modal.find('#imgProductLogo').attr("src", src);
+
+});
+
+// Form Modal Products Config
+$("#formModalProductConfig").submit(function(e) {
+    
+    e.preventDefault();
+
+    var id = $(this).attr("data-id");
+    var type = $(this).attr("data-type");
+    var arc = $(this).attr("data-archive");
+    var store = $(this).attr("data-store");
+
+    var formData = new FormData(this);
+    
+    formData.append("id", id); 
+    formData.append("type", type); 
+    formData.append("arc", arc); 
+
+    $.ajax({
+        url: `/admin/stores/${store}/products/config/`,
+        type: 'POST',
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+    }).done(function(response){
+        
+        console.log(response);
+
+        let json = JSON.parse(response);
+        
+        if(json !== "undefined")
+        {
+
+            if(json.src !== "undefined" && json.status == 1)
+            {
+                $("#modalProductsConfig #imgProductLogo").attr('src', json.src);
+                $(this).attr('data-archive', json.src);
+            }
+
+            msgAlert("#alertModalProductConfigImg", json.msg, json.status, 1500);
+        } 
+
+    });
+
+});

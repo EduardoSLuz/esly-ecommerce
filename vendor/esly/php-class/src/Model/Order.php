@@ -391,7 +391,7 @@ class Order extends Model {
 
 		$sql = new Sql($_SESSION[Sql::DB]);
 
-		$select = $sql->select("SELECT idOrder, dateInsert FROM orders $query", $param);
+		$select = $sql->select("SELECT idOrder, idStore, idCart, dateInsert, codOrder FROM orders $query", $param);
 
 		return count($select) > 0 ? $select : 0;
 
@@ -599,10 +599,44 @@ class Order extends Model {
 					
 					$res = $send ? ["id" => $status, "description"=>"Pedido Separado", "icon"=>"fas fa-shopping-basket", "color"=>"success", "status"=>1] : ["id" => 0, "description"=>"Falha ao Enviar Pedido Para o Servidor", "icon"=>"fas fa-exclamation-triangle", "color"=>"danger", "status"=>0];
 
+					if($send)
+					{
+						
+						$products = [0 => Mercato::listAllProducts($order[0]['idStore']), 1 => Mercato::listAllProducts($order[0]['idStore'], 1)];
+
+						$items = Cart::listCartItemSet("WHERE idCart = :ID", [':ID' => $order[0]['idCart']]);
+
+						if(is_array($items) && count($items) > 0 && is_array($products) && count($products) > 0)
+						{
+							
+							foreach ($items as $key => $value) {
+								
+								$search = Mercato::searchFieldProduct($order[0]['idStore'], $value['codProduct'], 'codProduct');
+
+								if($search['stock'] > 0 && $search['stock'] >= $value['quantity'])
+								{
+									$newVal = floatval($search['stock'] - $value['quantity']);
+									$products = Mercato::updateAllProducts($products, $order[0]['idStore'], 'codProduct', $value['codProduct'], 'stock', $newVal, 0);
+								}
+
+							}
+
+							if(is_array($products) && $products[0] != 0 && $products[1] != 0)
+							{
+								$save = Mercato::saveAllProducts($products, $order[0]['idStore']);
+							}
+
+						}
+						
+					}
+
 					if($send && $order[0]['typeModality'] == 1)
 					{	
+						
 						$email = Order::orderAlert($id, ["title"=>"Pedido #".$id." - Está Separado", "text" => "Seu pedido está separado e pronto para ser retirado, aguardamos você para vir buscá-lo. Para mais informações do pedido clique no botão abaixo para acessar seu pedido.", "subject"=>"Seu Pedido Já Pode Ser Retirado", "link"=>$_SERVER['HTTP_HOST']."/loja-01/account/requests/".$id."/"]); 
+
 					}
+					
 
 					if(isset($email) && $email == false)
 					{
@@ -632,6 +666,37 @@ class Order extends Model {
 				break;
 
 				case 9:
+
+					if($order[0]['idOrderStatus'] >= 4)
+					{
+						
+						$products = [0 => Mercato::listAllProducts($order[0]['idStore']), 1 => Mercato::listAllProducts($order[0]['idStore'], 1)];
+
+						$items = Cart::listCartItemSet("WHERE idCart = :ID", [':ID' => $order[0]['idCart']]);
+
+						if(is_array($items) && count($items) > 0 && is_array($products) && count($products) > 0)
+						{
+							
+							foreach ($items as $key => $value) {
+								
+								$search = Mercato::searchFieldProduct($order[0]['idStore'], $value['codProduct'], 'codProduct');
+
+								if($search['stock'] >= 0)
+								{
+									$newVal = floatval($search['stock'] + $value['quantity']);
+									$products = Mercato::updateAllProducts($products, $order[0]['idStore'], 'codProduct', $value['codProduct'], 'stock', $newVal, 0);
+								}
+
+							}
+
+							if(is_array($products) && $products[0] != 0 && $products[1] != 0)
+							{
+								$save = Mercato::saveAllProducts($products, $order[0]['idStore']);
+							}
+
+						}
+						
+					}
 
 					$email = Order::orderAlert($id, ["title"=>"Pedido #".$id." - Cancelado", "text" => "Seu pedido foi cancelado pela loja. Se você não foi avisado ou não pediu o cancelamento tente entrar em contato com a loja. Para mais informações do pedido clique no botão abaixo para acessar seu pedido.", "subject"=>"Seu Pedido Foi Cancelado Pela Loja", "link"=>$_SERVER['HTTP_HOST']."/loja-01/account/requests/".$id."/"]); 
 

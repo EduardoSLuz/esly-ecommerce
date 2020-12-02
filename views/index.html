@@ -45,29 +45,33 @@
 				{loop="$store"}
 				
 				{if="$value.statusStore == 1"}
-				<div class="col-md-4 addressStore{$value.codeCity} allStores">
+				<div class="col-md-4 addressStore{$value.codeCity} allStores card-deck">
 
 					<div class="my-4 card">
 
-						<div class="text-center p-2">
+						<div class="text-center px-2 py-3">
 							<img class="card-img-top" src="{$value.src}imgs/logo.png" style="max-width: 300px" alt="Logo da loja {$value.store}">
 						</div>
 
 						<div class="card-body pt-0">
-								<p class="card-title h4 font-weight-normal text-second-site-section">Loja {$value.store}</p>
-								<p class="card-text text-link-site-section">
-									<a href="https://www.google.com/maps/place/{$value.streetStore}, {$value.numberStore} - {$value.districtStore}, {$value.city} - {$value.uf}, {$value.cepStore}/" class="text-link-site-section" target="_blank"><i class="fas fa-map-marker-alt"></i> 
-									{$value.streetStore}, {$value.numberStore} - {$value.districtStore}, {$value.city} - {$value.uf}, {function="maskCep($value.cepStore)"}
-									</a>
-									<br>							
-									<i class="fas fa-mobile-alt"></i> {if="$value.telephoneStore != 0"} {function="maskTel($value.telephoneStore)"} {else} <b>Sem Telefone</b> {/if} <br>
-									<i class="far fa-envelope"></i> {if="$value.emailStore != ''"} {$value.emailStore} {else} <b>Sem e-mail</b> {/if} <br>
-									<i class="fab fa-whatsapp"></i> {if="$value.whatsappStore != 0"} {function="maskTel($value.whatsappStore)"} {else} <b>Sem whatsapp</b> {/if}
-								</p>
-							</div>
-							<div class="card-footer text-center">
-								<a href="/loja-{$value.store}/" class="btn btn-main-site-section text-btn-site-section">Acessar loja</a>
-							</div>
+							
+							<p class="card-title h4 font-weight-normal text-second-site-section">Loja {$value.store}</p>
+							
+							<p class="card-text text-link-site-section py-1">
+								<a href="https://www.google.com/maps/place/{$value.streetStore}, {$value.numberStore} - {$value.districtStore}, {$value.city} - {$value.uf}, {$value.cepStore}/" class="text-link-site-section" target="_blank"><i class="fas fa-map-marker-alt"></i> 
+								{$value.streetStore}, {$value.numberStore} - {$value.districtStore}, {$value.city} - {$value.uf}, {function="maskCep($value.cepStore)"}
+								</a>
+								<br>							
+								<i class="fas fa-mobile-alt"></i> {if="$value.telephoneStore != 0"} {function="maskTel($value.telephoneStore)"} {else} <b>Sem Telefone</b> {/if} <br>
+								<i class="far fa-envelope"></i> {if="$value.emailStore != ''"} {$value.emailStore} {else} <b>Sem e-mail</b> {/if} <br>
+								<i class="fab fa-whatsapp"></i> {if="$value.whatsappStore != 0"} {function="maskTel($value.whatsappStore)"} {else} <b>Sem whatsapp</b> {/if}
+							</p>
+
+						</div>
+
+						<div class="card-footer text-center">
+							<a href="/loja-{$value.store}/" class="btn btn-main-site-section text-btn-site-section">Acessar loja</a>
+						</div>
 					</div>
 				</div>
 				{else}

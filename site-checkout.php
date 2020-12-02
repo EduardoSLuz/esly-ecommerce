@@ -16,22 +16,23 @@ if(!isset($_SESSION[Sql::DB])) Page::verifyPage();
 
 $app->post("/loja-{store}/checkout/cart/product/{product}/add/", function(Request $request, Response $response, $args) {
 
-	$res = 0;
+	$res = ['status' => 0, 'msg' => 'ERRO CRÍTICO'];
 	$product = Mercato::searchFieldProduct($args['store'], $args['product'], 'codProduct');
 	
 	if($product !== NULL && isset($_POST['qtd']) && $_POST['qtd'] > 0)
 	{
 		
-		$product['priceFinal'] = $product['pricePromo'] != 0 && $product['pricePromo'] < $product['price'] ? $product['pricePromo'] : $product['price'];
-		$product['quantity'] = $_POST['qtd'];
+		$product['qtd'] = $_POST['qtd'];
 
-		if(Cart::addItem($product) != false) unset($_SESSION[Cart::SESSION]);
+		$add = Cart::addItem($product);
 
-		$res = 1;
+		if($add === true && $_SESSION[Cart::SESSION]['idCart'] > 0) unset($_SESSION[Cart::SESSION]);
+
+		$res = $add !== true ? $add : ['status' => 1, 'msg' => 'Produto Adicionado ao Carrinho'];
 
 	}
 	
-	echo $res;
+	echo json_encode($res);
 	exit;
 
 });
@@ -43,18 +44,30 @@ $app->post("/loja-{store}/checkout/cart/product/{product}/update/", function(Req
 		
 		$product = [
 			"id" => isset($_SESSION[User::SESSION]) ? $args['product'] : $_POST['id'], 
-			"quantity" => $_POST['qtd']
+			"quantity" => $_POST['qtd'],
+			"store" => $args['store']
 		];
 
-		if(Cart::updateItem($product) != false) unset($_SESSION[Cart::SESSION]);
+		$update = Cart::updateItem($product);
+
+		if($update === true && isset($_SESSION[Cart::SESSION]['idCart']) && $_SESSION[Cart::SESSION]['idCart'] > 0) unset($_SESSION[Cart::SESSION]);
+		
+		$res = $update !== true ? $update : ['status' => 1, 'msg' => 'Item Atualizado com Sucesso'];  
+
+		echo json_encode($res);
 		exit;
 
 	} 
 
 	$args['product'] = !isset($_SESSION[User::SESSION]) && isset($_POST['id']) ? $_POST['id'] : $args['product']; 
 
-	if(isset($_POST['check']) && Cart::updateItemSimilar($args['product'], $_POST['check']) != false) unset($_SESSION[Cart::SESSION]);
+	$update = Cart::updateItemSimilar($args['product'], $_POST['check']);
+
+	if(isset($_POST['check']) && $update !== false && isset($_SESSION[Cart::SESSION]['idCart']) && $_SESSION[Cart::SESSION]['idCart'] > 0) unset($_SESSION[Cart::SESSION]);
 	
+	$res = $update !== true ? ['status' => 0, 'msg' => 'Erro Crítico'] : ['status' => 1, 'msg' => 'Item Atualizado com Sucesso'];
+
+	echo json_encode($res);
 	exit;
 
 });
@@ -216,10 +229,11 @@ $app->post("/loja-{store}/checkout/cart/", function(Request $request, Response $
 });
 
 $app->get("/loja-{store}/checkout/cart/", function(Request $request, Response $response, $args) {
-	
-	if(isset($_SESSION[User::SESSION])) unset($_SESSION[Cart::SESSION]);
+
+	if(isset($_SESSION[User::SESSION]) && isset($_SESSION[Cart::SESSION]) && $_SESSION[Cart::SESSION]['idCart'] != 0) unset($_SESSION[Cart::SESSION]);
 	
 	$page = new Page([
+		"refreshCart" => 0,
 		"data" => [
 			"ID" => $args['store'],
 			"ct" => false,
@@ -294,6 +308,13 @@ $app->post("/loja-{store}/checkout/delivery-pickup/", function(Request $request,
 $app->get("/loja-{store}/checkout/delivery-pickup/", function(Request $request, Response $response, $args) {
 
 	Cart::verifyRegister($args['store']);
+
+	if(isset($_SESSION[Cart::SESSION]) && $_SESSION[Cart::SESSION]['totalItems'] == 0 || isset($_SESSION[Cart::SESSION]) && $_SESSION[Cart::SESSION]['totalCart'] == 0) 
+	{
+		unset($_SESSION[Cart::SESSION]);
+		Cart::checkCart($args["store"], 1);
+		header("Location: /loja-".$args['store']."/");
+	}
 
 	$page = new Page([
 		"login" => 2,
@@ -621,6 +642,13 @@ $app->get("/loja-{store}/checkout/resume/", function(Request $request, Response 
 
 	Cart::verifyRegister($args['store']);
 	Order::verifyOrder('payment');
+
+	if(isset($_SESSION[Order::SESSION]['cart']))
+	{
+		unset($_SESSION[Cart::SESSION]);
+		Cart::checkCart($args["store"], 1);
+		$_SESSION[Order::SESSION]['cart'] = isset($_SESSION[Cart::SESSION]) ? $_SESSION[Cart::SESSION] : $_SESSION[Order::SESSION]['cart'];
+	}
 
 	$page = new Page([
 		"login" => 2,

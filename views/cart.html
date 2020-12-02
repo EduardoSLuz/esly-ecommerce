@@ -20,17 +20,11 @@
 					</p>
 				</div>
 
-				{if="$errorRegister != ''"}
-				<div class="alert alert-danger alert-dismissible fade show text-left" role="alert">
-					
-					<span>{$errorRegister}</span>
-					
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
+				<div id="alertCartCheckout" class="alert alert-success alert-dismissible fade show d-none text-left" role="alert">
+								
+					<span class="msgAlert">Msg</span>
 
 				</div>
-				{/if}
 
 				{if="$cart.items != 0"}
 				<p class="tx-09em mt-3 text-right NoPrintabled">
@@ -96,24 +90,43 @@
 												<img src='{$value.image}' class="img-fluid" width="150px" alt="Produto {$value.descProduct}">
 											</div>
 											<div class="col-md" >
+
+												{if="isset($value.details) && !empty($value.details)"}
+												<span class="tx-tableMobile td-ini text-decoration-none d-inline-block text-truncate text-break font-weight-normal  text-danger">	
+													{$value.descProduct}
+												</span>
+												{else}
 												<a href="/loja-{$ID}/product/{$value.descProduct}/" class="tx-tableMobile td-ini text-decoration-none d-inline-block text-truncate text-break font-weight-normal text-second-site-section">	
 													{$value.descProduct}
 												</a>
+												{/if}
 												
 												<p class="mt-2">
-													<b>R$ {function="maskPrice($value.priceItem)"}</b><br>
+													
+													{if="isset($value.details) && $value.details != ''"}
+													<b class="text-danger"> <i class="fas fa-times"></i> {$value.details}</b>
+													{else}
+													<b>R$ {function="maskPrice($value.priceItem)"}</b>
+													{/if}
+
 												</p>
 	
 											</div>
 										</div>
 
 										<div class="display-None py-auto">
-											<span class="text-second-site-section">	
+											<span class='{if="isset($value.details) && !empty($value.details)"}text-danger{else}text-second-site-section{/if}'>	
 												{$value.descProduct}
 											</span>
 											
 											<p class="text-second-site-section">
+												
+												{if="isset($value.details) && $value.details != ''"}
+												<b class="text-danger"> <i class="fas fa-times"></i> {$value.details}</b>
+												{else}
 												<b>R$ {function="maskPrice($value.priceItem)"}</b>
+												{/if}
+
 											</p>
 										</div>
 									</td>
@@ -121,11 +134,11 @@
 
 										<div class="NoPrintabled">
 
-											<form class="formUpdateItem" data-id="{$key}" action="/loja-{$ID}/checkout/cart/product/{$value.idCartItem}/update/" data-store="{$ID}">
+											<form class="formUpdateItem" data-id="{$key}" data-cart="{$value.idCartItem}" data-store="{$ID}">
 												<div class="btn-group">
 													<button type="submit" class="btn btn-main-site-section text-btn-site-section btn-sm" onClick="removeItem('inputCart{$key}')">-</button>
 	
-													<input id="inputCart{$key}" name="inputCart" type="number" min="1" class="btn btn-light ipt-cart-sm text-center btn-sm" value="{$value.quantity}">
+													<input id="inputCart{$key}" name="inputCart" type="number" class="btn btn-light ipt-cart-sm text-center btn-sm" value="{$value.quantity}" readonly="true">
 	
 													<button type="submit" class="btn btn-main-site-section text-btn-site-section btn-sm" onClick="addItem('inputCart{$key}')">+</button>
 												</div><br> 
@@ -140,7 +153,7 @@
 									</td>
 									<td class="text-center align-middle">
 										
-										<div id="itemTotal" class="text-decoration-none">
+										<div id="itemTotal{$key}" class="text-decoration-none">
 											<span class="tx-tableMobile text-second-site-section"> R$ {function="maskPrice($value.totalItem)"}</span>
 										</div>
 
@@ -153,7 +166,7 @@
 										</a>
 									</td>
 									<td class="text-center align-middle">
-										<input type="checkbox" class="checkSimilar cursorPointer" name="checkSimilar" data-action="/loja-{$ID}/checkout/cart/product/{$value.idCartItem}/update/" data-key="{$key}" {if="$value.similar == 1"}checked{/if} data-store="{$ID}">
+										<input type="checkbox" class="checkSimilar cursorPointer" name="checkSimilar" data-key="{$key}" data-cart="{$value.idCartItem}" {if="$value.similar == 1"}checked{/if} data-store="{$ID}">
 									</td>
 								</tr>
 								{/loop}

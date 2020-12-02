@@ -58,7 +58,7 @@
 
 							<button type="button" class="btn btn-sm btn-main-site-section text-btn-site-section" onClick="removeItem('inputCardProduct')">-</button>
 
-							<input id="inputCardProduct" name="inputCardDiversos" type="number" class="w-25 text-center" value="1">
+							<input id="inputCardProduct" name="inputCardDiversos" type="number" class="w-25 text-center" value="1" readonly="true" max="<?php echo htmlspecialchars( $product["stock"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
 
 							<button type="button" class="btn btn-sm btn-main-site-section text-btn-site-section" onClick="addItem('inputCardProduct')">+</button>
 
@@ -116,7 +116,7 @@
 							<div class="owl-stage text-center">
 								
 								<?php $counter1=-1;  if( isset($departament) && ( is_array($departament) || $departament instanceof Traversable ) && sizeof($departament) ) foreach( $departament as $key1 => $value1 ){ $counter1++; ?>
-								<?php if( $key1 <= 11 ){ ?>
+								<?php if( $key1 <= 11 && $value1["stock"] > 0 ){ ?>
 								<div class="owl-item text-center">
 									
 									<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/<?php echo htmlspecialchars( $value1["description"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/">
@@ -225,12 +225,16 @@
 									<?php $counter1=-1;  if( isset($views) && ( is_array($views) || $views instanceof Traversable ) && sizeof($views) ) foreach( $views as $key1 => $value1 ){ $counter1++; ?>
 							
 									<?php if( $key1 <= 8 ){ ?>
+									
+									<?php if( $value1["category"]["0"]["products"]["0"]["stock"] > 0 ){ ?>
 									<div class="owl-item text-center">
 										<img class="rounded mx-auto d-block rounded-circle bg-white border carousel-ImgCircle cursorPointer" src="<?php echo htmlspecialchars( $value1["category"]["0"]["products"]["0"]["image"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" alt="Produtos" onclick="window.location.assign('/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/departaments/<?php echo htmlspecialchars( $value1["name"], ENT_COMPAT, 'UTF-8', FALSE ); ?>-<?php echo htmlspecialchars( $value1["category"]["0"]["name"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/')">
 										<p class="text-center text-wrap text-second-site-section">
 											<?php echo substr($value1["name"], 0, 25); ?>
 										</p>
 									</div>
+									<?php } ?>
+
 									<?php } ?>
 
 									<?php } ?>

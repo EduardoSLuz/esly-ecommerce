@@ -49,6 +49,7 @@ $('#modalMsgAlertLinks').on('show.bs.modal', function (e) {
 // Bar Add Item
 $('.formEnvia').on('submit', function(e) {
 
+    let form = $(this);
     var id = $(this).attr("data-id");
     var store = $(this).attr("data-store");
     var url = `/loja-${store}/checkout/cart/product/${id}/add/`;
@@ -68,19 +69,49 @@ $('.formEnvia').on('submit', function(e) {
         contentType: false
     }).done(function(response){
 
-        if(response == 1)
-        {   
+        let json = JSON.parse(response);
+        
+        if(json != "undefined")
+        {
+
             $("#alertBoxCartNot").removeClass("d-none"); 
-            $("#alertCartNot").addClass("show"); 
+            msgAlert("#alertCartNot", json.msg, json.status, 2000)
+
             setTimeout( function(){ 
-                $("#alertCartNot").removeClass("show"); 
                 $("#alertBoxCartNot").addClass("d-none"); 
-            } , 1000); 
-        }
+            } , 2000); 
+
+        } 
 
         $("#dropdownBootstrap").load( "/loja-"+store+"/ #dropdownBootstrap > *" );
         $("#BtnCart").load( "/loja-"+store+"/ #BtnCart > *" );
-
+        
     })
 
 });
+
+function msgAlert(alert, msg, type = 1, time = 2000)
+{
+
+    if($(alert).val() !== "undefined")
+    {
+
+        if(type == 1){
+            $(alert).removeClass("alert-danger");
+            $(alert).addClass("alert-success");
+        } else {
+            $(alert).removeClass("alert-success");
+            $(alert).addClass("alert-danger");
+        }
+        
+        $(alert + " .msgAlert").text(msg);
+
+        $(alert).removeClass("d-none");
+        $(alert).addClass("show");
+        setTimeout( function(){ 
+            $(alert).removeClass("show");
+            $(alert).addClass("d-none");
+        } , time);
+    }
+    
+}

@@ -64,6 +64,19 @@ class Temp {
 
 	}
 
+	public function count($rawQuery, $params = array())
+	{
+
+		$stmt = $this->conn->prepare($rawQuery);
+
+		$this->setParams($stmt, $params);
+
+		$stmt->execute();
+
+		return $stmt->rowCount();
+
+	}
+
 }
 
  ?>

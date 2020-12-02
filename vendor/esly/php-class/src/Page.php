@@ -19,6 +19,7 @@ class Page {
 		"header" => true,
 		"footer" => true,
 		"login" => 0,
+		"refreshCart" => 0,
 		"prime" => [
 			"type" => 1,
 			"wp" => true,
@@ -63,14 +64,13 @@ class Page {
 		}
 			
 		// Cart
-		$this->options["data"]["cart"] = Cart::checkCart();
-
+		$this->options["data"]["cart"] = Cart::checkCart($this->options["data"]["ID"], $this->options["refreshCart"]);
+		
 		// Page 
 		if(isset($_SESSION[Page::SESSION]) && $this->options["login"] != 1) unset($_SESSION[Page::SESSION]);
 		$this->options["data"]["layout"] = Page::layoutPage($this->options["data"]["ID"]);
 	
 		// Store
-		$this->options["data"]["deliveryHorary"] = Store::listDeliveryHorary($this->options["data"]["ID"]);
 		$this->options["data"]["horary"] = Store::listHorary($this->options["data"]["ID"]);
 		$this->options["data"]["HTTP"] = $_SERVER['HTTP_HOST'];
 		$this->options["data"]["imgs"] = Store::listImagesStore($this->options["data"]["ID"]);
@@ -140,7 +140,7 @@ class Page {
 
 		$https = strstr($_SERVER['HTTP_HOST'], "www.") != false ? substr($_SERVER['HTTP_HOST'], 4) : $_SERVER['HTTP_HOST'];
 
-		$results = $sql->select("SELECT db_name, db_user, db_pass, directory, status, code FROM host WHERE host = :HOST", [
+		$results = $sql->select("SELECT idCompany, db_name, db_user, db_pass, directory, status, code FROM company WHERE host = :HOST", [
 			":HOST" => $https
 		]);
 

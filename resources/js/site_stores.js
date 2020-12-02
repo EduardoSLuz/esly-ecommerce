@@ -69,28 +69,3 @@ $('.formEmailPromo').on('submit', function(e) {
     })
 
 });
-
-function msgAlert(alert, msg, type = 1, time = 2000)
-{
-
-    if($(alert).val() !== "undefined")
-    {
-
-        if(type == 1){
-            $(alert).removeClass("alert-danger");
-            $(alert).addClass("alert-success");
-        } else {
-            $(alert).removeClass("alert-success");
-            $(alert).addClass("alert-danger");
-        }
-        
-        $(alert + " .msgAlert").text(msg);
-
-        $(alert).removeClass("d-none");
-        setTimeout( function(){ 
-            $(alert).addClass("d-none");
-        } , time);
-    
-    }
-    
-}

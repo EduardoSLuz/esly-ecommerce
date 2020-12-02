@@ -22,6 +22,14 @@
         }
     }
 
+    .btn-app>.badge{
+        font-size: 10px;
+        font-weight: 400;
+        position: absolute;
+        right: -10px;
+        top: -3px;
+    }
+
     /* HEADER */
     .bg-site-header{
         background-color: <?php echo htmlspecialchars( $layoutColor["0"]["options"]["hd"]["options"]["bck"]["value"], ENT_COMPAT, 'UTF-8', FALSE ); ?>;

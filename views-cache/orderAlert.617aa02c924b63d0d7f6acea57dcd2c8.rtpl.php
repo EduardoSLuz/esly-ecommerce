@@ -436,7 +436,7 @@
                             <tr>
                               <td class="body-signature-cell">
                                 <p>Obrigado!</p>
-                                <p class="body-signature"><img src="http://<?php echo htmlspecialchars( $HTTP, ENT_COMPAT, 'UTF-8', FALSE ); ?>/resources/clients/<?php echo htmlspecialchars( $nameBase, ENT_COMPAT, 'UTF-8', FALSE ); ?>/stores/loja-<?php echo htmlspecialchars( $store["store"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/imgs/logo.png" alt="Logo"></p>
+                                <p class="body-signature"><img src="http://<?php echo htmlspecialchars( $HTTP, ENT_COMPAT, 'UTF-8', FALSE ); ?>/resources/clients/<?php echo htmlspecialchars( $nameBase, ENT_COMPAT, 'UTF-8', FALSE ); ?>/stores/loja-<?php echo htmlspecialchars( $store["store"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/imgs/logo.png" alt="Logo" width="75px"></p>
                               </td>
                             </tr>
                           </table>

@@ -43,7 +43,7 @@
 					<div class="row">
 
 						<?php $counter1=-1;  if( isset($search["res"]) && ( is_array($search["res"]) || $search["res"] instanceof Traversable ) && sizeof($search["res"]) ) foreach( $search["res"] as $key1 => $value1 ){ $counter1++; ?>
-						<?php if( $value1["page"] == $search["page"] ){ ?>
+						<?php if( $value1["page"] == $search["page"] && $value1["stock"] > 0 ){ ?>
 							
 							<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 mb-4">
 
@@ -101,7 +101,7 @@
 	
 										<button type="button" class="btn btn-sm btn-main-site-section text-btn-site-section" onClick="removeItem('inputCardDiversos<?php echo htmlspecialchars( $value1["codProduct"], ENT_COMPAT, 'UTF-8', FALSE ); ?>')">-</button>
 
-										<input id="inputCardDiversos<?php echo htmlspecialchars( $value1["codProduct"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" name="inputCardDiversos" type="number" class="w-25 text-center" value="1">
+										<input id="inputCardDiversos<?php echo htmlspecialchars( $value1["codProduct"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" name="inputCardDiversos" type="number" class="w-25 text-center" value="1" readonly="true" max="<?php echo htmlspecialchars( $value1["stock"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
 
 										<button type="button" class="btn btn-sm btn-main-site-section text-btn-site-section" onClick="addItem('inputCardDiversos<?php echo htmlspecialchars( $value1["codProduct"], ENT_COMPAT, 'UTF-8', FALSE ); ?>')">+</button>
 										
@@ -171,7 +171,7 @@
 				<i class="fas fa-arrow-right text-second-site-section"></i> Tente usar menos palavras <br>
 				<i class="fas fa-arrow-right text-second-site-section"></i> Tente palavras diferentes com mesmo significado <br>
 				<i class="fas fa-arrow-right text-second-site-section"></i> Use palavras mais genéricas <br>
-				<i class="fas fa-arrow-right text-second-site-section"></i> Todos os Departamentos
+				<i class="fas fa-arrow-right text-second-site-section"></i> <a href="/loja-{ID}/departaments/" class="text-second-site-section">Todos os Departamentos</a>
 			</p>
 		</div>
 		<?php } ?>

@@ -2,8 +2,9 @@
 $('.formUpdateItem').on('submit', function(e) {
 
     var id = $(this).attr("data-id");
-    var url = $(this).attr("action");
+    var cart = $(this).attr("data-cart");
     var store = $(this).attr("data-store");
+    var url = `/loja-${store}/checkout/cart/product/${cart}/update/`;
     var qtd = this.inputCart.value;
 
     e.preventDefault();
@@ -20,10 +21,36 @@ $('.formUpdateItem').on('submit', function(e) {
         processData: false,
         contentType: false
     }).done(function(response){
-        $("#checkoutCart"+id+" #itemQtd").load( "/loja-"+store+"/checkout/cart/ #checkoutCart"+id+" #itemQtd > *" );
-        $("#checkoutCart"+id+" #itemTotal").load( "/loja-"+store+"/checkout/cart/ #checkoutCart"+id+" #itemTotal > *" );
-        $("#cartTotal").load( "/loja-"+store+"/checkout/cart/ #cartTotal" );
-        $("#dropdownBootstrap").load( "/loja-"+store+"/ #dropdownBootstrap" );
+        
+        let json = JSON.parse(response);
+        
+        if(json != "undefined")
+        {
+
+            if(json.status == 1)
+            {
+
+                $(`#checkoutCart${id} #itemQtd${id}`).load( `/loja-${store}/checkout/cart/ #checkoutCart${id} #itemQtd${id} > *`);
+                $(`#checkoutCart${id} #itemTotal${id}`).load( `/loja-${store}/checkout/cart/ #checkoutCart${id} #itemTotal${id} > *`);
+                $("#cartTotal").load( `/loja-${store}/checkout/cart/ #cartTotal` );
+                $("#dropdownBootstrap").load( `/loja-${store}/ #dropdownBootstrap` );
+
+            } else if (json.number !== 'undefined'){
+                $(`#inputCart${id}`).val(json.number);
+            }
+
+            if(json.status == 0)
+            {
+                $("#alertBoxCartNot").removeClass("d-none"); 
+                msgAlert("#alertCartNot", json.msg, json.status, 1000)
+
+                setTimeout( function(){ 
+                    $("#alertBoxCartNot").addClass("d-none"); 
+                } , 1000); 
+            }
+
+        } 
+
     })
 
 });
@@ -59,10 +86,11 @@ $('.formFreigth').on('submit', function(e) {
 
 $('.checkSimilar').on('click', function(e) {
 
+    var cart = $(this).attr("data-cart");
     var id = $(this).attr("data-key");
-    var url = $(this).attr("data-action");
     var check = 0;
     var store = $(this).attr("data-store");
+    var url = `/loja-${id}/checkout/cart/product/${cart}/update/`;
 
     if($(this).is(':checked')){
         check = 1; 
@@ -80,7 +108,30 @@ $('.checkSimilar').on('click', function(e) {
         processData: false,
         contentType: false
     }).done(function(response){
-        $("#dropdownBootstrap").load( "/loja-"+store+"/ #dropdownBootstrap" );
+        
+        let json = JSON.parse(response);
+        
+        if(json != "undefined")
+        {
+
+            if(json.status == 1)
+            {
+
+                $("#dropdownBootstrap").load( `/loja-${store}/ #dropdownBootstrap` );
+
+            } else {
+               
+                $("#alertBoxCartNot").removeClass("d-none"); 
+                msgAlert("#alertCartNot", json.msg, json.status, 1000)
+
+                setTimeout( function(){ 
+                    $("#alertBoxCartNot").addClass("d-none"); 
+                } , 1000); 
+            
+            }
+
+        } 
+
     })
 
 });

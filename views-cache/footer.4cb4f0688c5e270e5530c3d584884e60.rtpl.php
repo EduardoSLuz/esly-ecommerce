@@ -277,11 +277,10 @@
 
 <?php if( $ct === true ){ ?>
 <div id="BtnCart" class="BtnsFloat mr-3 mb-5 text-right fixed-bottom null-height cart-BtnFloat">
-    <a class="bg-site-section h2 rounded px-1 shadow-sm" href='/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/checkout/cart/'>
-        <i class="fas fa-shopping-cart text-second-site-section text-center py-1" style="font-size:24px"></i>
-        <span class="h6 text-main-site-section cart-IconCt"><?php if( isset($cart) && $cart != false && $cart["items"] != 0 ){ ?><?php echo htmlspecialchars( $cart["totalItems"], ENT_COMPAT, 'UTF-8', FALSE ); ?><?php }else{ ?>0<?php } ?></span>
+    <a class="bg-site-section h2 rounded px-1 shadow-sm btn-app" href='/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/checkout/cart/'>
+        <i class="fas fa-shopping-cart text-second-site-section text-center" style="font-size:24px"></i>
+        <span class="badge btn-main-site-section text-btn-site-section" style="font-size:10px;position: absolute; display: ;"><?php if( isset($cart) && $cart != false && $cart["items"] != 0 ){ ?><?php echo htmlspecialchars( $cart["totalItems"], ENT_COMPAT, 'UTF-8', FALSE ); ?><?php }else{ ?>0<?php } ?></span>
     </a>
-    
 </div>
 <?php } ?>
 

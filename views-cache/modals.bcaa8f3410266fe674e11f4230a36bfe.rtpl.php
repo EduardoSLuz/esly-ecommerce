@@ -259,7 +259,7 @@
 
                         <div class="input-group mb-3">
                             <div class="custom-file">
-                              <input type="file" class="custom-file-input" id="inputImgPartner" name="inputImgPartner" aria-describedby="inputGroupImgPartner" accept="image/png, image/jpeg" multiple>
+                              <input type="file" class="custom-file-input" id="inputImgPartner" name="inputImgPartner" aria-describedby="inputGroupImgPartner" accept="image/png, image/jpeg">
                               <label class="custom-file-label text-truncate" for="inputImgPartner">Alterar imagem</label>
                             </div>
                         </div>
@@ -928,7 +928,7 @@
 
                         <div class="input-group">
                             <div class="custom-file offset-md-3 col-md-6">
-                              <input type="file" class="custom-file-input" id="inputImg" name="inputImg" aria-describedby="inputImg" accept="image/png, image/jpeg" multiple>
+                              <input type="file" class="custom-file-input" id="inputImg" name="inputImg" aria-describedby="inputImg" accept="image/png, image/jpeg">
                               <label class="custom-file-label text-truncate" for="inputImg">Alterar imagem</label>
                             </div>
                         </div>
@@ -1554,3 +1554,154 @@
     </div>
     
 </div>
+
+<?php if( isset($products) && $products != 0 ){ ?>
+<!-- MODAL PRODUCTS ALTER -->
+<div class="modal fade" id="modalProductsConfig" tabindex="-1" role="dialog" aria-labelledby="modalProductsConfig" aria-hidden="true">
+                
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+    
+        <div class="modal-content">
+           
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Configurar Produto - <span class="modal-subtitle">#123 desc</span> </h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+
+            <div>
+                
+                <ul class="nav nav-tabs nav-justified w-100" id="myTab" role="tablist">
+                    
+                    <li class="nav-item" role="presentation"> 
+                      <a class="nav-link text-dark active rounded-0" id="OptionLogo-tab" data-toggle="tab" href="#OptionLogo" role="tab" aria-controls="OptionLogo" aria-selected="true"> <i class="far fa-image"></i> Logo</a>
+                    </li>
+                    
+                    <li class="nav-item" role="presentation">
+                      <a class="nav-link text-dark rounded-0" id="OptionUnitPro-tab" data-toggle="tab" href="#OptionUnitPro" role="tab" aria-controls="OptionUnitPro" aria-selected="false"> <i class="fas fa-ruler"></i> Unidades de Medida</a>
+                    </li>
+
+                </ul>
+
+                <form id="formModalProductConfig" class="formModalProductConfig tab-content modal-body" data-type="2" data-id="0" data-archive="/" data-store="0" enctype="multipart/form-data">
+							
+                    <div class="tab-pane fade show active" id="OptionLogo" role="tabpanel" aria-labelledby="OptionLogo-tab">
+                        
+                        <div id="alertModalProductConfigImg" class="alert alert-dismissible d-none fade text-left" role="alert">
+                            <span class="msgAlert">Msg</span>
+                        </div>
+
+                        <div class="row justify-content-md-center">
+                
+                            <div class="col-md-6">
+                                
+                                <div id="bdImgProductLogo" class="text-center">
+                                    <img id="imgProductLogo" src="/resources/imgs/logos/default.png" class="img-fluid" style="border:solid 3px #b3b3b3; max-height: 175px;" alt="Photo">
+                                </div>
+        
+                                <p class="text-center profile-username"> 
+                                    Imagem do Produto <br>
+                                    <small class="font-weight-light">(Tamanho Recomendado: 800 x 800px)</small>
+                                </p>
+        
+                                <div class="input-group mb-3">
+                                    <div class="custom-file">
+                                      <input type="file" class="custom-file-input" id="inputImgProductLogo" name="inputImgProductLogo" aria-describedby="inputGroupImgPartner" accept="image/png, image/jpeg">
+                                      <label class="custom-file-label text-truncate" for="inputImgProductLogo">Alterar imagem</label>
+                                    </div>
+                                </div>
+                                
+                            </div>
+        
+                        </div>
+
+                    </div>
+
+                    <div class="tab-pane fade" id="OptionUnitPro" role="OptionUnitPro" aria-labelledby="OptionUnitPro-tab">
+                        
+                        <div class="row justify-content-md-center">
+        
+                            <div class="col-md-6">
+                               
+                                <div class="form-group">
+                                    
+                                    <label for="inputAddMeasureProduct" class="col-form-label">Adicionar Medida:<br></label>
+                                    
+                                    <div class="btn-group w-100">
+                                        <input type="text" class="form-control" name="inputAddMeasureProduct" id="inputAddMeasureProduct">
+                                        <button type="button" class="btn btn-primary"> <i class="fas fa-plus"></i> </button>
+                                    </div>
+
+                                </div>
+
+                                <div class="list-group table-responsive py-2" style="max-height: 200px;">
+                                    <span class="list-group-item list-group-item-action cursor-pointer">
+                                        UN 
+                                        <a class="float-right text-danger"> <i class="fas fa-times"></i> </a>
+                                    </span>
+                                </div>
+        
+                            </div>
+
+                            <div class="col-md-6">
+                               
+                                <div class="row justify-content-md-center">
+        
+                                    <div class="form-group col-md-6">
+                                        <label for="inputUnitProduct" class="col-form-label">Unidade Medida:</label>
+                                        <input type="text" class="form-control" id="inputUnitProduct" NAME="inputUnitProduct" readonly="true">
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label for="inputValueStockProduct" class="col-form-label">Valor no Estoque:</label>
+                                        <input type="text" class="form-control maskMoney2" name="inputValueStockProduct" id="inputValueStockProduct">
+                                    </div>
+
+                                    <div class="form-group col-md-5">
+        
+                                        <label for="inputNamePartner" class="col-form-label">Preço Final:</label>
+                                        
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1">R$</span>
+                                            </div>
+                                            <input type="text" class="form-control maskMoney2" name="inputNamePartner" id="inputNamePartner">
+                                        </div>
+                                        
+                                        <div class="form-group my-2">
+                                            <div class="icheck-primary d-inline">
+                                                <input type="checkbox" class="btnsLayoutFooter" id="freeFillProduct" name="freeFillProduct">
+                                                <label for="freeFillProduct">
+                                                  Permitir Preechimento Livre
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+            
+                                </div>
+
+                            </div>
+        
+                        </div>
+
+                    </div>
+
+                </form>
+              
+            </div>
+
+            <div class="modal-footer">
+                
+              <button type="button" class="btn btn-sm btn-outline-danger" data-dismiss="modal"><i class="fas fa-times"></i></button>
+              <button type="submit" class="btn btn-sm btn-outline-primary" form="formModalProductConfig">Salvar</button>
+
+            </div>
+
+        </div>
+    
+    </div>
+
+</div>
+<?php } ?>

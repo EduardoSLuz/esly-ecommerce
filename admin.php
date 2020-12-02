@@ -1569,6 +1569,110 @@ $app->get("/admin/orders-horary/", function(Request $request, Response $response
 
 });
 
+// Page Store Products
+$app->post("/admin/stores/{id}/products/config/", function(Request $request, Response $response, $args) {
+	
+	Store::checkAdmin($args['id']);
+	$res = ["status" => 0, "msg" => ""];
+
+	if(!isset($_POST['type']) || isset($_POST['type']) && $_POST['type'] <= 0 || isset($_POST['type']) && empty($_POST['type']))
+	{
+		$res["msg"] = "Erro no servidor, favor atualizar a página!";
+		echo json_encode($res);
+		exit;
+	}
+
+	if(isset($_FILES['inputImgProductLogo']))
+	{
+
+		if(isset($_FILES['inputImgProductLogo']) && empty($_FILES['inputImgProductLogo']['tmp_name']))
+		{
+			$res["msg"] = "Insira um logo para trocar a imagem!";
+			echo json_encode($res);
+			exit;
+		}
+
+		if(isset($_FILES['inputImgProductLogo']) && substr($_FILES['inputImgProductLogo']['type'], 0, 5) != "image" && substr($_FILES['inputImgProductLogo']['type'], 6) != "png" && substr($_FILES['inputImgProductLogo']['type'], 6) != "jpeg")
+		{
+			$res["msg"] = "Formato do arquivo inválido!";
+			echo json_encode($res);
+			exit;
+		}
+
+		if(isset($_POST['arc']) && empty($_POST['arc']) || !isset($_POST['arc']))
+		{
+			$res["msg"] = "Erro ao Enviar Dados!";
+			echo json_encode($res);
+			exit;
+		}
+
+	}
+
+	if(isset($_FILES['inputImgProductLogo']['tmp_name']) && !empty($_FILES['inputImgProductLogo']['tmp_name']) && $_POST['type'] == 2)
+	{
+		
+		$nameBase = $_SESSION[Sql::DB]['directory'];
+		$dirMaster = "resources/clients/$nameBase/stores/loja-".$args['id']."/imgs/products/";
+		$dir = isset($_POST['id']) && is_numeric($_POST['id']) && $_POST['id'] > 0 ? $dirMaster.substr(Store::cryptCode(date('siHdmY').'ESL'), 0, 16).$_POST['id'].".".substr($_FILES['inputImgProductLogo']['type'], 6) : "";
+		
+		//PAREI AQUI, SÓ FALTA TERMINAR DE INSERIR A IMAGEM E SALVAR O NOVO CAMINNHO DA IMAGEM DO PRODUTO.
+		
+		if(isset($_FILES['inputImgProductLogo']) && !empty($_FILES['inputImgProductLogo']['tmp_name']) && !empty($dir) && file_exists($dirMaster))
+		{	
+			
+			$arc = !empty($_POST['arc']) ? substr($_POST['arc'], 1) : "";
+
+			if(strstr($arc, $dirMaster) !== false && file_exists($arc))
+			{
+				unlink($arc);
+			}
+
+			move_uploaded_file($_FILES['inputImgProductLogo']['tmp_name'], $dir);
+			$file = 1;
+
+		}
+
+		if(isset($file) && $file == 1)
+		{
+			$res = Mercato::updateAllProducts(0, $args['id'], 'codProduct', $_POST['id'], "image", "/".$dir, 1);
+		}
+ 		else {
+			$res["msg"] = "Erro Fatal, Nada Foi Atualizado!";
+			echo json_encode($res);
+			exit;
+		}
+
+	}
+	
+	if(isset($res) && is_array($res))
+	{
+		$res = ["msg" => "Produto Atualizado Com Sucesso!", "status" => 1, "src" => "/".$dir ];
+	} else {
+		$res = ["msg" => "Erro Critico, Nada Foi Atualizado!", "status" => 0];
+	}
+
+	echo json_encode($res);
+	exit;
+
+});
+
+$app->get("/admin/stores/{id}/products/", function(Request $request, Response $response, $args) {
+	
+	Store::checkStoreAdmin($args['id']);
+
+	$admin = new PageAdmin([
+		"id" => $args['id'],
+		"login" => 2
+	]);
+
+	$admin->setTpl("stores-products", [
+		"products" => Mercato::listAllProducts($args['id']),
+	]);
+	
+	return $response;
+
+});
+
 // Page Order
 $app->get("/admin/orders/", function(Request $request, Response $response) {
 

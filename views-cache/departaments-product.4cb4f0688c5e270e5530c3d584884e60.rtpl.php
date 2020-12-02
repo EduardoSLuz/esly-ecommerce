@@ -53,7 +53,7 @@
 					<div class="row">
 
 						<?php $counter1=-1;  if( isset($dep["products"]) && ( is_array($dep["products"]) || $dep["products"] instanceof Traversable ) && sizeof($dep["products"]) ) foreach( $dep["products"] as $key1 => $value1 ){ $counter1++; ?>
-						<?php if( $value1["page"] == $dep["page"] ){ ?>
+						<?php if( $value1["page"] == $dep["page"] && $value1["stock"] > 0 ){ ?>
 						<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 mb-4">
 
 							<div class="card h-100">
@@ -111,7 +111,7 @@
   
 									  <button type="button" class="btn btn-sm btn-main-site-section text-btn-site-section" onClick="removeItem('inputCardDiversos<?php echo htmlspecialchars( $value1["codProduct"], ENT_COMPAT, 'UTF-8', FALSE ); ?>')">-</button>
 
-									  <input id="inputCardDiversos<?php echo htmlspecialchars( $value1["codProduct"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" name="inputCardDiversos" type="number" class="w-25 text-center" value="1">
+									  <input id="inputCardDiversos<?php echo htmlspecialchars( $value1["codProduct"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" name="inputCardDiversos" type="number" class="w-25 text-center" value="1" readonly="true" max="<?php echo htmlspecialchars( $value1["stock"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
 
 									  <button type="button" class="btn btn-sm btn-main-site-section text-btn-site-section" onClick="addItem('inputCardDiversos<?php echo htmlspecialchars( $value1["codProduct"], ENT_COMPAT, 'UTF-8', FALSE ); ?>')">+</button>
 									  

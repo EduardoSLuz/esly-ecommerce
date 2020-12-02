@@ -1,0 +1,79 @@
+<?php if(!class_exists('Rain\Tpl')){exit;}?>  </div>
+  <!-- /.content-wrapper -->
+  
+  <footer class="main-footer no-print">
+    <strong>Copyright &copy; <?php echo date('Y'); ?> <a href="https://astemac.com.br" target="_blank">Astemac</a>.</strong>
+    Todos os direitos reservados.
+    
+  </footer>
+
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery -->
+<script src="/resources/admin/plugins/jquery/jquery.min.js"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="/resources/admin/plugins/jquery-ui/jquery-ui.min.js"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+  $.widget.bridge('uibutton', $.ui.button)
+</script>
+<!-- Bootstrap 4 -->
+<script src="/resources/admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- ChartJS -->
+<script src="/resources/admin/plugins/chart.js/Chart.min.js"></script>
+<!-- bs-custom-file-input -->
+<script src="/resources/admin/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+<!-- Select2 -->
+<script src="/resources/admin/plugins/select2/js/select2.full.min.js"></script>
+<!-- Bootstrap4 Duallistbox -->
+<script src="/resources/admin/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
+<!-- Jquery Mask -->
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js'></script>
+<!-- jQuery Knob Chart -->
+<script src="/resources/admin/plugins/jquery-knob/jquery.knob.min.js"></script>
+<!-- date-range-picker -->
+<script src="/resources/admin/plugins/moment/moment.min.js"></script>
+<script src="/resources/admin/plugins/daterangepicker/daterangepicker.js"></script>
+<!-- bootstrap color picker -->
+<script src="/resources/admin/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="/resources/admin/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+<!-- Bootstrap Switch -->
+<script src="/resources/admin/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+<!-- AdminLTE App -->
+<script src="/resources/admin/dist/js/adminlte.min.js"></script>
+<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+<!-- <script src="/resources/admin/dist/js/pages/dashboard.js"></script> -->
+<!-- AdminLTE for demo purposes -->
+<script src="/resources/admin/dist/js/demo.js"></script>
+<!-- jsGrid -->
+<script src="/resources/admin/plugins/jsgrid/demos/db.js"></script>
+<script src="/resources/admin/plugins/jsgrid/jsgrid.min.js"></script>
+
+<!-- My Js -->
+<script src="/resources/js/master_global.js"></script>
+<script src="/resources/js/master_services.js"></script>
+<script src="/resources/js/mask.js"></script>
+
+<script type="text/javascript">
+  $(document).ready(function () {
+    bsCustomFileInput.init();
+  });
+</script>
+
+<script>
+  $(function () {
+    
+    //Initialize Select2 Elements
+    $('.select2').select2();
+
+    //Initialize Select2 Elements
+    $('.select2bs4').select2({
+      theme: 'bootstrap4'
+    })
+
+  });
+</script>
+</body>
+</html>

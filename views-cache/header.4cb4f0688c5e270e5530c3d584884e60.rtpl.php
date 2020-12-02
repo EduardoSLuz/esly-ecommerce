@@ -25,6 +25,9 @@
 	<link rel="stylesheet" href="/resources/admin/plugins/select2/css/select2.min.css">
 	<link rel="stylesheet" href="/resources/admin/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
 	
+	<!-- Ionicons -->
+	<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+
 	<!--  Custom CSS  -->
 	<link href="/resources/css/esly-area.css" rel="stylesheet">  
 	<link href="/resources/css/esly-carousel.css" rel="stylesheet">  
@@ -117,7 +120,7 @@
 			
 			<div class="ct-center">
 
-				<nav class="navbar navbar-expand-lg navbar-light row">
+				<nav class="navbar navbar-expand-lg row">
 				
 					<a class="col-lg-2 col-md-4 col-3" href="/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/">
 						<picture>
@@ -254,9 +257,9 @@
 
 		<div id="alertBoxCartNot" class="position-fixed my-lg-0 my-2 offset-lg-9 col-lg-3 offset-md-8 col-md-4 d-none">
 
-			<div id="alertCartNot" class="alert alert-success alertCartNot fade text-center my-0" role="alert">
+			<div id="alertCartNot" class="alert alert-success fade text-center my-0" role="alert">
 							
-				<span>Produto Adicionado ao Carrinho</span>
+				<span class="msgAlert">Produto Adicionado ao Carrinho</span>
 				
 			</div>
 	
@@ -266,7 +269,7 @@
 
 	<section id="NavbarMobile-Pesquisa" class="bg-site-header display-None">
 			
-		<nav class="navbar navbar-expand-lg navbar-light">
+		<nav class="navbar navbar-expand-lg">
 					
 			<div class="btn-group width-T100">
 
@@ -337,6 +340,8 @@
 				<b class="font-weight-normal mx-2 tx-SubMobile text-second-site-section">Inicio</b>
 			</a>
 
+			<?php if( isset($departaments) && $departaments != 0 ){ ?>
+			
 			<?php $counter1=-1;  if( isset($departaments) && ( is_array($departaments) || $departaments instanceof Traversable ) && sizeof($departaments) ) foreach( $departaments as $key1 => $value1 ){ $counter1++; ?>
 			<?php if( $key1 <= 12 ){ ?>
 			<?php $departamentos = $value1["name"]; ?>
@@ -351,10 +356,12 @@
 
 			<div id="SubBar<?php echo htmlspecialchars( $key1, ENT_COMPAT, 'UTF-8', FALSE ); ?>" class="collapse bg-light">
 				
+				<?php if( isset($value1["category"]) && is_array($value1["category"]) && count($value1["category"]) > 0 ){ ?>
 				<?php $counter2=-1;  if( isset($value1["category"]) && ( is_array($value1["category"]) || $value1["category"] instanceof Traversable ) && sizeof($value1["category"]) ) foreach( $value1["category"] as $key2 => $value2 ){ $counter2++; ?>
 				<a href="/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/departaments/<?php echo htmlspecialchars( $departamentos, ENT_COMPAT, 'UTF-8', FALSE ); ?>-<?php echo htmlspecialchars( $value2["name"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/" class="btn border border-top-0 border-left-0 border-right-0 bd-RdNull w-100 text-left py-SubMobile">
 					<b class="font-weight-normal mx-2 tx-SubMobile text-second-site-section"><?php echo htmlspecialchars( $value2["name"], ENT_COMPAT, 'UTF-8', FALSE ); ?></b>
 				</a>
+				<?php } ?>
 				<?php } ?>
 				
 			</div>
@@ -364,7 +371,12 @@
 			<a class="btn border border-left-0 border-right-0 w-100 bd-RdNull py-SubMobile text-left" href="/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/departaments/">
 				<b class="font-weight-normal mx-2 tx-SubMobile text-second-site-section">VER TODOS</b>
 			</a>
-			
+
+			<?php }else{ ?>
+			<a class="btn border border-left-0 border-right-0 w-100 bd-RdNull py-SubMobile text-left">
+				<b class="font-weight-normal mx-2 tx-SubMobile text-second-site-section">SEM DEPARTAMENTOS</b>
+			</a>
+			<?php } ?>
 			
 		</div>
 	
@@ -373,7 +385,7 @@
 	<section class="bg-site-header bar-display">
 			
 			<div class="ct-center">
-				<nav class="navbar navbar-expand-sm navbar-light main_navbar bcg-ini ct-ini" id="main_navbar">
+				<nav class="navbar navbar-expand-sm main_navbar bcg-ini ct-ini" id="main_navbar">
 
 				<div class="collapse navbar-collapse" id="navbarSupportedContent">
 
@@ -386,6 +398,8 @@
 							</a>
 
 								<ul class="dropdown-menu bg-site-section rounded ml-2 menu-left" aria-labelledby="navbarDropdown">
+								
+								<?php if( isset($departaments) && $departaments != 0 ){ ?>
 								
 								<?php $counter1=-1;  if( isset($departaments) && ( is_array($departaments) || $departaments instanceof Traversable ) && sizeof($departaments) ) foreach( $departaments as $key1 => $value1 ){ $counter1++; ?>
 								<?php if( $key1 < 12 ){ ?>
@@ -437,7 +451,16 @@
 								<?php } ?>
 								<?php } ?>
 
-								<?php if( count($departaments) >= 11 ){ ?>
+								<?php }else{ ?>
+								<li class="nav-item text-dep-site-header dropdown">
+									<a class="dropdown-item text-decoration-none border d-flex" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										<span class="flex-grow-1 pr-2">SEM DEPARTAMENTOS</span></span>
+									</a>
+
+								</li>
+								<?php } ?>
+
+								<?php if( isset($departaments) && $departaments != 0 && count($departaments) >= 11 ){ ?>
 								<li class="nav-item text-dep-site-header dropdown">
 									<a class="dropdown-item text-decoration-none border d-flex" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="window.location.assign('/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/departaments/')">
 										<span class="flex-grow-1 pr-2">MAIS DEPARTAMENTOS</span> <span class="pl-2"><i class="fas fa-angle-right"></i></span>

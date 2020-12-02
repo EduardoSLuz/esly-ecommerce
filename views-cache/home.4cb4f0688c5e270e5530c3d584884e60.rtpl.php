@@ -1,5 +1,5 @@
 <?php if(!class_exists('Rain\Tpl')){exit;}?>
-	<?php if( isset($imgs) && $imgs != 0 ){ ?>
+	<?php if( isset($imgs) && $imgs != 0 && isset($products) && is_array($products) && count($products) > 0 ){ ?>
 	<div class="ct-null bg-white">	  
 		
 		<div class="owl-carousel owl-theme owl-loaded">
@@ -22,48 +22,58 @@
 	</div>
 	<?php } ?>
 	  
-	<br>
-	  
-	<section class="mt-3">
-	  
-	 	<p class="h4 text-uppercase font-weight-light text-center text-second-site-section">
-			Produtos que podem te interessar
-		</p>
-		
-		<div class="container mt-3">
-			
-			<div class="row cards-CartOne">
-				  
-				<div class="owl-carousel owl-theme owl-loaded">
-					
-					<div class="CarouselOne owl-stage-outer">
-          				
-						<div class="owl-stage">
-							
-							<?php $counter1=-1;  if( isset($products) && ( is_array($products) || $products instanceof Traversable ) && sizeof($products) ) foreach( $products as $key1 => $value1 ){ $counter1++; ?>
-							
-							<?php if( $key1 < 7 ){ ?>
-							<div class="owl-item text-center">
-								<img class="rounded mx-auto d-block rounded-circle bg-white border carousel-ImgCircle cursorPointer" src="<?php echo htmlspecialchars( $value1["category"]["0"]["products"]["0"]["image"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" alt="Produtos" onclick="window.location.assign('/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/departaments/<?php echo htmlspecialchars( $value1["name"], ENT_COMPAT, 'UTF-8', FALSE ); ?>-<?php echo htmlspecialchars( $value1["category"]["0"]["name"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/')">
-								<p class="text-center text-wrap text-second-site-section">
-									<?php echo substr($value1["name"], 0, 25); ?>
-								</p>
-							</div>
-							<?php } ?>
+	<?php if( isset($products) && is_array($products) && count($products) > 0 ){ ?>
 
-							<?php } ?>
-							
-          				</div>
-        			
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
+	<section class="mt-5">
+	  
+		<p class="h4 text-uppercase font-weight-light text-center text-second-site-section">
+		   Produtos que podem te interessar
+	   </p>
+	   
+	   <div class="container mt-3">
+		   
+		   <div class="row cards-CartOne">
+				 
+			   <div class="owl-carousel owl-theme owl-loaded">
+				   
+				   <div class="CarouselOne owl-stage-outer">
+						 
+					   <div class="owl-stage">
+						   
+						   <?php $counter1=-1;  if( isset($products) && ( is_array($products) || $products instanceof Traversable ) && sizeof($products) ) foreach( $products as $key1 => $value1 ){ $counter1++; ?>
+						   
+						   <?php if( $key1 < 7 ){ ?>
+						   
+						   <?php if( $value1["category"]["0"]["products"]["0"]["stock"] > 0 ){ ?>
+						   <div class="owl-item text-center">
+							<img class="rounded mx-auto d-block rounded-circle bg-white border carousel-ImgCircle cursorPointer" src="<?php echo htmlspecialchars( $value1["category"]["0"]["products"]["0"]["image"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" alt="Produtos" onclick="window.location.assign('/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/departaments/<?php echo htmlspecialchars( $value1["name"], ENT_COMPAT, 'UTF-8', FALSE ); ?>-<?php echo htmlspecialchars( $value1["category"]["0"]["name"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/')">
+							<p class="text-center text-wrap text-second-site-section">
+								<?php echo substr($value1["name"], 0, 25); ?>
+							</p>
+							</div>
+						   <?php } ?>
+
+						   <?php } ?>
+
+						   <?php } ?>
+						   
+						 </div>
+				   
+				   </div>
+			   </div>
+		   </div>
+	   </div>
+   </section>
+
+	<?php } ?>
 	
+	<?php if( isset($productsDep) && is_array($productsDep) && count($productsDep) > 0 ){ ?>
+	   
+	<?php $ctProDep = 0; ?>
+	<?php $counter1=-1;  if( isset($productsDep) && ( is_array($productsDep) || $productsDep instanceof Traversable ) && sizeof($productsDep) ) foreach( $productsDep as $key1 => $value1 ){ $counter1++; ?>
+	<?php if( isset($value1["status"]) && $value1["status"] == 1 ){ ?><?php $ctProDep += 1; ?><?php } ?>
 	
-	<?php $counter1=-1;  if( isset($products) && ( is_array($products) || $products instanceof Traversable ) && sizeof($products) ) foreach( $products as $key1 => $value1 ){ $counter1++; ?>
-	<?php if( count($value1["category"]["0"]["products"]) < 15 ){ ?>
+	<?php if( $ctProDep < 15 && isset($value1["status"]) && $value1["status"] == 1 ){ ?>
 	<section class="ct-center mt-mobile" style="margin-bottom:80px">
 			
 		<div class="ct-ini">
@@ -82,8 +92,8 @@
           				
 						<div class="owl-stage text-center">
 							
-							<?php $counter2=-1;  if( isset($value1["category"]["0"]["products"]) && ( is_array($value1["category"]["0"]["products"]) || $value1["category"]["0"]["products"] instanceof Traversable ) && sizeof($value1["category"]["0"]["products"]) ) foreach( $value1["category"]["0"]["products"] as $key2 => $value2 ){ $counter2++; ?>
-							<?php if( $value2["price"] > 0 && $key2 < 6 ){ ?>
+							<?php $counter2=-1;  if( isset($value1["products"]) && ( is_array($value1["products"]) || $value1["products"] instanceof Traversable ) && sizeof($value1["products"]) ) foreach( $value1["products"] as $key2 => $value2 ){ $counter2++; ?>
+							<?php if( $value2["price"] > 0 && $key2 < 12 && $value2["stock"] > 0 ){ ?>
 							<div class="owl-item text-center">
 								
 								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/<?php echo htmlspecialchars( $value2["description"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/">
@@ -141,7 +151,7 @@
 			
 												<button type="button" class="btn btn-sm btn-main-site-section text-btn-site-section bd-RdLeft" onClick="removeItem('inputCard<?php echo htmlspecialchars( $value2["departament"], ENT_COMPAT, 'UTF-8', FALSE ); ?><?php echo htmlspecialchars( $key2, ENT_COMPAT, 'UTF-8', FALSE ); ?>')">-</button>
 		
-												<input id="inputCard<?php echo htmlspecialchars( $value2["departament"], ENT_COMPAT, 'UTF-8', FALSE ); ?><?php echo htmlspecialchars( $key2, ENT_COMPAT, 'UTF-8', FALSE ); ?>" name="inputCardDiversos" type="number" class="w-25 text-center" value="1">
+												<input id="inputCard<?php echo htmlspecialchars( $value2["departament"], ENT_COMPAT, 'UTF-8', FALSE ); ?><?php echo htmlspecialchars( $key2, ENT_COMPAT, 'UTF-8', FALSE ); ?>" name="inputCardDiversos" type="number" class="w-25 text-center" value="1" readonly="true" max="<?php echo htmlspecialchars( $value2["stock"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
 		
 												<button type="button" class="btn btn-sm btn-main-site-section text-btn-site-section" onClick="addItem('inputCard<?php echo htmlspecialchars( $value2["departament"], ENT_COMPAT, 'UTF-8', FALSE ); ?><?php echo htmlspecialchars( $key2, ENT_COMPAT, 'UTF-8', FALSE ); ?>')">+</button>
 												
@@ -173,4 +183,33 @@
 		</div>
 	</section>
 	<?php } ?>
+	<?php } ?>
+
+	<?php }else{ ?>
+	<section class="ct-center mt-mobile my-5">
+		<div class="ml-3">
+				
+			<p class="h4 font-weight-normal">
+				<a class="d-inline-block">
+					<i class="far fa-frown bar-display text-second-site-section" style="font-size: 5em;"></i>
+				</a>
+				<a class="ml-3 d-inline-block text-second-site-section">
+					Ops!<br>
+					Desculpe, não encontramos produtos no site.<br>
+				</a>
+			</p>
+		
+		</div>
+
+		<div class="ml-3 mt-5">
+			<p class="h5 font-weight-normal text-second-site-section">Algumas sugestões:</p>
+			<hr>
+			<p class="ml-3 mt-4">
+				<i class="fas fa-arrow-right text-second-site-section"></i> Aguarde alguns minutos e depois recarregue a página <br>
+				<i class="fas fa-arrow-right text-second-site-section"></i> Tente entrar em contato com o suporte <br>
+				<i class="fas fa-arrow-right text-second-site-section"></i> Verifique se seu navegador não está bloqueando nada no site <br>
+				<i class="fas fa-arrow-right text-second-site-section"></i> Verifique sua conexão com a internet <br>
+			</p>
+		</div>
+	</section>	
 	<?php } ?>

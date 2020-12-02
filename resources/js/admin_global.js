@@ -31,6 +31,15 @@ $("body").on("click tap", function(e){
 
 });
 
+$("#btnNotificationsStores").on("click tap", function(e){
+  
+    if($("#audioNotification").attr('loop') != 'undefined')
+    {
+        $("#audioNotification").removeAttr('loop');
+    }
+
+});
+
 function getNotifications()
 {
 
@@ -42,6 +51,8 @@ function getNotifications()
 
         if(response == 1)
         {
+            $("#audioNotification").attr('loop', true);
+            $("#audioNotification").attr('loop', true);
             playNot();
         }
 
@@ -55,6 +66,7 @@ function getNotifications()
 
 function playNot()
 {
+    $("#audioNotification").prop('volume', 1.0);
     $("#audioNotification").trigger('play');
 }
 
@@ -75,10 +87,11 @@ function msgAlert(alert, msg, type = 1, time = 2000)
         $(alert + " .msgAlert").text(msg);
 
         $(alert).removeClass("d-none");
+        $(alert).addClass("show");
         setTimeout( function(){ 
+            $(alert).removeClass("show");
             $(alert).addClass("d-none");
         } , time);
-    
     }
     
 }

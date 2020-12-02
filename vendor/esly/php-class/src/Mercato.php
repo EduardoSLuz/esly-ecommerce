@@ -3,6 +3,7 @@
 namespace Esly;
 
 use Esly\DB\Sql;
+use Esly\DB\Temp;
 use Esly\Model;
 use Esly\Model\Cart;
 use Esly\Model\Order;
@@ -14,6 +15,46 @@ class Mercato extends Model{
     const URL = "https://mercatosistemas.com.br:";
     const OPTS = ["products" => "/dados_produtos", "newOrder" => "/Pedido_Novo", "sltOrder" => "/Pedido_Consulta"];
     
+    public static function listMercato($id = 0, $query = "", $param = [])
+	{
+		
+		$conn = $id > 0 ? "AND " : "WHERE ";
+		$query = !empty($query) ? $conn.$query : "";
+		
+		if($id > 0) 
+		{
+			$query = "WHERE idMercato = :ID ".$query;
+			$param = array_merge($param, [":ID" => $id]);
+		}
+
+		$sql = new Temp();
+
+		$select = $sql->select("SELECT * FROM mercato $query", $param);
+
+		return is_array($select) && count($select) > 0 ? $select : 0; 
+		
+    }
+    
+    public static function updateMercato($id = 0, $sets = "", $query = "", $param = [])
+	{
+		
+		$conn = $id > 0 ? "AND " : "WHERE ";
+		$query = !empty($query) ? $conn.$query : "";
+		
+		if($id > 0) 
+		{
+			$query = "WHERE idMercato = :ID ".$query;
+			$param = array_merge($param, [":ID" => $id]);
+		}
+
+		$sql = new Temp();
+
+		$update = $sql->count("UPDATE mercato SET $sets $query", $param);
+
+		return $update > 0 ? true : false; 
+		
+	}
+
     public static function getUrl($opts)
     {
 
@@ -22,9 +63,7 @@ class Mercato extends Model{
         if(isset(Mercato::OPTS[$opts]) && isset($_SESSION[Sql::DB]))
         {   
             
-            $sql = new Sql($_SESSION[Sql::DB]);
-
-            $select = $sql->select("SELECT port FROM mercato LIMIT 1");
+            $select = Mercato::listMercato(0, "idCompany = :ID", [':ID' => $_SESSION[Sql::DB]['idCompany']]);
 
             $url = is_array($select) && count($select) == 1 ? Mercato::URL.$select[0]['port'].Mercato::OPTS[$opts] : "";
 
@@ -56,6 +95,106 @@ class Mercato extends Model{
 
         return is_array($data) && count($data) > 0 ? $data : 0;
 
+    }
+
+    public static function selectOrders($id = 0)
+    {
+
+        $data = [];
+        $param = $id > 0 ? "pedido=".$id : "pedido=sittodos";
+        $url = Mercato::getUrl('sltOrder');
+
+        if($url == 0 && is_numeric($url)) return 0;
+
+        $orders = Mercato::getData($url, $param);
+
+        if($orders != 0)
+        {
+
+            foreach ($orders as $key => $value) {
+
+                $data[$key] = [
+                    "codClient" => $value['COD_CLIENTE'],
+                    "dateOrder" => $value['DATA_PEDIDO'],
+                    "contact" => $value['CONTATO'],
+                    "obs" => $value['OBS'],
+                    "client" => $value['CLIENTE'],
+                    "street" => $value['ENDERECO'],
+                    "telephone" => $value['TELEFONE'],
+                    "whatsapp" => $value['CELULAR'],
+                    "cnpj" => $value['CNPJ'],
+                    "uf" => $value['UF'],
+                    "cep" => $value['CEP'],
+                    "number" => $value['NUMERO'],
+                    "district" => $value['BAIRRO'],
+                    "city" => $value['CIDADE'],
+                    "status" => $value['SITUACAO'],
+                    "email" => $value['EMAIL'],
+                    "codUser" => $value['COD_USUARIO'],
+                    "validity" => $value['VALIDADE'],
+                    "delivered" => $value['IND_ENTREGUE'],
+                    "subtotal" => $value['VALOR_SUBTOTAL'],
+                    "addition" => $value['VALOR_ACRESCIMO'],
+                    "discount" => $value['VALOR_DESCONTO'],
+                    "total" => $value['VALOR_TOTAL'],
+                    "codOrder" => $value['NUM_PEDIDO'],
+                    "idOrder" => $value['PEDIDO_LOCAL'],
+                    "typeOrder" => $value['TIPO_PEDIDO'],
+                    "dateUpdate" => $value['DATA_ULT_ALTERACAO']
+                ];    
+
+                foreach ($value['ITENS'] as $kItens => $vItens) {
+                    
+                    $data[$key]['items'][$kItens] = [
+                        "item" => $vItens['SEQ_ITEM'], 
+                        "codProduct" => $vItens['COD_PRODUTO'], 
+                        "typePromotion" => $vItens['TIPO_PROMOCAO'], 
+                        "quantity" => $vItens['QTD'], 
+                        "price" => $vItens['VALOR_UNIT'], 
+                        "total" => $vItens['VALOR_TOTAL']
+                    ];
+
+                }
+
+            }
+
+        }
+
+        return is_array($data) && count($data) > 0 ? $data : 0;
+
+    }
+
+    public static function getHistoric()
+    {
+        
+        $nameBase = $_SESSION[Sql::DB]['directory'];
+
+        if(file_exists("resources/clients/".$nameBase."/json/Historic.json"))
+        {
+
+            $file = file("resources/clients/".$nameBase."/json/Historic.json");
+        }
+        
+        return isset($file) ? json_decode($file[0], true) : [];
+        
+    }
+
+    public static function setHistoric($data)
+    {
+        
+        $json = is_string($data) && json_decode($data, true) !== null ? $data : json_encode($data);
+
+        $nameBase = $_SESSION[Sql::DB]['directory'];
+        $file = "resources/clients/".$nameBase."/json/Historic.json";
+        
+        $fh = fopen($file, 'w');
+        
+        fwrite($fh, $json);
+        
+        fclose($fh);
+
+        return file_exists($file) ? true : false;
+        
     }
 
     public static function getImgsProducts($cod, $text)
@@ -102,7 +241,7 @@ class Mercato extends Model{
                 foreach ($products as $kDados => $vDados) {
                     
     
-                    if($vArray == $vDados['DESCRICAO'] && $vDados['PRECO'] > 0 /*&& $vDados['QTD_ESTOQUE_ATUAL'] > 0*/)
+                    if($vArray == $vDados['DESCRICAO'] && $vDados['PRECO'] > 0 && $vDados['QTD_ESTOQUE_ATUAL'] > 0)
                     {
     
                         $data[$kArray] = [
@@ -153,7 +292,7 @@ class Mercato extends Model{
         
     }
 
-    private static function saveJson($data, $id, $type)
+    public static function saveJson($data, $id, $type)
     {
 
         $nameBase = $_SESSION[Sql::DB]['directory'];
@@ -161,11 +300,42 @@ class Mercato extends Model{
 
         if(file_exists($archive))
         {   
+
+            if($type == "ST")
+            {
+
+                $products = Mercato::listAllProducts($id);
+
+                foreach ($data as $key => $value) {
+                   
+                    $ct = 0;
+                    
+                    foreach ($products as $kProduct => $vProduct) {
+                        
+                        if($value['codProduct'] == $vProduct['codProduct'])
+                        {
+                            $value['image'] = $vProduct['image'];
+                            $products[$kProduct] = $value;
+                            $ct = 1;
+                            break;
+                        }
+
+                    }
+
+                    if($ct == 0) $products[] = $value;
+
+                }
+
+                $data = $products;
+
+            }
+
             rename($archive, "resources/clients/$nameBase/json/backup/".intval($id).Mercato::cryptCode($nameBase.intval($id)).$type.".json");
+
         }
 
         $data = is_array($data) && count($data) > 0 ? json_encode($data) : $data;
-            
+        
         $fh = fopen($archive, 'w');
         
         fwrite($fh, $data);
@@ -319,12 +489,65 @@ class Mercato extends Model{
         $json = $type == 0 ? "ST" : "DP";
 
         $nameBase = $_SESSION[Sql::DB]['directory'];
-        $file = file("resources/clients/".$nameBase."/json/".intval($id).Mercato::cryptCode($nameBase.intval($id)).$json.".json");
+        $archive = "resources/clients/".$nameBase."/json/".intval($id).Mercato::cryptCode($nameBase.intval($id)).$json.".json";
+
+        if(file_exists($archive))
+        {
+            $file = file("resources/clients/".$nameBase."/json/".intval($id).Mercato::cryptCode($nameBase.intval($id)).$json.".json");
+        }    
         
-        return json_decode($file[0], true);
+        return isset($file) ? json_decode($file[0], true) : [];
 
     }
-    
+
+    public static function listProductsDepartaments($store = 0)
+    {
+
+        $array = [];
+        $products = Mercato::listAllProducts($store, 1);
+
+        if(is_array($products) && count($products) > 0)
+        {
+
+            foreach ($products as $key => $value) {
+                
+                $array[$key] = [
+                    "name" => $value['name'],
+                    "products" => []
+                ];
+
+                if(is_array($value['category']) && count($value['category']) > 0)
+                {   
+
+                    foreach ($value['category'] as $kCat => $vCat) {
+                        
+                        if(is_array($vCat['products']) && count($vCat['products']) > 0)
+                        {
+
+                            foreach ($vCat['products'] as $kPro => $vPro) {
+                                
+                                if($vPro['stock'] > 0)
+                                {
+                                    $array[$key]['products'][] = $vPro;
+                                }
+
+                            }
+
+                        }
+                        
+                    }
+
+                }
+
+                $array[$key]['status'] = is_array($array[$key]['products']) && count($array[$key]['products']) > 0 ? 1 : 0;
+
+            }
+            
+        }
+
+        return is_array($array) && count($array) > 0 ? $array : 0;
+
+    }    
 
     public static function filterProductsRandom($id)
     {
@@ -569,6 +792,134 @@ class Mercato extends Model{
 
     }
 
+    public static function updateProduct($products = 0, $store = 0, $field, $cod, $fieldAlt, $newVal, $save = 0)
+    {
+
+        $products = $products == 0 ? Mercato::listAllProducts($store) : $products;
+
+        if(is_array($products) && count($products) > 0)
+        {
+            
+            foreach ($products as $key => $value) {
+            
+                if($value[$field] == $cod && isset($fieldAlt) && isset($newVal)){
+
+                    $products[$key][$fieldAlt] = $newVal;
+                    break;
+
+                }
+    
+            } 
+
+            $res = $save == 1 ? $res = Mercato::saveProducts($products, $store) : $products;
+
+        }
+
+        return isset($res) ? $res : 0;
+
+    }
+
+    public static function updateProductDepartaments($products = 0, $store = 0, $field, $cod, $fieldAlt, $newVal, $save = 0)
+    {
+
+        $products = $products == 0 ? Mercato::listAllProducts($store, 1) : $products;
+        
+        if(is_array($products) && count($products) > 0)
+        {
+            
+            foreach ($products as $key => $value) {
+                
+                if(is_array($value['category']) && count($value['category']) > 0)
+                {
+                    
+                    foreach ($value['category'] as $kCat => $vCat) {
+            
+                        if(is_array($vCat['products']) && count($vCat['products']) > 0)
+                        {
+                            
+                            foreach ($vCat['products'] as $kProduct => $vProduct) {
+                                
+                                if($vProduct[$field] == $cod && isset($fieldAlt) && isset($newVal)){
+                            
+                                    $products[$key]['category'][$kCat]['products'][$kProduct][$fieldAlt] = $newVal;
+                                    break;
+                
+                                }
+        
+                            }
+        
+                        }
+            
+                    } 
+
+                }
+
+            }
+
+            $res = $save == 1 ? $res = Mercato::saveProducts($products, $store, 'DP') : $products;
+
+        }
+
+        return isset($res) ? $res : 0;
+
+    }
+
+    public static function updateAllProducts($products = 0, $store = 0, $field, $cod, $fieldAlt, $newVal, $save = 0)
+    {
+        
+        if($products == 0)
+        {
+            $products = [ 0 => Mercato::listAllProducts($store), 1 => Mercato::listAllProducts($store, 1) ];            
+        }
+
+        if(is_array($products) && count($products) > 1)
+        {
+            $Pro = Mercato::updateProduct($products[0], $store, $field, $cod, $fieldAlt, $newVal, $save);
+            $ProDep = Mercato::updateProductDepartaments($products[1], $store, $field, $cod, $fieldAlt, $newVal, $save);
+        }
+        
+        return [0 => isset($Pro) ? $Pro : 0, 1 => isset($ProDep) ? $ProDep : 0];
+
+    }
+
+    public static function saveProducts($products, $store = 0, $type = "ST")
+    {
+
+        $json = is_array($products) && count($products) > 0 ? json_encode($products) : $products;
+
+        $tp = $type != "ST" ? "DP" : "ST";
+
+        $nameBase = $_SESSION[Sql::DB]['directory'];
+        $archive = "resources/clients/".$nameBase."/json/".intval($store).Mercato::cryptCode($nameBase.intval($store)).$tp.".json";
+
+        if(file_exists($archive))
+        {
+            
+            $fh = fopen($archive, 'w');
+        
+            fwrite($fh, $json);
+        
+            fclose($fh);
+
+        }    
+        
+        return isset($fh) ? true : false;
+        
+    }
+
+    public static function saveAllProducts($products, $store = 0)
+    {
+
+        if(is_array($products) && count($products) > 1)
+        {
+            $save = Mercato::saveProducts($products[0], $store, "ST");
+            $saveDep = Mercato::saveProducts($products[1], $store, "DP");
+        }
+        
+        return [0 => isset($save) ? $save : false, 1 => isset($saveDep) ? $saveDep : false];
+        
+    }
+
     public static function getMarksProduct($products)
     {
 
@@ -694,54 +1045,59 @@ class Mercato extends Model{
         $array = [];
         $products = Mercato::listAllProducts($id);
 
-        foreach ($products as $key => $value) {
-            
-            if(!empty($dep) && $value['departament'] == $dep || $dep == "")
-            {
-                if($value['departament'] == "") $value['departament'] = "GERAL";
-                if($value['category'] == "") $value['category'] = "GERAL";
-
-                if(!isset($array[$value['departament']])) $array[$value['departament']] = [
-                    "name" => $value['departament'],
-                    "category" => []
-                ];
-
-                if(!isset($array[$value['departament']]["category"][$value['category']])) $array[$value['departament']]["category"][$value['category']] = [
-                    "name" => $value['category']
-                ];
-            }
-            
-        }
-
-        sort($array);
-
-        if(!empty($dep) && count($array) > 0)
+        if(is_array($products) && count($products) > 0)
         {
 
-            foreach ($array[0]['category'] as $key => $value) {
-                
-                if($value['name'] != $category) 
-                {
-                    $data[count($data)] = $value;
-                } 
-    
-            }
-
-            sort($data);
-
-        } else {
+            foreach ($products as $key => $value) {
             
-            foreach ($array as $key => $value) {
-           
-                if(count($array) >= 11) 
+                if(!empty($dep) && $value['departament'] == $dep || $dep == "")
                 {
-                    $value['topMax'] = (-30) - (100 * 12);
-                } 
+                    if($value['departament'] == "") $value['departament'] = "GERAL";
+                    if($value['category'] == "") $value['category'] = "GERAL";
+    
+                    if(!isset($array[$value['departament']])) $array[$value['departament']] = [
+                        "name" => $value['departament'],
+                        "category" => []
+                    ];
+    
+                    if(!isset($array[$value['departament']]["category"][$value['category']])) $array[$value['departament']]["category"][$value['category']] = [
+                        "name" => $value['category']
+                    ];
+                }
                 
-                $value['top'] = $top; 
-                sort($value['category']);
-                $data[count($data)] = $value;
-                $top -= 100;
+            }
+    
+            sort($array);
+    
+            if(!empty($dep) && count($array) > 0)
+            {
+    
+                foreach ($array[0]['category'] as $key => $value) {
+                    
+                    if($value['name'] != $category) 
+                    {
+                        $data[count($data)] = $value;
+                    } 
+        
+                }
+    
+                sort($data);
+    
+            } else {
+                
+                foreach ($array as $key => $value) {
+               
+                    if(count($array) >= 11) 
+                    {
+                        $value['topMax'] = (-30) - (100 * 12);
+                    } 
+                    
+                    $value['top'] = $top; 
+                    sort($value['category']);
+                    $data[count($data)] = $value;
+                    $top -= 100;
+        
+                }
     
             }
 

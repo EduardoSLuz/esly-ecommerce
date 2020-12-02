@@ -20,17 +20,11 @@
 					</p>
 				</div>
 
-				<?php if( $errorRegister != '' ){ ?>
-				<div class="alert alert-danger alert-dismissible fade show text-left" role="alert">
-					
-					<span><?php echo htmlspecialchars( $errorRegister, ENT_COMPAT, 'UTF-8', FALSE ); ?></span>
-					
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
+				<div id="alertCartCheckout" class="alert alert-success alert-dismissible fade show d-none text-left" role="alert">
+								
+					<span class="msgAlert">Msg</span>
 
 				</div>
-				<?php } ?>
 
 				<?php if( $cart["items"] != 0 ){ ?>
 				<p class="tx-09em mt-3 text-right NoPrintabled">
@@ -96,24 +90,43 @@
 												<img src='<?php echo htmlspecialchars( $value1["image"], ENT_COMPAT, 'UTF-8', FALSE ); ?>' class="img-fluid" width="150px" alt="Produto <?php echo htmlspecialchars( $value1["descProduct"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
 											</div>
 											<div class="col-md" >
+
+												<?php if( isset($value1["details"]) && !empty($value1["details"]) ){ ?>
+												<span class="tx-tableMobile td-ini text-decoration-none d-inline-block text-truncate text-break font-weight-normal  text-danger">	
+													<?php echo htmlspecialchars( $value1["descProduct"], ENT_COMPAT, 'UTF-8', FALSE ); ?>
+												</span>
+												<?php }else{ ?>
 												<a href="/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/<?php echo htmlspecialchars( $value1["descProduct"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/" class="tx-tableMobile td-ini text-decoration-none d-inline-block text-truncate text-break font-weight-normal text-second-site-section">	
 													<?php echo htmlspecialchars( $value1["descProduct"], ENT_COMPAT, 'UTF-8', FALSE ); ?>
 												</a>
+												<?php } ?>
 												
 												<p class="mt-2">
-													<b>R$ <?php echo maskPrice($value1["priceItem"]); ?></b><br>
+													
+													<?php if( isset($value1["details"]) && $value1["details"] != '' ){ ?>
+													<b class="text-danger"> <i class="fas fa-times"></i> <?php echo htmlspecialchars( $value1["details"], ENT_COMPAT, 'UTF-8', FALSE ); ?></b>
+													<?php }else{ ?>
+													<b>R$ <?php echo maskPrice($value1["priceItem"]); ?></b>
+													<?php } ?>
+
 												</p>
 	
 											</div>
 										</div>
 
 										<div class="display-None py-auto">
-											<span class="text-second-site-section">	
+											<span class='<?php if( isset($value1["details"]) && !empty($value1["details"]) ){ ?>text-danger<?php }else{ ?>text-second-site-section<?php } ?>'>	
 												<?php echo htmlspecialchars( $value1["descProduct"], ENT_COMPAT, 'UTF-8', FALSE ); ?>
 											</span>
 											
 											<p class="text-second-site-section">
+												
+												<?php if( isset($value1["details"]) && $value1["details"] != '' ){ ?>
+												<b class="text-danger"> <i class="fas fa-times"></i> <?php echo htmlspecialchars( $value1["details"], ENT_COMPAT, 'UTF-8', FALSE ); ?></b>
+												<?php }else{ ?>
 												<b>R$ <?php echo maskPrice($value1["priceItem"]); ?></b>
+												<?php } ?>
+
 											</p>
 										</div>
 									</td>
@@ -121,11 +134,11 @@
 
 										<div class="NoPrintabled">
 
-											<form class="formUpdateItem" data-id="<?php echo htmlspecialchars( $key1, ENT_COMPAT, 'UTF-8', FALSE ); ?>" action="/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/checkout/cart/product/<?php echo htmlspecialchars( $value1["idCartItem"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/update/" data-store="<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>">
+											<form class="formUpdateItem" data-id="<?php echo htmlspecialchars( $key1, ENT_COMPAT, 'UTF-8', FALSE ); ?>" data-cart="<?php echo htmlspecialchars( $value1["idCartItem"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" data-store="<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>">
 												<div class="btn-group">
 													<button type="submit" class="btn btn-main-site-section text-btn-site-section btn-sm" onClick="removeItem('inputCart<?php echo htmlspecialchars( $key1, ENT_COMPAT, 'UTF-8', FALSE ); ?>')">-</button>
 	
-													<input id="inputCart<?php echo htmlspecialchars( $key1, ENT_COMPAT, 'UTF-8', FALSE ); ?>" name="inputCart" type="number" min="1" class="btn btn-light ipt-cart-sm text-center btn-sm" value="<?php echo htmlspecialchars( $value1["quantity"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
+													<input id="inputCart<?php echo htmlspecialchars( $key1, ENT_COMPAT, 'UTF-8', FALSE ); ?>" name="inputCart" type="number" class="btn btn-light ipt-cart-sm text-center btn-sm" value="<?php echo htmlspecialchars( $value1["quantity"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" readonly="true">
 	
 													<button type="submit" class="btn btn-main-site-section text-btn-site-section btn-sm" onClick="addItem('inputCart<?php echo htmlspecialchars( $key1, ENT_COMPAT, 'UTF-8', FALSE ); ?>')">+</button>
 												</div><br> 
@@ -140,7 +153,7 @@
 									</td>
 									<td class="text-center align-middle">
 										
-										<div id="itemTotal" class="text-decoration-none">
+										<div id="itemTotal<?php echo htmlspecialchars( $key1, ENT_COMPAT, 'UTF-8', FALSE ); ?>" class="text-decoration-none">
 											<span class="tx-tableMobile text-second-site-section"> R$ <?php echo maskPrice($value1["totalItem"]); ?></span>
 										</div>
 
@@ -153,7 +166,7 @@
 										</a>
 									</td>
 									<td class="text-center align-middle">
-										<input type="checkbox" class="checkSimilar cursorPointer" name="checkSimilar" data-action="/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/checkout/cart/product/<?php echo htmlspecialchars( $value1["idCartItem"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/update/" data-key="<?php echo htmlspecialchars( $key1, ENT_COMPAT, 'UTF-8', FALSE ); ?>" <?php if( $value1["similar"] == 1 ){ ?>checked<?php } ?> data-store="<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>">
+										<input type="checkbox" class="checkSimilar cursorPointer" name="checkSimilar" data-key="<?php echo htmlspecialchars( $key1, ENT_COMPAT, 'UTF-8', FALSE ); ?>" data-cart="<?php echo htmlspecialchars( $value1["idCartItem"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" <?php if( $value1["similar"] == 1 ){ ?>checked<?php } ?> data-store="<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>">
 									</td>
 								</tr>
 								<?php } ?>

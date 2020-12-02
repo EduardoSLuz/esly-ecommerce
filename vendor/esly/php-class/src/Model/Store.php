@@ -300,20 +300,6 @@ class Store extends Model {
 
 	}
 
-	public static function listDeliveryHorary($id)
-	{
-
-		$sql = new Sql($_SESSION[Sql::DB]);
-
-		$results = $sql->select("SELECT dv_hr.timeHorary, dv_hr.timeHorary2, hr.idHorary, hr.dayName, hr.dayCode, hr.timeInitial, hr.timeFinal, hr.timeInitial2, hr.timeFinal2 FROM delivery_horary AS dv_hr INNER JOIN horary AS hr ON dv_hr.idHorary = hr.idHorary WHERE dv_hr.type = :TYPE AND hr.idStore = :STORE ORDER BY hr.dayCode", [
-			":TYPE" => 1,
-			":STORE" => intval($id)
-		]);
-
-		return count($results) > 0 ? $results : false;
-
-	}
-
 	public static function listInstitution($id = 0)
 	{
 

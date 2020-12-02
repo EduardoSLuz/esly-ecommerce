@@ -3,6 +3,7 @@
 namespace Esly\Model;
 
 use Esly\Model;
+use Esly\Mercato;
 use Esly\Model\User;
 use Esly\DB\Sql;
 
@@ -10,14 +11,14 @@ class Cart extends Model {
 
 	const SESSION = "Cart";
 
-	public static function checkCart()
+	public static function checkCart($store = 0, $refresh = 0)
 	{
 		
 		$sql = new Sql($_SESSION[Sql::DB]);
 
 		if(isset($_SESSION[User::SESSION]))
 		{
-	
+
 			$id = User::getId();
 
 			if(isset($_SESSION[Cart::SESSION]) && $_SESSION[Cart::SESSION]['idCart'] == 0)
@@ -35,24 +36,40 @@ class Cart extends Model {
 
 						if(is_array($_SESSION[Cart::SESSION]['items']) && count($_SESSION[Cart::SESSION]['items']) > 0)
 						{
-
+							
 							foreach ($_SESSION[Cart::SESSION]['items'] as $key => $value) {
-								
+
 								if($value['idCartItem'] == 0)
 								{
+									
+									$item = Cart::listCartItemSet("WHERE idCart = :ID AND codProduct = :COD", [':ID' => intval($cart['idCart']), ':COD' => $value['codProduct']]);
 
-									$insert = Cart::insertCartItemSet( "idCart, codBars, codProduct, descProduct, quantity, similar, unitReference, priceItem, totalItem, image", ":ID, :BARCODE, :COD, :DESC, :QTD, :SIM, :UN, :PRICE, :TOTAL, :IMG", [ 
-										":ID" => intval($cart['idCart']),
-										":BARCODE" => $value['codBars'],
-										":COD" => $value['codProduct'],
-										":DESC" => $value['descProduct'],
-										":QTD" => $value['quantity'],
-										":SIM" => $value['similar'],
-										":UN" => $value['unitReference'],
-										":PRICE" => $value['priceItem'],
-										":TOTAL" => $value['totalItem'],
-										":IMG" => $value['image']
-									]);
+									$product = isset($value['codProduct']) && $value['codProduct'] > 0 ? Mercato::searchFieldProduct($store, $value['codProduct'], 'codProduct') : 0;
+
+									if(is_array($item) && count($item) > 0 && $product != 0)
+									{
+
+										$update = Cart::updateCartItemSet("quantity = :QTD, totalItem = (priceItem * :QTD)", "WHERE idCartItem = :ID", [
+											":QTD" => ($item[0]['quantity'] + $value['quantity']) <= $product['stock'] ? floatval($item[0]['quantity'] + $value['quantity']) : floatval($product['stock']),
+											":ID" => intval($item[0]['idCartItem'])
+										]);
+
+									} else {
+										
+										$insert = Cart::insertCartItemSet( "idCart, codBars, codProduct, descProduct, quantity, similar, unitReference, priceItem, totalItem, image", ":ID, :BARCODE, :COD, :DESC, :QTD, :SIM, :UN, :PRICE, :TOTAL, :IMG", [ 
+											":ID" => intval($cart['idCart']),
+											":BARCODE" => $value['codBars'],
+											":COD" => $value['codProduct'],
+											":DESC" => $value['descProduct'],
+											":QTD" => floatval($value['quantity']),
+											":SIM" => $value['similar'],
+											":UN" => $value['unitReference'],
+											":PRICE" => $value['priceItem'],
+											":TOTAL" => $value['totalItem'],
+											":IMG" => $value['image']
+										]);
+
+									}
 
 								}
 
@@ -80,16 +97,11 @@ class Cart extends Model {
 				if($select != 0 && count($select) == 1)
 				{
 
-					$total = 0;
-					$totalItems = 0;
+					$count = Cart::refreshCart($select[0]['items'], $store, $refresh);
 
-					if($select[0]['items'] != 0 && is_array($select[0]['items']))
-					{
-						foreach ($select[0]['items'] as $key => $value) {
-							$total += $value['totalItem'];
-							$totalItems += $value['quantity'];
-						}
-					}
+					$total = $count != 0 && isset($count['total']) ? $count['total'] : 0;
+					$totalItems = $count != 0 && isset($count['quantity']) ? $count['quantity'] : 0;
+					$itemsCart = $count != 0 && isset($count['items']) ? $count['items'] : 0;
 					
 					$update = Cart::updateCartSet($sets = "subtotalCart = :TOTAL, totalCart = :TOTAL, dateUpdate = :DATE", "WHERE idCart = :ID", [ ":TOTAL" => floatval($total), ":DATE" => date("Y-m-d"), ":ID" => intval($select[0]['idCart']) ] );
 
@@ -97,13 +109,12 @@ class Cart extends Model {
 						"idCart" => $select[0]['idCart'],
 						"idPromo" => $select[0]['idStorePromo'],
 						"totalCart" => floatval($total),
-						"items" => is_array($select[0]['items']) && count($select[0]['items']) > 0 ? $select[0]['items'] : 0,
+						"items" => is_array($itemsCart) && count($itemsCart) > 0 ? $itemsCart : 0,
 						"totalItems" => $totalItems,
 						"promoInfo" => 0,
 						"promo" => 0,
 						"obs" => $select[0]['obsCart'] 
 					];
-
 
 				} else if($select != 0 && count($select) > 1){
 
@@ -139,16 +150,14 @@ class Cart extends Model {
 				if(isset($_SESSION[Cart::SESSION]['items']) && is_array($_SESSION[Cart::SESSION]['items']) && count($_SESSION[Cart::SESSION]['items']) >= 0)
 				{
 
-					$total = 0;
-					$totalItems = 0;
+					$count = Cart::refreshCart($_SESSION[Cart::SESSION]['items'], $store, $refresh);
 
-					foreach ($_SESSION[Cart::SESSION]['items'] as $key => $value) {
-						$total += $value['totalItem'];
-						$totalItems += $value['quantity'];
-					}
+					$total = $count != 0 && isset($count['total']) ? $count['total'] : 0;
+					$totalItems = $count != 0 && isset($count['quantity']) ? $count['quantity'] : 0;
 
 					$_SESSION[Cart::SESSION]['totalCart'] = $total;
 					$_SESSION[Cart::SESSION]['totalItems'] = $totalItems;
+					$_SESSION[Cart::SESSION]['items'] = $count != 0 && isset($count['items']) ? $count['items'] : $_SESSION[Cart::SESSION]['items'];
 
 				}
 
@@ -170,6 +179,62 @@ class Cart extends Model {
 			"obs" => $results[0]['obsCart'] 
 		];
 		*/
+
+	}
+
+	public static function refreshCart($items = [], $store = 0, $refresh = 0)
+	{
+		
+		$array = [];
+
+		if(is_array($items) && count($items) > 0 && $store > 0)
+		{
+			
+			$array = [
+				"quantity" => 0,
+				"total" => 0
+			];
+
+			foreach ($items as $key => $value) {
+				
+				$product = isset($value['codProduct']) && $value['codProduct'] > 0 ? Mercato::searchFieldProduct($store, $value['codProduct'], 'codProduct') : 0;
+
+				if($product != 0)
+				{
+					$items[$key]['quantity'] = $value['quantity'] <= $product['stock'] && $value['quantity'] > 0 ? intval($value['quantity']) : intval($product['stock']);
+					$items[$key]['totalItem'] =  $value['quantity'] <= $product['stock'] && $value['quantity'] > 0 ? floatval($value['priceItem'] * $value['quantity']) : floatval($value['priceItem'] * $product['stock']);
+				}
+
+				if($product != 0 && $product['stock'] > 0)
+				{
+					$array['quantity'] += $value['quantity']; 
+					$array['total'] += $value['totalItem'];
+			
+				} else if($product != 0 && $product['stock'] == 0)
+				{
+
+					if($refresh != 0 && isset($_SESSION[User::SESSION]))
+					{
+
+						unset($items[$key]);
+
+						$delete = isset($value['idCartItem']) && $value['idCartItem'] > 0 ? Cart::deleteCartItemSet("WHERE idCartItem = :ID", [':ID' => $value['idCartItem']]) : 0;
+
+					} else{
+
+						$items[$key]['details'] = "Produto Indisponível na Loja $store";
+						
+					}
+
+				}
+
+			}
+
+			$array['items'] = $items;
+
+		}
+
+		return is_array($array) && count($array) > 0 ? $array : 0;
 
 	}
 
@@ -198,44 +263,136 @@ class Cart extends Model {
 	public static function addItem($item)
 	{
 
-		if(isset($_SESSION[User::SESSION]))
+		if(isset($_SESSION[User::SESSION]) && isset($_SESSION[Cart::SESSION]))
 		{
 
 			$sql = new Sql($_SESSION[Sql::DB]);
 
-			$results = $sql->count("INSERT INTO cart_item (idCart, codBars, codProduct, descProduct, quantity, unitReference, priceItem, totalItem, image) VALUES (:ID, :BARCODE, :COD, :DESC, :QTD, :UN, :PRICE, :TOTAL, :IMG)", [
-				":ID" => $_SESSION[Cart::SESSION]['idCart'],
-				":BARCODE" => $item['barCode'],
-				":COD" => intval($item['codProduct']),
-				":DESC" => strtoupper($item['description']),
-				":QTD" => intval($item['quantity']),
-				":UN" => strtoupper($item['unit']),
-				":PRICE" => $item['priceFinal'],
-				":TOTAL" => ($item['priceFinal'] * $item['quantity']),
-				":IMG" => $item['image']
-			]);
+			$product = Cart::listCartItemSet("WHERE idCart = :ID AND codProduct = :COD", [':ID' => $_SESSION[Cart::SESSION]['idCart'], ':COD' => $item['codProduct']]);
+
+			if(is_array($product) && count($product) > 0)
+			{
+
+				if(($product[0]['quantity'] + $item['qtd']) <= $item['stock'] && $item['stock'] > 0)
+				{
+
+					$results = Cart::updateCartItemSet("codBars = :BARS, descProduct = :DESC, quantity = :QTD, unitReference = :UN, priceItem = :PRICE, totalItem = (:PRICE * :QTD), image = :IMG", "WHERE idCartItem = :ID", [
+						':BARS' => $item['barCode'],
+						':DESC' => $item['description'],
+						':QTD' => floatval($product[0]['quantity'] + $item['qtd']),
+						':UN' => $item['unit'],
+						':PRICE' => $item['priceFinal'],
+						':IMG' => $item['image'],
+						':ID' => $product[0]['idCartItem']
+					]);
+
+				} else {
+					
+					$msg = ($product[0]['quantity'] + $item['qtd']) - $item['stock'] >= 0 && $product[0]['quantity'] == $item['stock'] ? "Limite do Produto Atingido" : "Você só pode adicionar mais: ".($item['stock'] - $product[0]['quantity'])." ".$item['unit'];
+
+					return ['status' => 0, 'msg' => $msg];
+
+				}
+
+			} else if($item['stock'] > 0){
+
+				$results = Cart::insertCartItemSet( "idCart, codBars, codProduct, descProduct, quantity, unitReference, priceItem, totalItem, image", ":ID, :BARCODE, :COD, :DESC, :QTD, :UN, :PRICE, :TOTAL, :IMG", [ 
+					":ID" => $_SESSION[Cart::SESSION]['idCart'],
+					":BARCODE" => $item['barCode'],
+					":COD" => intval($item['codProduct']),
+					":DESC" => strtoupper($item['description']),
+					":QTD" => floatval($item['qtd']),
+					":UN" => strtoupper($item['unit']),
+					":PRICE" => $item['priceFinal'],
+					":TOTAL" => ($item['priceFinal'] * $item['qtd']),
+					":IMG" => $item['image']
+				]);
+
+			} else {
+				return ['status' => 0, 'msg' => "Produto Inválido"];
+			}
+			
 
 		} else if(isset($_SESSION[Cart::SESSION]) && $_SESSION[Cart::SESSION]['idCart'] == 0){
 			
-			if($_SESSION[Cart::SESSION]["items"] == 0) $_SESSION[Cart::SESSION]["items"] = [];
+			$ct = ['res' => 0, 'key' => 0];
 
-			$_SESSION[Cart::SESSION]["items"][count($_SESSION[Cart::SESSION]["items"])] = [
-				"idCart" => 0,
-				"idCartItem" => 0,
-				"codBars" => $item['barCode'],
-				"codProduct" => intval($item['codProduct']),
-				"descProduct" => strtoupper($item['description']),
-				"quantity" => intval($item['quantity']),
-				"similar" => 0,
-				"unitReference" => strtoupper($item['unit']),
-				"priceItem" => $item['priceFinal'],
-				"totalItem" => ($item['priceFinal'] * $item['quantity']),
-				"image" => $item['image']
-			];
+			if($_SESSION[Cart::SESSION]["items"] == 0 || is_array($_SESSION[Cart::SESSION]["items"]) && count($_SESSION[Cart::SESSION]["items"]) == 0) 
+			{
+				$_SESSION[Cart::SESSION]["items"] = 0;
+			} else{
+
+				foreach ($_SESSION[Cart::SESSION]["items"] as $key => $value) {
+					
+					if($value['codProduct'] == $item['codProduct']) 
+					{
+
+						if(($value['quantity'] + $item['qtd']) <= $item['stock'] && $item['stock'] > 0)
+						{
+							$ct = ['res' => 1, 'key' => $key];
+						} else{
+							
+							$msg = ($value['quantity'] + $item['qtd']) - $item['stock'] >= 0 && $value['quantity'] == $item['stock'] ? "Limite do Produto Atingido" : "Você só pode adicionar mais: ".($item['stock'] - $value['quantity'])." ".$item['unit'];
+
+							return ['status' => 0, 'msg' => $msg];
+						
+						}
+
+					}
+
+				}
+
+			}	
+
+			if(isset($ct['res']) && isset($ct['key']) && $ct['res'] == 1)
+			{
+				
+				$qtd = $_SESSION[Cart::SESSION]["items"][$ct['key']]['quantity'];
+
+				$_SESSION[Cart::SESSION]["items"][$ct['key']] = [
+					"idCart" => 0,
+					"idCartItem" => 0,
+					"codBars" => $item['barCode'],
+					"codProduct" => intval($item['codProduct']),
+					"descProduct" => strtoupper($item['description']),
+					"quantity" => floatval($qtd + $item['qtd']),
+					"similar" => 0,
+					"unitReference" => strtoupper($item['unit']),
+					"priceItem" => $item['priceFinal'],
+					"totalItem" => ($item['priceFinal'] * ($qtd + $item['qtd'])),
+					"image" => $item['image']
+				];
+
+				$results = isset($_SESSION[Cart::SESSION]["items"][$ct['key']]) && is_array($_SESSION[Cart::SESSION]["items"][$ct['key']]) ? 1 : 0;
+
+			} else if($item['stock'] > 0){
+
+				if($_SESSION[Cart::SESSION]["items"] == 0) $_SESSION[Cart::SESSION]["items"] = [];
+				
+
+				$_SESSION[Cart::SESSION]["items"][] = [
+					"idCart" => 0,
+					"idCartItem" => 0,
+					"codBars" => $item['barCode'],
+					"codProduct" => intval($item['codProduct']),
+					"descProduct" => strtoupper($item['description']),
+					"quantity" => floatval($item['qtd']),
+					"similar" => 0,
+					"unitReference" => strtoupper($item['unit']),
+					"priceItem" => $item['priceFinal'],
+					"totalItem" => ($item['priceFinal'] * $item['stock']),
+					"image" => $item['image']
+				];
+
+				$results = is_array($_SESSION[Cart::SESSION]["items"]) && count($_SESSION[Cart::SESSION]["items"]) > 0 ? 1 : 0;
+
+			} else {
+				return ['status' => 0, 'msg' => "Produto Inválido"];
+			}
 
 		}
 
-		return isset($results) && $results == 1 ? true : false;
+		return isset($results) && $results == 1 ? true : ['status' => 0, 'msg' => "Ocorreu um Erro"];
 
 	}
 
@@ -244,21 +401,48 @@ class Cart extends Model {
 		if(isset($_SESSION[User::SESSION]))
 		{
 			
-			$sql = new Sql($_SESSION[Sql::DB]);
+			$product = Cart::listCartItemSet("WHERE idCartItem = :ID", [":ID" => $item['id']]);
+			
+			$itens = isset($product[0]) ? Mercato::searchFieldProduct($item['store'], $product[0]['codProduct'], 'codProduct') : 0;
 
-			$results = $sql->count("UPDATE cart_item SET quantity = :QTD, totalItem = (priceItem * :QTD) WHERE idCartItem = :ID", [
-				":QTD" => intval($item['quantity']),
-				":ID" => $item['id']
-			]);
+			if($item['quantity'] <= $itens['stock'])
+			{
+
+				$results = $item['quantity'] == $product[0]['quantity'] ? 1 : Cart::updateCartItemSet("quantity = :QTD, totalItem = (priceItem * :QTD)", "WHERE idCartItem = :ID", [
+					":QTD" => floatval($item['quantity']),
+					":ID" => intval($item['id'])
+				]);
+
+			} else {
+
+				return ['status' => 0, 'msg' => "Limite do Produto Atingido", 'number' => $itens['stock']];
+
+			}
 
 		} else if(isset($_SESSION[Cart::SESSION]) && $_SESSION[Cart::SESSION]['idCart'] == 0){
 
-			$_SESSION[Cart::SESSION]['items'][$item['id']]['quantity'] = $item['quantity'];
-			$_SESSION[Cart::SESSION]['items'][$item['id']]['totalItem'] = ($_SESSION[Cart::SESSION]['items'][$item['id']]['priceItem'] * $item['quantity']);
+			$product = $_SESSION[Cart::SESSION]['items'][$item['id']];
+
+			$itens = isset($product['codProduct']) ? Mercato::searchFieldProduct($item['store'], $product['codProduct'], 'codProduct') : 0;
+
+			if($item['quantity'] <= $itens['stock'])
+			{
+				
+				$_SESSION[Cart::SESSION]['items'][$item['id']]['quantity'] = $item['quantity'];
+				$_SESSION[Cart::SESSION]['items'][$item['id']]['totalItem'] = ($_SESSION[Cart::SESSION]['items'][$item['id']]['priceItem'] * $item['quantity']);
+
+				$results = isset($_SESSION[Cart::SESSION]) && $_SESSION[Cart::SESSION]['items'][$item['id']]['quantity'] == $item['quantity'] ? 1 : 0;
+
+			} else{
+				
+				return ['status' => 0, 'msg' => "Limite do Produto Atingido", 'number' => $itens['stock']];
+
+			}
+			
 
 		}
 
-		return isset($results) && $results == 1 ? true : false;
+		return isset($results) && $results == 1 ? true : ['status' => 0, 'msg' => "Ocorreu um Erro"];
 		
 	}
 
@@ -267,9 +451,7 @@ class Cart extends Model {
 		if(isset($_SESSION[User::SESSION]))
 		{
 
-			$sql = new Sql($_SESSION[Sql::DB]);
-
-			$results = $sql->count("UPDATE cart_item SET similar = :STATUS WHERE idCartItem = :ID", [
+			$results = Cart::updateCartItemSet("similar = :STATUS", "WHERE idCartItem = :ID", [
 				":STATUS" => intval($status),
 				":ID" => $id
 			]);
@@ -277,6 +459,8 @@ class Cart extends Model {
 		} else if(isset($_SESSION[Cart::SESSION]) && $_SESSION[Cart::SESSION]['idCart'] == 0){
 			
 			$_SESSION[Cart::SESSION]['items'][$id]['similar'] = $status;
+
+			$results = isset($_SESSION[Cart::SESSION]['items'][$id]['similar']) && $_SESSION[Cart::SESSION]['items'][$id]['similar'] == $status ? 1 : 0;
 
 		}
 
@@ -304,6 +488,28 @@ class Cart extends Model {
 		$sql = new Sql($_SESSION[Sql::DB]);
 
 		$results = $sql->count("UPDATE cart SET $sets $where", $param);
+
+		return $results == 1 ? $results : 0;
+
+	}
+
+	public static function updateCartItemSet($sets = "", $where = "WHERE idCartItem = :ID", $param = [])
+	{
+		
+		$sql = new Sql($_SESSION[Sql::DB]);
+
+		$results = $sql->count("UPDATE cart_item SET $sets $where", $param);
+
+		return $results == 1 ? $results : 0;
+
+	}
+
+	private static function deleteCartItemSet($where = "WHERE idCartItem = :ID", $param = [])
+	{
+		
+		$sql = new Sql($_SESSION[Sql::DB]);
+
+		$results = $sql->count("DELETE FROM cart_item $where", $param);
 
 		return $results == 1 ? $results : 0;
 
@@ -588,6 +794,18 @@ class Cart extends Model {
 		}
 
 		return count($array) > 0 ? $array : 0;
+
+	}
+
+	public static function listCartItemSet($query = "", $param = [])
+	{
+
+		$array = [];
+		$sql = new Sql($_SESSION[Sql::DB]);
+
+		$select = $sql->select("SELECT idCartItem, idCart, codBars, codProduct, quantity FROM cart_item $query", $param);
+
+		return count($select) > 0 ? $select : 0;
 
 	}
 

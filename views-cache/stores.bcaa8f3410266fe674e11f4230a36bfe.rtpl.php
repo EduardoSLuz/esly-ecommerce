@@ -65,6 +65,7 @@
                             <a class="mx-1" href="/admin/stores/<?php echo htmlspecialchars( $value1["store"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/freight/"><i class="fas fa-truck"></i></a>
                             <a class="mx-1" href="/admin/stores/<?php echo htmlspecialchars( $value1["store"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/horary/"><i class="far fa-clock"></i></a>
                             <a class="mx-1" href="/admin/stores/<?php echo htmlspecialchars( $value1["store"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/images/"><i class="far fa-image"></i></a>
+                            <a class="mx-1" href="/admin/stores/<?php echo htmlspecialchars( $value1["store"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/products/"><i class="fas fa-th-list"></i></a>
                         </td>
                       </tr>
                       <?php } ?>

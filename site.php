@@ -112,7 +112,8 @@ $app->get("/loja-{store}/", function(Request $request, Response $response, $args
 	
 	$page->setTpl("home", [
 		"state" => Store::listState(),
-		"products" => Mercato::listAllProducts($args['store'], 1)
+		"products" => Mercato::listAllProducts($args['store'], 1),
+		"productsDep" => Mercato::listProductsDepartaments($args['store'])
 	]);
 	
 	return $response;
@@ -323,7 +324,7 @@ $app->get("/loja-{store}/product/{product}/", function(Request $request, Respons
 
 	$product = Mercato::searchFieldProduct($args['store'], $args['product'], "description");
 
-	if($product == 0) header("Location: /loja-".$args['store']."/");
+	if($product == 0 || isset($product['stock']) && $product['stock'] == 0) header("Location: /loja-".$args['store']."/");
 	
 	$dep = Mercato::searchPageDepartament($args['store'], $product['departament'], $product['category']);
 

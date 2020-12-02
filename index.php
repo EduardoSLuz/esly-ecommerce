@@ -24,6 +24,7 @@ require_once("site-login.php");
 require_once("site-checkout.php");
 require_once("site-account.php");
 require_once("admin.php");
+require_once("master.php");
 
 //require_once("api.php");
 
