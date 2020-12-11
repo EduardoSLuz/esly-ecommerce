@@ -191,6 +191,16 @@ class Model {
 
 	}
 
+	function maskPrice($value, $round = 0, $type = 0)
+	{   
+
+		if(strstr(floatval($value), '.') !== false && strlen(substr(strstr(floatval($value), '.'), 0)) >= 4 && $round != 0) $value = round(floatval($value), 2);
+
+		$price = strstr(floatval($value), '.') != false ? floatval(strstr(floatval($value), '.', true).substr(strstr(floatval($value), '.'), 0, 3)) : floatval($value);
+
+		return $type == 0 ? number_format($price, 2, ',', '.') : floatval($price);
+	}
+
 	public static function decryptMoney($code)
 	{
 		return floatval(str_replace(',', '.', str_replace('.', '', $code)));

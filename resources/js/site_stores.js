@@ -57,7 +57,7 @@ $('.formEmailPromo').on('submit', function(e) {
 
         let json = JSON.parse(response);
 
-        if(json != "undefined")
+        if(json != undefined)
         {
 
             msgAlert("#alertEmailPromo", json.msg, json.status);

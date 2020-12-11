@@ -18,7 +18,7 @@
 		</a>
 		<?php } ?>
 
-		<?php if( $order == 0 || $order["typeFreight"] != 0 && $order["address"] == 0 ){ ?>
+		<?php if( $order == 0 || $order["type"] != 1 && $order["address"] == 0 ){ ?>
 		<a class='btn border py-3 <?php if( $orderLink == 2 ){ ?>border-dark <?php }else{ ?>border-left-0<?php } ?>'>
 			Endereço
 		</a>

@@ -34,22 +34,6 @@
 
 					<hr>
 
-					<div id="alertCheckoutPrime">
-						
-						{if="$errorRegister != ''"}
-						<div class="alert alert-danger alert-dismissible fade show text-left" role="alert">
-							
-							<span>{$errorRegister}</span>
-							
-							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-
-						</div>
-						{/if}
-
-					</div>
-
 					<form id="formCheckoutPrime" class="formCheckoutPrime" data-store="{$ID}">
 						
 						<div>
@@ -106,6 +90,10 @@
 						</div>
 
 						<div class="mt-3">
+
+							<div id="alertCheckoutPrime" class='alert alert-dismissible fade d-none text-left' role="alert">
+								<span class="msgAlert">Msg</span>
+							</div>
 							
 							<label for="inputName" class="h6 text-second-site-section">Nome de quem <a id="textType">irá retirar</a> as compras:</label>
 	
@@ -119,11 +107,18 @@
 	
 						<div class="row my-4">
 							
-							<div class="col-6">
+							<div class="col-lg-6 col-3">
 								<a href="/loja-{$ID}/checkout/cart/" class="btn btn-sm btn-light border border-dark"><i class="fas fa-arrow-left"></i> <b class="d-mobile font-weight-normal">Voltar ao carrinho</b></a>
 							</div>
 	
-							<div class="col-6 text-right">
+							<div class="col-lg-6 col-9 text-right">
+								
+								<div id="overlayCheckoutPrime" class="btn d-none">
+									<div class="overlay d-flex justify-content-center align-items-center">
+										<i class="fas fa-1x fa-sync fa-spin"></i>
+									</div>
+								</div>
+
 								<button type="submit" class="btn btn-sm btn-main-site-section text-btn-site-section">Continuar <i class="fas fa-arrow-right"></i></button>
 							</div>
 	

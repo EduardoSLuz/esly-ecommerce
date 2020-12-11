@@ -22,19 +22,9 @@
 					<p class="h4 font-weight-normal text-second-site-section">Pedidos</p>
 					<hr>
 
-					<?php if( $successMsg != '' ){ ?>	
-
-						<div class="alert alert-success alert-dismissible fade show text-left" role="alert">
-								
-							<span><?php echo htmlspecialchars( $successMsg, ENT_COMPAT, 'UTF-8', FALSE ); ?></span>
-							
-							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-
-						</div>
-
-					<?php } ?>
+					<div id="alertsAccountOrders" class='alert alert-success alert-dismissible fade d-none text-left <?php if( isset($alerts["status"]) && $alerts["status"] == 1 ){ ?>msgAlertNow<?php } ?>' data-msg="<?php echo htmlspecialchars( $alerts["msg"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" data-status="<?php echo htmlspecialchars( $alerts["type"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" data-time="<?php echo htmlspecialchars( $alerts["time"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" role="alert">
+						<span class="msgAlert">Msg</span>
+					</div>
 
 					<?php if( $orders != 0 ){ ?>
 					<div class="my-2 table-responsive">
@@ -99,7 +89,7 @@
 					<?php }else{ ?>
 					<p class="h4 py-3 text-uppercase font-weight-normal text-second-site-section">Não existem pedidos na sua conta.</p>
 					
-					<a href="/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/" class="btn btn-main-site-section btn-sm">Ir as compras</a>
+					<a href="/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/" class="btn btn-main-site-section text-btn-site-section btn-sm">Ir as compras</a>
 					<?php } ?>
 					
 				</div>

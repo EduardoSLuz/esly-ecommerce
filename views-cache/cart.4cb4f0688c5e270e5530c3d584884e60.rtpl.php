@@ -20,10 +20,8 @@
 					</p>
 				</div>
 
-				<div id="alertCartCheckout" class="alert alert-success alert-dismissible fade show d-none text-left" role="alert">
-								
+				<div id="alertCartCheckout" class='alert alert-success alert-dismissible fade show d-none text-left <?php if( isset($alerts["status"]) && $alerts["status"] == 1 ){ ?>msgAlertNow<?php } ?>' data-msg="<?php echo htmlspecialchars( $alerts["msg"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" data-status="<?php echo htmlspecialchars( $alerts["type"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" data-time="<?php echo htmlspecialchars( $alerts["time"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" role="alert">
 					<span class="msgAlert">Msg</span>
-
 				</div>
 
 				<?php if( $cart["items"] != 0 ){ ?>
@@ -106,7 +104,7 @@
 													<?php if( isset($value1["details"]) && $value1["details"] != '' ){ ?>
 													<b class="text-danger"> <i class="fas fa-times"></i> <?php echo htmlspecialchars( $value1["details"], ENT_COMPAT, 'UTF-8', FALSE ); ?></b>
 													<?php }else{ ?>
-													<b>R$ <?php echo maskPrice($value1["priceItem"]); ?></b>
+													<b>R$ <?php echo maskPrice($value1["priceItem"]); ?> - <?php echo htmlspecialchars( $value1["unitReference"], ENT_COMPAT, 'UTF-8', FALSE ); ?></b>
 													<?php } ?>
 
 												</p>

@@ -50,12 +50,12 @@ $('.formAccountData').on('submit', function(e) {
         data: dados
     }).done(function(response){
 
-        $("#alertsAccountData").load( `/loja-${store}/account/data/ #alertsAccountData > *`);
-        setTimeout( function(){ 
-
-            $("#alertsAccountData").load( `/loja-${store}/account/data/ #alertsAccountData > *`); 
-
-        } , 1000);
+        let json = JSON.parse(response);
+        
+        if(json != undefined)
+        {   
+            msgAlert("#alertsAccountData", json.msg, json.status, 1500);
+        } 
 
     })
 
@@ -76,12 +76,18 @@ $('.formAccountDataPassword').on('submit', function(e) {
         data: dados
     }).done(function(response){
 
-        $("#alertsAccountDataPassword").load( `/loja-${store}/account/data/password/ #alertsAccountDataPassword > *`);
-        setTimeout( function(){ 
+        let json = JSON.parse(response);
+        
+        if(json != undefined)
+        {   
+            msgAlert("#alertsAccountDataPassword", json.msg, json.status, 1500);
 
-            $("#alertsAccountDataPassword").load( `/loja-${store}/account/data/password/ #alertsAccountDataPassword > *`); 
+            if(json.status == 1)
+            {
+                location.href = `/loja-${store}/account/data/`;
+            }
 
-        } , 1000);
+        } 
 
     })
 
@@ -121,7 +127,6 @@ $('.formAccountAddressNew').on('submit', function(e) {
 // Btn Delete Address
 $('.btnDeleteUserAddress').on('click', function(e) { 
 
-
     var store = $(this).attr("data-store");
     var code = $(this).attr("data-code");
     var url = `/loja-${store}/account/address/delete/`;
@@ -133,15 +138,21 @@ $('.btnDeleteUserAddress').on('click', function(e) {
         data: dados
     }).done(function(response){
 
-        $("#alertUserAddress").load( `/loja-${store}/account/address/ #alertUserAddress > *`);
-        setTimeout( function(){ 
-
-            $("#alertUserAddress").load( `/loja-${store}/account/address/ #alertUserAddress > *`); 
-            if(response == 1)
+        let json = JSON.parse(response);
+        
+        if(json != undefined)
+        {   
+           
+            msgAlert("#alertUserAddress", json.msg, json.status, 1500);
+            
+            if(json.status == 1)
             {
-                window.location.href = `/loja-${store}/account/address/`;
+                setTimeout( function(){ 
+                    window.location.href = `/loja-${store}/account/address/`;
+                } , 1500);
             }
-        } , 2000);
+
+        } 
 
     })
 
@@ -228,22 +239,33 @@ $('.modalFormAddress').on('submit', function(e) {
     var dados = $(this).serialize();
     dados = dados + `&code=${code}&type=${type}`;
 
+    $("#overlayModalAddress").removeClass('d-none');
+
     $.ajax({
         url: url,
         method: "POST",
         data: dados
     }).done(function(response){
 
-        $("#alertModalAddress").load( `/loja-${store}/checkout/address/ #alertModalAddress > *`);
-        setTimeout( function(){ 
-            $("#alertModalAddress").load( `/loja-${store}/checkout/address/ #alertModalAddress > *`); 
-            if(response == 1)
+        let json = JSON.parse(response);
+        
+        if(json != undefined)
+        {   
+           
+            msgAlert("#alertModalAddress", json.msg, json.status, 2000);
+            
+            if(json.status == 1)
             {
-                $('#ModalAddress').modal('hide');
+                setTimeout( function(){ 
+                    $('#ModalAddress').modal('hide');
+                } , 2000);
             }
-        } , 2000);
 
-    })
+        } 
+
+    }).always(function(){
+        $("#overlayModalAddress").addClass('d-none');
+    });
 
 });
 

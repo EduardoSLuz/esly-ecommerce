@@ -40,15 +40,15 @@
   
                   <div class="card-tools col-12 offset-md-2 col-md-4">
 
-                    <form id="formListUsers" class="formListUsers input-group input-group-sm">
+                    <form id="formSearchListProducts" class="formListProducts input-group input-group-sm" data-store="{$id}">
 
                       <select class="custom-select inputsListUser" name="selectStatusOrders" id="selectStatusOrders">
                         <option value="0">Por Código do Produto:</option>
                         <option value="1">Por Departamento:</option>
-                        <option value="1">Por Descrição:</option>
+                        <option value="2">Por Descrição:</option>
                       </select>
 
-                      <input type="text" name="table_search" class="form-control inputsListUser float-right" placeholder="Search">
+                      <input type="search" name="table_search" class="form-control inputsListUser float-right" placeholder="Search" oninput="$('#formSearchListProducts').submit()">
   
                       <div class="input-group-append">
                         <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
@@ -59,14 +59,15 @@
                   
                 </div>
                 <!-- /.card-header -->
-                <div id="tbListOrders" class="card-body table-responsive p-0">
-                  {if="isset($products) && $products != 0"}
+                <div id="tbListProductsConfig" class="card-body table-responsive p-0">
+                  
+                  {if="isset($products) && is_array($products) && count($products) > 0"}
                   <table class="table table-head-fixed text-nowrap">
                     
                     <tbody>
+                      
                       {loop="$products"}
                       <tr>
-                        
                         <td>
                           
                           <div class="row">
@@ -82,12 +83,13 @@
                               
                                 <p class="text-wrap">
                                   {$value.description}
+                                  <br> DEPARTAMENTO: {$value.departament}
                                   <br> <b>R${function="maskPrice($value.priceFinal)"} - <i>Quantidade Estoque: {$value.stock}</i></b>
                                 </p>
                               </div>
 
                               <div class="col-md text-right">
-                                <a href="#" class="h5" data-toggle="modal" data-target="#modalProductsConfig" data-id="{$value.codProduct}" data-type="2" data-store="{$id}" data-name="{$value.description}" data-src="{$value.image}" data-archive="{$value.image}"><i class="fas fa-pen"></i></a>
+                                <a href="#" class="h5" data-toggle="modal" data-target="#modalProductsConfig" data-id="{$value.codProduct}" data-type="1" data-store="{$id}" data-name="{$value.description}" data-src="{$value.image}" data-archive="{$value.image}" data-unit="{$value.unit}" data-price="{$value.priceFinal}" data-free="{$value.unitsMeasures.0.freeFill}"><i class="fas fa-pen"></i></a>
                               </div>
 
                             </div>
@@ -95,11 +97,13 @@
                           </div>
 
                         </td>
-
                       </tr>
                       {/loop}
+
                     </tbody>
+                  
                   </table>
+
                   {else}
                   <p class="h6 text-center border-top py-3">
                     <b><i>NENHUM DADO ENCONTRADO</i></b>
@@ -116,6 +120,5 @@
         </div><!-- /.container-fluid -->
       </section>
       <!-- /.content -->
-
         
         

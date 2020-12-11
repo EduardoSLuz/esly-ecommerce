@@ -33,7 +33,7 @@ $("body").on("click tap", function(e){
 
 $("#btnNotificationsStores").on("click tap", function(e){
   
-    if($("#audioNotification").attr('loop') != 'undefined')
+    if($("#audioNotification").attr('loop') != undefined)
     {
         $("#audioNotification").removeAttr('loop');
     }
@@ -73,7 +73,7 @@ function playNot()
 function msgAlert(alert, msg, type = 1, time = 2000)
 {
 
-    if($(alert).val() !== "undefined")
+    if($(alert).val() !== undefined)
     {
 
         if(type == 1){
@@ -99,7 +99,7 @@ function msgAlert(alert, msg, type = 1, time = 2000)
 function msgTextAlert(alert, msg, type = 1, time = 2000)
 {
 
-    if($(alert).val() !== "undefined")
+    if($(alert).val() !== undefined)
     {
 
         if(type == 1){

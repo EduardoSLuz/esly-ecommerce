@@ -1,6 +1,7 @@
 <?php if(!class_exists('Rain\Tpl')){exit;}?><script>
     $(".maskCep").mask("00000-000");
     $(".maskCpf").mask("000.000.000-00");
+    $('.maskStock').mask("##0.000", {reverse: true});
     $('.maskMoney2').mask("##0.00", {reverse: true});
     $('.maskMoney').mask('000.000.000,00', {reverse: true});
     

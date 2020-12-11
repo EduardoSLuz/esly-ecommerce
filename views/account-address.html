@@ -25,34 +25,8 @@
 					</p>
 					<hr>
 
-					<div id="alertUserAddress">
-						
-						{if="$errorRegister != ''"}
-						<div class="alert alert-danger alert-dismissible fade show text-left" role="alert">
-							
-							<span>{$errorRegister}</span>
-							
-							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-						  		<span aria-hidden="true">&times;</span>
-							</button>
-
-						</div>
-						{/if}
-
-						{if="$successMsg != ''"}	
-
-						<div class="alert alert-success alert-dismissible fade show text-left" role="alert">
-								
-							<span>{$successMsg}</span>
-							
-							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-
-						</div>
-
-						{/if}
-
+					<div id="alertUserAddress" class="alert alert-success alert-dismissible fade d-none text-left" role="alert">
+						<span class="msgAlert">Msg</span>
 					</div>
 					
 					<div class="row">
@@ -60,13 +34,14 @@
 						{if="$userAddress != false"}
 
 						{loop="$userAddress"}
-						<div class="col-sm-6 mt-3">
+						<div class="col-sm-6 my-2">
 							<div class="card">
 								<div class="card-body">
 									
 									<div class="row">
 										
 										<p class="h5 col-6 text-second-site-section">#{$key + 1}</p>
+										
 										<div class="h5 col-6 text-right">
 											
 											<a href="#" id="{$value.ID}" class="text-second-site-section btnEditAddress" data-toggle="modal" data-target="#ModalAddress" data-modal-title="Alterar Endereço de Entrega" data-type="2" data-code="{$value.idAddress}" data-city="{$value.codeCity}" data-cep='{function="maskCep($value.cep)"}' data-district="{$value.district}" data-street="{$value.street}" data-number="{$value.number}" data-complement="{$value.complement}" data-reference="{$value.reference}" data-main="{$value.mainAddress}"><i class="far fa-edit"></i></a>
@@ -111,23 +86,9 @@
 						
 						{/if}
 							  
-							<!-- <div class="col-sm-6 mt-mobNavbar mt-3">
-								<div class="card border-dashed">
-									<div class="card-body">
-										
-										<p class="py-5 mt-1 text-center">
-											<a class="h5 text-decoration-none text-primary cursorPointer" data-toggle="modal" data-target="#ModalAddress">
-												<i class="h1 fas fa-plus"></i><br>
-												Novo endereço
-											</a>
-										</p>
-										
-									</div>
-								</div>
-					  		</div> -->
 					</div>
 
-					<a href="#" class="my-2 btn btn-sm btn-outline-main-site-section" data-toggle="modal" data-target="#ModalAddress" data-modal-title="Cadastrar Endereço de Entrega" data-type="1" data-code="0" data-city="0" data-cep="" data-district="" data-street="" data-number="" data-complement="" data-reference="" data-main="0"><i class="fas fa-plus"></i> Adicionar endereço</a>
+					<a href="#" class="my-1 btn btn-sm btn-outline-main-site-section" data-toggle="modal" data-target="#ModalAddress" data-modal-title="Cadastrar Endereço de Entrega" data-type="1" data-code="0" data-city="0" data-cep="" data-district="" data-street="" data-number="" data-complement="" data-reference="" data-main="0"><i class="fas fa-plus"></i> Adicionar endereço</a>
 
 				</div>
 

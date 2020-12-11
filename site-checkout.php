@@ -19,10 +19,11 @@ $app->post("/loja-{store}/checkout/cart/product/{product}/add/", function(Reques
 	$res = ['status' => 0, 'msg' => 'ERRO CRÍTICO'];
 	$product = Mercato::searchFieldProduct($args['store'], $args['product'], 'codProduct');
 	
-	if($product !== NULL && isset($_POST['qtd']) && $_POST['qtd'] > 0)
+	if($product !== NULL && isset($_POST['qtd']) && $_POST['qtd'] > 0 && isset($_POST['type']) && $_POST['type'] >= 0)
 	{
 		
 		$product['qtd'] = $_POST['qtd'];
+		$product['unitsMeasures'] = is_numeric($_POST['type']) && $_POST['type'] < count($product['unitsMeasures']) ? [0 => $product['unitsMeasures'][$_POST['type']]] : $product['unitsMeasures'];
 
 		$add = Cart::addItem($product);
 
@@ -144,17 +145,21 @@ $app->post("/loja-{store}/checkout/cart/account/", function(Request $request, Re
 
 	Store::verifyStore($args["store"]);
 
+	$res = ['status' => 0, 'msg' => 'ERRO CRÍTICO'];
+
 	$nameUser = explode(' ', $_POST['modalInputName']);
 
 	if(isset($_POST['modalInputName']) && empty($_POST['modalInputName']))
 	{
 
-		Cart::setErrorRegister("Digite seu nome!");
+		$res['msg'] = "Digite seu nome!";
+		echo json_encode($res);
 		exit;
 
 	} else if(!isset($nameUser[1]) || empty($nameUser[1]) || $nameUser[1] == ' '){
 
-		Cart::setErrorRegister("Digite seu sobrenome!");
+		$res['msg'] = "Digite seu sobrenome!";
+		echo json_encode($res);
 		exit;
 
 	} 
@@ -162,32 +167,37 @@ $app->post("/loja-{store}/checkout/cart/account/", function(Request $request, Re
 	if(isset($_POST['modalInputCpf']) && strlen($_POST['modalInputCpf']) < 14 || !isset($_POST['modalInputCpf']))
 	{
 
-		Cart::setErrorRegister("Digite um CPF válido!");
+		$res['msg'] = "Digite um CPF válido!";
+		echo json_encode($res);
 		exit;
 
 	} else if (!empty($_POST['modalInputCpf']) && User::verifyCPF($_POST['modalInputCpf'])){
 
-		Cart::setErrorRegister("CPF inválido!");
+		$res['msg'] = "CPF inválido!";
+		echo json_encode($res);
 		exit;
 
 	}
 
 	if(isset($_POST['modalInputDateBirth']) && empty($_POST['modalInputDateBirth']) || isset($_POST['modalInputDateBirth']) && is_numeric(str_replace('-', '', $_POST['modalInputDateBirth'])) && str_replace('-', '', $_POST['modalInputDateBirth']) < "19200101" || !isset($_POST['modalInputDateBirth']))
 	{
-		Cart::setErrorRegister("Data Inválida!");
+		$res['msg'] = "Data Inválida!";
+		echo json_encode($res);
 		exit;
 	}
 
 	if(isset($_POST['modalInputTelephone']) && strlen($_POST['modalInputTelephone']) != 14 && strlen($_POST['modalInputTelephone']) != 15 || !isset($_POST['modalInputTelephone']))
 	{
-		Cart::setErrorRegister("Digite um telefone válido!");
+		$res['msg'] = "Digite um telefone válido!";
+		echo json_encode($res);
 		exit;
 	}
 
 	
 	if(isset($_POST['modalInputWhatsapp']) && strlen($_POST['modalInputWhatsapp']) != 14 && strlen($_POST['modalInputWhatsapp']) != 15 || !isset($_POST['modalInputWhatsapp']))
 	{
-		Cart::setErrorRegister("Digite um whatsapp válido!");
+		$res['msg'] = "Digite um whatsapp válido!";
+		echo json_encode($res);
 		exit;
 	}
 
@@ -203,16 +213,21 @@ $app->post("/loja-{store}/checkout/cart/account/", function(Request $request, Re
 		'wpUser' => $_POST['modalInputWhatsapp']
 	]);
 	
-	$res = $user->update();
+	$update = $user->update();
 
-	if($res)
+	if($update)
 	{
-		Cart::setSuccessMsg("Dados Atualizados com Sucesso.");
+
+		$res = [ 
+			'msg' => "Dados Atualizados com Sucesso!",
+			'status' => 1
+		];
+		
 	} else {
-		Cart::setErrorRegister("Nada Foi Atualizado!");
+		$res['msg'] = "Nada Foi Atualizado!";
 	}
 
-	echo $res ? 1 : 0;
+	echo json_encode($res);
 	exit;
 
 });
@@ -230,8 +245,18 @@ $app->post("/loja-{store}/checkout/cart/", function(Request $request, Response $
 
 $app->get("/loja-{store}/checkout/cart/", function(Request $request, Response $response, $args) {
 
+
 	if(isset($_SESSION[User::SESSION]) && isset($_SESSION[Cart::SESSION]) && $_SESSION[Cart::SESSION]['idCart'] != 0) unset($_SESSION[Cart::SESSION]);
 	
+	$alerts = [
+		"msg" => isset($_SESSION[Page::SESSION]['msg']) && !empty($_SESSION[Page::SESSION]['msg']) ? $_SESSION[Page::SESSION]['msg'] : "",
+		"type" => 1,
+		"time" => 2000,
+	];
+
+	$alerts['status'] = !empty($alerts['msg']) && is_numeric($alerts['type']) && $alerts['time'] > 0 ? 1 : 0;
+	unset($_SESSION[Page::SESSION]['msg']);
+
 	$page = new Page([
 		"refreshCart" => 0,
 		"data" => [
@@ -242,11 +267,10 @@ $app->get("/loja-{store}/checkout/cart/", function(Request $request, Response $r
 		]
 	]);
 	
-	$_SESSION[Page::SESSION] = "/loja-".$args['store']."/checkout/cart/";
+	$_SESSION[Page::SESSION]['url'] = "/loja-".$args['store']."/checkout/cart/";
 	
 	$page->setTpl("cart", [
-        'successMsg'=> Cart::getSuccessMsg(),
-		'errorRegister' => Cart::getErrorRegister(),
+		'alerts' => $alerts,
 		'freight' => isset($_SESSION['cartFreigth']) ? $_SESSION['cartFreigth'] : 0
 	]);
 	
@@ -260,29 +284,36 @@ $app->post("/loja-{store}/checkout/delivery-pickup/", function(Request $request,
 	Store::verifyStore($args["store"]);
 	unset($_SESSION[Order::SESSION]);
 
+	$res = ['status' => 0, 'msg' => 'ERRO CRÍTICO'];
+
 	$nameUser = explode(' ', $_POST['inputName']);
 
 	if(isset($_POST['inputName']) && empty($_POST['inputName']) || !isset($nameUser[0]) || empty($nameUser[0]) || $nameUser[0] == ' ')
 	{
 
-		Order::setErrorRegister("Digite seu nome!");
+		$res['msg'] = "Digite seu nome!";
+		echo json_encode($res);
 		exit;
 
 	} else if(!isset($nameUser[1]) || empty($nameUser[1]) || $nameUser[1] == ' '){
 
-		Order::setErrorRegister("Digite seu sobrenome!");
+		$res['msg'] = "Digite seu sobrenome!";
+		echo json_encode($res);
 		exit;
+		
 	} 
 
 	if(isset($_POST['inputType']) && $_POST['inputType'] == 0 || !isset($_POST['inputType']))
 	{
-		Order::setErrorRegister("Escolha se ira retirar ou entregar!");
+		$res['msg'] = "Escolha se ira retirar ou entregar!";
+		echo json_encode($res);
 		exit;
 	}
 
 	if(isset($_POST['inputType']) && $_POST['inputType'] == 2 && !isset($_POST['inputFreight']))
 	{
-		Order::setErrorRegister("Selecione um tipo de entrega!");
+		$res['msg'] = "Selecione um tipo de entrega!";
+		echo json_encode($res);
 		exit;
 	}
 
@@ -295,12 +326,17 @@ $app->post("/loja-{store}/checkout/delivery-pickup/", function(Request $request,
 		$_SESSION[Order::SESSION]['typeFreight'] = isset($_POST['inputFreight']) && $_POST['inputType'] == 2 ? $_POST['inputFreight'] : 0;
 		$_SESSION[Order::SESSION]['resp'] = $_POST['inputName'];
 
-		echo intval($_POST['inputType']);
+		$res = [
+			'msg' => "Tudo Ok!",
+			'status' => 1,
+			'options' => intval($_POST['inputType']),
+		];
 
 	} else {
-		echo 0;
+		$res['options'] = 0;
 	}
 
+	echo json_encode($res);
 	exit;
 
 });
@@ -343,15 +379,19 @@ $app->post("/loja-{store}/checkout/address/", function(Request $request, Respons
 	Store::verifyStore($args["store"]);
 	Order::verifyOrder('type', 1);
 
+	$res = ['status' => 0, 'msg' => 'ERRO CRÍTICO'];
+
 	if(isset($_POST['inputAddress']) && $_POST['inputAddress'] == 0 || isset($_POST['inputAddress']) && empty($_POST['inputAddress']) || !isset($_POST['inputAddress']))
 	{
-		Order::setErrorRegister("Selecione um endereço para entrega!");
+		$res["msg"] = "Selecione um endereço para entrega!";
+		echo json_encode($res);
 		exit;
 	}
 
 	if(isset($_POST['price']) && $_POST['price'] == " " || isset($_POST['price']) && empty($_POST['price']) || !isset($_POST['price']))
 	{
-		Order::setErrorRegister("Algo deu errado, favor atualize a página!");
+		$res["msg"] = "Algo deu errado, favor atualize a página!";
+		echo json_encode($res);
 		exit;
 	}
 
@@ -360,25 +400,22 @@ $app->post("/loja-{store}/checkout/address/", function(Request $request, Respons
 		$_SESSION[Order::SESSION]['freight'] = intval($_POST['price']);
 		$_SESSION[Order::SESSION]['address'] = intval($_POST['inputAddress']);
 		
-		echo 1;
+		$res = [
+			"msg" => "Order Update Successfully",
+			"status" => 1,
+			"options" => 1
+		];
 
-	} else{
-		echo 0;
+	} else {
+		$res['options'] = 0;
 	}
 	
+	echo json_encode($res);
 	exit;
 
 });
 
 $app->get("/loja-{store}/checkout/address/", function(Request $request, Response $response, $args) {
-	
-	/*
-	if(isset($_SESSION[Order::SESSION]))
-	{ 
-		var_dump($_SESSION[Order::SESSION]); 
-		exit;
-	}
-	*/
 
 	Cart::verifyRegister($args['store']);
 	Order::verifyOrder('type', 1);
@@ -413,15 +450,19 @@ $app->post("/loja-{store}/checkout/horary/", function(Request $request, Response
 	Store::verifyStore($args["store"]);
 	Order::verifyOrder('resp', "");
 
+	$res = ['status' => 0, 'msg' => 'ERRO CRÍTICO'];
+	
 	if(isset($_POST['inputCheckoutHorary']) && Order::validDate($_POST['inputCheckoutHorary']) == false || !isset($_POST['inputCheckoutHorary']))
 	{
-		Order::setErrorRegister("Selecione um Horário de Entrega!");
+		$res['msg'] = "Selecione um Horário de Entrega!";
+		echo json_encode($res);
 		exit;
 	}
 
 	if(isset($_POST['init']) && Order::validTime($_POST['init']) == false || !isset($_POST['init']) || isset($_POST['final']) && Order::validTime($_POST['final']) == false || !isset($_POST['final']) || isset($_POST['price']) && $_POST['price'] == "" || !isset($_POST['price']) || isset($_POST['id']) && empty($_POST['id']) || isset($_POST['id']) && $_POST['id'] < 1 || isset($_POST['id']) && $_POST['id'] > 7 || !isset($_POST['id']) || isset($_POST['type']) && $_POST['type'] == "" || isset($_POST['type']) && $_POST['type'] != 0 && $_POST['type'] != 1 || !isset($_POST['type']))
 	{
-		Order::setErrorRegister("Erro Crítico, favor atualizar a página!");
+		$res['msg'] = "Erro Crítico, favor atualizar a página!";
+		echo json_encode($res);
 		exit;
 	}
 
@@ -437,12 +478,17 @@ $app->post("/loja-{store}/checkout/horary/", function(Request $request, Response
 			"type" => $_POST['type']
 		];
 
-		echo 1;
+		$res = [
+			"msg" => "Order Update Successfully",
+			"status" => 1,
+			"options" => 1
+		];
 
 	} else{	
-		echo 0;
+		$res['options'] = 0;
 	}	
 
+	echo json_encode($res);
 	exit;
 
 });
@@ -482,25 +528,31 @@ $app->post("/loja-{store}/checkout/payment/", function(Request $request, Respons
 	Store::verifyStore($args["store"]);
 	Order::verifyOrder('horary');
 
+	$res = ['status' => 0, 'msg' => 'ERRO CRÍTICO'];
+
 	$total = ($_SESSION[Cart::SESSION]['totalCart'] + $_SESSION[Order::SESSION]['freight'] + $_SESSION[Order::SESSION]['horary']['price']); 
 
 	if(isset($_POST['inputType']) && empty($_POST['inputType']) || !isset($_POST['inputType']))
 	{
-		Order::setErrorRegister("Selecione uma forma de pagamento!");
+		$res['msg'] = "Selecione uma forma de pagamento!";
+		echo json_encode($res);
 		exit;
 	}
 
 	if(isset($_POST['inputMoney']) && empty(Order::decryptMoney($_POST['inputMoney'])))
 	{
-		Order::setErrorRegister("Digite o valor do troco!");
+		$res['msg'] = "Digite o valor do troco!";
+		echo json_encode($res);
 		exit;
 	} else if(isset($_POST['inputMoney']) && Order::decryptMoney($_POST['inputMoney']) < $total)
 	{
-		Order::setErrorRegister("O valor do troco não pode ser menor que o total do pedido!");
+		$res['msg'] = "O valor do troco não pode ser menor que o total do pedido!";
+		echo json_encode($res);
 		exit;
 	} else if(isset($_POST['inputMoney']) && strlen($_POST['inputMoney']) >= 4 && substr($_POST['inputMoney'], -1, 1) != 0 && substr($_POST['inputMoney'], -1, 1) != 5)
 	{
-		Order::setErrorRegister("Valor do troco muito quebrado!");
+		$res['msg'] = "Valor do troco muito quebrado!";
+		echo json_encode($res);
 		exit;
 	}
 
@@ -513,12 +565,17 @@ $app->post("/loja-{store}/checkout/payment/", function(Request $request, Respons
 
 		if($_SESSION[Order::SESSION]['payment'] != 0) $_SESSION[Order::SESSION]['payment']['changePay'] = isset($_POST['inputMoney']) && !empty(Order::decryptMoney($_POST['inputMoney'])) ? Order::decryptMoney($_POST['inputMoney']) : 0;
 
-		echo 1;
+		$res = [
+			"msg" => "Order Update Successfully",
+			"status" => 1,
+			"options" => 1
+		];
 
 	} else{	
-		echo 0;
+		$res['options'] = 0;
 	}
 
+	echo json_encode($res);
 	exit;
 
 });
@@ -555,17 +612,23 @@ $app->post("/loja-{store}/checkout/resume/obs/", function(Request $request, Resp
 	Store::verifyStore($args["store"]);
 	Order::verifyOrder('payment');
 
+	$res = ['status' => 0, 'msg' => 'ERRO CRÍTICO'];
+	
 	if(isset($_SESSION[Cart::SESSION]) && isset($_POST['inputObsProduct']) && Cart::updateObs($_POST['inputObsProduct'])) 
 	{
 
 		$_SESSION[Cart::SESSION]['obs'] = $_POST['inputObsProduct'];
 
-		Order::setSuccessMsg("Observação Atualizada Com sucesso!");
+		$res = [
+			'msg' => "Observação Atualizada Com sucesso!",
+			'status' => 1
+		];
 
 	} else {
-		Order::setErrorRegister("Nada Foi Atualizado!");
+		$res['msg'] = "Nada Foi Atualizado!";
 	}
 
+	echo json_encode($res);
 	exit;
 
 });
@@ -574,6 +637,8 @@ $app->post("/loja-{store}/checkout/resume/", function(Request $request, Response
 
 	Store::verifyStore($args["store"]);
 	Order::verifyOrder('payment');
+
+	$res = ['status' => 0, 'msg' => 'ERRO CRÍTICO'];
 
 	$orders = isset($_SESSION[Order::SESSION]) ? $_SESSION[Order::SESSION] : 0;
 	$cart = isset($_SESSION[Cart::SESSION]) ? $_SESSION[Cart::SESSION] : 0;
@@ -627,13 +692,24 @@ $app->post("/loja-{store}/checkout/resume/", function(Request $request, Response
 
 	if($order->getidCart() <= 0 || $order->getidStore() != intval($args['store']) || $order->getidUser() <= 0 || empty($order->getnameRes()))
 	{
-		Order::setErrorRegister("Alguns valores estão incorretos, favor refazer o pedido!");
+		$res['msg'] = "Alguns valores estão incorretos, favor refazer o pedido!";
+		echo json_encode($res);
 		exit;
 	}
 
-	$res = $order->save(1);
+	$save = $order->save(1);
 
-	echo intval($res);
+	if($save) 
+	{	
+		
+		$res = ['msg' => "Order Update Successfully!", 'status' => 1, 'options' => 1];
+		$_SESSION[Page::SESSION]['msg'] = "Pedido Feito com Sucesso";
+	
+	} else {
+		$res = ['msg' => "Erro ao Inserir o Pedido!", 'status' => 0, 'options' => 0];
+	}
+
+	echo json_encode($res);
 	exit;
 
 });

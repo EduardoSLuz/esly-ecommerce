@@ -126,8 +126,11 @@ class Order extends Model {
 				"freight" => 0,
 				"address" => 0,
 				"horary" => 0,
-				"payment" => 0,  
+				"payment" => 0
 			];
+
+			if(isset($_SESSION[Cart::SESSION]['idCart']) && $_SESSION[Cart::SESSION]['idCart'] > 0) Cart::updateCartSet("obsCart = :OBS", "WHERE idCart = :ID", [":OBS" => "", ":ID" => $_SESSION[Cart::SESSION]['idCart']]);
+
 		} 
 
 	}
@@ -613,9 +616,9 @@ class Order extends Model {
 								
 								$search = Mercato::searchFieldProduct($order[0]['idStore'], $value['codProduct'], 'codProduct');
 
-								if($search['stock'] > 0 && $search['stock'] >= $value['quantity'])
+								if($search['stock'] > 0 && $search['stock'] >= $value['stock'])
 								{
-									$newVal = floatval($search['stock'] - $value['quantity']);
+									$newVal = floatval($search['stock'] - $value['stock']);
 									$products = Mercato::updateAllProducts($products, $order[0]['idStore'], 'codProduct', $value['codProduct'], 'stock', $newVal, 0);
 								}
 

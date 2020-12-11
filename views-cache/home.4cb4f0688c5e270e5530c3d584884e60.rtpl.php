@@ -96,82 +96,85 @@
 							<?php if( $value2["price"] > 0 && $key2 < 12 && $value2["stock"] > 0 ){ ?>
 							<div class="owl-item text-center">
 								
-								<a class="text-decoration-none" href="/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/<?php echo htmlspecialchars( $value2["description"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/">
-									
-									<div id="card<?php echo htmlspecialchars( $value2["departament"], ENT_COMPAT, 'UTF-8', FALSE ); ?><?php echo htmlspecialchars( $key2, ENT_COMPAT, 'UTF-8', FALSE ); ?>" class="card card-Carousel border">
-								  
-										<img src="<?php echo htmlspecialchars( $value2["image"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" class="img-fluid rounded mx-auto d-block card-ImgRes" alt="<?php echo htmlspecialchars( $value2["description"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
+								<div id="card<?php echo htmlspecialchars( $value2["codProduct"], ENT_COMPAT, 'UTF-8', FALSE ); ?><?php echo htmlspecialchars( $key2, ENT_COMPAT, 'UTF-8', FALSE ); ?>" class="card card-Carousel border">
+									<?php $nameCard = $value2["codProduct"]."$key2"; ?>
+									<img src="<?php echo htmlspecialchars( $value2["image"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" class="img-fluid rounded mx-auto d-block card-ImgRes cursorPointer" alt="<?php echo htmlspecialchars( $value2["description"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" onclick="window.location.assign('/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/<?php echo htmlspecialchars( $value2["description"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/')" >
 
-										<?php if( $value2["pricePromo"] > 0 ){ ?>
-										<div class="card-img-overlay text-right">
-											<label class="h6 btn-main-site-section text-btn-site-section">
-												<b>&nbsp;<?php echo porcenDif($value2["price"], $value2["pricePromo"]); ?>%&nbsp;</b>
-											</label>
-										</div>
-										<?php } ?>
+									<?php if( $value2["pricePromo"] > 0 ){ ?>
+									<div class="card-img-overlay cursorPointer text-right" onclick="window.location.assign('/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/product/<?php echo htmlspecialchars( $value2["description"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/')" >
+										<label class="h6 btn-main-site-section text-btn-site-section">
+											<b>&nbsp;<?php echo porcenDif($value2["price"], $value2["pricePromo"]); ?>%&nbsp;</b>
+										</label>
+									</div>
+									<?php } ?>
 
-										<div id="subCard<?php echo htmlspecialchars( $value2["departament"], ENT_COMPAT, 'UTF-8', FALSE ); ?><?php echo htmlspecialchars( $key2, ENT_COMPAT, 'UTF-8', FALSE ); ?>" class="card-body cardSub-Carousel cardSubT1-Carousel card-img-overlay p-0">
+									<div id="subCard<?php echo htmlspecialchars( $value2["departament"], ENT_COMPAT, 'UTF-8', FALSE ); ?><?php echo htmlspecialchars( $key2, ENT_COMPAT, 'UTF-8', FALSE ); ?>" class="card-body cardSub-Carousel cardSubT1-Carousel card-img-overlay p-0">
 
-											<div>
-												<p class="card-title font-weight-light text-uppercase text-second-site-section card-text m-0">
-													<b><?php echo htmlspecialchars( $value2["description"], ENT_COMPAT, 'UTF-8', FALSE ); ?></b>
-												</p>
+										<div>
+											
+											<p class="card-title font-weight-light text-uppercase text-second-site-section card-text m-0">
+												<b><?php echo htmlspecialchars( $value2["description"], ENT_COMPAT, 'UTF-8', FALSE ); ?></b>
+											</p>
 
 											<p class="btn-group btn-group-toggle m-0" data-toggle="buttons">
-
-												<label class="btn btn-light border btn-sm py-0 mr-1 rounded-pill">
-													<input id="btnCardPromoWeigth" type="radio"> <?php echo htmlspecialchars( $value2["unit"], ENT_COMPAT, 'UTF-8', FALSE ); ?>
-												</label>
-											</p>	
-
-												<p>
-													<a class="font-weight-bold">	
-														<?php if( $value2["pricePromo"] > 0 && $value2["pricePromo"] != $value2["price"] ){ ?>
-														
-														<a class="h6">
-															<s class="card-ColorPromoPrice">R$<?php echo number_format($value2["price"], 2, ',', '.'); ?></s>
-														</a>
-														<span>R$</span><a class="h3"><?php echo strstr(number_format($value2["pricePromo"], 2, ',', '.'), ',', true); ?></a><a class="h6"><?php echo strstr(number_format($value2["pricePromo"], 2, ',', '.'), ','); ?></a>	
-														
-														<?php }else{ ?>
-
-														<span>R$</span><a class="h3"><?php echo strstr(number_format($value2["price"], 2, ',', '.'), ',', true); ?></a><a class="h6"><?php echo strstr(number_format($value2["price"], 2, ',', '.'), ','); ?></a>
-
-														<?php } ?>
-													</a>
-												</p>
-											</div>
-		
-										</div>
-										
-
-										<form id="formCard<?php echo htmlspecialchars( $value2["departament"], ENT_COMPAT, 'UTF-8', FALSE ); ?><?php echo htmlspecialchars( $key2, ENT_COMPAT, 'UTF-8', FALSE ); ?>" class="formEnvia mt-auto" data-id="<?php echo htmlspecialchars( $value2["codProduct"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" data-store="<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>">
-						
-											<div class="btn-group btn-group-justified w-100">
-			
-												<button type="button" class="btn btn-sm btn-main-site-section text-btn-site-section bd-RdLeft" onClick="removeItem('inputCard<?php echo htmlspecialchars( $value2["departament"], ENT_COMPAT, 'UTF-8', FALSE ); ?><?php echo htmlspecialchars( $key2, ENT_COMPAT, 'UTF-8', FALSE ); ?>')">-</button>
-		
-												<input id="inputCard<?php echo htmlspecialchars( $value2["departament"], ENT_COMPAT, 'UTF-8', FALSE ); ?><?php echo htmlspecialchars( $key2, ENT_COMPAT, 'UTF-8', FALSE ); ?>" name="inputCardDiversos" type="number" class="w-25 text-center" value="1" readonly="true" max="<?php echo htmlspecialchars( $value2["stock"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
-		
-												<button type="button" class="btn btn-sm btn-main-site-section text-btn-site-section" onClick="addItem('inputCard<?php echo htmlspecialchars( $value2["departament"], ENT_COMPAT, 'UTF-8', FALSE ); ?><?php echo htmlspecialchars( $key2, ENT_COMPAT, 'UTF-8', FALSE ); ?>')">+</button>
 												
-												<?php if( isset($userValues["login"]) && $userValues["login"] == false ){ ?>
-												<button type="submit" class="btn btn-sm btn-cart-site-section text-btn-site-section bd-RdRight" data-toggle="modal" data-target="#modalMsgAlert" data-text="Deseja finalizar o pedido?" data-link="/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/checkout/cart/" data-btn-text="Finalizar" data-btn-text2="Continuar comprando">
-													<i class="fas fa-shopping-cart"></i>
-												</button>
-												<?php }else{ ?>
-												<button type="submit" class="btn btn-sm btn-cart-site-section text-btn-site-section bd-RdRight">
-													<i class="fas fa-shopping-cart"></i>
-												</button>
+												<?php if( isset($value2["unitsMeasures"]) && is_array($value2["unitsMeasures"]) && count($value2["unitsMeasures"]) > 0 ){ ?>
+												<?php $codePro = $value2["codProduct"]; ?>
+												<?php $counter3=-1;  if( isset($value2["unitsMeasures"]) && ( is_array($value2["unitsMeasures"]) || $value2["unitsMeasures"] instanceof Traversable ) && sizeof($value2["unitsMeasures"]) ) foreach( $value2["unitsMeasures"] as $key3 => $value3 ){ $counter3++; ?>
+												<label class='btn btn-light border btn-sm py-0 mr-1 rounded-pill altUnitMeasure' data-store="<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>" data-id="<?php echo htmlspecialchars( $codePro, ENT_COMPAT, 'UTF-8', FALSE ); ?>" data-cod="<?php echo htmlspecialchars( $key3, ENT_COMPAT, 'UTF-8', FALSE ); ?>" data-dad="<?php echo htmlspecialchars( $nameCard, ENT_COMPAT, 'UTF-8', FALSE ); ?>">
+													<input type="radio" <?php if( $key3 == 0 ){ ?>checked<?php } ?>> <?php echo htmlspecialchars( $value3["name"], ENT_COMPAT, 'UTF-8', FALSE ); ?>
+												</label>
 												<?php } ?>
-		
-											</div>
-										
-										</form>
-										
+												<?php } ?>	
+
+											</p>
+
+											<p class="font-weigth-bold">
+												
+												<?php if( $value2["pricePromo"] > 0 && $value2["pricePromo"] != $value2["price"] ){ ?>
+												
+												<a class="h6">
+													<s class="card-ColorPromoPrice">R$<?php echo maskPrice($value2["price"]); ?></s>
+												</a>
+												
+												<?php } ?>
+												
+												<a class="text-dark">
+													<b>R$</b>
+													<span class="h3 priceItemProduct"><?php echo maskPrice($value2["priceFinal"]); ?></span>
+												</a>	
+													
+											</p>
+										</div>
+	
 									</div>
-								</a>
-								
+									
+
+									<form id="formCard<?php echo htmlspecialchars( $value2["codProduct"], ENT_COMPAT, 'UTF-8', FALSE ); ?><?php echo htmlspecialchars( $key2, ENT_COMPAT, 'UTF-8', FALSE ); ?>" class="formEnvia mt-auto" data-id="<?php echo htmlspecialchars( $value2["codProduct"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" data-store="<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>" data-type="0">
+					
+										<div class="btn-group btn-group-justified w-100">
+		
+											<button type="button" class="btn btn-sm btn-main-site-section text-btn-site-section bd-RdLeft" onClick="removeItem('inputCard<?php echo htmlspecialchars( $value2["departament"], ENT_COMPAT, 'UTF-8', FALSE ); ?><?php echo htmlspecialchars( $key2, ENT_COMPAT, 'UTF-8', FALSE ); ?>')">-</button>
+	
+											<input id="inputCard<?php echo htmlspecialchars( $value2["departament"], ENT_COMPAT, 'UTF-8', FALSE ); ?><?php echo htmlspecialchars( $key2, ENT_COMPAT, 'UTF-8', FALSE ); ?>" name="inputCardDiversos" type="number" class="w-25 text-center" value="1" readonly="true" max="<?php echo htmlspecialchars( $value2["stock"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" style="font-size: 11px;font-weight: bold;">
+	
+											<button type="button" class="btn btn-sm btn-main-site-section text-btn-site-section" onClick="addItem('inputCard<?php echo htmlspecialchars( $value2["departament"], ENT_COMPAT, 'UTF-8', FALSE ); ?><?php echo htmlspecialchars( $key2, ENT_COMPAT, 'UTF-8', FALSE ); ?>')">+</button>
+											
+											<?php if( isset($userValues["login"]) && $userValues["login"] == false ){ ?>
+											<button type="submit" class="btn btn-sm btn-cart-site-section text-btn-site-section bd-RdRight" data-toggle="modal" data-target="#modalMsgAlert" data-text="Deseja finalizar o pedido?" data-link="/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/checkout/cart/" data-btn-text="Finalizar" data-btn-text2="Continuar comprando">
+												<i class="fas fa-shopping-cart"></i>
+											</button>
+											<?php }else{ ?>
+											<button type="submit" class="btn btn-sm btn-cart-site-section text-btn-site-section bd-RdRight">
+												<i class="fas fa-shopping-cart"></i>
+											</button>
+											<?php } ?>
+	
+										</div>
+									
+									</form>
+									
+								</div>
 							</div>
 							<?php } ?>
 							<?php } ?>

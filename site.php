@@ -101,6 +101,36 @@ $app->get("/mercato/loja-{store}/departaments/", function(Request $request, Resp
 }); */
 
 // Page Home 
+$app->post("/loja-{store}/select-product-unit/", function(Request $request, Response $response, $args) {
+
+	Store::verifyStore($args["store"]);
+	if(!isset($_SESSION[Cart::SESSION]))
+	{
+		echo 0;
+	}
+
+	if(isset($_POST['id']) && is_numeric($_POST['id']) && $_POST['id'] > 0 && isset($_POST['cod']) && is_numeric($_POST['cod']) && $_POST['cod'] >= 0)
+	{
+
+		$res = Mercato::searchProductId($args['store'], $_POST['id']);
+
+		if(isset($res['unitsMeasures'][$_POST['cod']]))
+		{
+			$res['unitsMeasures'][$_POST['cod']]['price'] = maskPrice($res['unitsMeasures'][$_POST['cod']]['price']);
+		}
+
+		$res = $res != 0 && isset($res['unitsMeasures'][$_POST['cod']]) ? json_encode($res['unitsMeasures'][$_POST['cod']]) : $res; 
+
+	} else {
+		echo 0;
+		exit;
+	}
+
+	echo $res;
+	exit;
+
+});
+
 $app->get("/loja-{store}/", function(Request $request, Response $response, $args) {
 
 	$page = new Page([

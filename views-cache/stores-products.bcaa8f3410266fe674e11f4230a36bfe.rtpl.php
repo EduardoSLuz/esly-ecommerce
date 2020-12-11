@@ -40,15 +40,15 @@
   
                   <div class="card-tools col-12 offset-md-2 col-md-4">
 
-                    <form id="formListUsers" class="formListUsers input-group input-group-sm">
+                    <form id="formSearchListProducts" class="formListProducts input-group input-group-sm" data-store="<?php echo htmlspecialchars( $id, ENT_COMPAT, 'UTF-8', FALSE ); ?>">
 
                       <select class="custom-select inputsListUser" name="selectStatusOrders" id="selectStatusOrders">
                         <option value="0">Por Código do Produto:</option>
                         <option value="1">Por Departamento:</option>
-                        <option value="1">Por Descrição:</option>
+                        <option value="2">Por Descrição:</option>
                       </select>
 
-                      <input type="text" name="table_search" class="form-control inputsListUser float-right" placeholder="Search">
+                      <input type="search" name="table_search" class="form-control inputsListUser float-right" placeholder="Search" oninput="$('#formSearchListProducts').submit()">
   
                       <div class="input-group-append">
                         <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
@@ -59,14 +59,15 @@
                   
                 </div>
                 <!-- /.card-header -->
-                <div id="tbListOrders" class="card-body table-responsive p-0">
-                  <?php if( isset($products) && $products != 0 ){ ?>
+                <div id="tbListProductsConfig" class="card-body table-responsive p-0">
+                  
+                  <?php if( isset($products) && is_array($products) && count($products) > 0 ){ ?>
                   <table class="table table-head-fixed text-nowrap">
                     
                     <tbody>
+                      
                       <?php $counter1=-1;  if( isset($products) && ( is_array($products) || $products instanceof Traversable ) && sizeof($products) ) foreach( $products as $key1 => $value1 ){ $counter1++; ?>
                       <tr>
-                        
                         <td>
                           
                           <div class="row">
@@ -82,12 +83,13 @@
                               
                                 <p class="text-wrap">
                                   <?php echo htmlspecialchars( $value1["description"], ENT_COMPAT, 'UTF-8', FALSE ); ?>
+                                  <br> DEPARTAMENTO: <?php echo htmlspecialchars( $value1["departament"], ENT_COMPAT, 'UTF-8', FALSE ); ?>
                                   <br> <b>R$<?php echo maskPrice($value1["priceFinal"]); ?> - <i>Quantidade Estoque: <?php echo htmlspecialchars( $value1["stock"], ENT_COMPAT, 'UTF-8', FALSE ); ?></i></b>
                                 </p>
                               </div>
 
                               <div class="col-md text-right">
-                                <a href="#" class="h5" data-toggle="modal" data-target="#modalProductsConfig" data-id="<?php echo htmlspecialchars( $value1["codProduct"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" data-type="2" data-store="<?php echo htmlspecialchars( $id, ENT_COMPAT, 'UTF-8', FALSE ); ?>" data-name="<?php echo htmlspecialchars( $value1["description"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" data-src="<?php echo htmlspecialchars( $value1["image"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" data-archive="<?php echo htmlspecialchars( $value1["image"], ENT_COMPAT, 'UTF-8', FALSE ); ?>"><i class="fas fa-pen"></i></a>
+                                <a href="#" class="h5" data-toggle="modal" data-target="#modalProductsConfig" data-id="<?php echo htmlspecialchars( $value1["codProduct"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" data-type="1" data-store="<?php echo htmlspecialchars( $id, ENT_COMPAT, 'UTF-8', FALSE ); ?>" data-name="<?php echo htmlspecialchars( $value1["description"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" data-src="<?php echo htmlspecialchars( $value1["image"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" data-archive="<?php echo htmlspecialchars( $value1["image"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" data-unit="<?php echo htmlspecialchars( $value1["unit"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" data-price="<?php echo htmlspecialchars( $value1["priceFinal"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" data-free="<?php echo htmlspecialchars( $value1["unitsMeasures"]["0"]["freeFill"], ENT_COMPAT, 'UTF-8', FALSE ); ?>"><i class="fas fa-pen"></i></a>
                               </div>
 
                             </div>
@@ -95,11 +97,13 @@
                           </div>
 
                         </td>
-
                       </tr>
                       <?php } ?>
+
                     </tbody>
+                  
                   </table>
+
                   <?php }else{ ?>
                   <p class="h6 text-center border-top py-3">
                     <b><i>NENHUM DADO ENCONTRADO</i></b>
@@ -116,6 +120,5 @@
         </div><!-- /.container-fluid -->
       </section>
       <!-- /.content -->
-
         
         

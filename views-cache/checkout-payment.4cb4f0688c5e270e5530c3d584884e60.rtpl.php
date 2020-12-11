@@ -35,20 +35,6 @@
 
 					<p class="h4 my-4 font-weight-normal text-second-site-section">Escolha a forma de pagamento:</p>
 
-					<div id="alertCheckoutPayment">
-						<?php if( $errorRegister != '' ){ ?>
-						<div class="alert alert-danger alert-dismissible fade show text-left" role="alert">
-							
-							<span><?php echo htmlspecialchars( $errorRegister, ENT_COMPAT, 'UTF-8', FALSE ); ?></span>
-							
-							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-
-						</div>
-						<?php } ?>
-					</div>
-
 					<form id="formCheckoutPayment" class="formCheckoutPayment" data-store="<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>">
 						
 						<div>
@@ -107,16 +93,29 @@
 								<div class="tab-pane fade" id="OptionOnline" role="OptionOnline" aria-labelledby="OptionOnline-tab"></div>
 	
 							</div>
+							
+							<div id="alertCheckoutPayment" class='alert alert-dismissible fade d-none text-left mt-2' role="alert">
+								<span class="msgAlert">Msg</span>
+							</div>
+
 						</div>
-	
+
 						<div class="row my-4">
 							
-							<div class="col-6">
+							<div class="col-lg-6 col-3">
 								<a href="/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/checkout/horary/" class="btn btn-sm btn-light border border-dark"><i class="fas fa-arrow-left"></i> <b class="d-mobile font-weight-normal">Voltar a Horário de <?php if( $order["type"] == 1 ){ ?>Retirada<?php }else{ ?>Entrega<?php } ?></b></a>
 							</div>
 	
-							<div class="col-6 text-right">
+							<div class="col-lg-6 col-9 text-right">
+								
+								<div id="overlayCheckoutPayment" class="btn d-none">
+									<div class="overlay d-flex justify-content-center align-items-center">
+										<i class="fas fa-1x fa-sync fa-spin"></i>
+									</div>
+								</div>
+
 								<button type="submit" class="btn btn-sm btn-main-site-section text-btn-site-section">Continuar <i class="fas fa-arrow-right"></i></button>
+							
 							</div>
 	
 						</div>

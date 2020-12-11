@@ -16,20 +16,8 @@
 
 					<p class="h2 font-weight-normal text-second-site-section">Cadastre-se</p>
 
-					<div id="alertsLoginRegister">
-						
-						{if="$errorRegister != ''"}
-						<div class="alert alert-danger alert-dismissible fade show text-left" role="alert">
-							
-							<span>{$errorRegister}</span>
-							
-							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-						  		<span aria-hidden="true">&times;</span>
-							</button>
-
-						</div>
-						{/if}
-
+					<div id="alertsLoginRegister" class="alert alert-success alert-dismissible fade d-none text-left" role="alert">
+						<span class="msgAlert">Msg</span>
 					</div>
 
 					<div class="input-group text-center mt-4 border border-secondary rounded">
@@ -66,8 +54,17 @@
 						<div class="g-recaptcha" data-sitekey="6LevbfwUAAAAAJiitBmG-CqLM9NYIhfQaFJHdeaF"></div>
 					</div>
 					
-					<button type="submit" class="btn btn-main-site-section text-btn-site-section mt-3" tabindex="4">Cadastrar</button>
-					
+					<div class="my-2">
+						
+						<div id="overlayLoginRegister" class="btn d-none">
+							<div class="overlay d-flex justify-content-center align-items-center">
+								<i class="fas fa-1x fa-sync fa-spin"></i>
+							</div>
+						</div>
+	
+						<button type="submit" class="btn btn-main-site-section text-btn-site-section" tabindex="4">Cadastrar</button>
+						
+					</div>
 					<!-- <button type="submit" class="btn btn-outline-danger mt-3 w-100 d-none"><i class="fab fa-google"></i> Continuar com Gmail</button> -->
 
 				</form>

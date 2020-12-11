@@ -65,9 +65,9 @@ class Page {
 			
 		// Cart
 		$this->options["data"]["cart"] = Cart::checkCart($this->options["data"]["ID"], $this->options["refreshCart"]);
-		
+	
 		// Page 
-		if(isset($_SESSION[Page::SESSION]) && $this->options["login"] != 1) unset($_SESSION[Page::SESSION]);
+		if(isset($_SESSION[Page::SESSION]['url']) && $this->options["login"] != 1) unset($_SESSION[Page::SESSION]['url']);
 		$this->options["data"]["layout"] = Page::layoutPage($this->options["data"]["ID"]);
 	
 		// Store
@@ -230,12 +230,12 @@ class Page {
 	public static function PageRedirect()
 	{
 
-		if(isset($_SESSION[Page::SESSION]))
+		if(isset($_SESSION[Page::SESSION]['url']))
 		{
 
-			$url = $_SESSION[Page::SESSION];
+			$url = $_SESSION[Page::SESSION]['url'];
 
-			unset($_SESSION[Page::SESSION]);
+			unset($_SESSION[Page::SESSION]['url']);
 
 		}
 

@@ -43,20 +43,8 @@
 						</div>
 					</div>
 
-					<div id="alertCheckoutAddress">
-						
-						<?php if( $errorRegister != '' ){ ?>
-						<div class="alert alert-danger alert-dismissible fade show text-left" role="alert">
-							
-							<span><?php echo htmlspecialchars( $errorRegister, ENT_COMPAT, 'UTF-8', FALSE ); ?></span>
-							
-							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-
-						</div>
-						<?php } ?>
-
+					<div id="alertCheckoutAddress" class='alert alert-dismissible fade d-none text-left' role="alert">
+						<span class="msgAlert">Msg</span>
 					</div>
 
 					<form id="formCheckoutAddress" class="formCheckoutAddress" data-store="<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>">
@@ -104,13 +92,21 @@
 						</div>
 	
 						<div class="row my-4">
-							
-							<div class="col-6">
+
+							<div class="col-lg-6 col-3">
 								<a href="/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/checkout/delivery-pickup/" class="btn btn-sm btn-light border border-dark"><i class="fas fa-arrow-left"></i> <b class="d-mobile font-weight-normal">Voltar a Entrega/Retirada</b></a>
 							</div>
 	
-							<div class="col-6 text-right">
+							<div class="col-lg-6 col-9 text-right">
+								
+								<div id="overlayCheckoutAddress" class="btn d-none">
+									<div class="overlay d-flex justify-content-center align-items-center">
+										<i class="fas fa-1x fa-sync fa-spin"></i>
+									</div>
+								</div>
+
 								<button type="submit" class="btn btn-sm btn-main-site-section text-btn-site-section">Continuar <i class="fas fa-arrow-right"></i></a>
+							
 							</div>
 	
 						</div>

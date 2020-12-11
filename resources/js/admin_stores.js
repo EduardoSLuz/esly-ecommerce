@@ -1117,16 +1117,46 @@ $('#modalProductsConfig').on('show.bs.modal', function (e) {
     var store = button.data('store'); 
     var src = button.data('src'); 
     var name = button.data('name'); 
+    var unit = button.data('unit'); 
+    var price = button.data('price'); 
+    var free = button.data('free'); 
     var modal = $(this);
 
-    if(src == "") src = "/resources/imgs/logos/default.png";
+    if(src == "" || src == undefined) src = "/resources/imgs/logos/default.png";
 
     modal.find('.modal-title .modal-subtitle').text(`#${id} ${name}`);
     modal.find('#formModalProductConfig').attr("data-type", type);
     modal.find('#formModalProductConfig').attr("data-id", id);
     modal.find('#formModalProductConfig').attr("data-archive", src);
     modal.find('#formModalProductConfig').attr("data-store", store);
-    modal.find('#imgProductLogo').attr("src", src);
+    modal.find('#formModalProductConfig').attr("data-unit", 0);
+    modal.find('#formModalProductConfig #imgProductLogo').attr("src", src);
+    modal.find('#formModalProductConfig #inputUnitProduct').val(unit);
+    modal.find('#formModalProductConfig #inputValueStockProduct').val("1.000");
+    modal.find('#formModalProductConfig #inputPriceProduct').val(price);
+    modal.find('#formModalProductConfig #inputPriceProduct').attr('data-number', price);
+
+    if(free == 1) modal.find('#formModalProductConfig #freeFillProduct').attr('checked', true);
+
+    if(unit != undefined) $("#listModalProductsConfigUnits").load( `/admin/stores/${store}/products/?cod=${id} #listModalProductsConfigUnits > *`, );
+
+});
+
+$('#modalProductsConfig').on('hide.bs.modal', function (e) {
+    location.reload();
+});
+
+// Form Search List Products
+$("#formSearchListProducts").submit(function(e){
+
+    e.preventDefault();
+
+    let store = $(this).attr("data-store");
+    let option = $(this.children[0]).val();
+    let search = $(this.children[1]).val();
+    search = search.replace(" ", "%20");
+    
+    if(store !== undefined && option !== undefined && search !== undefined) $("#tbListProductsConfig").load( `/admin/stores/${store}/products/?option=${option}&s=${search} #tbListProductsConfig > *`);
 
 });
 
@@ -1138,6 +1168,7 @@ $("#formModalProductConfig").submit(function(e) {
     var id = $(this).attr("data-id");
     var type = $(this).attr("data-type");
     var arc = $(this).attr("data-archive");
+    var code = $(this).attr("data-unit");
     var store = $(this).attr("data-store");
 
     var formData = new FormData(this);
@@ -1145,6 +1176,9 @@ $("#formModalProductConfig").submit(function(e) {
     formData.append("id", id); 
     formData.append("type", type); 
     formData.append("arc", arc); 
+    formData.append("code", code); 
+    
+    $('#overlayModalProductConfig').removeClass('d-none');
 
     $.ajax({
         url: `/admin/stores/${store}/products/config/`,
@@ -1155,22 +1189,105 @@ $("#formModalProductConfig").submit(function(e) {
         processData: false,
     }).done(function(response){
         
-        console.log(response);
-
         let json = JSON.parse(response);
         
-        if(json !== "undefined")
+        if(json !== undefined)
         {
 
-            if(json.src !== "undefined" && json.status == 1)
+            if(type == 1 && json.src !== undefined && json.status == 1)
             {
+            
+                $("#tbListOrders").load( "/admin/stores/"+store+"/products/ #tbListOrders > *" );
                 $("#modalProductsConfig #imgProductLogo").attr('src', json.src);
                 $(this).attr('data-archive', json.src);
+            
+            } else if(type == 2 && json.status == 1){
+                
+                $("#listModalProductsConfigUnits").load( `/admin/stores/${store}/products/?cod=${id} #listModalProductsConfigUnits > *` );
+                if(json.code !== undefined && json.code == 3) $("#listUnit0").click();
+
             }
 
             msgAlert("#alertModalProductConfigImg", json.msg, json.status, 1500);
         } 
 
+    }).always(function(){
+        $('#overlayModalProductConfig').addClass('d-none');
     });
 
+    $('#overlayModalProductConfig').addClass('d-none');
+
 });
+
+$(".btnTypeModalProductsConfig").on('click', function(e){
+    
+    let code = $(this).attr('data-code') !== undefined ? $(this).attr('data-code') : 0;
+    
+    $("#formModalProductConfig").attr('data-type', code);
+
+    if(code != 2) $("#formModalProductConfig").attr('data-unit', 0);
+
+});
+
+$(document).on('click', '.btnMeasureProduct', function(){
+    
+    let code = $(this).attr("data-id") !== undefined && $.isNumeric($(this).attr("data-id")) ? $(this).attr("data-id") : 0;
+    let id = $(this).attr("data-code") !== undefined && $.isNumeric($(this).attr("data-code")) ? $(this).attr("data-code") : 0;
+    let json = { 1:"1_0", 2:`2_${id}`, 3:`3_${id}` };
+
+    if(code >= 1 && code <= 3)
+    {
+        $("#formModalProductConfig").attr('data-unit', json[code]);
+        $("#formModalProductConfig").submit();
+    }
+
+});
+
+
+$(document).on('click', '.btnListUnitProductsConfig', function(){
+
+    let id = $(this).attr('data-id');
+    let name = $(this).attr('data-name');
+    let stock = $(this).attr('data-stock');
+    let price = $(this).attr('data-price');
+    let freeFill = $(this).attr('data-free-fill');
+
+    if(id >= 1)
+    {
+        $("#modalProductsConfig #inputUnitProduct").removeAttr('readonly');
+        $("#modalProductsConfig #inputValueStockProduct").removeAttr('readonly');
+        $("#modalProductsConfig #inputPriceProduct").removeAttr('readonly');
+        $("#modalProductsConfig #divFreeFillProduct").addClass('d-none');
+    } else {
+        $("#modalProductsConfig #inputUnitProduct").attr('readonly', true);
+        $("#modalProductsConfig #inputValueStockProduct").attr('readonly', true);
+        $("#modalProductsConfig #inputPriceProduct").attr('readonly', true);
+        $("#modalProductsConfig #divFreeFillProduct").removeClass('d-none');
+    }
+
+    $("#modalProductsConfig #inputUnitProduct").val(name);
+    $("#modalProductsConfig #inputValueStockProduct").val(stock);
+    $("#modalProductsConfig #inputPriceProduct").val(price);
+    $("#modalProductsConfig #btnUpdateUnitProduct").attr("data-code", id);
+
+    if(freeFill == 1)
+    {
+        $("#modalProductsConfig #freeFillProduct").attr('checked', true);
+    } else {
+        $("#modalProductsConfig #freeFillProduct").removeAttr('checked');
+    }
+
+});
+
+$("#inputValueStockProduct").on('input', function(e){
+    
+    let number = $("#inputPriceProduct").attr('data-number');
+    let price = number !== undefined && $.isNumeric(number) ? parseFloat(number) : 0;
+    let value = $(this).val();
+
+    if(value !== undefined && $.isNumeric(value)) 
+    {
+        $("#inputPriceProduct").val(parseFloat(price*value));
+    }
+
+})

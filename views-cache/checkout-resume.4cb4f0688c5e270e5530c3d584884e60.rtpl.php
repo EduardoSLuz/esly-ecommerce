@@ -110,7 +110,7 @@
 													</td>
 													<td class="py-2 text-right">
 														<span class="font-weight-bold text-second-site-section">
-															<?php if( $order["horary"]["date"] == date('Y-m-d') ){ ?>Hoje<?php }else{ ?><?php echo ucwords(strftime('%A', strtotime($order["horary"]["date"]))); ?><?php } ?> - 
+															<?php if( $order["horary"]["date"] == date('Y-m-d') ){ ?>Hoje<?php }else{ ?><?php echo utf8_encode(ucwords(strftime('%A', strtotime($order["horary"]["date"])))); ?><?php } ?> - 
 															<?php if( isset($order["horary"]) ){ ?>
 															<?php echo date('H:i', strtotime($order["horary"]["init"])); ?> até <?php echo date('H:i', strtotime($order["horary"]["final"])); ?>
 															<?php } ?>
@@ -217,11 +217,18 @@
 	
 						<div class="row my-4">
 							
-							<div class="col-6">
+							<div class="col-lg-6 col-3">
 								<a href="/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/checkout/payment/" class="btn btn-sm btn-light border border-DARK"><i class="fas fa-arrow-left"></i> <b class="d-mobile font-weight-normal">Voltar a Pagamento</b></a>
 							</div>
 	
-							<div class="col-6 text-right">
+							<div class="col-lg-6 col-9 text-right">
+								
+								<div id="overlayCheckoutResume" class="btn d-none">
+									<div class="overlay d-flex justify-content-center align-items-center">
+										<i class="fas fa-1x fa-sync fa-spin"></i>
+									</div>
+								</div>
+
 								<button type="submit" class="btn btn-sm btn-main-site-section text-btn-site-section">Finalizar Compra <i class="fas fa-arrow-right"></i></button>
 							</div>
 	

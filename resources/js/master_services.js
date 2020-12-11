@@ -2,6 +2,7 @@
 setInterval(function() {
 
     refreshServices();
+    console.log("Service: Refresh List Products");
 
 }, 60000);
 

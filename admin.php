@@ -1551,7 +1551,7 @@ $app->get("/admin/orders-horary/", function(Request $request, Response $response
 		"status" => $param[":STATUS"],
 		"paid" => $param[":PAID"],
 		"ini" => $param[":INI"],
-		"fin" => $param[":FIN"],
+		"fin" => $param[":FIN"]
 	];
 	
 	$admin = new PageAdmin([
@@ -1574,6 +1574,7 @@ $app->post("/admin/stores/{id}/products/config/", function(Request $request, Res
 	
 	Store::checkAdmin($args['id']);
 	$res = ["status" => 0, "msg" => ""];
+	$msgError = "Erro Fatal, Nada Foi Atualizado!";
 
 	if(!isset($_POST['type']) || isset($_POST['type']) && $_POST['type'] <= 0 || isset($_POST['type']) && empty($_POST['type']))
 	{
@@ -1582,73 +1583,214 @@ $app->post("/admin/stores/{id}/products/config/", function(Request $request, Res
 		exit;
 	}
 
-	if(isset($_FILES['inputImgProductLogo']))
+	if($_POST['type'] == 1)
 	{
-
-		if(isset($_FILES['inputImgProductLogo']) && empty($_FILES['inputImgProductLogo']['tmp_name']))
+		if(isset($_FILES['inputImgProductLogo']))
 		{
-			$res["msg"] = "Insira um logo para trocar a imagem!";
-			echo json_encode($res);
-			exit;
-		}
 
-		if(isset($_FILES['inputImgProductLogo']) && substr($_FILES['inputImgProductLogo']['type'], 0, 5) != "image" && substr($_FILES['inputImgProductLogo']['type'], 6) != "png" && substr($_FILES['inputImgProductLogo']['type'], 6) != "jpeg")
-		{
-			$res["msg"] = "Formato do arquivo inválido!";
-			echo json_encode($res);
-			exit;
-		}
-
-		if(isset($_POST['arc']) && empty($_POST['arc']) || !isset($_POST['arc']))
-		{
-			$res["msg"] = "Erro ao Enviar Dados!";
-			echo json_encode($res);
-			exit;
-		}
-
-	}
-
-	if(isset($_FILES['inputImgProductLogo']['tmp_name']) && !empty($_FILES['inputImgProductLogo']['tmp_name']) && $_POST['type'] == 2)
-	{
-		
-		$nameBase = $_SESSION[Sql::DB]['directory'];
-		$dirMaster = "resources/clients/$nameBase/stores/loja-".$args['id']."/imgs/products/";
-		$dir = isset($_POST['id']) && is_numeric($_POST['id']) && $_POST['id'] > 0 ? $dirMaster.substr(Store::cryptCode(date('siHdmY').'ESL'), 0, 16).$_POST['id'].".".substr($_FILES['inputImgProductLogo']['type'], 6) : "";
-		
-		//PAREI AQUI, SÓ FALTA TERMINAR DE INSERIR A IMAGEM E SALVAR O NOVO CAMINNHO DA IMAGEM DO PRODUTO.
-		
-		if(isset($_FILES['inputImgProductLogo']) && !empty($_FILES['inputImgProductLogo']['tmp_name']) && !empty($dir) && file_exists($dirMaster))
-		{	
-			
-			$arc = !empty($_POST['arc']) ? substr($_POST['arc'], 1) : "";
-
-			if(strstr($arc, $dirMaster) !== false && file_exists($arc))
+			if(isset($_FILES['inputImgProductLogo']) && empty($_FILES['inputImgProductLogo']['tmp_name']))
 			{
-				unlink($arc);
+				$res["msg"] = "Insira um logo para trocar a imagem!";
+				echo json_encode($res);
+				exit;
 			}
 
-			move_uploaded_file($_FILES['inputImgProductLogo']['tmp_name'], $dir);
-			$file = 1;
+			if(isset($_FILES['inputImgProductLogo']) && substr($_FILES['inputImgProductLogo']['type'], 0, 5) != "image" && substr($_FILES['inputImgProductLogo']['type'], 6) != "png" && substr($_FILES['inputImgProductLogo']['type'], 6) != "jpeg")
+			{
+				$res["msg"] = "Formato do arquivo inválido!";
+				echo json_encode($res);
+				exit;
+			}
+
+			if(isset($_POST['arc']) && empty($_POST['arc']) || !isset($_POST['arc']))
+			{
+				$res["msg"] = "Erro ao Enviar Dados!";
+				echo json_encode($res);
+				exit;
+			}
 
 		}
 
-		if(isset($file) && $file == 1)
+		if(isset($_FILES['inputImgProductLogo']['tmp_name']) && !empty($_FILES['inputImgProductLogo']['tmp_name']))
 		{
-			$res = Mercato::updateAllProducts(0, $args['id'], 'codProduct', $_POST['id'], "image", "/".$dir, 1);
+			
+			$nameBase = $_SESSION[Sql::DB]['directory'];
+			$dirMaster = "resources/clients/$nameBase/stores/loja-".$args['id']."/imgs/products/";
+			$dir = isset($_POST['id']) && is_numeric($_POST['id']) && $_POST['id'] > 0 ? $dirMaster.substr(Store::cryptCode(date('siHdmY').'ESL'), 0, 16).$_POST['id'].".".substr($_FILES['inputImgProductLogo']['type'], 6) : "";
+			
+			if(isset($_FILES['inputImgProductLogo']) && !empty($_FILES['inputImgProductLogo']['tmp_name']) && !empty($dir) && file_exists($dirMaster))
+			{	
+				
+				$arc = !empty($_POST['arc']) ? substr($_POST['arc'], 1) : "";
+
+				if(strstr($arc, $dirMaster) !== false && file_exists($arc))
+				{
+					unlink($arc);
+				}
+
+				move_uploaded_file($_FILES['inputImgProductLogo']['tmp_name'], $dir);
+				$file = 1;
+
+			}
+
+			if(isset($file) && $file == 1)
+			{
+				$res = Mercato::updateAllProducts(0, $args['id'], 'codProduct', $_POST['id'], "image", "/".$dir, 1);
+			}
+			else {
+				$res["msg"] = $msgError;
+				echo json_encode($res);
+				exit;
+			}
+
 		}
- 		else {
-			$res["msg"] = "Erro Fatal, Nada Foi Atualizado!";
+		
+		$res = isset($res) && is_array($res) ? ["msg" => "Produto Atualizado Com Sucesso!", "status" => 1, "src" => "/".$dir ] : ["msg" => "Erro Critico, Nada Foi Atualizado!", "status" => 0];
+
+	} else if($_POST['type'] == 2)
+	{
+
+		$pro = isset($_POST['inputAddMeasureProduct']) && isset($_POST['id']) ? Mercato::searchProductId($args['id'], $_POST['id']) : 0;
+
+		$code = isset($_POST['code']) && strstr($_POST['code'], '_') != false ? [ 0 => intval(strstr($_POST['code'], '_', true)), 1 => intval(substr(strstr($_POST['code'], '_'), 1))] : 0;
+
+		if(is_array($code) && $code[0] < 0 || $code == 0 || !is_array($code))
+		{
+			$res["msg"] = $msgError;
 			echo json_encode($res);
 			exit;
 		}
+		
+		if($code[0] == 1 && $code[1] == 0)
+		{
 
-	}
-	
-	if(isset($res) && is_array($res))
-	{
-		$res = ["msg" => "Produto Atualizado Com Sucesso!", "status" => 1, "src" => "/".$dir ];
-	} else {
-		$res = ["msg" => "Erro Critico, Nada Foi Atualizado!", "status" => 0];
+			if(isset($_POST['inputAddMeasureProduct']) && empty($_POST['inputAddMeasureProduct']) || !isset($_POST['inputAddMeasureProduct']))
+			{
+				$res["msg"] = "Digite o Nome Para a Nova Medida!";
+				echo json_encode($res);
+				exit;
+			}
+
+			if(is_array($pro) && isset($pro['unitsMeasures']) && is_array($pro['unitsMeasures']))
+			{
+
+				foreach ($pro['unitsMeasures'] as $key => $value) {
+					
+					if($value['name'] == $_POST['inputAddMeasureProduct'])
+					{
+						$res["msg"] = "Já Existe Uma Medida Com Esse Nome!";
+						echo json_encode($res);
+						exit;
+					}
+
+				}
+
+				$pro['unitsMeasures'][] = [
+					"name" => $_POST['inputAddMeasureProduct'],
+					"valueStock" => 1,
+					"price" => isset($pro['priceFinal']) ? $pro['priceFinal'] : 0,
+					"freeFill" => 0
+				];
+
+			}
+
+			$update = Mercato::updateAllProducts(0, $args['id'], 'codProduct', $_POST['id'], 'unitsMeasures', $pro['unitsMeasures'], 1);
+
+			$res = is_array($update) ? ["msg" => "Produto Atualizado Com Sucesso!", "status" => 1] : ["msg" => "Erro Critico, Nada Foi Atualizado!", "status" => 0];
+
+		} else if($code[0] == 2 && $code[1] >= 0) {
+			
+
+			if(isset($_POST['inputUnitProduct']) && empty($_POST['inputUnitProduct']) || !isset($_POST['inputUnitProduct']))
+			{
+				$res["msg"] = "Digite o Nome da Unidade de Medida!";
+				echo json_encode($res);
+				exit;
+			}
+
+			if(isset($_POST['inputValueStockProduct']) && empty($_POST['inputValueStockProduct']) || isset($_POST['inputValueStockProduct']) && $_POST['inputValueStockProduct'] <= 0 || !isset($_POST['inputValueStockProduct']))
+			{
+				$res["msg"] = "Digite o Valor do Estoque!";
+				echo json_encode($res);
+				exit;
+			}
+
+			if(isset($_POST['inputPriceProduct']) && empty($_POST['inputPriceProduct']) || isset($_POST['inputPriceProduct']) && $_POST['inputPriceProduct'] <= 0 || !isset($_POST['inputPriceProduct']))
+			{
+				$res["msg"] = "Digite o Preço Final!";
+				echo json_encode($res);
+				exit;
+			}
+
+			if(isset($pro['unitsMeasures']) && is_numeric($code[1]))
+			{
+
+				foreach ($pro['unitsMeasures'] as $key => $value) {
+					
+					if($value['name'] == $_POST['inputUnitProduct'] && $key !== $code[1])
+					{
+						$res["msg"] = "Já Existe Uma Unidade Medida Com Esse Nome!";
+						echo json_encode($res);
+						exit;
+					}
+
+				}
+
+				$pro['unitsMeasures'][$code[1]] = [
+					"name" => isset($_POST['inputUnitProduct']) && !empty($_POST['inputUnitProduct']) ? $_POST['inputUnitProduct'] : "",
+					"valueStock" => isset($_POST['inputValueStockProduct']) && is_numeric($_POST['inputValueStockProduct']) && $_POST['inputValueStockProduct'] > 0 ? $_POST['inputValueStockProduct'] : 0,
+					"price" => isset($_POST['inputPriceProduct']) && is_numeric($_POST['inputPriceProduct']) && $_POST['inputPriceProduct'] > 0 ? floatval($_POST['inputPriceProduct']) : 0,
+					"freeFill" => isset($_POST['freeFillProduct']) ? 1 : 0
+				];
+
+				$update = Mercato::updateAllProducts(0, $args['id'], 'codProduct', $_POST['id'], 'unitsMeasures', $pro['unitsMeasures'], 1);
+
+				$res = is_array($update) ? ["msg" => "Produto Atualizado Com Sucesso!", "status" => 1] : ["msg" => "Erro Critico, Nada Foi Atualizado!", "status" => 0];
+
+			} else {
+			
+				$res["msg"] = "Erro Crítico, favor entrar em contato com o Suporte Técnico!";
+				echo json_encode($res);
+				exit;
+		
+			}
+
+		} else if($code[0] == 3 && $code[1] > 0) {
+			
+			if(isset($pro['unitsMeasures']) && is_numeric($code[1]))
+			{
+
+				$units = [];
+				unset($pro['unitsMeasures'][$code[1]]);
+
+				foreach ($pro['unitsMeasures'] as $key => $value) {
+					$units[] = $value;
+				}
+
+				$pro['unitsMeasures'] = is_array($units) && count($units) > 0 ? $units : $pro['unitsMeasures']; 
+
+				$update = Mercato::updateAllProducts(0, $args['id'], 'codProduct', $_POST['id'], 'unitsMeasures', $pro['unitsMeasures'], 1);
+
+				$res = is_array($update) ? ["msg" => "Produto Atualizado Com Sucesso!", "status" => 1] : ["msg" => "Erro Critico, Nada Foi Atualizado!", "status" => 0];
+
+			} else {
+			
+				$res["msg"] = "Erro Crítico, favor entrar em contato com o Suporte Técnico!";
+				echo json_encode($res);
+				exit;
+		
+			}
+
+		} else {
+			
+			$res["msg"] = $msgError;
+			echo json_encode($res);
+			exit;
+
+		} 
+		
+		$res['code'] = isset($code[0]) ? $code[0] : 0;
+		
 	}
 
 	echo json_encode($res);
@@ -1660,13 +1802,19 @@ $app->get("/admin/stores/{id}/products/", function(Request $request, Response $r
 	
 	Store::checkStoreAdmin($args['id']);
 
+	$options = [0 => 'codProduct', 1 => 'departament', 2 => 'description'];
+	$opt = isset($_GET['option']) && $_GET['option'] >= 0 && $_GET['option'] <= 2 ? $options[$_GET['option']] : $options[0];
+	$codProduct = isset($_GET['cod']) && is_numeric($_GET['cod']) ? $_GET['cod'] : 0;
+	$search = isset($_GET['s']) && $_GET['s'] != "" ? $_GET['s'] : "";
+
 	$admin = new PageAdmin([
 		"id" => $args['id'],
 		"login" => 2
 	]);
 
 	$admin->setTpl("stores-products", [
-		"products" => Mercato::listAllProducts($args['id']),
+		"products" => Mercato::searchProduct($args['id'], $search, $opt),
+		"listUnits" => Mercato::searchProductId($args['id'], $codProduct)
 	]);
 	
 	return $response;

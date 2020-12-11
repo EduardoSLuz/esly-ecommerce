@@ -25,34 +25,8 @@
 					</p>
 					<hr>
 
-					<div id="alertUserAddress">
-						
-						<?php if( $errorRegister != '' ){ ?>
-						<div class="alert alert-danger alert-dismissible fade show text-left" role="alert">
-							
-							<span><?php echo htmlspecialchars( $errorRegister, ENT_COMPAT, 'UTF-8', FALSE ); ?></span>
-							
-							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-						  		<span aria-hidden="true">&times;</span>
-							</button>
-
-						</div>
-						<?php } ?>
-
-						<?php if( $successMsg != '' ){ ?>	
-
-						<div class="alert alert-success alert-dismissible fade show text-left" role="alert">
-								
-							<span><?php echo htmlspecialchars( $successMsg, ENT_COMPAT, 'UTF-8', FALSE ); ?></span>
-							
-							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-
-						</div>
-
-						<?php } ?>
-
+					<div id="alertUserAddress" class="alert alert-success alert-dismissible fade d-none text-left" role="alert">
+						<span class="msgAlert">Msg</span>
 					</div>
 					
 					<div class="row">
@@ -60,13 +34,14 @@
 						<?php if( $userAddress != false ){ ?>
 
 						<?php $counter1=-1;  if( isset($userAddress) && ( is_array($userAddress) || $userAddress instanceof Traversable ) && sizeof($userAddress) ) foreach( $userAddress as $key1 => $value1 ){ $counter1++; ?>
-						<div class="col-sm-6 mt-3">
+						<div class="col-sm-6 my-2">
 							<div class="card">
 								<div class="card-body">
 									
 									<div class="row">
 										
 										<p class="h5 col-6 text-second-site-section">#<?php echo htmlspecialchars( $key1 + 1, ENT_COMPAT, 'UTF-8', FALSE ); ?></p>
+										
 										<div class="h5 col-6 text-right">
 											
 											<a href="#" id="<?php echo htmlspecialchars( $value1["ID"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" class="text-second-site-section btnEditAddress" data-toggle="modal" data-target="#ModalAddress" data-modal-title="Alterar Endereço de Entrega" data-type="2" data-code="<?php echo htmlspecialchars( $value1["idAddress"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" data-city="<?php echo htmlspecialchars( $value1["codeCity"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" data-cep='<?php echo maskCep($value1["cep"]); ?>' data-district="<?php echo htmlspecialchars( $value1["district"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" data-street="<?php echo htmlspecialchars( $value1["street"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" data-number="<?php echo htmlspecialchars( $value1["number"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" data-complement="<?php echo htmlspecialchars( $value1["complement"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" data-reference="<?php echo htmlspecialchars( $value1["reference"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" data-main="<?php echo htmlspecialchars( $value1["mainAddress"], ENT_COMPAT, 'UTF-8', FALSE ); ?>"><i class="far fa-edit"></i></a>
@@ -111,23 +86,9 @@
 						
 						<?php } ?>
 							  
-							<!-- <div class="col-sm-6 mt-mobNavbar mt-3">
-								<div class="card border-dashed">
-									<div class="card-body">
-										
-										<p class="py-5 mt-1 text-center">
-											<a class="h5 text-decoration-none text-primary cursorPointer" data-toggle="modal" data-target="#ModalAddress">
-												<i class="h1 fas fa-plus"></i><br>
-												Novo endereço
-											</a>
-										</p>
-										
-									</div>
-								</div>
-					  		</div> -->
 					</div>
 
-					<a href="#" class="my-2 btn btn-sm btn-outline-main-site-section" data-toggle="modal" data-target="#ModalAddress" data-modal-title="Cadastrar Endereço de Entrega" data-type="1" data-code="0" data-city="0" data-cep="" data-district="" data-street="" data-number="" data-complement="" data-reference="" data-main="0"><i class="fas fa-plus"></i> Adicionar endereço</a>
+					<a href="#" class="my-1 btn btn-sm btn-outline-main-site-section" data-toggle="modal" data-target="#ModalAddress" data-modal-title="Cadastrar Endereço de Entrega" data-type="1" data-code="0" data-city="0" data-cep="" data-district="" data-street="" data-number="" data-complement="" data-reference="" data-main="0"><i class="fas fa-plus"></i> Adicionar endereço</a>
 
 				</div>
 

@@ -20,10 +20,8 @@
 					</p>
 				</div>
 
-				<div id="alertCartCheckout" class="alert alert-success alert-dismissible fade show d-none text-left" role="alert">
-								
+				<div id="alertCartCheckout" class='alert alert-success alert-dismissible fade show d-none text-left {if="isset($alerts.status) && $alerts.status == 1"}msgAlertNow{/if}' data-msg="{$alerts.msg}" data-status="{$alerts.type}" data-time="{$alerts.time}" role="alert">
 					<span class="msgAlert">Msg</span>
-
 				</div>
 
 				{if="$cart.items != 0"}
@@ -106,7 +104,7 @@
 													{if="isset($value.details) && $value.details != ''"}
 													<b class="text-danger"> <i class="fas fa-times"></i> {$value.details}</b>
 													{else}
-													<b>R$ {function="maskPrice($value.priceItem)"}</b>
+													<b>R$ {function="maskPrice($value.priceItem)"} - {$value.unitReference}</b>
 													{/if}
 
 												</p>

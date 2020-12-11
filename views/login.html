@@ -13,45 +13,17 @@
 
 				<form id="formLogin" class="formLogin offset-md-2 col-md-4 py-4" method="POST" data-store="{$ID}">
 
-					<p class="h2 font-weight-normal px-3 text-second-site-section">Seja Bem-vindo ao Ecommerce!</p>
+					<p class="text-second-site-section">
+						<span class="h2 px-3 font-weight-normal d-block">Seja Bem-vindo ao Ecommerce!</span>
+						<span class="tx-IconCart my-3 d-block">Para adicionar itens ao carrinho é preciso entrar em sua conta.</span>
+						<span class="h3 d-lg-block d-md-block d-none font-weight-normal">Se já estiver cadastrado</span>
+					</p>
 	
-					<p class="tx-IconCart mt-3 text-second-site-section">Para adicionar itens ao carrinho é preciso entrar em sua conta.</p>
-
-					<p class="h3 font-weight-normal text-second-site-section">Se já estiver cadastrado</p>
-
-					<div id="alertsLogin">
-						
-						{if="$errorRegister != ''"}
-						<div class="alert alert-danger alert-dismissible fade show text-left" role="alert">
-							
-							<span>{$errorRegister}</span>
-							
-							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-						  		<span aria-hidden="true">&times;</span>
-							</button>
-
-						</div>
-						{/if}
-
-						
-
-						{if="$successMsg != ''"}	
-
-						<div class="alert alert-success alert-dismissible fade show text-left" role="alert">
-								
-							<span>{$successMsg}</span>
-							
-							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-
-						</div>
-
-						{/if}
-
+					<div id="alertsLogin" class="alert alert-success alert-dismissible fade d-none text-left" role="alert">
+						<span class="msgAlert">Msg</span>
 					</div>
 
-					<div class="input-group text-center mt-4 border border-secondary rounded">
+					<div class="input-group text-center my-2 border border-secondary rounded">
 						
 						<div class="input-group-prepend">
 						  <span class="input-group-text null-bd bg-white" id="basic-addon1"><i class="far fa-envelope text-second-site-section"></i></span>
@@ -61,7 +33,7 @@
 					
 					</div>
 
-					<div class="input-group text-center mt-3 border border-secondary rounded">
+					<div class="input-group text-centermy-2 border border-secondary rounded">
 						 
 						<div class="input-group-prepend">
 						  <button type="button" id="BtnLock" class="input-group-text null-bd bg-white" onclick="AlterTypeInput('passUser', 'BtnLock', 'fas fa-lock', 'fas fa-unlock')"><i id="IconePass" class="fas fa-lock text-second-site-section"></i></button>
@@ -71,7 +43,7 @@
 	
 					</div>
 
-					<div class="row mt-3">
+					<div class="row my-1">
 						<a class="col-md text-left text-second-site-section text-decoration-none">
 							<input type="checkbox" id="checkRemember" name="checkRemember"> <span class="cursorPointer" onclick="ExecuteClick('checkRemember')">Lembrar de mim</span>
 						</a>
@@ -96,7 +68,7 @@
 					<a href="/loja-{$ID}/register/" class="btn btn-second-site-section text-btn-site-section border-0 my-2 px-4"><i class="far fa-user"></i> Cadastre-se aqui</a>
 
 					<div class="text-center">
-						<img src="{$imgs.3.src}" class="py-5 img-fluid mx-auto bar-display" style="max-height: 375px;">
+						<img src="{$imgs.3.src}" class="py-5 img-fluid mx-auto d-lg-block d-md-block d-none" style="max-height: 375px;">
 					</div>
 				
 				</div>

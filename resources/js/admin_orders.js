@@ -443,7 +443,7 @@ $('.btnOrderStatus').on('click', function(e) {
         
         var json = response != 0 ? JSON.parse(response) : 0;
 
-        if(json.description !== 'undefined')
+        if(json.description !== undefined)
         {
 
             modalMsg(json);
@@ -523,7 +523,7 @@ $('.formOrderAlert').on('submit', function(e) {
 function modalMsg(json)
 {
 
-    if(json.description !== 'undefined')
+    if(json.description !== undefined)
     {
        
         var modal = $("#modalMsgAlert");

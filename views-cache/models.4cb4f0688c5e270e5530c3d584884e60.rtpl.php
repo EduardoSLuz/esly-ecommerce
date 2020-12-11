@@ -230,32 +230,8 @@
                 
                 <p class="h4 font-weight-normal"><i class="fas fa-map-marker-alt"></i> <a id="modal-title">Cadastrar Endereço de Entrega</a></p>
 
-                <div id="alertModalAddress">
-
-                    <?php if( $errorRegister != '' ){ ?>
-                    <div class="alert alert-danger alert-dismissible fade show text-left" role="alert">
-                        
-                        <span><?php echo htmlspecialchars( $errorRegister, ENT_COMPAT, 'UTF-8', FALSE ); ?></span>
-                        
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-    
-                    </div>
-                    <?php } ?>
-
-                    <?php if( $successMsg != '' ){ ?>	
-                    <div class="alert alert-success alert-dismissible fade show text-left" role="alert">
-                        
-                        <span><?php echo htmlspecialchars( $successMsg, ENT_COMPAT, 'UTF-8', FALSE ); ?></span>
-                        
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-        
-                    </div>
-                    <?php } ?>
-
+                <div id="alertModalAddress" class="alert alert-success alert-dismissible fade d-none text-left" role="alert">
+                    <span class="msgAlert">Msg</span>
                 </div>
 
                 <form id="modalFormAddress" class="modalFormAddress row" data-store="<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>" data-type="0" data-code="0">
@@ -324,8 +300,15 @@
             </div>
 
             <div class="modal-footer text-right px-4 pb-3">
-                <button type="button" class="btn btn-light btn-sm border border-secondary" data-dismiss="modal">Sair</button>
+            
+                <div id="overlayModalAddress" class="btn d-none">
+                    <div class="overlay d-flex justify-content-center align-items-center">
+                        <i class="fas fa-1x fa-sync fa-spin"></i>
+                    </div>
+                </div>
+                
                 <button type="submit" class="btn btn-main-site-section text-btn-site-section btn-sm" form="modalFormAddress">Salvar</button>
+            
             </div>
       
         </div>
@@ -356,35 +339,9 @@
                 
                     <p class="h5 font-weight-normal">Observação sobre o pedido:</p>
 
-                    <div id="alertModalObsProduct">
-                        
-                        <?php if( $errorRegister != '' ){ ?>
-                        <div class="alert alert-danger alert-dismissible fade show text-left" role="alert">
-                            
-                            <span><?php echo htmlspecialchars( $errorRegister, ENT_COMPAT, 'UTF-8', FALSE ); ?></span>
-                            
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-        
-                        </div>
-                        <?php } ?>
-
-                        <?php if( $successMsg != '' ){ ?>	
-        
-                        <div class="alert alert-success alert-dismissible fade show text-left" role="alert">
-                            
-                            <span><?php echo htmlspecialchars( $successMsg, ENT_COMPAT, 'UTF-8', FALSE ); ?></span>
-                            
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                            </button>
-            
-                        </div>
-            
-                        <?php } ?>
-
-                    </div>
+                    <div id="alertModalObsProduct" class='alert alert-dismissible fade d-none text-left' role="alert">
+						<span class="msgAlert">Msg</span>
+					</div>
                     
                     <div id="msgFormOrder"></div>
 
@@ -399,8 +356,15 @@
                 </div>
     
                 <div class="modal-footer text-right px-4 pb-3">
-                    <button type="button" class="btn btn-light btn-sm border border-secondary" data-dismiss="modal">Sair</button>
+                    
+                    <div id="overlayModalObsProduct" class="btn d-none">
+                        <div class="overlay d-flex justify-content-center align-items-center">
+                            <i class="fas fa-1x fa-sync fa-spin"></i>
+                        </div>
+                    </div>
+
                     <button type="submit" class="btn btn-sm btn-main-site-section text-btn-site-section">Salvar</button>
+
                 </div>
 
             </form>
@@ -516,33 +480,9 @@
                 
                 <p class="h4 font-weight-normal">Complete seu Cadastro</p>
 
-                <div id="alertModalAccountData">
-
-                    <?php if( $errorRegister != '' ){ ?>
-                    <div class="alert alert-danger alert-dismissible fade show text-left" role="alert">
-                        
-                        <span><?php echo htmlspecialchars( $errorRegister, ENT_COMPAT, 'UTF-8', FALSE ); ?></span>
-                        
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-    
-                    </div>
-                    <?php } ?>
-
-                    <?php if( $successMsg != '' ){ ?>	
-                    <div class="alert alert-success alert-dismissible fade show text-left" role="alert">
-                        
-                        <span><?php echo htmlspecialchars( $successMsg, ENT_COMPAT, 'UTF-8', FALSE ); ?></span>
-                        
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-        
-                    </div>
-                    <?php } ?>
-
-                </div>
+                <div id="alertModalAccountData" class='alert alert-dismissible fade show d-none text-left' role="alert">
+					<span class="msgAlert">Msg</span>
+				</div>
 
                 <form id="modalFormAccountData" class="modalFormAccountData row justify-content-md-center" data-store="<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>">
 

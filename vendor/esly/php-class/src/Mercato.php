@@ -12,7 +12,7 @@ class Mercato extends Model{
 
     const USER = "Mercato";
     const PASS = "Mercato@7056";
-    const URL = "https://mercatosistemas.com.br:";
+    const URL = "http://mercatosistemas.com.br:";
     const OPTS = ["products" => "/dados_produtos", "newOrder" => "/Pedido_Novo", "sltOrder" => "/Pedido_Consulta"];
     
     public static function listMercato($id = 0, $query = "", $param = [])
@@ -314,10 +314,30 @@ class Mercato extends Model{
                         
                         if($value['codProduct'] == $vProduct['codProduct'])
                         {
+                            
+                            $measures = [
+                                'name' => $value['unit'],
+                                'valueStock' => 1.000,
+                                'price' => $value['priceFinal'],
+                                'freeFill' => 0
+                            ];
+
+                            if(isset($vProduct['unitsMeasures']) && is_array($vProduct['unitsMeasures']))
+                            {
+                                
+                                $vProduct['unitsMeasures'][0] = $measures;
+                                
+                                $value['unitsMeasures'] = $vProduct['unitsMeasures'];
+
+                            } else {
+                                $value['unitsMeasures'] = [0 => $measures];
+                            }
+                            
                             $value['image'] = $vProduct['image'];
                             $products[$kProduct] = $value;
                             $ct = 1;
                             break;
+
                         }
 
                     }
@@ -389,7 +409,7 @@ class Mercato extends Model{
                 $data[$key] = [
                     "SEQ_ITEM" => $key + 1,    
                     "COD_PRODUTO" => $value['codProduct'],
-                    "QTD" => number_format($value['quantity'], 2, '.', ''),
+                    "QTD" => number_format($value['stock'], 2, '.', ''),
                     "VALOR_UNIT" => number_format($value['priceItem'], 2, '.', ''),
                     "VALOR_TOTAL" => number_format($value['totalItem'], 2, '.', ''),
                     "TIPO_PROMOCAO" => "N"
@@ -575,7 +595,7 @@ class Mercato extends Model{
 
     }
 
-    public static function searchProduct($id, $text)
+    public static function searchProduct($id, $cod, $field = 'description')
     {
 
         $array = [];
@@ -583,16 +603,15 @@ class Mercato extends Model{
 
         foreach ($products as $key => $value) {
             
-            if(strstr($value['description'], $text) != false)
-            {
-                
-                $array[count($array)] = $value;
-                
+            if($value[$field] == $cod || empty($cod) || strstr(strtolower($value[$field]), strtolower($cod)) !== false){
+
+                $array[] = $value;
+            
             }
 
         }
 
-        return count($array) > 0 ? $array : 0; 
+        return count($array) > 0 ? $array : 0;
 
     }
 

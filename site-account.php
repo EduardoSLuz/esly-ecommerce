@@ -15,6 +15,15 @@ if(!isset($_SESSION[Sql::DB])) Page::verifyPage();
 // Page Account Requests
 $app->get("/loja-{store}/account/requests/", function(Request $request, Response $response, $args) {
 
+	$alerts = [
+		"msg" => isset($_SESSION[Page::SESSION]['msg']) && !empty($_SESSION[Page::SESSION]['msg']) ? $_SESSION[Page::SESSION]['msg'] : "",
+		"type" => 1,
+		"time" => 1500,
+	];
+
+	$alerts['status'] = !empty($alerts['msg']) && is_numeric($alerts['type']) && $alerts['time'] > 0 ? 1 : 0;
+	unset($_SESSION[Page::SESSION]['msg']);
+
 	$page = new Page([
 		"login" => 2,
 		"data" => [
@@ -24,7 +33,7 @@ $app->get("/loja-{store}/account/requests/", function(Request $request, Response
 	]);
 
 	$page->setTpl("account-requests", [
-		'successMsg'=> User::getSuccessMsg(),
+		'alerts' => $alerts,
 		'orders' => Order::listAll()
 	]);
 	
@@ -130,17 +139,21 @@ $app->post("/loja-{store}/account/data/", function(Request $request, Response $r
 
 	Store::verifyStore($args["store"]);
 
+	$res = ['status' => 0, 'msg' => 'ERRO CRÍTICO'];
+	
 	$nameUser = explode(' ', $_POST['NameInfo']);
 
 	if(isset($_POST['NameInfo']) && empty($_POST['NameInfo']))
 	{
 
-		User::setErrorRegister("Digite seu nome!");
+		$res["msg"] = "Digite seu nome!";
+		echo json_encode($res);
 		exit;
 
 	} else if(!isset($nameUser[1]) || empty($nameUser[1]) || $nameUser[1] == ' '){
 
-		User::setErrorRegister("Digite seu sobrenome!");
+		$res["msg"] = "Digite seu sobrenome!";
+		echo json_encode($res);
 		exit;
 
 	} 
@@ -148,38 +161,37 @@ $app->post("/loja-{store}/account/data/", function(Request $request, Response $r
 	if(isset($_POST['CpfInfo']) && !empty($_POST['CpfInfo']) && strlen($_POST['CpfInfo']) < 14)
 	{
 
-		User::setErrorRegister("Digite um CPF válido!");
+		$res["msg"] = "Digite um CPF válido!";
+		echo json_encode($res);
 		exit;
 
 	} else if (!empty($_POST['CpfInfo']) && User::verifyCPF($_POST['CpfInfo'])){
 
-		User::setErrorRegister("CPF inválido!");
+		$res["msg"] = "CPF inválido!";
+		echo json_encode($res);
 		exit;
 
 	}
 
 	if(isset($_POST['DateInfo']) && is_numeric(str_replace('-', '', $_POST['DateInfo'])) && str_replace('-', '', $_POST['DateInfo']) < "19200101")
 	{
-
-		User::setErrorRegister("Data Inválida!");
+		$res["msg"] = "Data Inválida!";
+		echo json_encode($res);
 		exit;
-
 	}
 
 	if(isset($_POST['TelInfo']) && !empty($_POST['TelInfo']) && strlen($_POST['TelInfo']) != 14 && strlen($_POST['TelInfo']) != 15)
 	{
-
-		User::setErrorRegister("Digite um telefone válido!");
+		$res["msg"] = "Digite um telefone válido!";
+		echo json_encode($res);
 		exit;
-
 	}
 	
 	if(isset($_POST['WpInfo']) && !empty($_POST['WpInfo']) && strlen($_POST['WpInfo']) != 14 && strlen($_POST['WpInfo']) != 15)
 	{
-
-		User::setErrorRegister("Digite um whatsapp válido!");
+		$res["msg"] = "Digite um whatsapp válido!";
+		echo json_encode($res);
 		exit;
-
 	}
 
 	$user = new User();
@@ -194,15 +206,21 @@ $app->post("/loja-{store}/account/data/", function(Request $request, Response $r
 		'wpUser' => $_POST['WpInfo']
 	]);
 	
-	$res = $user->update();
-
-	if($res)
+	$update = $user->update();
+		
+	if($update)
 	{
-		User::setSuccessMsg("Dados Atualizados com Sucesso.");
+
+		$res = [
+			"msg" => "Dados Atualizados com Sucesso.",
+			"status" => 1
+		];
+
 	} else {
-		User::setErrorRegister("Nada Foi Atualizado!");
+		$res["msg"] = "Nada Foi Atualizado!";
 	}
 
+	echo json_encode($res);
 	exit;
 
 });
@@ -232,16 +250,20 @@ $app->post("/loja-{store}/account/data/password/", function(Request $request, Re
 
 	Store::verifyStore($args["store"]);
 
+	$res = ['status' => 0, 'msg' => 'ERRO CRÍTICO'];
+
 	if(isset($_POST['PassInfo']) && empty($_POST['PassInfo']))
 	{
 
-		User::setErrorRegister("Digite sua senha atual!");
+		$res["msg"] = "Digite sua senha atual!";
+		echo json_encode($res);
 		exit;
 
 	} else if(User::verifyPass($_POST['PassInfo']) === false)
 	{
 
-		User::setErrorRegister("Senha Atual Inválida!");
+		$res["msg"] = "Senha Atual Inválida!";
+		echo json_encode($res);
 		exit;
 
 	}
@@ -249,13 +271,15 @@ $app->post("/loja-{store}/account/data/password/", function(Request $request, Re
 	if(isset($_POST['PassNewInfo']) && empty($_POST['PassNewInfo']))
 	{
 
-		User::setErrorRegister("Digite uma nova senha!");
+		$res["msg"] = "Digite uma nova senha!";
+		echo json_encode($res);
 		exit;
 
 	} else if($_POST['PassNewInfo'] == $_POST['PassInfo'])
 	{
 
-		User::setErrorRegister("Nova senha não pode ser igual a sua atual!");
+		$res["msg"] = "Nova senha não pode ser igual a sua atual!";
+		echo json_encode($res);
 		exit;
 
 	}
@@ -263,26 +287,33 @@ $app->post("/loja-{store}/account/data/password/", function(Request $request, Re
 	if(isset($_POST['PassNewCfInfo']) && empty($_POST['PassNewCfInfo']))
 	{
 		
-		User::setErrorRegister("Confirme sua nova senha!");
+		$res["msg"] = "Confirme sua nova senha!";
+		echo json_encode($res);
 		exit;
 		
 	} else if($_POST['PassNewCfInfo'] != $_POST['PassNewInfo']) {
 
-		User::setErrorRegister("Nova senha não é igual a senha a baixo!");
+		$res["msg"] = "Nova senha não é igual a senha a baixo!";
+		echo json_encode($res);
 		exit;
 
 	}
 
-	$res = User::alterPass($_POST['PassNewCfInfo']);
+	$alter = User::alterPass($_POST['PassNewCfInfo']);
 
-	if(User::alterPass($_POST['PassNewCfInfo']))
+	if($alter)
 	{
-		User::setSuccessMsg("Senha alterada com sucesso!.");
+		
+		$res = [
+			"msg" => "Senha alterada com sucesso!",
+			"status" => 1
+		];
+		
 	} else{
-		User::setErrorRegister("Falha ao alterar a senha! Tente novamente mais tarde, se persistir o erro contatar o suporte do site!");
+		$res["msg"] = "Falha ao alterar a senha! Tente novamente mais tarde, se persistir o erro contatar o suporte do site!";
 	}
 
-	var_dump($res);
+	echo json_encode($res);
 	exit;
 
 });
@@ -324,16 +355,23 @@ $app->post("/loja-{store}/account/address/delete/", function(Request $request, R
 
 	Store::verifyStore($args["store"]);
 
-	$res = Address::deleteAddress($_POST['adCode']);
+	$res = ['status' => 0, 'msg' => 'ERRO CRÍTICO'];
 
-	if($res)
+	$delete = Address::deleteAddress($_POST['adCode']);
+
+	if($delete)
 	{
-		User::setSuccessMsg("Endereço Apagado Com Successo!");
+
+		$res = [
+			"msg" => "Endereço Apagado Com Successo!",
+			"status" => 1
+		];
+			
 	} else {
-		User::setErrorRegister("Erro no servidor, favor atualizar a página!");
+		$res["msg"] = "Erro no servidor, favor atualizar a página!";
 	}
 
-	echo $res ? 1 : 0;
+	echo json_encode($res);
 	exit;
 
 });	
@@ -342,9 +380,12 @@ $app->post("/loja-{store}/account/address/", function(Request $request, Response
 
 	Store::verifyStore($args["store"]);
 
+	$res = ['status' => 0, 'msg' => 'ERRO CRÍTICO'];
+
 	if(!isset($_POST['type']) || isset($_POST['type']) && $_POST['type'] <= 0 || isset($_POST['type']) && empty($_POST['type']))
 	{
-		User::setErrorRegister("Erro no servidor, favor atualizar a página!");
+		$res["msg"] = "Erro no servidor, favor atualizar a página!";
+		echo json_encode($res);
 		exit;
 	}
 	
@@ -361,47 +402,62 @@ $app->post("/loja-{store}/account/address/", function(Request $request, Response
 		
 		if(is_array($ad) && count($ad) == 4)
 		{
-			User::setErrorRegister("Você não pode cadastrar mais de 4 endereços!");
+			$res["msg"] = "Você não pode cadastrar mais de 4 endereços!";
+			echo json_encode($res);
 			exit;
 		}
 
 		if(isset($_POST['cityAddress']) && $_POST['cityAddress'] == 0 && strlen($_POST['cityAddress']) == 1 || isset($_POST['cityAddress']) && strstr($_POST['cityAddress'], '_') == false || !isset($_POST['cityAddress']))
 		{
-			User::setErrorRegister("Selecione uma cidade!");
+			
+			$res["msg"] = "Selecione uma cidade!";
+			echo json_encode($res);
 			exit;
+
 		} else if(Store::listCities($_POST['cityAddress']) == 0)
 		{
-			User::setErrorRegister("Erro Critico, atualize a página!");
+			
+			$res["msg"] = "Erro Critico, atualize a página!";
+			echo json_encode($res);
 			exit;
+			
 		} else {
 			$array = Store::listCities($_POST['cityAddress']);
 		}
 
 		if(isset($_POST['cepAddress']) && empty($_POST['cepAddress']) || !isset($_POST['cepAddress']))
 		{
-			User::setErrorRegister("Digite seu CEP!");
+			
+			$res["msg"] = "Digite seu CEP!";
+			echo json_encode($res);
 			exit;
+
 		} else if(isset($_POST['cepAddress']) && strlen($_POST['cepAddress']) < 9){
 
-			User::setErrorRegister("CEP incompleto!");
+			$res["msg"] = "CEP incompleto!";
+			echo json_encode($res);
 			exit;
+
 		}
 
 		if(isset($_POST['districtAddress']) && empty($_POST['districtAddress']) || !isset($_POST['districtAddress']))
 		{
-			User::setErrorRegister("Digite seu bairro!");
+			$res["msg"] = "Digite seu bairro!";
+			echo json_encode($res);
 			exit;
 		}
 
 		if(isset($_POST['streetAddress']) && empty($_POST['streetAddress']) || !isset($_POST['streetAddress']))
 		{
-			User::setErrorRegister("Digite sua rua!");
+			$res["msg"] = "Digite sua rua!";
+			echo json_encode($res);
 			exit;
 		}
 
 		if(isset($_POST['numberAddress']) && empty($_POST['numberAddress']) || !isset($_POST['numberAddress']) )
 		{
-			User::setErrorRegister("Digite o número da sua residência/empresa!");
+			$res["msg"] = "Digite o número da sua residência/empresa!";
+			echo json_encode($res);
 			exit;
 		}
 
@@ -423,30 +479,16 @@ $app->post("/loja-{store}/account/address/", function(Request $request, Response
 		'code' => isset($_POST['cityAddress']) && strlen($_POST['cityAddress']) > 1 && strstr($_POST['cityAddress'], "_") != false ? $_POST['cityAddress'] : 0
 	]);
 
-	$data = [
-		"idAddress" => $address->getidAddress(),
-		"cep" => $address->getcep(),
-		"district" => $address->getdistrict(),
-		"street" => $address->getstreet(),
-		"number" => $address->getnumber(),
-		"complement" => $address->getcomplement(),
-		"reference" => $address->getreference(),
-		"mainAddress" => $address->getmainAddress(),
-		"city" => $address->getcity(),
-		"uf" => $address->getuf(),
-		"code" => $address->getcode()
-	];
-
 	switch ($_POST['type']) {
 		
 		case 1:
-			$res = $address->save();	
-			$msg = $res ? "Endereço Inserido com Sucesso!" : "Nada Foi Inserido!";
+			$addr = $address->save();	
+			$res['msg'] = $addr !== false ? "Endereço Inserido com Sucesso!" : "Nada Foi Inserido!";
 		break;
 
 		case 2:
-			$res = $address->update();
-			$msg = $res ? "Endereço Atualizado com Sucesso!" : "Nada Foi Atualizado!";
+			$addr = $address->update();
+			$res['msg'] = $addr !== false ? "Endereço Atualizado com Sucesso!" : "Nada Foi Atualizado!";
 		break;
 
 		/*case 3:
@@ -455,20 +497,19 @@ $app->post("/loja-{store}/account/address/", function(Request $request, Response
 		break;*/
 
 		default:
-			User::setErrorRegister("Erro no servidor, favor atualizar a página!");
+			$res["msg"] = "Erro no servidor, favor atualizar a página!";
+			echo json_encode($res);
 			exit;
 		break;
 
 	}
 	
-	if($res)
+	if($addr)
 	{
-		User::setSuccessMsg($msg);
-	} else {
-		User::setErrorRegister($msg);
-	}
+		$res['status'] = 1;
+	} 
 
-	echo intval($res);
+	echo json_encode($res);
 	exit;
 
 });

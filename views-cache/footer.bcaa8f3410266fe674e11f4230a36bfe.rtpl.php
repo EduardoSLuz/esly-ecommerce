@@ -193,7 +193,10 @@
       $('.my-colorLy20 .colorsLyFooter20').css('color', event.color.toString());
     });
     
-    
+    $(function () {
+        $('[data-toggle="popover"]').popover();
+        $('[data-toggle="tooltip"]').tooltip();
+    })
 
     $("#jsGrid1").jsGrid({
         height: "100%",
@@ -214,5 +217,6 @@
     });
   });
 </script>
+
 </body>
 </html>

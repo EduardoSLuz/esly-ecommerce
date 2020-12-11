@@ -33,20 +33,8 @@
 
 					<hr>
 
-					<div id="alertCheckoutHorary">
-						
-						<?php if( $errorRegister != '' ){ ?>
-						<div class="alert alert-danger alert-dismissible fade show text-left" role="alert">
-							
-							<span><?php echo htmlspecialchars( $errorRegister, ENT_COMPAT, 'UTF-8', FALSE ); ?></span>
-							
-							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-
-						</div>
-						<?php } ?>
-
+					<div id="alertCheckoutHorary" class='alert alert-dismissible fade d-none text-left' role="alert">
+						<span class="msgAlert">Msg</span>
 					</div>
 
 					<p class="h5 my-4 font-weight-normal text-second-site-section">Agendo o Horário de <?php if( $order["type"] == 1 ){ ?>Retirada<?php }else{ ?>Entrega<?php } ?>:</p>
@@ -115,12 +103,20 @@
 
 						<div class="row my-4">
 							
-							<div class="col-6">
+							<div class="col-lg-6 col-3">
 								<a href='<?php if( $order["type"] == 1 ){ ?>/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/checkout/delivery-pickup/<?php }else{ ?>/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/checkout/address/<?php } ?>' class="btn btn-sm btn-light border border-dark"><i class="fas fa-arrow-left"></i> <b class="d-mobile font-weight-normal"><?php if( $order["type"] == 1 ){ ?>Voltar a Entregar ou Retirar<?php }else{ ?>Voltar a Endereço de Entrega<?php } ?></b></a>
 							</div>
+	
+							<div class="col-lg-6 col-9 text-right">
+								
+								<div id="overlayCheckoutHorary" class="btn d-none">
+									<div class="overlay d-flex justify-content-center align-items-center">
+										<i class="fas fa-1x fa-sync fa-spin"></i>
+									</div>
+								</div>
 
-							<div class="col-6 text-right">
 								<button type="submit" class="btn btn-sm btn-main-site-section text-btn-site-section">Continuar <i class="fas fa-arrow-right"></i></a>
+							
 							</div>
 
 						</div>

@@ -56,7 +56,8 @@
 						<?php if( $value1["page"] == $dep["page"] && $value1["stock"] > 0 ){ ?>
 						<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 mb-4">
 
-							<div class="card h-100">
+							<div id="card<?php echo htmlspecialchars( $value1["codProduct"], ENT_COMPAT, 'UTF-8', FALSE ); ?><?php echo htmlspecialchars( $key1, ENT_COMPAT, 'UTF-8', FALSE ); ?>"  class="card h-100">
+							<?php $nameCard = $value1["codProduct"]."$key1"; ?>
 							  
 							  	<div class="d-flex flex-row-reverse">
 									
@@ -80,32 +81,37 @@
 
 								  	<p class="btn-group btn-group-toggle m-0" data-toggle="buttons">
 
-									  	<label class="bg-light border px-2 rounded-pill tx-IconCart">
-										  <?php echo htmlspecialchars( $value1["unit"], ENT_COMPAT, 'UTF-8', FALSE ); ?>
-									  	</label>
-								 	 </p>	
+										<?php if( isset($value1["unitsMeasures"]) && is_array($value1["unitsMeasures"]) && count($value1["unitsMeasures"]) > 0 ){ ?>
+										<?php $codePro = $value1["codProduct"]; ?>
+										<?php $counter2=-1;  if( isset($value1["unitsMeasures"]) && ( is_array($value1["unitsMeasures"]) || $value1["unitsMeasures"] instanceof Traversable ) && sizeof($value1["unitsMeasures"]) ) foreach( $value1["unitsMeasures"] as $key2 => $value2 ){ $counter2++; ?>
+										<label class='btn btn-light border btn-sm py-0 mr-1 rounded-pill altUnitMeasure' data-store="<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>" data-id="<?php echo htmlspecialchars( $codePro, ENT_COMPAT, 'UTF-8', FALSE ); ?>" data-cod="<?php echo htmlspecialchars( $key2, ENT_COMPAT, 'UTF-8', FALSE ); ?>" data-dad="<?php echo htmlspecialchars( $nameCard, ENT_COMPAT, 'UTF-8', FALSE ); ?>">
+											<input type="radio" <?php if( $key2 == 0 ){ ?>checked<?php } ?>> <?php echo htmlspecialchars( $value2["name"], ENT_COMPAT, 'UTF-8', FALSE ); ?>
+										</label>
+										<?php } ?>
+										<?php } ?>	
 
-								  	<p class="py-1">
-										 
-										<a class="text-dark font-weight-bold">	
-										  	<?php if( $value1["pricePromo"] > 0 && $value1["pricePromo"] != $value1["price"] ){ ?>
-										  
-										  	<a class="h6">
-											  <s class="card-ColorPromoPrice">R$<?php echo number_format($value1["price"], 2, ',', '.'); ?></s>
-										  	</a>
-										  	<span>R$</span><a class="h3"><?php echo strstr(number_format($value1["pricePromo"], 2, ',', '.'), ',', true); ?></a><a class="h6"><?php echo strstr(number_format($value1["pricePromo"], 2, ',', '.'), ','); ?></a>	
-										  
-										  	<?php }else{ ?>
+									</p>	
 
-										  	<span>R$</span><a class="h3"><?php echo strstr(number_format($value1["price"], 2, ',', '.'), ',', true); ?></a><a class="h6"><?php echo strstr(number_format($value1["price"], 2, ',', '.'), ','); ?></a>
-
-										  	<?php } ?>
-									  	</a>
-								  	</p>
-							  
+								  	<p class="font-weigth-bold py-1">
+												
+										<?php if( $value1["pricePromo"] > 0 && $value1["pricePromo"] != $value1["price"] ){ ?>
+										
+										<a class="h6">
+											<s class="card-ColorPromoPrice">R$<?php echo maskPrice($value1["price"]); ?></s>
+										</a>
+										
+										<?php } ?>
+										
+										<a class="text-dark">
+											<b>R$</b>
+											<span class="h3 priceItemProduct"><?php echo maskPrice($value1["priceFinal"]); ?></span>
+										</a>	
+											
+									</p>
+						
 							  	</div>
 
-							  	<form id="formCardDiversos<?php echo htmlspecialchars( $value1["codProduct"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" class="formEnvia" data-id="<?php echo htmlspecialchars( $value1["codProduct"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" data-store="<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>">
+								<form id="formCard<?php echo htmlspecialchars( $value1["codProduct"], ENT_COMPAT, 'UTF-8', FALSE ); ?><?php echo htmlspecialchars( $key1, ENT_COMPAT, 'UTF-8', FALSE ); ?>" class="formEnvia" data-id="<?php echo htmlspecialchars( $value1["codProduct"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" data-store="<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>" data-type="0">
 						  
 								  	<div class="btn-group btn-group-justified w-100">
   

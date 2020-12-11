@@ -49,9 +49,9 @@ $('#modalMsgAlertLinks').on('show.bs.modal', function (e) {
 // Bar Add Item
 $('.formEnvia').on('submit', function(e) {
 
-    let form = $(this);
     var id = $(this).attr("data-id");
     var store = $(this).attr("data-store");
+    var type = $(this).attr("data-type");
     var url = `/loja-${store}/checkout/cart/product/${id}/add/`;
     var qtd = this.inputCardDiversos.value;
 
@@ -60,6 +60,7 @@ $('.formEnvia').on('submit', function(e) {
     var dados = new FormData();
 
     dados.append("qtd", qtd); 
+    dados.append("type", type); 
 
     $.ajax({
         url: url,
@@ -71,7 +72,7 @@ $('.formEnvia').on('submit', function(e) {
 
         let json = JSON.parse(response);
         
-        if(json != "undefined")
+        if(json != undefined)
         {
 
             $("#alertBoxCartNot").removeClass("d-none"); 
@@ -90,10 +91,44 @@ $('.formEnvia').on('submit', function(e) {
 
 });
 
-function msgAlert(alert, msg, type = 1, time = 2000)
+$(".altUnitMeasure").on('click', function(e){
+
+    let store = $(this).attr("data-store");
+    let id = $(this).attr("data-id");
+    let cod = $(this).attr("data-cod");
+    let card = $(this).attr("data-dad");
+    let url = `/loja-${store}/select-product-unit/`;
+    let dados = `id=${id}&cod=${cod}`;
+
+    $.ajax({
+        url: url,
+        method: "POST",
+        data: dados
+    }).done(function(response){
+
+        let json = JSON.parse(response);
+
+        if(json !== undefined)
+        {
+            $(`#card${card} .priceItemProduct`).text(json.price);                
+            $(`#formCard${card}`).attr("data-type", cod);                
+        }
+
+        if(cod == 0)
+        {
+            $(`#card${card} .card-ColorPromoPrice`).removeClass("d-none");                
+        } else {
+            $(`#card${card} .card-ColorPromoPrice`).addClass("d-none");                
+        }
+
+    })
+
+});
+
+function msgAlert(alert, msg, type = 1, time = 2000, fixed = 0)
 {
 
-    if($(alert).val() !== "undefined")
+    if($(alert).val() !== undefined)
     {
 
         if(type == 1){
@@ -108,10 +143,35 @@ function msgAlert(alert, msg, type = 1, time = 2000)
 
         $(alert).removeClass("d-none");
         $(alert).addClass("show");
-        setTimeout( function(){ 
-            $(alert).removeClass("show");
-            $(alert).addClass("d-none");
-        } , time);
+        
+        if(fixed == 0)
+        {
+            setTimeout( function(){ 
+                $(alert).removeClass("show");
+                $(alert).addClass("d-none");
+            } , time); 
+        } else {
+            $(".msgAlertClose").removeClass("d-none");
+        }
+
     }
     
 }
+
+$(function () {
+
+    if($(".msgAlertNow").attr("id") !== undefined)
+    {
+    
+        let id = $(".msgAlertNow").attr("id");
+        let sts = $(".msgAlertNow").attr("data-status");
+        let msg = $(".msgAlertNow").attr("data-msg");
+        let time = $(".msgAlertNow").attr("data-time");
+
+        msgAlert(`#${id}`, msg, sts, time);
+        
+        $(".msgAlertNow").removeClass("msgAlertNow");
+    
+    }
+    
+})

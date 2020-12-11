@@ -22,34 +22,11 @@
 				<div class="col-md">
 					
 					<p class="h4 font-weight-normal text-second-site-section">Alterar minha senha</p>
+					
 					<hr>
 
-					<div id="alertsAccountDataPassword">
-						
-						<?php if( $errorRegister != '' ){ ?>
-						<div class="alert alert-danger alert-dismissible fade show text-left" role="alert">
-							
-							<span><?php echo htmlspecialchars( $errorRegister, ENT_COMPAT, 'UTF-8', FALSE ); ?></span>
-							
-							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-
-						</div>
-						<?php } ?>
-
-						<?php if( $successMsg != '' ){ ?>	
-						<div class="alert alert-success alert-dismissible fade show text-left" role="alert">
-								
-							<span><?php echo htmlspecialchars( $successMsg, ENT_COMPAT, 'UTF-8', FALSE ); ?></span>
-							
-							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-
-						</div>
-						<?php } ?>
-
+					<div id="alertsAccountDataPassword" class="alert alert-success alert-dismissible fade d-none text-left" role="alert">
+						<span class="msgAlert">Msg</span>
 					</div>
 					
 					<form id="formAccountDataPassword" class="formAccountDataPassword" method="POST" data-store="<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>">

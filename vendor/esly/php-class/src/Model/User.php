@@ -324,7 +324,7 @@ class User extends Model {
 
 		$link = "http://".$_SERVER['HTTP_HOST']."/loja-".$store."/login/forgot-password/reset/?code=$code";
 
-		$st = Store::listAll($store);
+		$st = Store::listStores($store);
 
 		$mailer = new Mailer($email, $data['nameUser'], "Redefinir Senha - ".utf8_decode($st[0]['nameStore'])." E-Commerce", "forgot", array(
 			"name" => $data['nameUser'],
@@ -336,8 +336,8 @@ class User extends Model {
 				"HTTP" => $_SERVER['HTTP_HOST'],
 				"social" => Store::listInfoSocial()
 			]
-		), utf8_decode($st[0]['nameStore']));				
-
+		), utf8_decode($st[0]['nameStore']));	
+		
 		$res = $mailer->send();
 		
 		return $res;

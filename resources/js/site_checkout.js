@@ -24,7 +24,7 @@ $('.formUpdateItem').on('submit', function(e) {
         
         let json = JSON.parse(response);
         
-        if(json != "undefined")
+        if(json != undefined)
         {
 
             if(json.status == 1)
@@ -35,7 +35,7 @@ $('.formUpdateItem').on('submit', function(e) {
                 $("#cartTotal").load( `/loja-${store}/checkout/cart/ #cartTotal` );
                 $("#dropdownBootstrap").load( `/loja-${store}/ #dropdownBootstrap` );
 
-            } else if (json.number !== 'undefined'){
+            } else if (json.number !== undefined){
                 $(`#inputCart${id}`).val(json.number);
             }
 
@@ -111,7 +111,7 @@ $('.checkSimilar').on('click', function(e) {
         
         let json = JSON.parse(response);
         
-        if(json != "undefined")
+        if(json != undefined)
         {
 
             if(json.status == 1)
@@ -203,14 +203,21 @@ $('.modalFormAccountData').on('submit', function(e) {
         data: dados
     }).done(function(response){
         
-        $("#alertModalAccountData").load( "/loja-"+store+"/checkout/cart/ #alertModalAccountData > *");
-        setTimeout( function(){ 
-            $("#alertModalAccountData").load( "/loja-"+store+"/checkout/cart/ #alertModalAccountData > *"); 
-            if(response == 1)
+        let json = JSON.parse(response);
+        
+        if(json != undefined)
+        {   
+
+            msgAlert("#alertModalAccountData", json.msg, json.status, 1500);
+
+            if(json.status == 1)
             {
-                window.location.href = "/loja-"+store+"/checkout/delivery-pickup/";
+                setTimeout( function(){ 
+                    window.location.href = "/loja-"+store+"/checkout/delivery-pickup/";
+                } , 1500);
             }
-        } , 2000);
+
+        } 
 
     })
 
@@ -227,27 +234,40 @@ $('.formCheckoutPrime').on('submit', function(e) {
     var dados = $(this).serialize();
     //dados = dados + "&type=" + type + "&id=" + id + "&day=" + day;
 
+    $("#overlayCheckoutPrime").removeClass("d-none");
+
     $.ajax({
         url: url,
         method: "POST",
         data: dados
     }).done(function(response){
         
-        $("#alertCheckoutPrime").load( "/loja-"+store+"/checkout/delivery-pickup/ #alertCheckoutPrime > *");
-        setTimeout( function(){ 
-            $("#alertCheckoutPrime").load( "/loja-"+store+"/checkout/delivery-pickup/ #alertCheckoutPrime > *"); 
-        } , 2000);
+        let json = JSON.parse(response);
+        
+        if(json != undefined)
+        {   
 
-        if(response == 1)
-        {
-            window.location.href = "/loja-"+store+"/checkout/horary/";
-        } else if(response == 2) {
-            window.location.href = "/loja-"+store+"/checkout/address/";
-        } else if(response == 0 && response != ""){
-            window.location.reload();
-        }
+            if(json.status === 0) msgAlert("#alertCheckoutPrime", json.msg, json.status, 1500);
 
-    })
+            if(json.options != undefined)
+            {
+                    
+                if(json.options === 1)
+                {
+                    window.location.href = "/loja-"+store+"/checkout/horary/";
+                } else if(json.options === 2) {
+                    window.location.href = "/loja-"+store+"/checkout/address/";
+                } else if(json.options === 0){
+                    window.location.reload();
+                }
+
+            }
+
+        } 
+
+    }).always(function(){
+        $("#overlayCheckoutPrime").addClass("d-none");
+    });
 
 });
 
@@ -264,6 +284,8 @@ $('.formCheckoutAddress').on('submit', function(e) {
     
     var dados = $(this).serialize();
     dados = dados + "&price=" + price;
+    
+    $("#overlayCheckoutAddress").removeClass('d-none');
 
     $.ajax({
         url: url,
@@ -271,19 +293,30 @@ $('.formCheckoutAddress').on('submit', function(e) {
         data: dados
     }).done(function(response){
         
-        $("#alertCheckoutAddress").load( "/loja-"+store+"/checkout/address/ #alertCheckoutAddress > *");
-        setTimeout( function(){ 
-            $("#alertCheckoutAddress").load( "/loja-"+store+"/checkout/address/ #alertCheckoutAddress > *"); 
-        } , 2000);
+        let json = JSON.parse(response);
+        
+        if(json != undefined)
+        {   
 
-        if(response == 1)
-        {
-            window.location.href = "/loja-"+store+"/checkout/horary/";
-        } else if(response == 0 && response != ""){
-            window.location.reload();
-        }
+            if(json.status === 0) msgAlert("#alertCheckoutAddress", json.msg, json.status, 1500);
 
-    })
+            if(json.options != undefined)
+            {
+                    
+                if(json.options === 1)
+                {
+                    window.location.href = "/loja-"+store+"/checkout/horary/";
+                } else {
+                    window.location.reload();
+                } 
+
+            }
+
+        } 
+
+    }).always(function(){
+        $("#overlayCheckoutAddress").addClass('d-none');
+    });
 
 });
 
@@ -303,25 +336,38 @@ $('.formCheckoutHorary').on('submit', function(e) {
 
     dados = dados + "&init=" + init + "&final=" + final + "&price=" + price + "&id=" + id + "&type=" + type;
     
+    $("#overlayCheckoutHorary").removeClass('d-none');
+
     $.ajax({
         url: url,
         method: "POST",
         data: dados
     }).done(function(response){
+
+        let json = JSON.parse(response);
         
-        $("#alertCheckoutHorary").load( "/loja-"+store+"/checkout/horary/ #alertCheckoutHorary > *");
-        setTimeout( function(){ 
-            $("#alertCheckoutHorary").load( "/loja-"+store+"/checkout/horary/ #alertCheckoutHorary > *"); 
-        } , 2000);
+        if(json != undefined)
+        {   
 
-        if(response == 1)
-        {
-            window.location.href = "/loja-"+store+"/checkout/payment/";
-        } else if(response == 0 && response != ""){
-            window.location.reload();
-        }
+            if(json.status === 0) msgAlert("#alertCheckoutHorary", json.msg, json.status, 1500);
 
-    })
+            if(json.options != undefined)
+            {
+                    
+                if(json.options === 1)
+                {
+                    window.location.href = "/loja-"+store+"/checkout/payment/";
+                } else {
+                    window.location.reload();
+                } 
+
+            }
+
+        } 
+
+    }).always(function(){
+        $("#overlayCheckoutHorary").addClass('d-none');
+    });
 
 });
 
@@ -334,25 +380,38 @@ $('.formCheckoutPayment').on('submit', function(e) {
     var url = `/loja-${store}/checkout/payment/`;
     var dados = $(this).serialize();
 
+    $("#overlayCheckoutPayment").removeClass('d-none');
+
     $.ajax({
         url: url,
         method: "POST",
         data: dados
     }).done(function(response){
+
+        let json = JSON.parse(response);
         
-        $("#alertCheckoutPayment").load( "/loja-"+store+"/checkout/payment/ #alertCheckoutPayment > *");
-        setTimeout( function(){ 
-            $("#alertCheckoutPayment").load( "/loja-"+store+"/checkout/payment/ #alertCheckoutPayment > *"); 
-        } , 2000);
+        if(json != undefined)
+        {   
 
-        if(response == 1)
-        {
-            window.location.href = "/loja-"+store+"/checkout/resume/";
-        } else if(response == 0 && response != ""){
-            window.location.reload();
-        }
+            if(json.status === 0) msgAlert("#alertCheckoutPayment", json.msg, json.status, 1500);
 
-    })
+            if(json.options != undefined)
+            {
+                    
+                if(json.options === 1)
+                {
+                    window.location.href = "/loja-"+store+"/checkout/resume/";
+                } else {
+                    window.location.reload();
+                } 
+
+            }
+
+        } 
+
+    }).always(function(){
+        $("#overlayCheckoutPayment").addClass('d-none');
+    });
 
 });
 
@@ -365,18 +424,23 @@ $('.formObsProduct').on('submit', function(e) {
     var url = `/loja-${store}/checkout/resume/obs/`;
     var dados = $(this).serialize();
 
+    $("#overlayModalObsProduct").removeClass('d-none');
+    
     $.ajax({
         url: url,
         method: "POST",
         data: dados
     }).done(function(response){
         
-        $("#alertModalObsProduct").load( "/loja-"+store+"/checkout/resume/ #alertModalObsProduct > *");
-        setTimeout( function(){ 
-            $("#alertModalObsProduct").load( "/loja-"+store+"/checkout/resume/ #alertModalObsProduct > *"); 
-        } , 1000);
-
-    })
+        let json = JSON.parse(response);
+        
+        if(json != undefined)
+        {   
+            msgAlert("#alertModalObsProduct", json.msg, json.status, 2000);
+        }
+    }).always(function(){
+        $("#overlayModalObsProduct").addClass('d-none');
+    });
 
 });
 
@@ -389,25 +453,42 @@ $('.formCheckoutResume').on('submit', function(e) {
     var url = `/loja-${store}/checkout/resume/`;
     var dados = $(this).serialize();
 
+    $("#overlayCheckoutResume").removeClass('d-none');
+
     $.ajax({
         url: url,
         method: "POST",
         data: dados
     }).done(function(response){
+
+        console.log(response);
+
+        let json = JSON.parse(response);
         
-        $("#alertCheckoutResume").load( "/loja-"+store+"/checkout/resume/ #alertCheckoutResume > *");
-        setTimeout( function(){ 
-            $("#alertCheckoutResume").load( "/loja-"+store+"/checkout/resume/ #alertCheckoutResume > *"); 
-        } , 2000);
+        if(json != undefined)
+        {   
 
-        if(response == 1)
-        {
-            window.location.href = "/loja-"+store+"/account/requests/";
-        } else if(response == 0 && response != ""){
-            window.location.reload();
-        }
+            if(json.status === 0) msgAlert("#alertCheckoutResume", json.msg, json.status, 2000);
 
-    })
+            if(json.options != undefined)
+            {
+                    
+                if(json.options === 1)
+                {
+                    window.location.href = "/loja-"+store+"/account/requests/";
+                } else {
+                    setTimeout( function(){ 
+                        window.location.reload();
+                    } , 2000); 
+                } 
+
+            }
+
+        } 
+
+    }).always(function(){
+        $("#overlayCheckoutResume").addClass('d-none');
+    });
 
 });
 

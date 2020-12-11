@@ -96,82 +96,85 @@
 							{if="$value.price > 0 && $key < 12 && $value.stock > 0"}
 							<div class="owl-item text-center">
 								
-								<a class="text-decoration-none" href="/loja-{$ID}/product/{$value.description}/">
-									
-									<div id="card{$value.departament}{$key}" class="card card-Carousel border">
-								  
-										<img src="{$value.image}" class="img-fluid rounded mx-auto d-block card-ImgRes" alt="{$value.description}">
+								<div id="card{$value.codProduct}{$key}" class="card card-Carousel border">
+									{$nameCard = $value.codProduct."$key"}
+									<img src="{$value.image}" class="img-fluid rounded mx-auto d-block card-ImgRes cursorPointer" alt="{$value.description}" onclick="window.location.assign('/loja-{$ID}/product/{$value.description}/')" >
 
-										{if="$value.pricePromo > 0"}
-										<div class="card-img-overlay text-right">
-											<label class="h6 btn-main-site-section text-btn-site-section">
-												<b>&nbsp;{function="porcenDif($value.price, $value.pricePromo)"}%&nbsp;</b>
-											</label>
-										</div>
-										{/if}
+									{if="$value.pricePromo > 0"}
+									<div class="card-img-overlay cursorPointer text-right" onclick="window.location.assign('/loja-{$ID}/product/{$value.description}/')" >
+										<label class="h6 btn-main-site-section text-btn-site-section">
+											<b>&nbsp;{function="porcenDif($value.price, $value.pricePromo)"}%&nbsp;</b>
+										</label>
+									</div>
+									{/if}
 
-										<div id="subCard{$value.departament}{$key}" class="card-body cardSub-Carousel cardSubT1-Carousel card-img-overlay p-0">
+									<div id="subCard{$value.departament}{$key}" class="card-body cardSub-Carousel cardSubT1-Carousel card-img-overlay p-0">
 
-											<div>
-												<p class="card-title font-weight-light text-uppercase text-second-site-section card-text m-0">
-													<b>{$value.description}</b>
-												</p>
+										<div>
+											
+											<p class="card-title font-weight-light text-uppercase text-second-site-section card-text m-0">
+												<b>{$value.description}</b>
+											</p>
 
 											<p class="btn-group btn-group-toggle m-0" data-toggle="buttons">
-
-												<label class="btn btn-light border btn-sm py-0 mr-1 rounded-pill">
-													<input id="btnCardPromoWeigth" type="radio"> {$value.unit}
-												</label>
-											</p>	
-
-												<p>
-													<a class="font-weight-bold">	
-														{if="$value.pricePromo > 0 && $value.pricePromo != $value.price"}
-														
-														<a class="h6">
-															<s class="card-ColorPromoPrice">R${function="number_format($value.price, 2, ',', '.')"}</s>
-														</a>
-														<span>R$</span><a class="h3">{function="strstr(number_format($value.pricePromo, 2, ',', '.'), ',', true)"}</a><a class="h6">{function="strstr(number_format($value.pricePromo, 2, ',', '.'), ',')"}</a>	
-														
-														{else}
-
-														<span>R$</span><a class="h3">{function="strstr(number_format($value.price, 2, ',', '.'), ',', true)"}</a><a class="h6">{function="strstr(number_format($value.price, 2, ',', '.'), ',')"}</a>
-
-														{/if}
-													</a>
-												</p>
-											</div>
-		
-										</div>
-										
-
-										<form id="formCard{$value.departament}{$key}" class="formEnvia mt-auto" data-id="{$value.codProduct}" data-store="{$ID}">
-						
-											<div class="btn-group btn-group-justified w-100">
-			
-												<button type="button" class="btn btn-sm btn-main-site-section text-btn-site-section bd-RdLeft" onClick="removeItem('inputCard{$value.departament}{$key}')">-</button>
-		
-												<input id="inputCard{$value.departament}{$key}" name="inputCardDiversos" type="number" class="w-25 text-center" value="1" readonly="true" max="{$value.stock}">
-		
-												<button type="button" class="btn btn-sm btn-main-site-section text-btn-site-section" onClick="addItem('inputCard{$value.departament}{$key}')">+</button>
 												
-												{if="isset($userValues.login) && $userValues.login == false"}
-												<button type="submit" class="btn btn-sm btn-cart-site-section text-btn-site-section bd-RdRight" data-toggle="modal" data-target="#modalMsgAlert" data-text="Deseja finalizar o pedido?" data-link="/loja-{$ID}/checkout/cart/" data-btn-text="Finalizar" data-btn-text2="Continuar comprando">
-													<i class="fas fa-shopping-cart"></i>
-												</button>
-												{else}
-												<button type="submit" class="btn btn-sm btn-cart-site-section text-btn-site-section bd-RdRight">
-													<i class="fas fa-shopping-cart"></i>
-												</button>
+												{if="isset($value.unitsMeasures) && is_array($value.unitsMeasures) && count($value.unitsMeasures) > 0"}
+												{$codePro = $value.codProduct}
+												{loop="$value.unitsMeasures"}
+												<label class='btn btn-light border btn-sm py-0 mr-1 rounded-pill altUnitMeasure' data-store="{$ID}" data-id="{$codePro}" data-cod="{$key}" data-dad="{$nameCard}">
+													<input type="radio" {if="$key == 0"}checked{/if}> {$value.name}
+												</label>
+												{/loop}
+												{/if}	
+
+											</p>
+
+											<p class="font-weigth-bold">
+												
+												{if="$value.pricePromo > 0 && $value.pricePromo != $value.price"}
+												
+												<a class="h6">
+													<s class="card-ColorPromoPrice">R${function="maskPrice($value.price)"}</s>
+												</a>
+												
 												{/if}
-		
-											</div>
-										
-										</form>
-										
+												
+												<a class="text-dark">
+													<b>R$</b>
+													<span class="h3 priceItemProduct">{function="maskPrice($value.priceFinal)"}</span>
+												</a>	
+													
+											</p>
+										</div>
+	
 									</div>
-								</a>
-								
+									
+
+									<form id="formCard{$value.codProduct}{$key}" class="formEnvia mt-auto" data-id="{$value.codProduct}" data-store="{$ID}" data-type="0">
+					
+										<div class="btn-group btn-group-justified w-100">
+		
+											<button type="button" class="btn btn-sm btn-main-site-section text-btn-site-section bd-RdLeft" onClick="removeItem('inputCard{$value.departament}{$key}')">-</button>
+	
+											<input id="inputCard{$value.departament}{$key}" name="inputCardDiversos" type="number" class="w-25 text-center" value="1" readonly="true" max="{$value.stock}" style="font-size: 11px;font-weight: bold;">
+	
+											<button type="button" class="btn btn-sm btn-main-site-section text-btn-site-section" onClick="addItem('inputCard{$value.departament}{$key}')">+</button>
+											
+											{if="isset($userValues.login) && $userValues.login == false"}
+											<button type="submit" class="btn btn-sm btn-cart-site-section text-btn-site-section bd-RdRight" data-toggle="modal" data-target="#modalMsgAlert" data-text="Deseja finalizar o pedido?" data-link="/loja-{$ID}/checkout/cart/" data-btn-text="Finalizar" data-btn-text2="Continuar comprando">
+												<i class="fas fa-shopping-cart"></i>
+											</button>
+											{else}
+											<button type="submit" class="btn btn-sm btn-cart-site-section text-btn-site-section bd-RdRight">
+												<i class="fas fa-shopping-cart"></i>
+											</button>
+											{/if}
+	
+										</div>
+									
+									</form>
+									
+								</div>
 							</div>
 							{/if}
 							{/loop}

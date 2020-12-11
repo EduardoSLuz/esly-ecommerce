@@ -17,44 +17,45 @@ $app->post("/loja-{store}/login/", function(Request $request, Response $response
 		
 	Store::verifyStore($args["store"]);
 
+	$res = ['status' => 0, 'msg' => 'ERRO CRÍTICO'];
+
 	if (!isset($_POST['emailUser']) || $_POST['emailUser'] == '')
 	{
-		
-		User::setErrorRegister("Digite seu e-mail!");
+		$res["msg"] = "Digite seu e-mail!";
+		echo json_encode($res);
 		exit;
-
 	}
 
 	if (!isset($_POST['passUser']) || $_POST['passUser'] == '')
 	{
-
-		User::setErrorRegister("Digite uma senha!");
+		$res["msg"] = "Digite uma senha!";
+		echo json_encode($res);
 		exit;
-
 	}
 
-	
 	$login = User::login($_POST['emailUser'], $_POST['passUser']);
 
 	if(is_string($login))
 	{
-
-		User::setErrorRegister($login);
+		$res["msg"] = $login;
+		echo json_encode($res);
 		exit;
-
 	}
 
 	if(isset($_POST['checkRemember']))
 	{
-		
 		User::saveLogin($_POST['emailUser']);
-		
 	}
 	
-	$url = Page::PageRedirect();
-	if(is_numeric($url))User::setSuccessMsg("Login feito com sucesso!");
+	$res = [
+		"msg" => "Login Feito com Sucesso",
+		"status" => 1
+	];
 	
-	echo !is_numeric($url) ? $url : 1;
+	$res['url'] = Page::PageRedirect();
+	$_SESSION[Page::SESSION]['msg'] = is_numeric($res['url']) ? "Login feito com sucesso!" : "Bora finalizar o pedido?";
+
+	echo json_encode($res);
 	exit;
 
 });
@@ -97,37 +98,45 @@ $app->post("/loja-{store}/login/forgot-password/", function(Request $request, Re
 
 	Store::verifyStore($args["store"]);
 	
+	$res = ['status' => 0, 'msg' => 'ERRO CRÍTICO', 'fixed' => 0];
+
 	if (!isset($_POST['emailUser']) || $_POST['emailUser'] == '')
 	{
 		
-		User::setErrorRegister("Digite seu e-mail!");
+		$res["msg"] = "Digite seu e-mail!";
+		echo json_encode($res);
 		exit;
 
 	} else if(User::verifyUser($_POST['emailUser'])) {
-
-		User::setErrorRegister("E-mail não cadastrado!");
+		
+		$res["msg"] = "E-mail não cadastrado!";
+		echo json_encode($res);
 		exit;
-
+	
 	}
 
 	if(User::reCaptcha($_POST["g-recaptcha-response"]) === false){
-
-		User::setErrorRegister("Confirme que você não é um robô!");
+		$res["msg"] = "Confirme que você não é um robô!";
+		echo json_encode($res);
 		exit;
-
 	}
 
-	$res = User::getForgot($_POST['emailUser'], $args['store']);
+	$forgot = User::getForgot($_POST['emailUser'], $args['store']);
 	
-	if($res != false)
+	if($forgot != false)
 	{
-		User::setSuccessMsg("Foi enviado um e-mail para sua caixa de entrada, nele você ira verificar como restaurar/mudar sua senha.");
-		echo 1;
+		
+		$res = [
+		 	'msg' => "Foi enviado um e-mail para sua caixa de entrada, nele você ira verificar como restaurar/mudar sua senha.",
+			'status' => 1,
+			'fixed' => 1
+		];
 
 	} else {
-		User::setErrorRegister("Ocorreu um erro ao mandar o e-mail, favor tentar novamente ou entre em contato com o suporte do site!");
+		$res["msg"] = "Ocorreu um erro ao mandar o e-mail, favor tentar novamente ou entre em contato com o suporte do site!";
 	}
 
+	echo json_encode($res);
 	exit;
 
 });
@@ -157,36 +166,45 @@ $app->post("/loja-{store}/login/forgot-password/reset/", function(Request $reque
 
 	Store::verifyStore($args["store"]);
 	
+	$res = ['status' => 0, 'msg' => 'ERRO CRÍTICO'];
+
 	if(isset($_POST['PassNewInfo']) && empty($_POST['PassNewInfo']))
 	{
-
-		User::setErrorRegister("Digite uma nova senha!");
+		$res["msg"] = "Digite uma nova senha!";
+		echo json_encode($res);
 		exit;
-
 	} 
 	
 	if(isset($_POST['PassNewCfInfo']) && empty($_POST['PassNewCfInfo']))
 	{
 		
-		User::setErrorRegister("Confirme sua nova senha!");
+		$res["msg"] = "Confirme sua nova senha!";
+		echo json_encode($res);
 		exit;
 		
 	} else if($_POST['PassNewCfInfo'] != $_POST['PassNewInfo']) {
 
-		User::setErrorRegister("Nova senha não é igual a senha a baixo!");
+		$res["msg"] = "Nova senha não é igual a senha a baixo!";
+		echo json_encode($res);
 		exit;
 
 	}
 	
 	if(User::alterPass($_POST['PassNewCfInfo'], $_SESSION['forgot']['emailUser']) == false || !isset($_SESSION['forgot']) )
 	{
-		User::setErrorRegister("Ocorreu um erro ao tentar atualizar sua senha! tente novamente mais tarde, se persistir favor entrar em contato com o suporte!");
-		exit;
+		
+		$res["msg"] = "Ocorreu um erro ao tentar atualizar sua senha! tente novamente mais tarde, se persistir favor entrar em contato com o suporte!";
+
 	} else {
-		User::setSuccessMsg("Senha alterada com sucesso! Agora é só fazer o login.");
+		
+		$res = [
+			"msg" => "Senha alterada com sucesso! Agora é só fazer o login.",
+			"status" => 1
+		];
+
 	}
 
-	echo 1;
+	echo json_encode($res);
 	exit;
 
 });
@@ -220,45 +238,47 @@ $app->post("/loja-{store}/register/", function(Request $request, Response $respo
 	
 	Store::verifyStore($args["store"]);
 
+	$res = ['status' => 0, 'msg' => 'ERRO CRÍTICO'];
+
 	if (!isset($_POST['emailUser']) || $_POST['emailUser'] == '')
 	{
-		
-		User::setErrorRegister("Digite seu e-mail!");
+
+		$res["msg"] = "Digite seu e-mail!";
+		echo json_encode($res);
 		exit;
 
 	} else if (!filter_var($_POST['emailUser'], FILTER_VALIDATE_EMAIL)){
 
-		User::setErrorRegister("Digite um e-mail válido!");
+		$res["msg"] = "Digite um e-mail válido!";
+		echo json_encode($res);
 		exit;
 
 	} else if (User::verifyUser($_POST['emailUser']) === false){
 
-		User::setErrorRegister("Ja existe um usário com esse e-mail!");
+		$res["msg"] = "Já existe um usário com esse e-mail!";
+		echo json_encode($res);
 		exit;
 
 	}
 
 	if (!isset($_POST['passUser']) || $_POST['passUser'] == '')
 	{
-
-		User::setErrorRegister("Digite uma senha!");
+		$res["msg"] = "Digite uma senha!";
+		echo json_encode($res);
 		exit;
-
 	}
 
 	if (!isset($_POST['passRepeatUser']) || $_POST['passRepeatUser'] == '' || $_POST['passUser'] != $_POST['passRepeatUser'])
 	{
-
-		User::setErrorRegister("Confirme sua senha!");
+		$res["msg"] = "Confirme sua senha!";
+		echo json_encode($res);
 		exit;
-
 	}
 
 	if(User::reCaptcha($_POST["g-recaptcha-response"]) === false){
-
-		User::setErrorRegister("Confirme que você não é um robô!");
+		$res["msg"] = "Confirme que você não é um robô!";
+		echo json_encode($res);
 		exit;
-
 	}
 
 	$user = new User();
@@ -270,24 +290,27 @@ $app->post("/loja-{store}/register/", function(Request $request, Response $respo
 	
 	if($user->save() === false)
 	{
-
-		User::setErrorRegister("Erro no cadastro, tente novamente! se persistir esse erro entre em contato com o suporte do site.");
+		$res["msg"] = "Erro no cadastro, tente novamente! se persistir esse erro entre em contato com o suporte do site.";
+		echo json_encode($res);
 		exit;
-
 	}
 
 	if(is_string(User::login($_POST['emailUser'], $_POST['passUser'])))
 	{
-
-		User::setErrorRegister("Ocorreu um erro crítico, favor entrar em contato com o suporte do site.");
+		$res["msg"] = "Ocorreu um erro crítico, favor entrar em contato com o suporte do site.";
+		echo json_encode($res);
 		exit;
-
 	}
 	
-	$url = Page::PageRedirect();
-	if(is_numeric($url))User::setSuccessMsg("Usuário Cadastrado com Sucesso.");
-	
-	echo !is_numeric($url) ? $url : 1;
+	$res = [
+		"msg" => "Registro Feito com Sucesso",
+		"status" => 1,
+		"url" => Page::PageRedirect()
+	];
+
+	$_SESSION[Page::SESSION]['msg'] = is_numeric($res['url']) ? "Registro Feito com Sucesso!" : "Bora Fazer um Pedido?";
+
+	echo json_encode($res);
 	exit;
 
 });

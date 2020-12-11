@@ -16,7 +16,7 @@ $('.formLoginMaster').on('submit', function(e) {
 
         let json = JSON.parse(response);
         
-        if(json != "undefined")
+        if(json != undefined)
         {
 
             msgAlert("#alertLoginMaster", json.msg, json.status, 1500);
@@ -41,7 +41,7 @@ $('.formLoginMaster').on('submit', function(e) {
 function msgAlert(alert, msg, type = 1, time = 2000)
 {
 
-    if($(alert).val() !== "undefined")
+    if($(alert).val() !== undefined)
     {
 
         if(type == 1){
