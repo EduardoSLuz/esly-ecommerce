@@ -1111,16 +1111,17 @@ $('.btnDeleteImages').on('click', function(e) {
 // Modal Products Config
 $('#modalProductsConfig').on('show.bs.modal', function (e) {
         
-    var button = $(e.relatedTarget); 
-    var type = button.data('type'); 
-    var id = button.data('id'); 
-    var store = button.data('store'); 
-    var src = button.data('src'); 
-    var name = button.data('name'); 
-    var unit = button.data('unit'); 
-    var price = button.data('price'); 
-    var free = button.data('free'); 
-    var modal = $(this);
+    let button = $(e.relatedTarget); 
+    let type = button.data('type'); 
+    let id = button.data('id'); 
+    let store = button.data('store'); 
+    let src = button.data('src'); 
+    let name = button.data('name'); 
+    let unit = button.data('unit'); 
+    let qtd = button.data('qtd'); 
+    let price = button.data('price'); 
+    let free = button.data('free'); 
+    let modal = $(this);
 
     if(src == "" || src == undefined) src = "/resources/imgs/logos/default.png";
 
@@ -1132,7 +1133,7 @@ $('#modalProductsConfig').on('show.bs.modal', function (e) {
     modal.find('#formModalProductConfig').attr("data-unit", 0);
     modal.find('#formModalProductConfig #imgProductLogo').attr("src", src);
     modal.find('#formModalProductConfig #inputUnitProduct').val(unit);
-    modal.find('#formModalProductConfig #inputValueStockProduct').val("1.000");
+    modal.find('#formModalProductConfig #inputValueStockProduct').val(qtd);
     modal.find('#formModalProductConfig #inputPriceProduct').val(price);
     modal.find('#formModalProductConfig #inputPriceProduct').attr('data-number', price);
 
@@ -1251,6 +1252,7 @@ $(document).on('click', '.btnListUnitProductsConfig', function(){
     let stock = $(this).attr('data-stock');
     let price = $(this).attr('data-price');
     let freeFill = $(this).attr('data-free-fill');
+    let autoUp = $(this).attr('data-auto-up');
 
     if(id >= 1)
     {
@@ -1258,11 +1260,13 @@ $(document).on('click', '.btnListUnitProductsConfig', function(){
         $("#modalProductsConfig #inputValueStockProduct").removeAttr('readonly');
         $("#modalProductsConfig #inputPriceProduct").removeAttr('readonly');
         $("#modalProductsConfig #divFreeFillProduct").addClass('d-none');
+        $("#modalProductsConfig #divAutomaticUpdateProduct").removeClass('d-none');
     } else {
         $("#modalProductsConfig #inputUnitProduct").attr('readonly', true);
         $("#modalProductsConfig #inputValueStockProduct").attr('readonly', true);
         $("#modalProductsConfig #inputPriceProduct").attr('readonly', true);
         $("#modalProductsConfig #divFreeFillProduct").removeClass('d-none');
+        $("#modalProductsConfig #divAutomaticUpdateProduct").addClass('d-none');
     }
 
     $("#modalProductsConfig #inputUnitProduct").val(name);
@@ -1275,6 +1279,13 @@ $(document).on('click', '.btnListUnitProductsConfig', function(){
         $("#modalProductsConfig #freeFillProduct").attr('checked', true);
     } else {
         $("#modalProductsConfig #freeFillProduct").removeAttr('checked');
+    }
+
+    if(autoUp == 1)
+    {
+        $("#modalProductsConfig #automaticUpdateProduct").attr('checked', true);
+    } else {
+        $("#modalProductsConfig #automaticUpdateProduct").removeAttr('checked');
     }
 
 });

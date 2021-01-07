@@ -6,8 +6,8 @@ class Temp {
 
 	const HOSTNAME = "127.0.0.1";
 	const DBNAME = "esly-ecommerce";
-	const USER = "esly_default";
-	const PASS = "26E10S19LpszyY01";
+	const USER = "esly_index";
+	const PASS = "baiacuecommerce7056";
 
 	private $conn;
 

@@ -96,13 +96,13 @@ $app->post("/admin/stores/{id}/register/", function(Request $request, Response $
 		exit;
 	}
 
-	if(isset($_POST['inputTelephone']) && strlen($_POST['inputTelephone']) != 15)
+	if(isset($_POST['inputTelephone']) && strlen($_POST['inputTelephone']) != 14 && strlen($_POST['inputTelephone']) != 15)
 	{
 		Store::setErrorRegister("Telefone Inválido!");
 		exit;
 	}
 
-	if(isset($_POST['inputWp']) && strlen($_POST['inputWp']) != 15)
+	if(isset($_POST['inputWp']) && strlen($_POST['inputWp']) != 14 && strlen($_POST['inputWp']) != 15)
 	{
 		Store::setErrorRegister("Whatsapp Inválido!");
 		exit;
@@ -134,8 +134,8 @@ $app->post("/admin/stores/{id}/register/", function(Request $request, Response $
 		'name' => isset($_POST['inputName']) && !empty($_POST['inputName']) ? $_POST['inputName'] : "",
 		'email' => isset($_POST['inputEmail']) && !empty($_POST['inputEmail']) ? $_POST['inputEmail'] : "",
 		'cnpj' => isset($_POST['inputCnpj']) && !empty($_POST['inputCnpj']) && strlen($_POST['inputCnpj']) == 18 ? $_POST['inputCnpj'] : "",
-		'tel' => isset($_POST['inputTelephone']) && !empty($_POST['inputTelephone']) && strlen($_POST['inputTelephone']) == 15 ? $_POST['inputTelephone'] : "", 
-		'wp' => isset($_POST['inputWp']) && !empty($_POST['inputWp']) && strlen($_POST['inputWp']) == 15 ? $_POST['inputWp'] : "",
+		'tel' => isset($_POST['inputTelephone']) && !empty($_POST['inputTelephone']) && strlen($_POST['inputTelephone']) >= 14 && strlen($_POST['inputTelephone']) <= 15 ? $_POST['inputTelephone'] : "", 
+		'wp' => isset($_POST['inputWp']) && !empty($_POST['inputWp']) && strlen($_POST['inputWp']) >= 14 && strlen($_POST['inputWp']) <= 15 ? $_POST['inputWp'] : "",
 		'status' => isset($_POST['inputStatus']) && is_numeric($_POST['inputStatus']) && $_POST['inputStatus'] >= 0 && $_POST['inputStatus'] <= 1 ? $_POST['inputStatus'] : 0,
 		'idAddress' => isset($ad) && is_numeric($ad) && $ad > 0 ? $ad : 0,
 		'cep' => isset($_POST['inputCep']) && !empty($_POST['inputCep']) && strlen($_POST['inputCep']) == 9 ? $_POST['inputCep'] : "",
@@ -175,7 +175,6 @@ $app->get("/admin/stores/{id}/register/", function(Request $request, Response $r
 	$admin->setTpl("stores-register", [
 		"errorRegister" => Store::getErrorRegister(),
         "successMsg"=> Store::getSuccessMsg(),
-		"state" => Store::listState(),
 		"store" => Store::listStores($args['id']),
 		"cities" => Store::listCities()
 	]);
@@ -1585,6 +1584,7 @@ $app->post("/admin/stores/{id}/products/config/", function(Request $request, Res
 
 	if($_POST['type'] == 1)
 	{
+		
 		if(isset($_FILES['inputImgProductLogo']))
 		{
 
@@ -1689,7 +1689,8 @@ $app->post("/admin/stores/{id}/products/config/", function(Request $request, Res
 					"name" => $_POST['inputAddMeasureProduct'],
 					"valueStock" => 1,
 					"price" => isset($pro['priceFinal']) ? $pro['priceFinal'] : 0,
-					"freeFill" => 0
+					"freeFill" => 0,
+					"automaticUpdate" => 0
 				];
 
 			}
@@ -1738,9 +1739,10 @@ $app->post("/admin/stores/{id}/products/config/", function(Request $request, Res
 
 				$pro['unitsMeasures'][$code[1]] = [
 					"name" => isset($_POST['inputUnitProduct']) && !empty($_POST['inputUnitProduct']) ? $_POST['inputUnitProduct'] : "",
-					"valueStock" => isset($_POST['inputValueStockProduct']) && is_numeric($_POST['inputValueStockProduct']) && $_POST['inputValueStockProduct'] > 0 ? $_POST['inputValueStockProduct'] : 0,
+					"valueStock" => isset($_POST['inputValueStockProduct']) && is_numeric($_POST['inputValueStockProduct']) && $_POST['inputValueStockProduct'] > 0 ? floatval($_POST['inputValueStockProduct']) : 0,
 					"price" => isset($_POST['inputPriceProduct']) && is_numeric($_POST['inputPriceProduct']) && $_POST['inputPriceProduct'] > 0 ? floatval($_POST['inputPriceProduct']) : 0,
-					"freeFill" => isset($_POST['freeFillProduct']) ? 1 : 0
+					"freeFill" => isset($_POST['freeFillProduct']) ? 1 : 0,
+					"automaticUpdate" => isset($_POST['automaticUpdateProduct']) ? 1 : 0
 				];
 
 				$update = Mercato::updateAllProducts(0, $args['id'], 'codProduct', $_POST['id'], 'unitsMeasures', $pro['unitsMeasures'], 1);
@@ -1859,6 +1861,8 @@ $app->get("/admin/orders/", function(Request $request, Response $response) {
 $app->post("/admin/orders/{id}/products/", function(Request $request, Response $response, $args) {
 	
 	$orders = Order::listOrders($args['id']);
+
+	exit;
 
 	if($orders == 0) header("Location: /admin/orders/");
 
@@ -2241,6 +2245,8 @@ $app->get("/admin/orders/{id}/", function(Request $request, Response $response, 
 
 	if($orders == 0) header("Location: /admin/orders/");
 
+	$listUnitsMeasures = isset($_GET['pro']) && is_numeric($_GET['pro']) && $_GET['pro'] > 0 ? Mercato::searchProductId($orders[0]['infoStore']['store'], $_GET['pro']) : 0;
+
 	$admin = new PageAdmin([
 		"login" => 2
 	]);
@@ -2251,6 +2257,7 @@ $app->get("/admin/orders/{id}/", function(Request $request, Response $response, 
 		"orders" => $orders,
 		"ordersStatus" => Order::listOrdersStatus(),
 		"products" => Mercato::listAllProducts($orders[0]['infoStore']['store']),
+		"listUnitsMeasures" => isset($listUnitsMeasures['unitsMeasures']) && count($listUnitsMeasures['unitsMeasures']) > 0 ? $listUnitsMeasures['unitsMeasures'] : 0,
 		"pays" => Store::listPay($orders[0]['idStore'], 1),
 		"horary" => Store::listHoraryStore($orders[0]['idStore'], 1, $types[$orders[0]['typeModality']]),
 		"promotions" => Store::listPromoAdmin()

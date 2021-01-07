@@ -82,12 +82,21 @@
 								  	<p class="btn-group btn-group-toggle m-0" data-toggle="buttons">
 
 										{if="isset($value.unitsMeasures) && is_array($value.unitsMeasures) && count($value.unitsMeasures) > 0"}
+										
 										{$codePro = $value.codProduct}
+										{$stockPro = $value.stock}
+										{$unitsMeasures = $value.unitsMeasures.0}
+
 										{loop="$value.unitsMeasures"}
-										<label class='btn btn-light border btn-sm py-0 mr-1 rounded-pill altUnitMeasure' data-store="{$ID}" data-id="{$codePro}" data-cod="{$key}" data-dad="{$nameCard}">
+										
+										{if="$value.valueStock <= $stockPro"}
+										<label class='btn btn-light border btn-sm py-0 mr-1 rounded-pill altUnitMeasure' data-store="{$ID}" data-id="{$codePro}" data-cod="{$key}" data-dad="{$nameCard}" {if="$key > 0"}data-toggle="tooltip" data-placement="top" title="É igual a {$value.valueStock} {$unitsMeasures.name}" data-boundary="window"{/if}>
 											<input type="radio" {if="$key == 0"}checked{/if}> {$value.name}
 										</label>
+										{/if}
+										
 										{/loop}
+										
 										{/if}	
 
 									</p>	
@@ -96,13 +105,13 @@
 												
 										{if="$value.pricePromo > 0 && $value.pricePromo != $value.price"}
 										
-										<a class="h6">
+										<a class="h6 text-decoration-none">
 											<s class="card-ColorPromoPrice">R${function="maskPrice($value.price)"}</s>
 										</a>
 										
 										{/if}
 										
-										<a class="text-dark">
+										<a class="text-dark text-decoration-none">
 											<b>R$</b>
 											<span class="h3 priceItemProduct">{function="maskPrice($value.priceFinal)"}</span>
 										</a>	
@@ -114,19 +123,19 @@
 								<form id="formCard{$value.codProduct}{$key}" class="formEnvia" data-id="{$value.codProduct}" data-store="{$ID}" data-type="0">
 						  
 								  	<div class="btn-group btn-group-justified w-100">
-  
-									  <button type="button" class="btn btn-sm btn-main-site-section text-btn-site-section" onClick="removeItem('inputCardDiversos{$value.codProduct}')">-</button>
+										
+										<button type="button" class="btn btn-sm btn-main-site-section text-btn-site-section" onClick="removeItem('inputCardDiversos{$value.codProduct}{$key}')"><i class="fas fa-minus"></i></button>
 
-									  <input id="inputCardDiversos{$value.codProduct}" name="inputCardDiversos" type="number" class="w-25 text-center" value="1" readonly="true" max="{$value.stock}">
+										<input id="inputCardDiversos{$value.codProduct}{$key}" name="inputCardDiversos" type='{if="isset($value.unitsMeasures.0.freeFill) && $value.unitsMeasures.0.freeFill == 1"}text{else}number{/if}' class="inputQtdCart text-center maskMoney2" value="1" max="{$value.stock}" style="font-size: 11px;font-weight: bold;width: 35%;" {if="isset($value.unitsMeasures.0.freeFill) && $value.unitsMeasures.0.freeFill == 0"}readonly="true"{/if}>
 
-									  <button type="button" class="btn btn-sm btn-main-site-section text-btn-site-section" onClick="addItem('inputCardDiversos{$value.codProduct}')">+</button>
-									  
-									  	{if="isset($userValues.login) && $userValues.login == false"}
-										<button type="submit" class="btn btn-sm btn-success" data-toggle="modal" data-target="#modalMsgAlert" data-text="Deseja finalizar o pedido?" data-link="/loja-{$ID}/checkout/cart/" data-btn-text="Finalizar" data-btn-text2="Continuar comprando">
+										<button type="button" class="btn btn-sm btn-main-site-section text-btn-site-section" onClick="addItem('inputCardDiversos{$value.codProduct}{$key}')"><i class="fas fa-plus"></i></button>
+										
+										{if="isset($userValues.login) && $userValues.login == false"}
+										<button type="submit" class="btn btn-sm btn-cart-site-section text-btn-site-section" data-toggle="modal" data-target="#modalMsgAlert" data-text="Deseja finalizar o pedido?" data-link="/loja-{$ID}/checkout/cart/" data-btn-text="Finalizar" data-btn-text2="Continuar comprando">
 											<i class="fas fa-shopping-cart"></i>
 										</button>
 										{else}
-										<button type="submit" class="btn btn-sm btn-cart-site-section text-btn-site-section btn-success">
+										<button type="submit" class="btn btn-sm btn-cart-site-section text-btn-site-section">
 											<i class="fas fa-shopping-cart"></i>
 										</button>
 										{/if}

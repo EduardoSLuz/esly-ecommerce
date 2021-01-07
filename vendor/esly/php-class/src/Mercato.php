@@ -305,44 +305,75 @@ class Mercato extends Model{
             {
 
                 $products = Mercato::listAllProducts($id);
+                $products = is_array($products) && count($products) > 0 ? $products : [];
 
                 foreach ($data as $key => $value) {
                    
                     $ct = 0;
                     
-                    foreach ($products as $kProduct => $vProduct) {
+                    $measures = [
+                        'name' => $value['unit'],
+                        'valueStock' => 1,
+                        'price' => $value['priceFinal'],
+                        'freeFill' => 0,
+                        'automaticUpdate' => 0
+                    ];
+                    
+                    if(is_array($products) && count($products) > 0)
+                    {
                         
-                        if($value['codProduct'] == $vProduct['codProduct'])
-                        {
-                            
-                            $measures = [
-                                'name' => $value['unit'],
-                                'valueStock' => 1.000,
-                                'price' => $value['priceFinal'],
-                                'freeFill' => 0
-                            ];
-
-                            if(isset($vProduct['unitsMeasures']) && is_array($vProduct['unitsMeasures']))
+                        foreach ($products as $kProduct => $vProduct) {
+                        
+                            if($value['codProduct'] == $vProduct['codProduct'])
                             {
+    
+                                if(isset($vProduct['unitsMeasures']) && is_array($vProduct['unitsMeasures']))
+                                {
+                                     
+                                    $measures['freeFill'] = isset($vProduct['unitsMeasures'][0]['freeFill']) && is_numeric($vProduct['unitsMeasures'][0]['freeFill']) ? $vProduct['unitsMeasures'][0]['freeFill'] : 0;
+                                    $vProduct['unitsMeasures'][0] = $measures;
+                                    $units = $vProduct['unitsMeasures'];
+                                    
+                                    if(count($vProduct['unitsMeasures']) > 1)
+                                    {
+                                        
+                                        foreach ($vProduct['unitsMeasures'] as $kUnits => $vUnits) {
+                                        
+                                            if($vUnits['automaticUpdate'] == 1)
+                                            {
+    
+                                                $vUnits['price'] = isset($value['priceFinal']) && isset($vUnits['valueStock']) ? floatval($value['priceFinal'] * $vUnits['valueStock']) : $vUnits['price']; 
+    
+                                                $units[$kUnits] = $vUnits;
+    
+                                            }
+    
+                                        }
+                                        
+                                    }
+    
+                                    $value['unitsMeasures'] = $units;
+    
+                                } else {
+                                    $value['unitsMeasures'] = [0 => $measures];
+                                }
                                 
-                                $vProduct['unitsMeasures'][0] = $measures;
-                                
-                                $value['unitsMeasures'] = $vProduct['unitsMeasures'];
-
-                            } else {
-                                $value['unitsMeasures'] = [0 => $measures];
+                                $value['image'] = $vProduct['image'];
+                                $products[$kProduct] = $value;
+                                $ct = 1;
+                                break;
+    
                             }
-                            
-                            $value['image'] = $vProduct['image'];
-                            $products[$kProduct] = $value;
-                            $ct = 1;
-                            break;
-
+    
                         }
 
                     }
 
-                    if($ct == 0) $products[] = $value;
+                    if($ct == 0)
+                    {
+                        $value['unitsMeasures'] = $measures;
+                        $products[] = $value;
+                    } 
 
                 }
 
@@ -352,10 +383,32 @@ class Mercato extends Model{
 
             rename($archive, "resources/clients/$nameBase/json/backup/".intval($id).Mercato::cryptCode($nameBase.intval($id)).$type.".json");
 
+        } else if(!file_exists($archive) && is_array($data)) {
+
+            $products = [];
+
+            foreach ($data as $key => $value) {
+                   
+                $value['unitsMeasures'] = [ 
+                    0 => [
+                    'name' => $value['unit'],
+                    'valueStock' => 1,
+                    'price' => $value['priceFinal'],
+                    'freeFill' => 0,
+                    'automaticUpdate' => 0
+                    ]
+                ];
+
+                $products[] = $value;
+
+            }
+
+            $data = $products;
+
         }
 
         $data = is_array($data) && count($data) > 0 ? json_encode($data) : $data;
-        
+
         $fh = fopen($archive, 'w');
         
         fwrite($fh, $data);

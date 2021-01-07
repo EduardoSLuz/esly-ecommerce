@@ -224,8 +224,21 @@ class Cart extends Model {
 						$value['stock'] = isset($value['lastQtd']) && isset($unit['valueStock']) && $value['stock'] > $product['stock'] ? ($unit['valueStock'] * $value['lastQtd']) : $value['stock'];
 					}	
 
-					$items[$key]['quantity'] = $value['stock'] <= $product['stock'] && $value['stock'] > 0 ? intval($value['quantity']) : $maxQtd;
-					$items[$key]['totalItem'] = $value['stock'] <= $product['stock'] && $value['stock'] > 0 ? floatval($value['priceItem'] * $value['quantity']) : floatval($value['priceItem'] * $maxQtd);
+					if(isset($unit['freeFill']) && $unit['freeFill'] == 1)
+					{	
+					
+						$maxQtd = 1;
+						$value['stock'] = $items[$key]['stock']; 
+						$items[$key]['quantity'] = $value['stock'] <= $product['stock'] && $value['stock'] > 0 ? intval($value['quantity']) : $maxQtd;
+						$items[$key]['totalItem'] = $value['stock'] <= $product['stock'] && $value['stock'] > 0 ? floatval($value['priceItem'] * $value['stock']) : floatval($value['priceItem'] * $product['stock']);
+					
+					} else {
+						$items[$key]['quantity'] = $value['stock'] <= $product['stock'] && $value['stock'] > 0 ? intval($value['quantity']) : $maxQtd;
+						$items[$key]['totalItem'] = $value['stock'] <= $product['stock'] && $value['stock'] > 0 ? floatval($value['priceItem'] * $value['quantity']) : floatval($value['priceItem'] * $maxQtd);
+					}
+					
+					$items[$key]['unitPrime'] = $unit;
+					$items[$key]['unitOrigin'] = $product['unitsMeasures'][0];
 					$value['quantity'] = $items[$key]['quantity'];
 
 					if($product['stock'] > 0)
@@ -291,6 +304,8 @@ class Cart extends Model {
 
 		$unitItem = isset($item['unitsMeasures'][0]) ? $item['unitsMeasures'][0] : 0;
 
+		if(is_array($unitItem) && isset($unitItem['valueStock']) && $unitItem['freeFill'] == 1) $unitItem['valueStock'] = 1;
+
 		if(isset($_SESSION[User::SESSION]) && isset($_SESSION[Cart::SESSION]) && is_array($unitItem))
 		{
 
@@ -311,8 +326,8 @@ class Cart extends Model {
 					$results = Cart::updateCartItemSet("codBars = :BARS, descProduct = :DESC, quantity = :QTD, stock = :STOCK, unitReference = :UN, priceItem = :PRICE, totalItem = (:PRICE * :QTD), image = :IMG", "WHERE idCartItem = :ID", [
 						':BARS' => $item['barCode'],
 						':DESC' => $item['description'],
-						':QTD' => ($product[0]['quantity'] + $item['qtd']),
-						':STOCK' => $stockTotal,
+						':QTD' => isset($unitItem['valueStock']) && $unitItem['freeFill'] == 1 ? 1 : ($product[0]['quantity'] + $item['qtd']),
+						':STOCK' => formatPrice($stockTotal),
 						':UN' => $unitItem['name'],
 						':PRICE' => $unitItem['price'],
 						':IMG' => $item['image'],
@@ -321,7 +336,7 @@ class Cart extends Model {
 
 				} else {
 					
-					$msg =  $stockTotal - $item['stock'] >= 0 && $product[0]['stock'] == $item['stock'] ? "Limite do Produto Atingido" : "Você só pode adicionar mais: ".($item['stock'] - $product[0]['stock'])." ".$unitItem['name'];
+					$msg =  $stockTotal - $item['stock'] >= 0 && $product[0]['stock'] == $item['stock'] ? "Limite do Produto Atingido" : "Você só pode adicionar mais: ".($item['stock'] - $product[0]['stock'])." ".$item['unitOrigin']['name'];
 
 					return ['status' => 0, 'msg' => $msg];
 
@@ -334,8 +349,8 @@ class Cart extends Model {
 					":BARCODE" => $item['barCode'],
 					":COD" => intval($item['codProduct']),
 					":DESC" => strtoupper($item['description']),
-					":QTD" => floatval($item['qtd']),
-					":STOCK" => floatval($item['qtd'] * $unitItem['valueStock']),
+					":QTD" => isset($unitItem['valueStock']) && $unitItem['freeFill'] == 1 ? 1 : intval($item['qtd']),
+					":STOCK" => formatPrice($item['qtd'] * $unitItem['valueStock']),
 					":UN" => $unitItem['name'],
 					":PRICE" => $unitItem['price'],
 					":TOTAL" => ($unitItem['price'] * $item['qtd']),
@@ -370,7 +385,7 @@ class Cart extends Model {
 							$ct = ['res' => 1, 'key' => $key];
 						} else{
 							
-							$msg = $stockTotal - $item['stock'] >= 0 && $value['stock'] == $item['stock'] ? "Limite do Produto Atingido" : "Você só pode adicionar mais: ".($item['stock'] - $value['stock'])." ".$unitItem['name'];
+							$msg = $stockTotal - $item['stock'] >= 0 && $value['stock'] == $item['stock'] ? "Limite do Produto Atingido" : "Você só pode adicionar mais: ".($item['stock'] - $value['stock'])." ".$item['unitOrigin']['name'];
 
 							return ['status' => 0, 'msg' => $msg];
 						
@@ -394,12 +409,12 @@ class Cart extends Model {
 					"codBars" => $item['barCode'],
 					"codProduct" => intval($item['codProduct']),
 					"descProduct" => strtoupper($item['description']),
-					"quantity" => floatval($qtd + $item['qtd']),
-					"stock" => $stockTotal,
+					"quantity" => isset($unitItem['valueStock']) && $unitItem['freeFill'] == 1 ? 1 : intval($qtd + $item['qtd']),
+					"stock" => formatPrice($stockTotal),
 					"similar" => 0,
 					"unitReference" => $unitItem['name'],
 					"priceItem" => $unitItem['price'],
-					"totalItem" => ($unitItem['price'] * $stockTotal),
+					"totalItem" => floatval($unitItem['price'] * $stockTotal),
 					"image" => $item['image']
 				];
 
@@ -415,12 +430,12 @@ class Cart extends Model {
 					"codBars" => $item['barCode'],
 					"codProduct" => intval($item['codProduct']),
 					"descProduct" => strtoupper($item['description']),
-					"quantity" => floatval($item['qtd']),
-					"stock" => floatval($item['qtd'] * $unitItem['valueStock']),
+					"quantity" => isset($unitItem['valueStock']) && $unitItem['freeFill'] == 1 ? 1 : intval($item['qtd']),
+					"stock" => formatPrice($item['qtd'] * $unitItem['valueStock']),
 					"similar" => 0,
 					"unitReference" => $unitItem['name'],
 					"priceItem" => $unitItem['price'],
-					"totalItem" => ($unitItem['price'] * $item['qtd']),
+					"totalItem" => floatval($unitItem['price'] * $item['qtd']),
 					"image" => $item['image']
 				];
 
@@ -469,21 +484,30 @@ class Cart extends Model {
 			
 			$itens = isset($product[0]) ? Mercato::searchFieldProduct($item['store'], $product[0]['codProduct'], 'codProduct') : 0;
 
+			$unit = Cart::selectUnitMeasure($itens['unitsMeasures'], "name", $product[0]['unitReference']);
+
 			$stock = isset($product[0]['stock']) && isset($product[0]['quantity']) && $product[0]['quantity'] > 0 ? floatval($product[0]['stock']/$product[0]['quantity']) : 0;
 			$newStock = $stock > 0 ? ($stock * $item['quantity']) : 0;
+
+			if(isset($unit['freeFill']) && $unit['freeFill'] == 1) 
+			{
+				$newStock = $item['quantity'];
+				$item['quantity'] = 1;
+			}
 
 			if($newStock > 0 && $itens['stock'] > 0 && $newStock <= $itens['stock'])
 			{
 
-				$results = $item['quantity'] == $product[0]['quantity'] ? 1 : Cart::updateCartItemSet("quantity = :QTD, stock = :STOCK, totalItem = (priceItem * :QTD)", "WHERE idCartItem = :ID", [
+				$results = $item['quantity'] == $product[0]['quantity'] && isset($unit['freeFill']) && $unit['freeFill'] == 0 ? 1 : Cart::updateCartItemSet("quantity = :QTD, stock = :STOCK, totalItem = :TOTAL", "WHERE idCartItem = :ID", [
 					":QTD" => floatval($item['quantity']),
+					":TOTAL" => isset($unit['freeFill']) && $unit['freeFill'] == 1 ? formatPrice($unit['price'] * $newStock) : formatPrice($product[0]['priceItem'] * $item['quantity']), 
 					":STOCK" => $newStock,
 					":ID" => intval($item['id'])
 				]);
 
 			} else {
 
-				return ['status' => 0, 'msg' => "Limite do Produto Atingido", 'number' => $itens['stock']];
+				return ['status' => 0, 'msg' => "Limite do Produto Atingido", 'number' => isset($unit['freeFill']) && $unit['freeFill'] == 1 ? $product[0]['stock'] : $product[0]['quantity']];
 
 			}
 
@@ -493,21 +517,29 @@ class Cart extends Model {
 
 			$itens = isset($product['codProduct']) ? Mercato::searchFieldProduct($item['store'], $product['codProduct'], 'codProduct') : 0;
 
+			$unit = Cart::selectUnitMeasure($itens['unitsMeasures'], "name", $product['unitReference']);
+
 			$stock = isset($product['stock']) && isset($product['quantity']) && $product['quantity'] > 0 ? floatval($product['stock']/$product['quantity']) : 0;
 			$newStock = $stock > 0 ? ($stock * $item['quantity']) : 0;
+
+			if(isset($unit['freeFill']) && $unit['freeFill'] == 1) 
+			{
+				$newStock = $item['quantity'];
+				$item['quantity'] = 1;
+			}
 
 			if($newStock > 0 && $itens['stock'] > 0 && $newStock <= $itens['stock'])
 			{
 				
 				$_SESSION[Cart::SESSION]['items'][$item['id']]['quantity'] = $item['quantity'];
 				$_SESSION[Cart::SESSION]['items'][$item['id']]['stock'] = $newStock;
-				$_SESSION[Cart::SESSION]['items'][$item['id']]['totalItem'] = ($_SESSION[Cart::SESSION]['items'][$item['id']]['priceItem'] * $item['quantity']);
+				$_SESSION[Cart::SESSION]['items'][$item['id']]['totalItem'] = isset($unit['freeFill']) && $unit['freeFill'] == 1 ? formatPrice($unit['price'] * $newStock) : formatPrice($_SESSION[Cart::SESSION]['items'][$item['id']]['priceItem'] * $item['quantity']);
 
 				$results = isset($_SESSION[Cart::SESSION]) && $_SESSION[Cart::SESSION]['items'][$item['id']]['quantity'] == $item['quantity'] ? 1 : 0;
 
 			} else{
 				
-				return ['status' => 0, 'msg' => "Limite do Produto Atingido", 'number' => $itens['stock']];
+				return ['status' => 0, 'msg' => "Limite do Produto Atingido", 'number' => isset($unit['freeFill']) && $unit['freeFill'] == 1 ? $product['stock'] : $product['quantity']];
 
 			}
 			

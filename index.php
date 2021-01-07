@@ -1,5 +1,5 @@
 <?php 
-setlocale(LC_TIME, "portuguese-brazilian");
+setlocale(LC_TIME, "portuguese-brazilian", "ptb.UTF-8", "pt_BR");
 date_default_timezone_set('America/Campo_Grande');
 header('Content-Type: text/html; charset=utf-8');
 
@@ -11,9 +11,8 @@ require_once("vendor/autoload.php");
 $app = AppFactory::create();
 
 // Add error middleware
-$app->addErrorMiddleware(true, true, true);
+//$app->addErrorMiddleware(true, true, true);
 
-session_save_path("resources/sessions/");
 session_start();
 
 // Add routes

@@ -51,7 +51,7 @@ $app->post("/loja-{store}/login/", function(Request $request, Response $response
 		"msg" => "Login Feito com Sucesso",
 		"status" => 1
 	];
-	
+
 	$res['url'] = Page::PageRedirect();
 	$_SESSION[Page::SESSION]['msg'] = is_numeric($res['url']) ? "Login feito com sucesso!" : "Bora finalizar o pedido?";
 

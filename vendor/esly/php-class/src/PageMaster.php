@@ -2,7 +2,7 @@
 
 namespace Esly;
 
-use Rain\tpl;
+use Rain\Tpl;
 use Esly\Page;
 use Esly\DB\Temp;
 use Esly\DB\Sql;

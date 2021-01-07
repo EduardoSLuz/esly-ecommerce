@@ -42,6 +42,15 @@ function maskPrice($value, $round = 0, $type = 0)
     return $type == 0 ? number_format($price, 2, ',', '.') : floatval($price);
 }
 
+function formatPrice($value, $char = ".")
+{
+
+    if(!is_numeric($value)) return 0;
+
+    return strstr($value, $char, true) !== false ? number_format($value, 2, $char, $char) : $value; 
+
+}
+
 function porcenDif($val, $val2)
 {
 

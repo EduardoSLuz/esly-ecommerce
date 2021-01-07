@@ -133,6 +133,7 @@ $app->post("/loja-{store}/select-product-unit/", function(Request $request, Resp
 
 $app->get("/loja-{store}/", function(Request $request, Response $response, $args) {
 
+
 	$page = new Page([
 		"data" => [
 			"ID" => $args['store'],
@@ -141,7 +142,6 @@ $app->get("/loja-{store}/", function(Request $request, Response $response, $args
 	]);
 	
 	$page->setTpl("home", [
-		"state" => Store::listState(),
 		"products" => Mercato::listAllProducts($args['store'], 1),
 		"productsDep" => Mercato::listProductsDepartaments($args['store'])
 	]);

@@ -149,6 +149,7 @@
                       <tr>
                         <th>ID</th>
                         <th>Produto</th>
+                        <th>Unidade</th>
                         <th>Similar</th>
                         <th>Preço Item</th>
                         <th>Qtd</th>
@@ -165,6 +166,7 @@
                       <tr>
                         <td>{$key + 1}</td>
                         <td>{$value.descProduct}</td>
+                        <td>{$value.unitReference}</td>
                         <td>{if="$value.similar == 1"}Sim{else}Não{/if}</td>
                         <td>R$ {function="maskPrice($value.priceItem)"}</td>
                         <td>{$value.quantity}</td>

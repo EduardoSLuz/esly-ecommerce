@@ -252,7 +252,7 @@
             <div class="ct-ini row text-site-footer-copy">
 
                 <div class="col-7">
-                    <a class="tx-footer"><b>© {$store.0.nameStore} / {function="maskCnpj($store.0.cnpjStore)"}</b></a>
+                    <a class="tx-footer text-site-footer-copy"><b>© {$store.0.nameStore} / {function="maskCnpj($store.0.cnpjStore)"}</b></a>
                 </div>
 
                 <div class="col-5">
@@ -295,20 +295,15 @@
 <!-- MODELS -->
 {include="models"}
 
-<!-- JS JQUERY -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-
-<!-- Bootstrap - Include all compiled plugins (below), or include individual files as needed -->
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>  
-
-<!-- Bootstrap - jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+<!-- Bootstrap e Jquery -->
+<script src="/resources/js/jquery.min.js"></script>
+<script src="/resources/js/bootstrap.bundle.min.js"></script>
 
 <!-- Select2 -->
 <script src="/resources/admin/plugins/select2/js/select2.full.min.js"></script>
 
 <!-- Jquery Mask -->
-<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js'></script>
+<script src='/resources/js/jquery.mask.min.js'></script>
 
 <!-- Custom Javascripts -->
 <script src="/resources/js/bootnavbar.js"></script>
@@ -318,14 +313,14 @@
 <script src="/resources/js/site_stores.js"></script>
 <script src="/resources/js/site_login.js"></script>
 <script src="/resources/js/mask.js"></script>
+
 {if="isset($userValues) && $userValues.login == true"}<script src="/resources/js/site_account.js"></script>{/if}
 {if="isset($cart) && $cart != false"}<script src="/resources/js/site_checkout.js"></script>{/if}
 {if="isset($search) && is_array($search)"}{include="../resources/js/html/search"}{/if}
 {if="isset($dep) && is_array($dep)"}{include="../resources/js/html/departaments"}{/if}
-<script src="/resources/js/index.js"></script>  
 
-{include="../resources/js/html/mask"}
-{include="../resources/js/html/carousel"}
+<script src="/resources/js/index.js"></script>  
+<script src="/resources/js/carousel_global.js"></script>  
 
 <script>
 
@@ -336,10 +331,6 @@
     $('.select2bs4').select2({
       theme: 'bootstrap4'
     })
-
-</script>
-
-<script>
 
     $(function () {
         $('.main_navbar').bootnavbar({

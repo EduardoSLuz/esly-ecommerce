@@ -14,6 +14,8 @@ $('.formUpdateItem').on('submit', function(e) {
     dados.append("qtd", qtd); 
     dados.append("id", id); 
 
+    $("#overlayCheckoutCart").removeClass("d-none");
+
     $.ajax({
         url: url,
         method: "POST",
@@ -51,7 +53,9 @@ $('.formUpdateItem').on('submit', function(e) {
 
         } 
 
-    })
+    }).always(function(){
+        $("#overlayCheckoutCart").addClass("d-none");
+    });
 
 });
 

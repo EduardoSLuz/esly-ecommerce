@@ -19,7 +19,7 @@ class Store extends Model {
 
 		$sql = new Sql($_SESSION[Sql::DB]);
 
-		$results = $sql->select("SELECT st.idStore, st.store, st.nameStore, st.cnpjStore, st.emailStore, st.telephoneStore, st.whatsappStore, st.statusStore, st_ad.idStoreAddress, st_ad.streetStore, st_ad.numberStore, st_ad.districtStore, st_ad.cepStore, st_ad.complementStore, ct.idCity, ct.nameCity, sts.nameState, sts.nickState FROM store AS st INNER JOIN store_address AS st_ad ON st.idStoreAddress = st_ad.idStoreAddress INNER JOIN city AS ct ON st_ad.idCity = ct.idCity INNER JOIN states AS sts ON ct.idState = sts.idState WHERE st.statusStore = :ST ".$code, $param);
+		$results = $sql->select("SELECT st.idStore, st.store, st.nameStore, st.cnpjStore, st.emailStore, st.telephoneStore, st.whatsappStore, st.statusStore, st_ad.idStoreAddress, st_ad.streetStore, st_ad.numberStore, st_ad.districtStore, st_ad.cepStore, st_ad.complementStore FROM store AS st INNER JOIN store_address AS st_ad WHERE st.statusStore = :ST ".$code, $param);
 
 		foreach ($results as $key => $value) {
 			$array[$key] = $value;
@@ -125,62 +125,6 @@ class Store extends Model {
 		return is_array($array) && count($array) > 0 ?  $array : 0;
 
 	}
-
-	public static function listState()
-	{
-		$array = [];
-		
-		$sql = new Sql($_SESSION[Sql::DB]);
-
-		$results = $sql->select("SELECT distinct(sts.idState), sts.nameState FROM states AS sts INNER JOIN city AS ct ON sts.idState = ct.idState INNER JOIN store_address AS st_ad ON ct.idCity = st_ad.idCity ORDER BY sts.nameState", []);
-		
-		foreach ($results as $key => $value) {
-			
-			$array[$key] = [
-				"idState" => $value['idState'],
-				"nameState" => $value['nameState'],
-				"city" => []
-			];
-
-			$res = $sql->select("SELECT ct.idCity, ct.nameCity FROM city AS ct INNER JOIN store_address AS st_ad ON ct.idCity = st_ad.idCity WHERE ct.idState = :CODE ORDER BY ct.nameCity", [
-				":CODE" => $array[$key]['idState']
-			]);
-
-			$array[$key]['city'] = $res;
-
-		}
-
-		return $array;
-	}
-
-	/*
-	public static function listState()
-	{
-		$array = [];
-		
-		$sql = new Sql($_SESSION[Sql::DB]);
-
-		$results = $sql->select("SELECT idState, nameState FROM states ORDER BY nameState", []);
-		
-		foreach ($results as $key => $value) {
-			
-			$array[$key] = [
-				"idState" => $value['idState'],
-				"nameState" => $value['nameState'],
-				"city" => []
-			];
-
-			$res = $sql->select("SELECT idCity, nameCity FROM city WHERE idState = :CODE ORDER BY nameCity", [
-				":CODE" => $array[$key]['idState']
-			]);
-
-			$array[$key]['city'] = $res;
-
-		}
-
-		return $array;
-	}
-	*/
 
 	public static function listRegion($id)
 	{

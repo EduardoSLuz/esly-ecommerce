@@ -23,7 +23,8 @@ $app->post("/loja-{store}/checkout/cart/product/{product}/add/", function(Reques
 	{
 		
 		$product['qtd'] = $_POST['qtd'];
-		$product['unitsMeasures'] = is_numeric($_POST['type']) && $_POST['type'] < count($product['unitsMeasures']) ? [0 => $product['unitsMeasures'][$_POST['type']]] : $product['unitsMeasures'];
+		$product['unitOrigin'] = isset($product['unitsMeasures'][0]) ? $product['unitsMeasures'][0] : 0;
+		$product['unitsMeasures'] = is_numeric($_POST['type']) && $_POST['type'] < count($product['unitsMeasures']) && isset($product['unitsMeasures'][$_POST['type']]) ? [0 => $product['unitsMeasures'][$_POST['type']]] : $product['unitsMeasures'];
 
 		$add = Cart::addItem($product);
 
@@ -244,7 +245,6 @@ $app->post("/loja-{store}/checkout/cart/", function(Request $request, Response $
 });
 
 $app->get("/loja-{store}/checkout/cart/", function(Request $request, Response $response, $args) {
-
 
 	if(isset($_SESSION[User::SESSION]) && isset($_SESSION[Cart::SESSION]) && $_SESSION[Cart::SESSION]['idCart'] != 0) unset($_SESSION[Cart::SESSION]);
 	

@@ -18,7 +18,7 @@
 
 				</div>
 
-				<div class="col-md">
+				<div class="col-lg-9">
 					<p class="h4 font-weight-normal text-second-site-section">Pedidos</p>
 					<hr>
 
@@ -46,7 +46,7 @@
 									{loop="$orders"}
 									<tr class="cursorPointer text-center" onclick="window.location.assign('/loja-{$ID}/account/requests/{$value.idOrder}/')">
 										<th scope="row" class="py-2">
-											<a class="font-weight-normal">
+											<a class="font-weight-normal text-second-site-section text-decoration-none">
 												{function="date('d/m/Y', strtotime($value.dateInsert))"} <br>
 												{function="date('H:i', strtotime($value.timeInsert))"}
 											</a>

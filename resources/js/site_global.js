@@ -69,6 +69,8 @@ $('.formEnvia').on('submit', function(e) {
         processData: false,
         contentType: false
     }).done(function(response){
+        
+        console.log(response);
 
         let json = JSON.parse(response);
         
@@ -111,7 +113,19 @@ $(".altUnitMeasure").on('click', function(e){
         if(json !== undefined)
         {
             $(`#card${card} .priceItemProduct`).text(json.price);                
-            $(`#formCard${card}`).attr("data-type", cod);                
+            $(`#formCard${card}`).attr("data-type", cod);    
+            
+            if(json.freeFill == 1)
+            {
+                $(`#inputCardDiversos${card}`).attr('type', 'text');
+                $(`#inputCardDiversos${card}`).removeAttr('readonly');
+            } else {
+                
+                $(`#inputCardDiversos${card}`).val(1);
+                $(`#inputCardDiversos${card}`).attr('type', 'number');
+                $(`#inputCardDiversos${card}`).attr('readonly', true);
+            }
+            
         }
 
         if(cod == 0)

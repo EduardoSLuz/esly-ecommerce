@@ -67,6 +67,7 @@ class Page {
 		$this->options["data"]["cart"] = Cart::checkCart($this->options["data"]["ID"], $this->options["refreshCart"]);
 	
 		// Page 
+		//if(!isset($_SESSION[Page::SESSION])) $_SESSION[Page::SESSION] = [];
 		if(isset($_SESSION[Page::SESSION]['url']) && $this->options["login"] != 1) unset($_SESSION[Page::SESSION]['url']);
 		$this->options["data"]["layout"] = Page::layoutPage($this->options["data"]["ID"]);
 	
@@ -83,6 +84,8 @@ class Page {
 		$this->options["data"]["storeSocial"] = Store::listInfoSocial($this->options["data"]["ID"]);
 		$this->options["data"]["storePayment"] = Store::listPayment($this->options["data"]["ID"]);
 		$this->options["data"]["layoutColor"] = Store::listLayoutColor($this->options["data"]["ID"]);
+
+		if(isset($this->options['prime']['headerTitle']) && isset($this->options["data"]["ID"]) && $this->options['prime']['headerTitle'] == "Loja") $this->options['prime']['headerTitle'] = $this->options['prime']['headerTitle']." ".$this->options["data"]["ID"];
 
 		//User
 		$this->options["data"]["userValues"] = User::checkLogin($this->options["login"]) ? $_SESSION[User::SESSION] : ['login' => false];

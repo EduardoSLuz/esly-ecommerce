@@ -44,13 +44,15 @@
 								<input type="checkbox" class="inputType d-none" name="inputType" value="1">
 
 							</button>
-
+							
+							{if="is_array($freight) && count($freight) > 0"}
 							<button type="button" id="divDelivery" class='selectType cursorPointer border rounded btn w-100 text-left py-3 px-2 my-2 {if="isset($order) && $order != 0 && $order.type == 2"}clickMe{/if} bg-white' data-text="receberá" data-div="PanelDelivery">
 
 								<span class="titleSelect h6 font-weight-normal text-second-site-section">Entregar em algum endereço </span><i id="iconCheck" class=""></i>
 								<input type="checkbox" class="inputType d-none" name="inputType" value="2">
 
 							</button>
+							{/if}
 
 						</div>
 	

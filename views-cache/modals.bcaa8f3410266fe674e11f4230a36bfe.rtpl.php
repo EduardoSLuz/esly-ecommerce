@@ -1572,7 +1572,7 @@
 
             <div>
                 
-                <ul class="nav nav-tabs nav-justified table-responsive" id="myTab" role="tablist">
+                <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist">
                     
                     <li class="nav-item btnTypeModalProductsConfig" role="presentation" data-code="1"> 
                       <a class="nav-link text-dark active rounded-0" id="OptionLogo-tab" data-toggle="tab" href="#OptionLogo" role="tab" aria-controls="OptionLogo" aria-selected="true"> <i class="far fa-image"></i> <span class="d-lg-inline d-none">Logo</span> </a>
@@ -1646,7 +1646,7 @@
                                     <?php $counter1=-1;  if( isset($listUnits["unitsMeasures"]) && ( is_array($listUnits["unitsMeasures"]) || $listUnits["unitsMeasures"] instanceof Traversable ) && sizeof($listUnits["unitsMeasures"]) ) foreach( $listUnits["unitsMeasures"] as $key1 => $value1 ){ $counter1++; ?>
                                     <div class="list-group-item list-group-item-action cursor-pointer d-flex p-0">
                                     
-                                        <div id="listUnit<?php echo htmlspecialchars( $key1, ENT_COMPAT, 'UTF-8', FALSE ); ?>" class='p-2 <?php if( $key1 > 0 ){ ?>col-10<?php }else{ ?>col-12<?php } ?> btnListUnitProductsConfig' data-id="<?php echo htmlspecialchars( $key1, ENT_COMPAT, 'UTF-8', FALSE ); ?>" data-name="<?php echo htmlspecialchars( $value1["name"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" data-stock='<?php echo number_format($value1["valueStock"], 3, ".", " "); ?>' data-price="<?php echo htmlspecialchars( $value1["price"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" data-free-fill="<?php echo htmlspecialchars( $value1["freeFill"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
+                                        <div id="listUnit<?php echo htmlspecialchars( $key1, ENT_COMPAT, 'UTF-8', FALSE ); ?>" class='p-2 <?php if( $key1 > 0 ){ ?>col-10<?php }else{ ?>col-12<?php } ?> btnListUnitProductsConfig' data-id="<?php echo htmlspecialchars( $key1, ENT_COMPAT, 'UTF-8', FALSE ); ?>" data-name="<?php echo htmlspecialchars( $value1["name"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" data-stock='<?php echo htmlspecialchars( $value1["valueStock"], ENT_COMPAT, 'UTF-8', FALSE ); ?>' data-price="<?php echo htmlspecialchars( $value1["price"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" data-free-fill="<?php echo htmlspecialchars( $value1["freeFill"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" data-auto-up="<?php echo htmlspecialchars( $value1["automaticUpdate"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
                                             <b><i>#<?php echo htmlspecialchars( $key1 + 1, ENT_COMPAT, 'UTF-8', FALSE ); ?></i> <?php echo htmlspecialchars( $value1["name"], ENT_COMPAT, 'UTF-8', FALSE ); ?></b> 
                                         </div>
 
@@ -1682,7 +1682,7 @@
                                     <div class="form-group col-lg-6 col-md-12 col-sm-6 col-12">
                                         <label for="inputValueStockProduct" class="col-form-label">
                                             Valor no Estoque:
-                                            <span class="text-info" data-toggle="tooltip" data-placement="top" title="A partir de 3 números, o valor vira decimal. Preste muita atenção ao digitar!" data-boundary="window"><i class="far fa-question-circle"></i></span> 
+                                            <span class="text-info" data-toggle="tooltip" data-placement="top" title="A partir de 2 números, o valor vira decimal. Preste muita atenção ao digitar!" data-boundary="window"><i class="far fa-question-circle"></i></span> 
                                         </label>
                                         <input type="text" class="form-control maskStock" name="inputValueStockProduct" id="inputValueStockProduct" readonly="true">
                                     </div>
@@ -1705,9 +1705,18 @@
                                         
                                         <div id="divFreeFillProduct" class="form-group my-2">
                                             <div class="icheck-primary d-inline">
-                                                <input type="checkbox" class="btnsLayoutFooter" id="freeFillProduct" name="freeFillProduct">
+                                                <input type="checkbox" id="freeFillProduct" name="freeFillProduct">
                                                 <label for="freeFillProduct">
                                                   Permitir Preechimento Livre
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div id="divAutomaticUpdateProduct" class="form-group my-2 d-none">
+                                            <div class="icheck-primary d-inline">
+                                                <input type="checkbox" id="automaticUpdateProduct" name="automaticUpdateProduct">
+                                                <label for="automaticUpdateProduct">
+                                                  Permitir Atualização Automática
                                                 </label>
                                             </div>
                                         </div>

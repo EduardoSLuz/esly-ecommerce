@@ -172,7 +172,7 @@
 @media (min-width: 601px)
 {
 	.logo-responsive{
-		max-height: 65px;
+		max-height: 70px;
 	}
 }
 
@@ -270,9 +270,13 @@
 		margin-top: 1.5em;
 	}
 
-	.mt-mobile, .mt-mobNavbar 
+	.mt-mobNavbar 
 	{ 
 		margin-top: 0px;
+	}
+	
+	.mt-mobile{
+		margin-top: 30px;
 	}
 
 	.px-btn 

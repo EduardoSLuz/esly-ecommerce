@@ -318,6 +318,8 @@ $(document).ready(function(){
 
  $('.selectType').on('click', function(e) {
 
+    let div = $(this).attr("data-div");
+
     $('.divSelect').addClass('d-none');
     $('.titleSelect').addClass('font-weight-normal');
     $('.selectType').removeClass('border-dark');
@@ -330,7 +332,7 @@ $(document).ready(function(){
     $(this).addClass('border-dark');
     
     $("#textType").text($(this).attr("data-text"));
-    $("#"+$(this).attr("data-div")).removeClass('d-none');
+    if(div != undefined && div != "") $("#"+div).removeClass('d-none');
 
 });
 
@@ -388,6 +390,23 @@ $('.selectPay').on('click', function(e) {
 
     if($(this).attr("data-div") == 'Dinheiro'){
         $('#inputMoney').removeAttr('disabled');
+    }
+
+});
+
+$('.inputQtdCart').on("blur", function(e){
+    
+    let qtd = $(this).val();
+    let max = $(this).attr('max') !== undefined ? parseFloat($(this).attr('max')) : 0;
+
+    if(qtd == "" || qtd == 0)
+    {
+        $(this).val(1);
+    }
+
+    if(qtd > max)
+    {
+        $(this).val(max);
     }
 
 });

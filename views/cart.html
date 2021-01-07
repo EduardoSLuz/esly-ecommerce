@@ -80,6 +80,9 @@
 								</tr>
 							</thead>
 							<tbody>
+								
+								<!-- PENDENTE: ALTERAR O MODO DE ATUALIZAR A QUANTIDADE DE PRODUTOS E ALTERAR A LISTA DE PRODUTOS DA PG: /HOME/, /SEARCH/, /DEPARTAMENT-PRODUCTS/, /PRODUCTS-DETAILS/ -->
+								
 								{loop="$cart.items"}
 								<tr id="checkoutCart{$key}">
 									<td>
@@ -104,7 +107,14 @@
 													{if="isset($value.details) && $value.details != ''"}
 													<b class="text-danger"> <i class="fas fa-times"></i> {$value.details}</b>
 													{else}
-													<b>R$ {function="maskPrice($value.priceItem)"} - {$value.unitReference}</b>
+													<b>
+														R$ {function="maskPrice($value.priceItem)"}
+														{if="isset($value.unitPrime.freeFill) && $value.unitPrime.freeFill == 1"}
+														{$value.unitReference}
+														{else}
+														{$value.unitReference} {if="$value.unitPrime.name != $value.unitOrigin.name"}- {$value.unitPrime.valueStock} {$value.unitOrigin.name}{/if}
+														{/if}
+													</b>
 													{/if}
 
 												</p>
@@ -133,19 +143,47 @@
 										<div class="NoPrintabled">
 
 											<form class="formUpdateItem" data-id="{$key}" data-cart="{$value.idCartItem}" data-store="{$ID}">
+												
 												<div class="btn-group">
-													<button type="submit" class="btn btn-main-site-section text-btn-site-section btn-sm" onClick="removeItem('inputCart{$key}')">-</button>
-	
+													
+													{if="isset($value.unitPrime.freeFill) && $value.unitPrime.freeFill == 1"}
+													
+													<input id="inputCart{$key}" name="inputCart" type="text" class="form-control form-control-sm text-center maskMoney2" value="{$value.stock}" style="width: 100px;">
+
+													<button type="submit" class="btn btn-main-site-section text-btn-site-section btn-sm"><i class="fas fa-sync-alt"></i></button>
+
+													{else}
+
+													<button type="submit" class="btn btn-main-site-section text-btn-site-section btn-sm" onClick="removeItem('inputCart{$key}')"><i class="fas fa-minus"></i></button>
+
 													<input id="inputCart{$key}" name="inputCart" type="number" class="btn btn-light ipt-cart-sm text-center btn-sm" value="{$value.quantity}" readonly="true">
 	
-													<button type="submit" class="btn btn-main-site-section text-btn-site-section btn-sm" onClick="addItem('inputCart{$key}')">+</button>
-												</div><br> 
+													<button type="submit" class="btn btn-main-site-section text-btn-site-section btn-sm" onClick="addItem('inputCart{$key}')"><i class="fas fa-plus"></i></button>
+
+													{/if}
+
+												</div>
+												
+												<div id="overlayCheckoutCart" class="btn d-none">
+													<div class="overlay d-flex justify-content-center align-items-center">
+														<i class="fas fa-1x fa-sync fa-spin"></i>
+													</div>
+												</div>
+
 											</form>
 											
 										</div>
 
 										<div id="itemQtd" class="display-None">
-											<span class="text-second-site-section"> {$value.quantity} </span>
+											
+											<span class="text-second-site-section">
+												{if="isset($value.unitPrime.freeFill) && $value.unitPrime.freeFill == 1"}
+												{$value.stock} 
+												{else}
+												{$value.quantity} 
+												{/if}
+											</span>
+
 										</div>
 										
 									</td>
@@ -158,10 +196,12 @@
 									</td>
 									
 									<td class="text-center NoPrintabled align-middle">
+										
 										<a id="PopRemoveItem" class="h5 text-danger cursorPointer PopRemoveItem" data-toggle="popover" data-placement="left" data-trigger="hover" title="Você ira remover esse item?" data-html="true" data-content="
 											<p class='text-center'>{$value.descProduct}</p>
 										" data-action="/loja-{$ID}/checkout/cart/product/{$value.idCartItem}/delete/" data-id="1" data-key="{$key}"><i class="fas fa-times"></i>
 										</a>
+
 									</td>
 									<td class="text-center align-middle">
 										<input type="checkbox" class="checkSimilar cursorPointer" name="checkSimilar" data-key="{$key}" data-cart="{$value.idCartItem}" {if="$value.similar == 1"}checked{/if} data-store="{$ID}">
@@ -181,7 +221,7 @@
 				<div class="NoPrintabled">
 					<p class="tx-IconCart font-weight-normal text-second-site-section border-bottom pb-2">
 						O preço e a disponibilidade dos itens estão sujeitos a alterações. O carrinho de compras é um local temporário para armazenar uma lista de seus itens e reflete o preço mais atualizado de cada um deles.<br>
-						<a class="d-mobile">Você tem um cupom de desconto? Solicitamos que você insira seu código abaixo.</a>
+						<a class="d-mobile text-second-site-section text-decoration-none">Você tem um cupom de desconto? Solicitamos que você insira seu código abaixo.</a>
 					</p>
 				</div>
 
