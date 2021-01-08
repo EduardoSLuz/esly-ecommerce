@@ -11,7 +11,7 @@ require_once("vendor/autoload.php");
 $app = AppFactory::create();
 
 // Add error middleware
-//$app->addErrorMiddleware(true, true, true);
+$app->addErrorMiddleware(true, true, true);
 
 session_start();
 

@@ -52,7 +52,7 @@ class PageAdmin {
 
 		//Store
 		Store::checkAdmin($this->options["id"]);
-		$this->options["data"]["stores"] = Store::listStores();
+		$this->options["data"]["stores"] = Store::listStores(0, 1);
 		$this->options["data"]["imgs"] = Store::listImagesStore(0);
 		if($this->options["id"] > 0 && is_numeric($this->options["id"])) $this->options["data"]["id"] = $this->options["id"];
 

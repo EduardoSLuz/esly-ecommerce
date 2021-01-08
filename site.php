@@ -21,7 +21,8 @@ $app->get("/", function(Request $request, Response $response) {
 			"ID" => 0,
 			"type" => 0,
 			"ct" => false,
-			"ft" => false
+			"ft" => false,
+			"headerTitle" => "Lojas"
 		]
 	]);
 

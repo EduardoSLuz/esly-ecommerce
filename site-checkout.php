@@ -237,9 +237,28 @@ $app->post("/loja-{store}/checkout/cart/", function(Request $request, Response $
 	
 	Store::verifyStore($args["store"]);
 
+	$res = ['msg' => "Erro Fatal!", 'status' => 0, 'type' => 1];
+
+	$limit = Cart::listCartConfigSet("WHERE idStore = :ID", [":ID" => intval($args['store'])]);
+	
+	if(isset($limit[0]['allowMin']) && isset($limit[0]['valueMin']) && $limit[0]['allowMin'] == 1 && $_SESSION[Cart::SESSION]['totalCart'] <= $limit[0]['valueMin'])
+	{
+		$res['msg'] = 'Valor minímo para o pedido deve ser: R$ '.maskPrice($limit[0]['valueMin']);
+		echo json_encode($res);
+		exit;
+	}
+
 	$user = User::verifyData();
 	
-	echo $user ? 1 : 0;
+	if($user == 1)
+	{
+		$res = ['msg' => "Falta Completar Cadastro!", 'status' => 0, 'type' => 2];
+		echo json_encode($res);
+		exit;
+	}
+
+	$res = ['msg' => "OK", 'status' => 1, 'type' => 0];
+	echo json_encode($res);
 	exit;
 
 });

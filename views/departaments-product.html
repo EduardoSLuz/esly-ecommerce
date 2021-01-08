@@ -30,7 +30,7 @@
 					
 					<div class="col-md-8">
 						<p class="font-weight-normal h4 text-second-site-section">
-							{if="$dep.cat != ''"} {$dep.cat} {else} {$dep.name} {/if}
+							{if="$dep.cat != '' && $dep.cat !== 0"} {$dep.cat} {else} {$dep.name} {/if}
 						</p>
 					</div>
 

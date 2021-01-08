@@ -32,7 +32,7 @@ class Store extends Model {
 		return $array;
 	}
 
-	public static function listStores($id = 0)
+	public static function listStores($id = 0, $type = 0)
 	{	
 		
 		$code = $id > 0 ? "WHERE st.idStore = :ID": "" ;
@@ -54,6 +54,15 @@ class Store extends Model {
 				$array[$key]['whatsappStore'] = Store::decryptCode($value['whatsappStore']);
 				$array[$key]['horary'] = Store::listHorary($value['idStore']);
 				$array[$key]['src'] = "/resources/clients/".$_SESSION[Sql::DB]['directory']."/stores/loja-".$array[$key]['store']."/";
+			
+				if($type == 1)
+				{
+
+					$cartConfig = Cart::listCartConfigSet("WHERE idStore = :ID", [":ID" => $value['idStore']]);
+					$array[$key]['cartConfig'] = is_array($cartConfig) && count($cartConfig) ? $cartConfig[0] : 0;
+
+				}
+
 			}
 
 		}

@@ -5,6 +5,7 @@ namespace Esly\Model;
 use Esly\Model;
 use Esly\Mailer;
 use Esly\DB\Temp;
+use Esly\Model\User;
 
 class UserMaster extends Model {
 
@@ -39,6 +40,16 @@ class UserMaster extends Model {
 		{
 
 			$_SESSION[UserMaster::SESSION] = ["email" => $user[0]['email'], "login" => true];
+
+			if(isset($_SESSION[User::SESSION])) unset($_SESSION[User::SESSION]);
+
+			$_SESSION[User::SESSION] = [
+				"nameUser" => strstr($user[0]['email'], "@", true),
+				"surnameUser" => "Master",
+				"emailUser" => $user[0]['email'],
+				"admin" => 2,
+				"data" => 0
+			];
 
 		}
 

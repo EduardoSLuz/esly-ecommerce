@@ -15,9 +15,11 @@
 	<a href="/loja-{$ID}/account/shopping-list/" class="list-group-item list-group-item-action text-second-site-section"><i class="far fa-heart"></i> Lista de compra</a>
 	{/if}
 
+	{if="!isset($userValues.data)"}
 	<a href="/loja-{$ID}/account/data/" class="list-group-item list-group-item-action text-second-site-section"><i class="far fa-user"></i> Meus dados</a>
 
 	<a href="/loja-{$ID}/account/address/" class="list-group-item list-group-item-action text-second-site-section"><i class="fas fa-map-marker-alt"></i> Endereços</a>
+	{/if}
 	
 	<a href="/loja-{$ID}/logout/" class="list-group-item list-group-item-action text-second-site-section"><i class="fas fa-sign-out-alt"></i> Sair</a>
 

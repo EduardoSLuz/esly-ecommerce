@@ -75,7 +75,7 @@ $app->get("/loja-{store}/account/requests/{pedido}/", function(Request $request,
 	
 	$orders = Order::listAll($args['pedido'], 1);
 
-	if($orders == 0) header("Location: /");
+	if($orders == 0 || isset($_SESSION[User::SESSION]['emailUser']) && isset($orders[0]['infoUser']['emailUser']) && $orders[0]['infoUser']['emailUser'] != $_SESSION[User::SESSION]['emailUser']) header("Location: /");
 
 	$page = new Page([
 		"login" => 2,
@@ -227,6 +227,12 @@ $app->post("/loja-{store}/account/data/", function(Request $request, Response $r
 
 $app->get("/loja-{store}/account/data/", function(Request $request, Response $response, $args) {
 
+	if(isset($_SESSION[User::SESSION]['data']))
+	{
+		header("Location: /");
+		exit;
+	}
+
 	$page = new Page([
 		"login" => 2,
 		"data" => [
@@ -319,6 +325,12 @@ $app->post("/loja-{store}/account/data/password/", function(Request $request, Re
 });
 
 $app->get("/loja-{store}/account/data/password/", function(Request $request, Response $response, $args) {
+
+	if(isset($_SESSION[User::SESSION]['data']))
+	{
+		header("Location: /");
+		exit;
+	}
 
 	$page = new Page([
 		"login" => 2,
@@ -516,6 +528,12 @@ $app->post("/loja-{store}/account/address/", function(Request $request, Response
 
 $app->get("/loja-{store}/account/address/", function(Request $request, Response $response, $args) {
 
+	if(isset($_SESSION[User::SESSION]['data']))
+	{
+		header("Location: /");
+		exit;
+	}
+	
 	$page = new Page([
 		"login" => 2,
 		"data" => [
@@ -534,259 +552,5 @@ $app->get("/loja-{store}/account/address/", function(Request $request, Response 
 	return $response;
 
 });
-
-/* Page Account Address Edit
-$app->post("/loja-{store}/account/address/edit/", function(Request $request, Response $response, $args) {
-
-	var_dump($_POST);
-	exit;
-
-	Store::verifyStore($args["store"]);
-
-	if(!isset($_SESSION['userAddress']) || isset($_SESSION['userAddress']) && Address::listAddress($_SESSION['userAddress']) == false)
-	{
-		header("Location: /loja-".$args['store']."/account/address/");
-	}
-
-	if(isset($_POST['cityAddress']) && $_POST['cityAddress'] == 0 && strlen($_POST['cityAddress']) == 1 || isset($_POST['cityAddress']) && strstr($_POST['cityAddress'], '_') == false || !isset($_POST['cityAddress']))
-	{
-		Address::setErrorRegister("Selecione uma cidade!");
-		exit;
-	} else if(Store::listCities($_POST['cityAddress']) == 0)
-	{
-		Address::setErrorRegister("Erro Critico, atualize a página!");
-		exit;
-	} else {
-		$array = Store::listCities($_POST['cityAddress']);
-	}
-
-	if(isset($_POST['cepAddress']) && empty($_POST['cepAddress']))
-	{
-
-		Address::setErrorRegister("Digite seu CEP!");
-		exit;
-
-	} else if(isset($_POST['cepAddress']) && strlen($_POST['cepAddress']) < 9){
-
-		Address::setErrorRegister("CEP incompleto!");
-		exit;
-
-	}
-
-	if(isset($_POST['districtAddress']) && empty($_POST['districtAddress']))
-	{
-
-		Address::setErrorRegister("Digite seu bairro!");
-		exit;
-
-	}
-
-	if(isset($_POST['streetAddress']) && empty($_POST['streetAddress']))
-	{
-
-		Address::setErrorRegister("Digite sua rua!");
-		exit;
-
-	}
-
-	if(isset($_POST['streetAddress']) && empty($_POST['streetAddress']))
-	{
-
-		Address::setErrorRegister("Digite o número da sua residência/empresa!");
-		exit;
-
-	}
-
-	$address = new Address;
-
-	$address->setData([
-		"idAddress" => $_SESSION['userAddress'],
-		"cep" => $_POST['cepAddress'], 
-		"district" => $_POST['districtAddress'], 
-		"street" => $_POST['streetAddress'], 
-		"number" => $_POST['numberAddress'], 
-		"complement" => $_POST['complementAddress'], 
-		"reference" => $_POST['referenceAddress'], 
-		"mainAddress" => isset($_POST['mainAddress']) ? 1 : 0,
-		'city' => isset($array[0]['cidades'][0]) && !empty($array[0]['cidades'][0]) ? $array[0]['cidades'][0] : "",
-		'uf' => isset($array[0]['sigla']) && !empty($array[0]['sigla']) ? $array[0]['sigla'] : "",
-		'code' => isset($_POST['cityAddress']) && strlen($_POST['cityAddress']) > 1 && strstr($_POST['cityAddress'], "_") != false ? $_POST['cityAddress'] : 0
-	]);
-
-	$res = $address->update();
-	
-	if($res)
-	{
-		Address::setSuccessMsg("Endereço Atualizado com Sucesso.");
-
-	} else {
-		Address::setErrorRegister("Nada Foi Atualizado.");
-	}
-
-	var_dump($res);
-	exit;
-
-});
-
-$app->get("/loja-{store}/account/address/edit/", function(Request $request, Response $response, $args) {
-
-	$id = $_GET['code'];
-	$userAddress = Address::listAddress($id);
-
-	if($userAddress == false) header("Location: /loja-".$args['store']."/account/address/");
-
-	$page = new Page([
-		"login" => 2,
-		"data" => [
-			"ID" => $args['store'],
-		]
-	]);
-
-	$page->setTpl("account-address-edit", [
-		'errorRegister' => Address::getErrorRegister(),
-        'successMsg'=> Address::getSuccessMsg(),
-		"cities" => Store::listCityStore(),
-		"userAddress" => $userAddress,
-		"codeAddress" => $_GET['code']
-	]);
-
-	$_SESSION['userAddress'] = $userAddress[0]['idAddress'];
-	
-	return $response;
-
-});
-
-// Page Account Address New
-$app->post("/loja-{store}/account/address/new/", function(Request $request, Response $response, $args) {
-
-	var_dump($_POST);
-	exit;
-
-	$_SESSION[Address::REGISTER_VALUES] = $_POST;
-
-	Store::verifyStore($args["store"]);
-	
-	if(isset($_POST['cityAddress']) && $_POST['cityAddress'] == 0 && strlen($_POST['cityAddress']) == 1 || isset($_POST['cityAddress']) && strstr($_POST['cityAddress'], '_') == false || !isset($_POST['cityAddress']))
-	{
-		Address::setErrorRegister("Selecione uma cidade!");
-		exit;
-	} else if(Store::listCities($_POST['cityAddress']) == 0)
-	{
-		Address::setErrorRegister("Erro Critico, atualize a página!");
-		exit;
-	} else {
-		$array = Store::listCities($_POST['cityAddress']);
-	}
-
-	if(isset($_POST['cepAddress']) && empty($_POST['cepAddress']))
-	{
-
-		Address::setErrorRegister("Digite seu CEP!");
-		exit;
-
-	} else if(isset($_POST['cepAddress']) && strlen($_POST['cepAddress']) < 9){
-
-		Address::setErrorRegister("CEP incompleto!");
-		exit;
-
-	}
-
-	if(isset($_POST['districtAddress']) && empty($_POST['districtAddress']))
-	{
-
-		Address::setErrorRegister("Digite seu bairro!");
-		exit;
-
-	}
-
-	if(isset($_POST['streetAddress']) && empty($_POST['streetAddress']))
-	{
-
-		Address::setErrorRegister("Digite sua rua!");
-		exit;
-
-	}
-
-	if(isset($_POST['streetAddress']) && empty($_POST['streetAddress']))
-	{
-
-		Address::setErrorRegister("Digite o número da sua residência/empresa!");
-		exit;
-
-	}
-
-	if(Address::checkAddress())
-	{
-		
-		Address::setErrorRegister("Você ja possui cinco endereços e não pode cadastrar mais nenhum!");
-		exit;
-
-	}
-
-	$address = new Address;
-
-	$address->setData([
-		"cep" => $_POST['cepAddress'], 
-		"district" => $_POST['districtAddress'], 
-		"street" => $_POST['streetAddress'], 
-		"number" => $_POST['numberAddress'], 
-		"complement" => $_POST['complementAddress'], 
-		"reference" => $_POST['referenceAddress'], 
-		"mainAddress" => isset($_POST['mainAddress']) ? 1 : 0,
-		'city' => isset($array[0]['cidades'][0]) && !empty($array[0]['cidades'][0]) ? $array[0]['cidades'][0] : "",
-		'uf' => isset($array[0]['sigla']) && !empty($array[0]['sigla']) ? $array[0]['sigla'] : "",
-		'code' => isset($_POST['cityAddress']) && strlen($_POST['cityAddress']) > 1 && strstr($_POST['cityAddress'], "_") != false ? $_POST['cityAddress'] : 0
-	]);
-
-	$res = $address->save();	
-	
-	if($res)
-	{
-		User::setSuccessMsg("Enderenço Inserido com Sucesso.");
-		echo 1;
-	} else {
-		User::setErrorRegister("Nada Foi Inserido!");
-	}
-
-	exit;
-
-});
-
-$app->get("/loja-{store}/account/address/new/", function(Request $request, Response $response, $args) {
-
-	$page = new Page([
-		"login" => 2,
-		"data" => [
-			"ID" => $args['store'],
-		]
-	]);
-
-	$page->setTpl("account-address-new", [
-		'errorRegister' => Address::getErrorRegister(),
-        'registerValues' => Address::getRegisterValues(),
-		"cities" => Store::listCityStore()
-	]);
-
-	return $response;
-
-});
-
- Page Account User Inactive
-$app->get("/loja-{store}/account/desactive/", function(Request $request, Response $response, $args) {
-	
-	Store::verifyStore($args["store"]);
-
-	if(!isset($_SESSION[User::SESSION]))
-	{
-		header("Location: /");
-		exit;
-	} else{
-
-		User::desactive();
-		header("Location: /loja-".$args['store']."/logout/");
-		exit;
-	}
-
-});*/
 
 ?>

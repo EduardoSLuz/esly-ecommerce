@@ -1,64 +1,64 @@
-{if="isset($layout.lyFooter1) && $layout.lyFooter1 == 1 && isset($storeSocial) && $storeSocial != 0"}
+<?php if(!class_exists('Rain\Tpl')){exit;}?><?php if( isset($layout["lyFooter1"]) && $layout["lyFooter1"] == 1 && isset($storeSocial) && $storeSocial != 0 ){ ?>
 <footer id="Footer-RedesSociais" class="bg-site-footer-social mt-5 NoPrintabled">
         
     <div class="bcg-ini ct-center">
         
         <div class="ct-ini text-right py-2">
             <span class="font-weight-normal text-site-footer-social">Redes Sociais:</span>
-            {loop="$storeSocial.0"}
-                {if="$value.idSocialType != 5 && $value.idSocialType != 6"}
-                <a href="{$value.link}" target="__blank" class="text-site-footer-social h6 mr-1"><i class="{$value.icon}"></i></a>
-                {/if}   
-            {/loop}
+            <?php $counter1=-1;  if( isset($storeSocial["0"]) && ( is_array($storeSocial["0"]) || $storeSocial["0"] instanceof Traversable ) && sizeof($storeSocial["0"]) ) foreach( $storeSocial["0"] as $key1 => $value1 ){ $counter1++; ?>
+                <?php if( $value1["idSocialType"] != 5 && $value1["idSocialType"] != 6 ){ ?>
+                <a href="<?php echo htmlspecialchars( $value1["link"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" target="__blank" class="text-site-footer-social h6 mr-1"><i class="<?php echo htmlspecialchars( $value1["icon"], ENT_COMPAT, 'UTF-8', FALSE ); ?>"></i></a>
+                <?php } ?>   
+            <?php } ?>
         </div>
 
     </div>	
 
 </footer>
-{/if}      
+<?php } ?>      
   
 <footer id="FooterInformation" class="bg-site-footer-main NoPrintabled py-5">
     
     <div class="ct-center">
         <div class="ct-ini row">
         
-            {if="isset($layout.lyFooter2) && $layout.lyFooter2 == 1"}
+            <?php if( isset($layout["lyFooter2"]) && $layout["lyFooter2"] == 1 ){ ?>
                 <div class="col-md-4 mt-mob">
                     
                     <p class="h6 text-site-footer-main">Suporte</p>
                     <hr>
                     <p class="h6 text-site-footer-main font-weight-normal">
     
-                        <i class="fas fa-mobile-alt"></i> {if="$store.0.telephoneStore != 0"} {function="maskTel($store.0.telephoneStore)"} {else} <b>Sem Telefone</b> {/if} <br>
-                        <i class="far fa-envelope mt-4"></i> {if="$store.0.emailStore != ''"} {$store.0.emailStore} {else} <b>Sem e-mail</b> {/if} <br>
-                        <i class="fab fa-whatsapp mt-4"></i> {if="$store.0.whatsappStore != 0"} {function="maskTel($store.0.whatsappStore)"} {else} <b>Sem whatsapp</b> {/if} <br>
+                        <i class="fas fa-mobile-alt"></i> <?php if( $store["0"]["telephoneStore"] != 0 ){ ?> <?php echo maskTel($store["0"]["telephoneStore"]); ?> <?php }else{ ?> <b>Sem Telefone</b> <?php } ?> <br>
+                        <i class="far fa-envelope mt-4"></i> <?php if( $store["0"]["emailStore"] != '' ){ ?> <?php echo htmlspecialchars( $store["0"]["emailStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?> <?php }else{ ?> <b>Sem e-mail</b> <?php } ?> <br>
+                        <i class="fab fa-whatsapp mt-4"></i> <?php if( $store["0"]["whatsappStore"] != 0 ){ ?> <?php echo maskTel($store["0"]["whatsappStore"]); ?> <?php }else{ ?> <b>Sem whatsapp</b> <?php } ?> <br>
                         
-                        {if="isset($horary) && $horary != 0"}
+                        <?php if( isset($horary) && $horary != 0 ){ ?>
                             <i class="far fa-clock mt-4 mb-1"></i> Horario de Atendimento:
                             <ul class="txList-StyleNone tx-IconCart">
                                 
-                                {loop="$horary"}
+                                <?php $counter1=-1;  if( isset($horary) && ( is_array($horary) || $horary instanceof Traversable ) && sizeof($horary) ) foreach( $horary as $key1 => $value1 ){ $counter1++; ?>
                                     <li class="my-2 text-site-footer-main">
                                         
-                                        {$value.name}{if="$key == count($horary) - 1"} - {$value.dayNameFinal}{/if}:
+                                        <?php echo htmlspecialchars( $value1["name"], ENT_COMPAT, 'UTF-8', FALSE ); ?><?php if( $key1 == count($horary) - 1 ){ ?> - <?php echo htmlspecialchars( $value1["dayNameFinal"], ENT_COMPAT, 'UTF-8', FALSE ); ?><?php } ?>:
 
-                                        {function="date('H:i', strtotime($value.horary.0.init))"} às {function="date('H:i', strtotime($value.horary.0.final))"}
+                                        <?php echo date('H:i', strtotime($value1["horary"]["0"]["init"])); ?> às <?php echo date('H:i', strtotime($value1["horary"]["0"]["final"])); ?>
     
-                                        {if="$value.horary.1.init > $value.horary.0.init"}
-                                            - {function="date('H:i', strtotime($value.horary.1.init))"} às {function="date('H:i', strtotime($value.horary.1.final))"}
-                                        {/if}
+                                        <?php if( $value1["horary"]["1"]["init"] > $value1["horary"]["0"]["init"] ){ ?>
+                                            - <?php echo date('H:i', strtotime($value1["horary"]["1"]["init"])); ?> às <?php echo date('H:i', strtotime($value1["horary"]["1"]["final"])); ?>
+                                        <?php } ?>
 
                                     </li>
-                                {/loop}
+                                <?php } ?>
     
                             </ul>
-                        {/if}
+                        <?php } ?>
                     </p>
                 
                 </div>
-            {/if}
+            <?php } ?>
             
-            {if="isset($layout.lyFooter3) && $layout.lyFooter3 == 1"}
+            <?php if( isset($layout["lyFooter3"]) && $layout["lyFooter3"] == 1 ){ ?>
                 <div class="col-md-4 mt-mob">
                     
                     <p class="h6 text-site-footer-main">Institucional</p>
@@ -66,47 +66,47 @@
     
                     <div class="h6 font-weight-normal">
                         
-                        {if="$storeInstitution.0.lyInfo1 == 1"}
+                        <?php if( $storeInstitution["0"]["lyInfo1"] == 1 ){ ?>
                             <p class="my-3">
-                                <a href="/loja-{$storeInstitution.0.store}/info/" class="text-decoration-none text-site-footer-main my-3"><i class="fas fa-chevron-right text-site-footer-main"></i> Sobre a empresa</a>
+                                <a href="/loja-<?php echo htmlspecialchars( $storeInstitution["0"]["store"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/info/" class="text-decoration-none text-site-footer-main my-3"><i class="fas fa-chevron-right text-site-footer-main"></i> Sobre a empresa</a>
                             </p>
-                        {/if}
+                        <?php } ?>
     
-                        {if="$storeInstitution.0.lyInfo2 == 1"}
+                        <?php if( $storeInstitution["0"]["lyInfo2"] == 1 ){ ?>
                             <p class="my-3">
-                                <a href="/loja-{$storeInstitution.0.store}/our-stores/" class="text-decoration-none text-site-footer-main"><i class="fas fa-chevron-right text-site-footer-main"></i> Todas as lojas</a>
+                                <a href="/loja-<?php echo htmlspecialchars( $storeInstitution["0"]["store"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/our-stores/" class="text-decoration-none text-site-footer-main"><i class="fas fa-chevron-right text-site-footer-main"></i> Todas as lojas</a>
                             </p>
-                        {/if}
+                        <?php } ?>
     
-                        {if="$storeInstitution.0.lyInfo3 == 1"}
+                        <?php if( $storeInstitution["0"]["lyInfo3"] == 1 ){ ?>
                             <p class="my-3">
-                                <a href="/loja-{$storeInstitution.0.store}/partners/" class="text-decoration-none text-site-footer-main"><i class="fas fa-chevron-right text-site-footer-main"></i> Parceiros</a>
+                                <a href="/loja-<?php echo htmlspecialchars( $storeInstitution["0"]["store"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/partners/" class="text-decoration-none text-site-footer-main"><i class="fas fa-chevron-right text-site-footer-main"></i> Parceiros</a>
                             </p>
-                        {/if}
+                        <?php } ?>
     
-                        {if="$storeInstitution.0.lyInfo4 == 1"}
+                        <?php if( $storeInstitution["0"]["lyInfo4"] == 1 ){ ?>
                             <p class="my-3">
-                                <a href="/loja-{$storeInstitution.0.store}/help/" class="text-decoration-none text-site-footer-main"><i class="fas fa-chevron-right text-site-footer-main"></i> Peguntas Frequentes</a>
+                                <a href="/loja-<?php echo htmlspecialchars( $storeInstitution["0"]["store"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/help/" class="text-decoration-none text-site-footer-main"><i class="fas fa-chevron-right text-site-footer-main"></i> Peguntas Frequentes</a>
                             </p>
-                        {/if}
+                        <?php } ?>
     
-                        {if="$storeInstitution.0.lyInfo5 == 1"}
+                        <?php if( $storeInstitution["0"]["lyInfo5"] == 1 ){ ?>
                             <p class="my-3">
-                                <a href="/loja-{$storeInstitution.0.store}/promotions/" class="text-decoration-none text-site-footer-main"><i class="fas fa-chevron-right text-site-footer-main"></i> Promoções</a>
+                                <a href="/loja-<?php echo htmlspecialchars( $storeInstitution["0"]["store"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/promotions/" class="text-decoration-none text-site-footer-main"><i class="fas fa-chevron-right text-site-footer-main"></i> Promoções</a>
                             </p>
-                        {/if}
+                        <?php } ?>
     
-                        {if="$storeInstitution.0.lyInfo6 == 1"}
+                        <?php if( $storeInstitution["0"]["lyInfo6"] == 1 ){ ?>
                             <p class="my-3">
-                                <a href="/loja-{$storeInstitution.0.store}/contact/" class="text-decoration-none text-site-footer-main"><i class="fas fa-chevron-right text-site-footer-main"></i> Fale Conosco</a>
+                                <a href="/loja-<?php echo htmlspecialchars( $storeInstitution["0"]["store"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/contact/" class="text-decoration-none text-site-footer-main"><i class="fas fa-chevron-right text-site-footer-main"></i> Fale Conosco</a>
                             </p>
-                        {/if} 
+                        <?php } ?> 
                         
-                        {if="$storeInstitution.0.lyInfo7 == 1"}
+                        <?php if( $storeInstitution["0"]["lyInfo7"] == 1 ){ ?>
                             <p class="my-3">
-                                <a href="/loja-{$storeInstitution.0.store}/contact-work/" class="text-decoration-none text-site-footer-main"><i class="fas fa-chevron-right text-site-footer-main"></i> Trabalhe Conosco</a>
+                                <a href="/loja-<?php echo htmlspecialchars( $storeInstitution["0"]["store"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/contact-work/" class="text-decoration-none text-site-footer-main"><i class="fas fa-chevron-right text-site-footer-main"></i> Trabalhe Conosco</a>
                             </p>
-                        {/if} 
+                        <?php } ?> 
                         
                         <p class="my-3">
                             <a href="https://www.astemac.com.br" target="_blank" class="text-decoration-none text-site-footer-main"><i class="fas fa-chevron-right text-site-footer-main"></i> Astemac</a>
@@ -115,36 +115,36 @@
                     </div>
                 
                 </div>
-            {/if}
+            <?php } ?>
             
-            {if="isset($layout.lyFooter4) && $layout.lyFooter4 == 1"}
+            <?php if( isset($layout["lyFooter4"]) && $layout["lyFooter4"] == 1 ){ ?>
                 <div class="col-md-4 mt-mob">
                 
                     <p class="h6 text-site-footer-main">Formas de Pagamento</p>
                     <hr>
     
-                    {if="isset($storePayment) && $storePayment != 0"}
+                    <?php if( isset($storePayment) && $storePayment != 0 ){ ?>
     
-                        {loop="$storePayment.0"}
+                        <?php $counter1=-1;  if( isset($storePayment["0"]) && ( is_array($storePayment["0"]) || $storePayment["0"] instanceof Traversable ) && sizeof($storePayment["0"]) ) foreach( $storePayment["0"] as $key1 => $value1 ){ $counter1++; ?>
 
-                        <small class="text-site-footer-main">{$value.name}:</small>
+                        <small class="text-site-footer-main"><?php echo htmlspecialchars( $value1["name"], ENT_COMPAT, 'UTF-8', FALSE ); ?>:</small>
     
                         <div class="my-2">
                             
-                            {loop="$value.types"}
-                                <img src="{$value.src}" alt="{$value.pay}" class="d-block-inline img-fluid mr-2" data-toggle="popover" data-placement="top" data-trigger="hover" data-html="true" data-content="{$value.pay}" style="max-height: 35px;">
-                            {/loop}
+                            <?php $counter2=-1;  if( isset($value1["types"]) && ( is_array($value1["types"]) || $value1["types"] instanceof Traversable ) && sizeof($value1["types"]) ) foreach( $value1["types"] as $key2 => $value2 ){ $counter2++; ?>
+                                <img src="<?php echo htmlspecialchars( $value2["src"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" alt="<?php echo htmlspecialchars( $value2["pay"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" class="d-block-inline img-fluid mr-2" data-toggle="popover" data-placement="top" data-trigger="hover" data-html="true" data-content="<?php echo htmlspecialchars( $value2["pay"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" style="max-height: 35px;">
+                            <?php } ?>
 
                         </div>
 
-                        {/loop}
+                        <?php } ?>
 
-                    {/if}
+                    <?php } ?>
     
                 </div>
-            {/if}
+            <?php } ?>
     
-            {if="isset($storeSocial) && $storeSocial != 0 && isset($layout.lyFooter5) && $layout.lyFooter5 == 1"}
+            <?php if( isset($storeSocial) && $storeSocial != 0 && isset($layout["lyFooter5"]) && $layout["lyFooter5"] == 1 ){ ?>
                 <div class="col-md-4 mt-mob">
                     
                     <p class="h6 text-site-footer-main">Baixe Nosso App</p>
@@ -154,23 +154,23 @@
                         
                         <div class="row ml-1">
 
-                            {loop="$storeSocial.0"}
-                                {if="$value.idSocialType >= 5 && $value.idSocialType <= 6"}
-                                <a class="btn btn-second-site-footer-main border m-1" target="_blank" href="{$value.link}">
-                                    <i class="{$value.icon}"></i>
-                                    <span class="h6">{$value.name}</span>
+                            <?php $counter1=-1;  if( isset($storeSocial["0"]) && ( is_array($storeSocial["0"]) || $storeSocial["0"] instanceof Traversable ) && sizeof($storeSocial["0"]) ) foreach( $storeSocial["0"] as $key1 => $value1 ){ $counter1++; ?>
+                                <?php if( $value1["idSocialType"] >= 5 && $value1["idSocialType"] <= 6 ){ ?>
+                                <a class="btn btn-second-site-footer-main border m-1" target="_blank" href="<?php echo htmlspecialchars( $value1["link"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
+                                    <i class="<?php echo htmlspecialchars( $value1["icon"], ENT_COMPAT, 'UTF-8', FALSE ); ?>"></i>
+                                    <span class="h6"><?php echo htmlspecialchars( $value1["name"], ENT_COMPAT, 'UTF-8', FALSE ); ?></span>
                                 </a>
-                                {/if}   
-                            {/loop}
+                                <?php } ?>   
+                            <?php } ?>
     
                         </div>
     
                     </p>
                     
                 </div>
-            {/if}
+            <?php } ?>
     
-            {if="isset($layout.lyFooter6) && $layout.lyFooter6 == 1"}
+            <?php if( isset($layout["lyFooter6"]) && $layout["lyFooter6"] == 1 ){ ?>
                 <div class="col-md-4 mt-mob">
                     
                     <p class="h6 text-site-footer-main">Site Seguro</p>
@@ -189,9 +189,9 @@
                     </p>
                     
                 </div>
-            {/if}
+            <?php } ?>
     
-            {if="isset($layout.lyFooter7) && $layout.lyFooter7 == 1"}
+            <?php if( isset($layout["lyFooter7"]) && $layout["lyFooter7"] == 1 ){ ?>
                 <div class="col-md-4 mt-mob">
     
                     <p class="h6 text-site-footer-main">Receba Ofertas Exclusivas</p>
@@ -205,7 +205,7 @@
 
                         </div>
                         
-                        <form id="formEmailPromo" class="formEmailPromo input-group mb-2" data-store="{$ID}">
+                        <form id="formEmailPromo" class="formEmailPromo input-group mb-2" data-store="<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>">
                             
                             <div class="input-group-prepend">
                                 <span class="input-group-text bg-white"><i class="far fa-envelope"></i></span>
@@ -222,9 +222,9 @@
                     </p>
     
                 </div>
-            {/if}
+            <?php } ?>
             
-            {if="isset($layout.lyFooter8) && $layout.lyFooter8 == 1 && 0 == 1"}
+            <?php if( isset($layout["lyFooter8"]) && $layout["lyFooter8"] == 1 && 0 == 1 ){ ?>
             <div class="col-md-12">
     
                 <p class="tx-IconCart font-weight-light mt-5">
@@ -237,7 +237,7 @@
                 </p>
     
             </div>
-            {/if}
+            <?php } ?>
         
         </div>
     </div>
@@ -252,7 +252,7 @@
             <div class="ct-ini row text-site-footer-copy">
 
                 <div class="col-7">
-                    <a class="tx-footer text-site-footer-copy"><b>© {$store.0.nameStore} / {function="maskCnpj($store.0.cnpjStore)"}</b></a>
+                    <a class="tx-footer text-site-footer-copy"><b>© <?php echo htmlspecialchars( $store["0"]["nameStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?> / <?php echo maskCnpj($store["0"]["cnpjStore"]); ?></b></a>
                 </div>
 
                 <div class="col-5">
@@ -267,33 +267,33 @@
     </div>	
 </section>
 
-{if="$wp === true"}        
+<?php if( $wp === true ){ ?>        
 <div id="BtnWhatsapp" class="BtnsFloat ml-3 mb-5 text-left fixed-bottom null-height">
-    <a class="bg-success h2 rounded px-1 shadow" href="https://api.whatsapp.com/send?phone=55{$store.0.telephoneStore}" target="_blank">
+    <a class="bg-success h2 rounded px-1 shadow" href="https://api.whatsapp.com/send?phone=55<?php echo htmlspecialchars( $store["0"]["telephoneStore"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" target="_blank">
         <i class="fab fa-whatsapp text-white"></i>
     </a>
 </div>
-{/if}
+<?php } ?>
 
-{if="$ct === true"}
+<?php if( $ct === true ){ ?>
 <div id="BtnCart" class="BtnsFloat mr-3 mb-5 text-right fixed-bottom null-height cart-BtnFloat">
-    <a class="bg-site-section h2 rounded px-1 shadow-sm btn-app" href='/loja-{$ID}/checkout/cart/'>
+    <a class="bg-site-section h2 rounded px-1 shadow-sm btn-app" href='/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/checkout/cart/'>
         <i class="fas fa-shopping-cart text-second-site-section text-center" style="font-size:24px"></i>
-        <span class="badge btn-main-site-section text-btn-site-section" style="font-size:10px;position: absolute; display: ;">{if="isset($cart) && $cart != false && $cart.items != 0"}{$cart.totalItems}{else}0{/if}</span>
+        <span class="badge btn-main-site-section text-btn-site-section" style="font-size:10px;position: absolute; display: ;"><?php if( isset($cart) && $cart != false && $cart["items"] != 0 ){ ?><?php echo htmlspecialchars( $cart["totalItems"], ENT_COMPAT, 'UTF-8', FALSE ); ?><?php }else{ ?>0<?php } ?></span>
     </a>
 </div>
-{/if}
+<?php } ?>
 
-{if="$ft === true"}
+<?php if( $ft === true ){ ?>
 <div id="BtnFilter" class="BtnsFloat text-left fixed-bottom null-height cart-BtnFloat top-25">
     <button type="button" class="open-menu bg-site-section  border h5 rounded-right px-2 py-2 shadow">
         <i class="fas fa-chevron-right text-second-site-section "></i>
     </button>
 </div>
-{/if}
+<?php } ?>
 
 <!-- MODELS -->
-{include="models"}
+<?php require $this->checkTemplate("models");?>
 
 <!-- Bootstrap e Jquery -->
 <script src="/resources/js/jquery.min.js"></script>
@@ -314,10 +314,10 @@
 <script src="/resources/js/site_login.js"></script>
 <script src="/resources/js/mask.js"></script>
 
-{if="isset($userValues) && $userValues.login == true"}<script src="/resources/js/site_account.js"></script>{/if}
-{if="isset($cart) && $cart != false"}<script src="/resources/js/site_checkout.js"></script>{/if}
-{if="isset($search) && is_array($search)"}{include="../resources/js/html/search"}{/if}
-{if="isset($dep) && is_array($dep)"}{include="../resources/js/html/departaments"}{/if}
+<?php if( isset($userValues) && $userValues["login"] == true ){ ?><script src="/resources/js/site_account.js"></script><?php } ?>
+<?php if( isset($cart) && $cart != false ){ ?><script src="/resources/js/site_checkout.js"></script><?php } ?>
+<?php if( isset($search) && is_array($search) ){ ?><?php require $this->checkTemplate("../resources/js/html/search");?><?php } ?>
+<?php if( isset($dep) && is_array($dep) ){ ?><?php require $this->checkTemplate("../resources/js/html/departaments");?><?php } ?>
 
 <script src="/resources/js/index.js"></script>  
 <script src="/resources/js/carousel_global.js"></script>  

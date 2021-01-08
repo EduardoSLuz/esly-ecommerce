@@ -7,6 +7,7 @@ use Esly\Page;
 use Esly\PageAdmin;
 use Esly\DB\Sql;
 use Esly\Model\Address;
+use Esly\Model\Cart;
 use Esly\Model\Store;
 use Esly\Model\Order;
 use Esly\Model\User;
@@ -61,6 +62,43 @@ $app->get("/admin/stores/", function(Request $request, Response $response) {
 });
 
 // Page Store More
+$app->post("/admin/stores/{id}/cart-config/", function(Request $request, Response $response, $args) {
+
+	Store::checkAdmin($args['id']);
+	
+	$store = Store::listStores($args['id']);
+
+	if(!isset($_POST['id']) || isset($_POST['id']) && $_POST['id'] <= 0)
+	{
+		header("Location: /admin/");
+		exit;
+	}
+
+	$res = ['msg' => "Erro Fatal!", 'status' => 0];
+
+	if(!isset($_POST['inputValueMin']) || isset($_POST['inputValueMin']) && !is_numeric($_POST['inputValueMin']))
+	{
+		$res['msg'] = "Valor Minímo Inválido!";
+		echo json_encode($res);
+		exit;
+	} 
+
+	$array = [
+		'id' => isset($_POST['id']) ? $_POST['id'] : 0,
+		'idStore' => intval($args['id']),
+		'valueMin' => isset($_POST['inputValueMin']) && is_numeric($_POST['inputValueMin']) ? $_POST['inputValueMin'] : 0,
+		'allowMin' => isset($_POST['checkAllowMin']) ? 1 : 0
+	];
+
+	$update = is_array($array) ? Cart::updateCartConfigSet("valueMin = :VALUE, allowMin = :ALLOW", "WHERE idCartConfig = :ID AND idStore = :STORE", [':ID' => $array['id'], ':STORE' => $array['idStore'], ':VALUE' => $array['valueMin'], ':ALLOW' => $array['allowMin']]) : 0;
+
+	$res = $update > 0 ? ['msg' => "Dados Atualizados com Sucesso", 'status' => 1] : ['msg' => "Nada Foi Atualizado!", 'status' => 0];
+
+	echo json_encode($res);
+	exit;
+
+});
+
 $app->get("/admin/stores/{id}/", function(Request $request, Response $response, $args) {
 	
 	header("Location: /admin/stores/");

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<?php if(!class_exists('Rain\Tpl')){exit;}?><!DOCTYPE html>
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
@@ -54,7 +54,8 @@
       </li>
     </ul>
 
-    {if="0==1"}
+    <?php if( 0==1 ){ ?>
+
     <!-- SEARCH FORM -->
     <form class="form-inline ml-3">
       <div class="input-group input-group-sm">
@@ -66,12 +67,14 @@
         </div>
       </div>
     </form>
-    {/if}
+    <?php } ?>
+
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       
-      {if="0==1"}
+      <?php if( 0==1 ){ ?>
+
       <!-- Messages Dropdown Menu -->
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
@@ -130,54 +133,69 @@
           <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
         </div>
       </li>
-      {/if}
+      <?php } ?>
+
 
       <!-- Notifications Dropdown Menu -->
       <li class="nav-item dropdown">
         
-        {if="0==1"}
+        <?php if( 0==1 ){ ?>
+
         
         <a class="nav-link" data-toggle="dropdown" href="#">
           <i class="far fa-bell"></i>
           <i id="notificationsStores2">
-            {if="isset($notifications) && $notifications.total > 0"}
+            <?php if( isset($notifications) && $notifications["total"] > 0 ){ ?>
+
             <span class="badge badge-primary navbar-badge">
-              {$notifications.total}
+              <?php echo htmlspecialchars( $notifications["total"], ENT_COMPAT, 'UTF-8', FALSE ); ?>
+
             </span>
-            {/if}
+            <?php } ?>
+
           </i>
         </a>
 
-        <div id="notificationsStores" class="dropdown-menu dropdown-menu-lg dropdown-menu-right" data-play="{$notifications.play}" data-href="{$notifications.href}">
+        <div id="notificationsStores" class="dropdown-menu dropdown-menu-lg dropdown-menu-right" data-play="<?php echo htmlspecialchars( $notifications["play"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" data-href="<?php echo htmlspecialchars( $notifications["href"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
 
-          <div id="alertNotifcations" data-alert="{$notifications.alert}"></div>
+          <div id="alertNotifcations" data-alert="<?php echo htmlspecialchars( $notifications["alert"], ENT_COMPAT, 'UTF-8', FALSE ); ?>"></div>
 
-          {if="isset($notifications) && $notifications.total > 0"}
+          <?php if( isset($notifications) && $notifications["total"] > 0 ){ ?>
+
           
           <span id="notteste" class="dropdown-item dropdown-header">
-            {$notifications.total} Notificações
+            <?php echo htmlspecialchars( $notifications["total"], ENT_COMPAT, 'UTF-8', FALSE ); ?> Notificações
           </span>
 
-          {loop="$notifications.details"}
-          {if="$value.qtd > 0 && $value.status != 2"}
+          <?php $counter1=-1;  if( isset($notifications["details"]) && ( is_array($notifications["details"]) || $notifications["details"] instanceof Traversable ) && sizeof($notifications["details"]) ) foreach( $notifications["details"] as $key1 => $value1 ){ $counter1++; ?>
+
+          <?php if( $value1["qtd"] > 0 && $value1["status"] != 2 ){ ?>
+
           <div class="dropdown-divider"></div>
-          <a id="optionNot{$key}" href="{$value.link}" class="dropdown-item">
-            <i class="{$value.icon} mr-2"></i> 
-            {$value.qtd} {$value.desc}
-            {if="0==1"} <span class="float-right text-muted text-sm">3 mins</span> {/if}
+          <a id="optionNot<?php echo htmlspecialchars( $key1, ENT_COMPAT, 'UTF-8', FALSE ); ?>" href="<?php echo htmlspecialchars( $value1["link"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" class="dropdown-item">
+            <i class="<?php echo htmlspecialchars( $value1["icon"], ENT_COMPAT, 'UTF-8', FALSE ); ?> mr-2"></i> 
+            <?php echo htmlspecialchars( $value1["qtd"], ENT_COMPAT, 'UTF-8', FALSE ); ?> <?php echo htmlspecialchars( $value1["desc"], ENT_COMPAT, 'UTF-8', FALSE ); ?>
+
+            <?php if( 0==1 ){ ?> <span class="float-right text-muted text-sm">3 mins</span> <?php } ?>
+
           </a>
-          {/if}
-          {/loop}
+          <?php } ?>
+
+          <?php } ?>
+
           
-          {else}
+          <?php }else{ ?>
+
           <span class="dropdown-item dropdown-header">
             Sem Notificações
           </span>
-          {/if}
+          <?php } ?>
+
 
         </div>
 
-        {/if}
+        <?php } ?>
+
         
       </li>
 
@@ -211,7 +229,8 @@
           
           <li class="nav-header">GERAL</li>
           
-          {if="0==1"}
+          <?php if( 0==1 ){ ?>
+
           <li class="nav-item has-treeview">
             
             <a href="/admin/stores/" class="nav-link">
@@ -270,7 +289,8 @@
               
             </ul>
           </li>
-          {/if}
+          <?php } ?>
+
 
           <li class="nav-item">
             <a href="/master/home/" class="nav-link">

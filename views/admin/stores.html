@@ -42,7 +42,7 @@
                     </thead>
                     <tbody>
                       {loop="$stores"}
-                      <tr style="cursor: pointer;" onclick="window.location.assign('/admin/stores/{$value.store}/register/')">
+                      <tr>
                         <td>
                           {$value.idStore}
                         </td>
@@ -60,6 +60,7 @@
                         <td class="h5">
                             <a class="mx-1" href="/admin/stores/{$value.store}/register/"><i class="far fa-edit"></i></a>
                             <a class="mx-1" href="/admin/stores/{$value.store}/info/"><i class="fas fa-cog"></i></a>
+                            <a class="mx-1" href="#" data-toggle="modal" data-target="#modalCartConfig" data-id='{if="isset($value.cartConfig.idCartConfig)"}{$value.cartConfig.idCartConfig}{else}0{/if}' data-store="{$value.store}" data-allow='{if="isset($value.cartConfig.allowMin)"}{$value.cartConfig.allowMin}{else}0{/if}' data-val-min='{if="isset($value.cartConfig.valueMin)"}{$value.cartConfig.valueMin}{else}0{/if}'><i class="fas fa-shopping-cart"></i></a>
                             <a class="mx-1" href="/admin/stores/{$value.store}/payment/"><i class="fas fa-dollar-sign"></i></a>
                             <a class="mx-1" href="/admin/stores/{$value.store}/layout/"><i class="far fa-file-alt"></i></a>
                             <a class="mx-1" href="/admin/stores/{$value.store}/freight/"><i class="fas fa-truck"></i></a>

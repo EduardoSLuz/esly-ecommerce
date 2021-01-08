@@ -1,0 +1,80 @@
+<?php if(!class_exists('Rain\Tpl')){exit;}?>	<section class="ct-center">
+
+		<div class="ct-ini mt-mobNavbar">
+			
+			<nav aria-label="breadcrumb" class="bar-display">
+				<ol class="breadcrumb bg-site-section">
+				  <li class="breadcrumb-item"><a href="/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/" class="text-link-site-section">Home</a></li>
+				  <li class="breadcrumb-item text-link-site-section" aria-current="page">Login</li>
+				</ol>
+			</nav>
+
+			<div id="BarLogin" class="text-center row">
+
+				<form id="formLogin" class="formLogin offset-md-2 col-md-4 py-4" method="POST" data-store="<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>">
+
+					<p class="text-second-site-section">
+						<span class="h2 px-3 font-weight-normal d-block">Seja Bem-vindo ao Ecommerce!</span>
+						<span class="tx-IconCart my-3 d-block">Para adicionar itens ao carrinho é preciso entrar em sua conta.</span>
+						<span class="h3 d-lg-block d-md-block d-none font-weight-normal">Se já estiver cadastrado</span>
+					</p>
+	
+					<div id="alertsLogin" class="alert alert-success alert-dismissible fade d-none text-left" role="alert">
+						<span class="msgAlert">Msg</span>
+					</div>
+
+					<div class="input-group text-center my-2 border border-secondary rounded">
+						
+						<div class="input-group-prepend">
+						  <span class="input-group-text null-bd bg-white" id="basic-addon1"><i class="far fa-envelope text-second-site-section"></i></span>
+						</div>
+
+						<input type="email" class="form-control null-bd border-left-0 rounded-right" placeholder="Seu e-mail" aria-describedby="basic-addon1" name="emailUser" value="<?php echo htmlspecialchars( $registerValues["emailUser"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" tabindex="1" autofocus>
+					
+					</div>
+
+					<div class="input-group text-centermy-2 border border-secondary rounded">
+						 
+						<div class="input-group-prepend">
+						  <button type="button" id="BtnLock" class="input-group-text null-bd bg-white" onclick="AlterTypeInput('passUser', 'BtnLock', 'fas fa-lock', 'fas fa-unlock')"><i id="IconePass" class="fas fa-lock text-second-site-section"></i></button>
+						</div>
+
+						<input type="password" id="passUser" name="passUser" class="form-control null-bd border-left-0 rounded-right" placeholder="Digite sua senha" aria-describedby="BtnLock" onpaste="return false" oncopy="return false"  oncut="return false" maxlength="150" tabindex="2">
+	
+					</div>
+
+					<div class="row my-1">
+						<a class="col-md text-left text-second-site-section text-decoration-none">
+							<input type="checkbox" id="checkRemember" name="checkRemember"> <span class="cursorPointer" onclick="ExecuteClick('checkRemember')">Lembrar de mim</span>
+						</a>
+						<span class="col-md text-right">
+							<a href="/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/login/forgot-password/" class="text-second-site-section text-decoration-none">Esqueci minha senha</a>
+						</span>
+					</div>
+
+					<div class="text-left mt-2">
+						
+					</div>
+
+					<div class="my-2">
+						<button type="submit" class="btn btn-main-site-section text-btn-site-section w-100" tabindex="3"><i class="far fa-user"></i> Entrar</button>
+					</div>
+				</form>
+
+				<div class="col-md-4 border border-primary bg-site-header rounded py-4 mx-2">
+					
+					<p class="h2 text-site-header font-weight-light"><i>Quer se cadastrar?</i></p>
+					
+					<a href="/loja-<?php echo htmlspecialchars( $ID, ENT_COMPAT, 'UTF-8', FALSE ); ?>/register/" class="btn btn-second-site-section text-btn-site-section border-0 my-2 px-4"><i class="far fa-user"></i> Cadastre-se aqui</a>
+
+					<div class="text-center">
+						<img src="<?php echo htmlspecialchars( $imgs["3"]["src"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" class="py-5 img-fluid mx-auto d-lg-block d-md-block d-none" style="max-height: 375px;">
+					</div>
+				
+				</div>
+
+			</div>
+			
+		</div>
+
+	</section>

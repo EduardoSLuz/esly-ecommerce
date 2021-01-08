@@ -16,7 +16,7 @@ class Cart extends Model {
 		
 		$sql = new Sql($_SESSION[Sql::DB]);
 
-		if(isset($_SESSION[User::SESSION]))
+		if(isset($_SESSION[User::SESSION]) && !isset($_SESSION[User::SESSION]['data']))
 		{
 
 			$id = User::getId();
@@ -608,6 +608,17 @@ class Cart extends Model {
 
 	}
 
+	public static function updateCartConfigSet($sets = "", $where = "WHERE idCartConfig = :ID", $param = [])
+	{
+		
+		$sql = new Sql($_SESSION[Sql::DB]);
+
+		$results = $sql->count("UPDATE cart_config SET $sets $where", $param);
+
+		return $results == 1 ? $results : 0;
+
+	}
+
 	private static function deleteCartItemSet($where = "WHERE idCartItem = :ID", $param = [])
 	{
 		
@@ -908,6 +919,18 @@ class Cart extends Model {
 		$sql = new Sql($_SESSION[Sql::DB]);
 
 		$select = $sql->select("SELECT * FROM cart_item $query", $param);
+
+		return count($select) > 0 ? $select : 0;
+
+	}
+
+	public static function listCartConfigSet($sets = "", $param = [])
+	{
+
+		$array = [];
+		$sql = new Sql($_SESSION[Sql::DB]);
+
+		$select = $sql->select("SELECT idCartConfig, valueMin, allowMin FROM cart_config $sets", $param);
 
 		return count($select) > 0 ? $select : 0;
 

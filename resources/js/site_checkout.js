@@ -181,11 +181,21 @@ $('.btnCheckCart').on('click', function(e) {
         data: dados
     }).done(function(response){
         
-        if(response == 1)
+        let json = JSON.parse(response);
+
+        if(json !== undefined)
         {
-            $('#modalUserRegister').modal('show');
-        } else{
-            window.location.href = "/loja-"+store+"/checkout/delivery-pickup/";
+
+            if(json.type == 1)
+            {
+                msgAlert("#alertCartCheckout", json.msg, json.status, 2000);
+            } else if(json.type == 2)
+            {
+                $('#modalUserRegister').modal('show');
+            } else if(json.type == 0 && json.status == 1){
+                window.location.href = "/loja-"+store+"/checkout/delivery-pickup/";
+            }
+
         }
 
     })

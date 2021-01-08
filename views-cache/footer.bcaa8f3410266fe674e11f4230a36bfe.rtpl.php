@@ -57,7 +57,7 @@
 <script src="/resources/js/admin_global.js"></script>
 <script src="/resources/js/mask.js"></script>
 
-<?php if( isset($id) && $id > 0 ){ ?>
+<?php if( isset($id) && $id > 0 || isset($stores) && $stores !== 0 ){ ?>
 
 <script src="/resources/js/admin_stores.js"></script>
 <?php } ?>

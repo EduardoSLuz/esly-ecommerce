@@ -60,7 +60,77 @@ $("#btnSearchCep").on("click", function(e) {
 });
 
 // Forms Page Store Info
+   
+//Form Cart Config
+$('#modalCartConfig').on('show.bs.modal', function (e) {
     
+    var button = $(e.relatedTarget); 
+    var id = button.data('id'); 
+    var store = button.data('store'); 
+    var allow = button.data('allow'); 
+    var value = button.data('val-min'); 
+    var modal = $(this);
+
+    modal.find('.modal-body #formCartConfig').attr("data-id", id);
+    modal.find('.modal-body #formCartConfig').attr("data-store", store);
+    modal.find('.modal-body #inputValueMin').val(value);
+
+    if(allow == 1)
+    {
+        modal.find('.modal-body #checkAllowMin').attr("checked", true);
+        modal.find('.modal-body #inputValueMin').removeAttr("readonly");
+    } else {
+        modal.find('.modal-body #checkAllowMin').removeAttr("checked");
+        modal.find('.modal-body #inputValueMin').attr("readonly", true);
+    }
+
+});
+
+$('#modalCartConfig').on('hide.bs.modal', function (e) {
+    window.location.reload();
+});
+
+//Form Info Descrição
+$('.formCartConfig').on('submit', function(e) { 
+
+    var id = $(this).data('id'); 
+    var store = $(this).data('store'); 
+    var url = `/admin/stores/${store}/cart-config/`;
+
+    e.preventDefault();
+    
+    var dados = $(this).serialize()+`&id=${id}`;
+
+    $.ajax({
+        url: url,
+        method: "POST",
+        data: dados
+    }).done(function(response){
+        
+        let json = JSON.parse(response);
+
+        if(json !== undefined)
+        {
+            msgAlert("#alertModalCartConfig", json.msg, json.status, 1500);
+        }
+
+    })
+
+});
+
+$("#checkAllowMin").on("change", e => {
+
+    let input = $('#inputValueMin');
+
+    if(input.attr('readonly') !== undefined)
+    {
+        $('#inputValueMin').removeAttr("readonly");
+    } else {
+        $('#inputValueMin').attr("readonly", true);
+    }
+
+});
+
 //Form Info Descrição
 $('.formInfoDesc').on('submit', function(e) { 
 
