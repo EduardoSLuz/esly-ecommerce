@@ -80,7 +80,7 @@ class Page {
 		$this->options["data"]["store"] = Store::listStores($this->options["data"]["ID"]);
 		$this->options["data"]["storeHorary"] = Store::listHoraryStore($this->options["data"]["ID"]);
 		$this->options["data"]["storeInstitution"] = Store::listInstitution($this->options["data"]["ID"]);
-		$this->options["data"]["storeRegion"] = Store::listFreight($this->options["data"]["ID"], 1);
+		$this->options["data"]["storeRegion"] = Store::listFreightNew(0, 0, "WHERE idStore = :STORE ORDER BY distance DESC LIMIT 1", [':STORE' => $this->options["data"]["ID"]]);
 		$this->options["data"]["storeSocial"] = Store::listInfoSocial($this->options["data"]["ID"]);
 		$this->options["data"]["storePayment"] = Store::listPayment($this->options["data"]["ID"]);
 		$this->options["data"]["layoutColor"] = Store::listLayoutColor($this->options["data"]["ID"]);
@@ -147,9 +147,9 @@ class Page {
 			":HOST" => $https
 		]);
 
-		if(is_array($results) && count($results) == 1)
+		if(isset($results[0]))
 		{
-
+			$results[0]['db_pass'] = Store::decryptCode($results[0]['db_pass']);
 			$_SESSION[Sql::DB] = $results[0];
 			
 		} else {
@@ -199,6 +199,11 @@ class Page {
 			case 404:
 				$array['msg'] = "Dominio não cadastrado!";
 				$array['icon'] = "fas fa-ghost";
+			break;
+
+			case 501:
+				$array['msg'] = "O site está atualizando seus produtos no momento!";
+				$array['icon'] = "fas fa-tools";
 			break;
 
 			case 500:

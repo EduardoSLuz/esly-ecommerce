@@ -63,9 +63,11 @@ class Cart extends Model {
 
 									} else {
 										
-										$insert = Cart::insertCartItemSet( "idCart, codBars, codProduct, descProduct, quantity, stock, similar, unitReference, priceItem, totalItem, image", ":ID, :BARCODE, :COD, :DESC, :QTD, :STOCK, :SIM, :UN, :PRICE, :TOTAL, :IMG", [ 
+										$insert = Cart::insertCartItemSet( "idCart, codBars, subtype, subtypeDesc, codProduct, descProduct, quantity, stock, similar, unitReference, priceItem, totalItem, image", ":ID, :BARCODE, :SUB, :SUBDESC, :COD, :DESC, :QTD, :STOCK, :SIM, :UN, :PRICE, :TOTAL, :IMG", [ 
 											":ID" => intval($cart['idCart']),
 											":BARCODE" => $value['codBars'],
+											":SUB" => isset($value['subtype']['id']) ? $value['subtype']['id'] : 0,
+											":SUBDESC" => isset($value['subtype']['desc']) ? $value['subtype']['desc'] : "",
 											":COD" => $value['codProduct'],
 											":DESC" => $value['descProduct'],
 											":QTD" => intval($value['quantity']),
@@ -241,26 +243,33 @@ class Cart extends Model {
 					$items[$key]['unitOrigin'] = $product['unitsMeasures'][0];
 					$value['quantity'] = $items[$key]['quantity'];
 
-					if($product['stock'] > 0)
-					{
-						$array['quantity'] += $value['quantity']; 
-						$array['total'] += $value['totalItem'];
-						unset($items[$key]['details']);
-				
-					} else if($product['stock'] == 0 || $maxQtd < 1)
-					{
+					if(!isset($product['subTypes']['types'][$value['subtype']]) && isset($product['subTypes']['status']) && $product['subTypes']['status'] == 1 || isset($product['subTypes']['types'][$value['subtype']]) && $product['subTypes']['types'][$value['subtype']] != $value['subtypeDesc'] && $product['subTypes']['status'] == 1){
 
-						if($refresh != 0 && isset($_SESSION[User::SESSION]))
+						unset($items[$key]);
+						$delete = isset($value['idCartItem']) && $value['idCartItem'] > 0 ? Cart::deleteCartItemSet("WHERE idCartItem = :ID", [':ID' => $value['idCartItem']]) : 0;
+
+					} else {
+
+						if($product['stock'] > 0)
+						{
+							$array['quantity'] += $value['quantity']; 
+							$array['total'] += $value['totalItem'];
+							unset($items[$key]['details']);
+					
+						} else if($product['stock'] == 0 || $maxQtd < 1)
 						{
 
-							unset($items[$key]);
+							if($refresh != 0 && isset($_SESSION[User::SESSION]))
+							{
 
-							$delete = isset($value['idCartItem']) && $value['idCartItem'] > 0 ? Cart::deleteCartItemSet("WHERE idCartItem = :ID", [':ID' => $value['idCartItem']]) : 0;
+								unset($items[$key]);
 
-						} else{
+								$delete = isset($value['idCartItem']) && $value['idCartItem'] > 0 ? Cart::deleteCartItemSet("WHERE idCartItem = :ID", [':ID' => $value['idCartItem']]) : 0;
 
-							$items[$key]['details'] = "Produto Indisponível na Loja $store";
-							
+							} else{
+								$items[$key]['details'] = "Produto Indisponível na Loja $store";
+							}
+
 						}
 
 					}
@@ -299,7 +308,7 @@ class Cart extends Model {
 
 	}
 
-	public static function addItem($item)
+	public static function addItem($item, $subtype = 0)
 	{
 
 		$unitItem = isset($item['unitsMeasures'][0]) ? $item['unitsMeasures'][0] : 0;
@@ -323,14 +332,16 @@ class Cart extends Model {
 				if($stockTotal <= $item['stock'] && $item['stock'] > 0)
 				{
 
-					$results = Cart::updateCartItemSet("codBars = :BARS, descProduct = :DESC, quantity = :QTD, stock = :STOCK, unitReference = :UN, priceItem = :PRICE, totalItem = (:PRICE * :QTD), image = :IMG", "WHERE idCartItem = :ID", [
+					$results = Cart::updateCartItemSet("codBars = :BARS, subtype = :SUB, subtypeDesc = :SUBDESC, descProduct = :DESC, quantity = :QTD, stock = :STOCK, unitReference = :UN, priceItem = :PRICE, totalItem = (:PRICE * :QTD), image = :IMG", "WHERE idCartItem = :ID", [
 						':BARS' => $item['barCode'],
+						':SUB' => $subtype['id'],
+						':SUBDESC' => $subtype['desc'],
 						':DESC' => $item['description'],
 						':QTD' => isset($unitItem['valueStock']) && $unitItem['freeFill'] == 1 ? 1 : ($product[0]['quantity'] + $item['qtd']),
 						':STOCK' => formatPrice($stockTotal),
 						':UN' => $unitItem['name'],
 						':PRICE' => $unitItem['price'],
-						':IMG' => $item['image'],
+						':IMG' => file_exists(substr($item['image'], 1)) ? $item['image'] : "/resources/imgs/products/default.png",
 						':ID' => $product[0]['idCartItem']
 					]);
 
@@ -344,9 +355,11 @@ class Cart extends Model {
 
 			} else if($item['stock'] > 0){
 
-				$results = Cart::insertCartItemSet( "idCart, codBars, codProduct, descProduct, quantity, stock, unitReference, priceItem, totalItem, image", ":ID, :BARCODE, :COD, :DESC, :QTD, :STOCK, :UN, :PRICE, :TOTAL, :IMG", [ 
+				$results = Cart::insertCartItemSet( "idCart, codBars, subtype, subtypeDesc, codProduct, descProduct, quantity, stock, unitReference, priceItem, totalItem, image", ":ID, :BARCODE, :SUB, :SUBDESC, :COD, :DESC, :QTD, :STOCK, :UN, :PRICE, :TOTAL, :IMG", [ 
 					":ID" => $_SESSION[Cart::SESSION]['idCart'],
 					":BARCODE" => $item['barCode'],
+					':SUB' => $subtype['id'],
+					':SUBDESC' => $subtype['desc'],
 					":COD" => intval($item['codProduct']),
 					":DESC" => strtoupper($item['description']),
 					":QTD" => isset($unitItem['valueStock']) && $unitItem['freeFill'] == 1 ? 1 : intval($item['qtd']),
@@ -354,7 +367,7 @@ class Cart extends Model {
 					":UN" => $unitItem['name'],
 					":PRICE" => $unitItem['price'],
 					":TOTAL" => ($unitItem['price'] * $item['qtd']),
-					":IMG" => $item['image']
+					":IMG" => file_exists(substr($item['image'], 1)) ? $item['image'] : "/resources/imgs/products/default.png"
 				]);
 
 			} else {
@@ -408,6 +421,8 @@ class Cart extends Model {
 					"idCartItem" => 0,
 					"codBars" => $item['barCode'],
 					"codProduct" => intval($item['codProduct']),
+					"subtype" => $subtype['id'],
+					"subtypeDesc" => $subtype['desc'],
 					"descProduct" => strtoupper($item['description']),
 					"quantity" => isset($unitItem['valueStock']) && $unitItem['freeFill'] == 1 ? 1 : intval($qtd + $item['qtd']),
 					"stock" => formatPrice($stockTotal),
@@ -415,7 +430,7 @@ class Cart extends Model {
 					"unitReference" => $unitItem['name'],
 					"priceItem" => $unitItem['price'],
 					"totalItem" => floatval($unitItem['price'] * $stockTotal),
-					"image" => $item['image']
+					"image" => file_exists(substr($item['image'], 1)) ? $item['image'] : "/resources/imgs/products/default.png"
 				];
 
 				$results = isset($_SESSION[Cart::SESSION]["items"][$ct['key']]) && is_array($_SESSION[Cart::SESSION]["items"][$ct['key']]) ? 1 : 0;
@@ -429,6 +444,8 @@ class Cart extends Model {
 					"idCartItem" => 0,
 					"codBars" => $item['barCode'],
 					"codProduct" => intval($item['codProduct']),
+					"subtype" => $subtype['id'],
+					"subtypeDesc" => $subtype['desc'],
 					"descProduct" => strtoupper($item['description']),
 					"quantity" => isset($unitItem['valueStock']) && $unitItem['freeFill'] == 1 ? 1 : intval($item['qtd']),
 					"stock" => formatPrice($item['qtd'] * $unitItem['valueStock']),
@@ -436,7 +453,7 @@ class Cart extends Model {
 					"unitReference" => $unitItem['name'],
 					"priceItem" => $unitItem['price'],
 					"totalItem" => floatval($unitItem['price'] * $item['qtd']),
-					"image" => $item['image']
+					"image" => file_exists(substr($item['image'], 1)) ? $item['image'] : "/resources/imgs/products/default.png"
 				];
 
 				$results = is_array($_SESSION[Cart::SESSION]["items"]) && count($_SESSION[Cart::SESSION]["items"]) > 0 ? 1 : 0;
@@ -862,7 +879,7 @@ class Cart extends Model {
 
 	}
 
-	public static function listAll($id = 0)
+	public static function listAll($id = 0, $store = 0)
 	{
 
 		$code = $id > 0 ? "WHERE idCart = :ID": "" ;
@@ -875,9 +892,23 @@ class Cart extends Model {
 		if(count($select) > 0 && $id > 0)
 		{
 
-			$items = $sql->select("SELECT idCartItem, codBars, codProduct, descProduct, quantity, stock, similar, unitReference, priceItem, discount, totalItem FROM cart_item WHERE idCart = :ID", $param);
+			$items = $sql->select("SELECT idCartItem, codBars, subtype, subtypeDesc, codProduct, descProduct, quantity, stock, similar, unitReference, priceItem, discount, totalItem FROM cart_item WHERE idCart = :ID", $param);
 
 			$select[0]['items'] = is_array($items) && count($items) > 0 ? $items : 0;
+
+			if($store > 0 && $select[0]['items'] != 0)
+			{
+				$data = $select[0]['items'];
+
+				foreach ($data as $key => $value) {
+					
+					$product = Mercato::searchProduct($store, $value['codProduct'], 'codProduct');
+					$value['proSubType'] = isset($product[0]['subTypes']) ? $product[0]['subTypes'] : 0;
+					
+					$select[0]['items'][$key] = $value;
+				}
+
+			}
 
 		}
 
@@ -936,7 +967,7 @@ class Cart extends Model {
 
 	}
 
-	public static function organizeItems($items)
+	public static function organizeItems($items, $store = 0)
 	{
 
 		$array = [];
@@ -980,7 +1011,7 @@ class Cart extends Model {
 			
 			foreach ($data as $key => $value) {
 
-				$value['priceItem'] = ($value['totalItem']/$value['quantity']);
+				$value['priceItem'] = ($value['totalItem']/$value['stock']) * 1;
 
 				$products[$key] = $value;
 			}

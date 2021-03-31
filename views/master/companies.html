@@ -1,0 +1,90 @@
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1 class="m-0 text-dark">Empresas</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+              <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="/master/home/">Home</a></li>
+                <li class="breadcrumb-item active">Empresas</li>
+              </ol>
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+      </div>
+      <!-- /.content-header -->
+  
+      <!-- Main content -->
+      <section class="content">
+        <div class="container-fluid">
+            
+          <!-- /.row -->
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">Todas as Empresas</h3>
+  
+                </div>
+                <!-- /.card-header -->
+                <div id="tbMasterCompanies" class="card-body table-responsive p-0" style="max-height: 450px;">
+                  <table class="table table-head-fixed table-hover text-nowrap table-bordered">
+                    <thead>
+                      <tr class="text-center">
+                        <th>ID</th>
+                        <th>SITE</th>
+                        <th>DIRECTORY</th>
+                        <th>STATUS</th>
+                        <th>CODE_MSG</th>
+                        <th>DATE_UPDATE</th>
+                        <th>OPTIONS</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {loop="$company"}
+                      <tr class="text-center">
+                        <td>
+                          {$key + 1}
+                        </td>
+                        <td>
+                          {$value.host}
+                        </td>
+                        <td>
+                          /{$value.directory}
+                        </td>
+                        <td>
+                          <span class="tag tag-success">
+                            {if="$value.status == 1"}Ativa{else}Inativa{/if}
+                          </span>
+                        </td>
+                        <td>
+                          {$value.code}
+                        </td>
+                        <td>
+                          {function="date('H:i d/m/Y', strtotime($value.dateUpdate))"}
+                        </td>
+                        <td class="h5">
+                            <a class="mx-1" href="#" data-toggle="modal" data-target="#modalCompanyRegister" data-cod="{$value.idCompany}"><i class="far fa-edit"></i></a>
+                            <a class="mx-1" href="https://www.{$value.host}/admin/"><i class="fas fa-user-shield"></i></a>
+                            <a class="mx-1" href="#" data-toggle="modal" data-target="#modalCompanyMercato" data-cod="{$value.idCompany}"><i class="fas fa-network-wired"></i></a>
+                          </td>
+                      </tr>
+                      {/loop}
+                    </tbody>
+                  </table>
+                </div>
+                <!-- /.card-body -->
+              </div>
+              <!-- /.card -->
+            </div>
+          </div>
+          <!-- /.row -->
+
+        </div><!-- /.container-fluid -->
+      </section>
+      <!-- /.content -->
+
+        
+        

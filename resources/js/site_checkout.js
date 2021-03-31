@@ -61,15 +61,19 @@ $('.formUpdateItem').on('submit', function(e) {
 
 $('.formFreigth').on('submit', function(e) {
 
-    var url = $(this).attr("action");
-    var fr = this.inputFreigth.value;
-    var store = $(this).attr("data-store");
+    let url = $(this).attr("action");
+    let fr = this.inputFreigth.value;
+    let store = $(this).attr("data-store");
 
     e.preventDefault();
 
-    var dados = new FormData();
+    let dados = new FormData();
 
     dados.append("inputFreigth", fr); 
+
+    $('#alertTextCart').addClass('d-none');
+    $('#listCepCart').html("");
+    $('#overlayCartAlert').removeClass('d-none');
 
     $.ajax({
         url: url,
@@ -78,13 +82,27 @@ $('.formFreigth').on('submit', function(e) {
         processData: false,
         contentType: false
     }).done(function(response){
-        if(response == 1)
+
+        if(response != 0 && response != "" && isJson(response))
         {
-            $("#priceFreigth").load( "/loja-"+store+"/checkout/cart/ #priceFreigth" );
-        } else {
-            $("#priceFreigth").html(response);
+            let json = JSON.parse(response);
+            
+            if(json.status == 1)
+            {
+                $("#listCepCart").load( `/loja-${store}/checkout/cart/ #listCepCart`, function(){
+                    $('#overlayCartAlert').addClass('d-none');
+                });
+                
+            } else {
+                msgAlertText('#alertTextCart', json.msg, json.status);
+            }
+            
         }
-    })
+
+    }).always(function(response){
+        if(isJson(response) == false || isJson(response) && JSON.parse(response).status == 0) $('#overlayCartAlert').addClass('d-none');
+    });
+
 
 });
 
@@ -246,7 +264,6 @@ $('.formCheckoutPrime').on('submit', function(e) {
     var url = `/loja-${store}/checkout/delivery-pickup/`;
 
     var dados = $(this).serialize();
-    //dados = dados + "&type=" + type + "&id=" + id + "&day=" + day;
 
     $("#overlayCheckoutPrime").removeClass("d-none");
 
@@ -256,10 +273,10 @@ $('.formCheckoutPrime').on('submit', function(e) {
         data: dados
     }).done(function(response){
         
-        let json = JSON.parse(response);
-        
-        if(json != undefined)
+        if(response != 0 && response != "" && isJson(response))
         {   
+
+            let json = JSON.parse(response);
 
             if(json.status === 0) msgAlert("#alertCheckoutPrime", json.msg, json.status, 1500);
 
@@ -290,14 +307,18 @@ $('.formCheckoutAddress').on('submit', function(e) {
 
     e.preventDefault();
 
-    var store = $(this).attr("data-store");
-    var url = `/loja-${store}/checkout/address/`;
-    var price = $('.checkboxAddress:checked').data('price');
+    let store = $(this).attr("data-store");
+    let url = `/loja-${store}/checkout/address/`;
+    let price = $('.checkList:checked').data('value');
+    let name = $('.checkList:checked').data('name');
+    let key = $('.checkList:checked').data('code');
 
     price = price == undefined ? "" : price;
+    name = name == undefined ? "" : name;
+    key = key == undefined ? 0 : key;
     
-    var dados = $(this).serialize();
-    dados = dados + "&price=" + price;
+    let dados = $(this).serialize();
+    dados = dados + `&price=${price}&name=${name}&key=${key}`;
     
     $("#overlayCheckoutAddress").removeClass('d-none');
 
@@ -307,10 +328,10 @@ $('.formCheckoutAddress').on('submit', function(e) {
         data: dados
     }).done(function(response){
         
-        let json = JSON.parse(response);
-        
-        if(json != undefined)
+        if(response != 0 && response != "" && isJson(response))
         {   
+
+            let json = JSON.parse(response);
 
             if(json.status === 0) msgAlert("#alertCheckoutAddress", json.msg, json.status, 1500);
 
@@ -331,6 +352,26 @@ $('.formCheckoutAddress').on('submit', function(e) {
     }).always(function(){
         $("#overlayCheckoutAddress").addClass('d-none');
     });
+
+});
+
+$('.optionAddressList').on("click", function(e){
+
+    $("#sectionTypeFreight").addClass('d-none');
+    $("#overlayCheckoutAddrAlert").removeClass('d-none');
+
+    let store = $(this).attr('data-store');
+    let type = $(this).attr('data-type');
+    let id = $(this).attr('data-code');
+    
+    if(parseInt(store) > 0 && id > 0)
+    {
+        $("#listAddressFreight").load( `/loja-${store}/checkout/address/?c=${id} #listAddressFreight`, function(){
+            $("#sectionTypeFreight").removeClass('d-none');
+            $("#overlayCheckoutAddrAlert").addClass('d-none');
+            $(`#listItemAddr${type}`).click();
+        });
+    }
 
 });
 
@@ -357,11 +398,11 @@ $('.formCheckoutHorary').on('submit', function(e) {
         method: "POST",
         data: dados
     }).done(function(response){
-
-        let json = JSON.parse(response);
         
-        if(json != undefined)
+        if(response != 0 && response != "" && isJson(response))
         {   
+
+            let json = JSON.parse(response);
 
             if(json.status === 0) msgAlert("#alertCheckoutHorary", json.msg, json.status, 1500);
 
@@ -402,10 +443,10 @@ $('.formCheckoutPayment').on('submit', function(e) {
         data: dados
     }).done(function(response){
 
-        let json = JSON.parse(response);
-        
-        if(json != undefined)
+        if(response != 0 && response != "" && isJson(response))
         {   
+
+            let json = JSON.parse(response);
 
             if(json.status === 0) msgAlert("#alertCheckoutPayment", json.msg, json.status, 1500);
 
@@ -474,8 +515,6 @@ $('.formCheckoutResume').on('submit', function(e) {
         method: "POST",
         data: dados
     }).done(function(response){
-
-        console.log(response);
 
         let json = JSON.parse(response);
         

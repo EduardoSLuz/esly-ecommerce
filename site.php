@@ -27,79 +27,12 @@ $app->get("/", function(Request $request, Response $response) {
 	]);
 
 	$page->setTpl("index", [
-		"state" => Store::listCityStore(),
+		"city" => Store::listCityStore(),
 	]);
 	
 	return $response;
 
 });
-
-
-//Page Mercato Download 
-$app->get("/mercato/loja-{store}/", function(Request $request, Response $response, $args) {
-	
-	if(!isset($_SESSION[Sql::DB])) Page::verifyPage();
-
-	Store::verifyStore($args['store']);
-	
-	Mercato::getProducts($args['store']);
-	
-	var_dump("SUCESSO");
-	exit;	
-
-});
-
-/*
-$app->get("/mercato/loja-{store}/search/", function(Request $request, Response $response, $args) {
-	
-	$dados = Mercato::listAllProducts($args['store']);
-
-	$s = isset($_GET['s']) ? $_GET['s'] : "";
-
-	foreach ($dados as $key => $value) {
-		
-		if($s != "" && strstr($value['descricao'], strtoupper($s)) || $s == "")
-		{	
-
-			/*echo "
-			Cod Produto : ".$value['cod_produto']." <br>
-			Produto : ".$value['descricao']." <br>
-			Preço : R$".$value['precovenda']." por ".$value['unidaderef']."  <br>
-			Preço de Promoção : ".$value['precopromocaoterm']." <br>
-			Código de Barras : ".$value['cod_barra']." <br>
-			Quantidade Variavel : ".$value['quantvariavel']." <br>
-			Bloqueia Multiplicação : ".$value['bloqueiamultiplicacao']." <br>
-			Leve X : ".$value['levex']." <br>
-			Pague Y : ".$value['paguey']." <br>
-			Permite Desconto : ".$value['permitedesconto']." <br>
-			Só vende INTEIRO : ".$value['sovendeinteiro']." <br>
-			Só embalagem fechada Varejo : ".$value['soembfechadava']." <br>
-			Só embalagem fechada Atacado : ".$value['soembfechadaat']." <br>
-			Desconto Máximo: ".$value['descontomax']." <br>
-			Desconto: ".$value['desconto']." <br>
-			Preço por caixa: ".$value['precoporcaixa']." <br>
-			Quantidade por caixa: ".$value['quantporcaixa']." <br>
-			Produto Composto: ".$value['produtocomposto']." <br>
-			<img src='data:image/png;base64,".$value['imagem']."' alt='Produtos'>
-			<hr>
-			";
-
-			var_dump($value);
-		}
-
-	}
-
-	exit;
-
-});
-
-$app->get("/mercato/loja-{store}/departaments/", function(Request $request, Response $response, $args) {
-	
-	$dados = Mercato::filterDepartamentsProducts($args['store']);
-	var_dump($dados);
-	exit;
-
-}); */
 
 // Page Home 
 $app->post("/loja-{store}/select-product-unit/", function(Request $request, Response $response, $args) {
@@ -134,6 +67,8 @@ $app->post("/loja-{store}/select-product-unit/", function(Request $request, Resp
 
 $app->get("/loja-{store}/", function(Request $request, Response $response, $args) {
 
+	$id = isset($_GET['cod']) && is_numeric($_GET['cod']) && $_GET['cod'] > 0 ? $_GET['cod'] : 0;
+	$img = isset($_GET['img']) && is_numeric($_GET['img']) && $_GET['img'] == 1 ? 1 : 0;
 
 	$page = new Page([
 		"data" => [
@@ -144,7 +79,11 @@ $app->get("/loja-{store}/", function(Request $request, Response $response, $args
 	
 	$page->setTpl("home", [
 		"products" => Mercato::listAllProducts($args['store'], 1),
-		"productsDep" => Mercato::listProductsDepartaments($args['store'])
+		"productsDep" => Mercato::listProductsHome($args['store'], 0, 1),
+		"subTypes" => Mercato::searchProduct($args['store'], $id, 'codProduct'),
+		"loading" => [
+			"carouselImgs" => $img
+		]
 	]);
 	
 	return $response;
@@ -204,6 +143,7 @@ $app->post("/loja-{store}/email-promotions/", function(Request $request, Respons
 // Page Search Menu 
 $app->post("/loja-{store}/menu/", function(Request $request, Response $response, $args) {
 	
+	$ct = 0;
 	$HTML = "";
 	$search = $_POST['product'] != "" ? Mercato::searchProduct($args['store'], strtoupper($_POST['product'])) : 0;
 	
@@ -211,17 +151,21 @@ $app->post("/loja-{store}/menu/", function(Request $request, Response $response,
 		
 		foreach ($search as $key => $value) {
 			
-			$priceFinal = $value['pricePromo'] > 0 && $value['pricePromo'] < $value['price'] ? $value['pricePromo'] : $value['price'];
-			
-			if($key < 10)
+			if($value['stock'] > 0)
 			{
-				$HTML .= '
-				<a href="/loja-'.$args['store'].'/product/'.$value['description'].'/" class="list-group-item list-group-item-action py-2">
-					<p class="row my-0">
-						<span class="col-md-10">'.$value['description'].'</span>
-						<span class="col-md-2 text-right">R$ '.maskPrice($priceFinal).'</span>
-					</p>
-				</a>';
+				$ct += 1;
+				$priceFinal = $value['pricePromo'] > 0 && $value['pricePromo'] < $value['price'] ? $value['pricePromo'] : $value['price'];
+				
+				if($ct < 10)
+				{
+					$HTML .= '
+					<a href="/loja-'.$args['store'].'/product/'.$value['description'].'/" class="list-group-item list-group-item-action py-2">
+						<p class="row my-0">
+							<span class="col-md-10">'.$value['description'].'</span>
+							<span class="col-md-2 text-right">R$ '.maskPrice($priceFinal).'</span>
+						</p>
+					</a>';
+				}
 			}
 			
 		}
@@ -241,13 +185,14 @@ $app->get("/loja-{store}/search/", function(Request $request, Response $response
 
 	// GET PARAMETERS
 	$search = isset($_GET['s']) && !empty($_GET['s']) ? $_GET['s'] : NULL;
+	$id = isset($_GET['cod']) && is_numeric($_GET['cod']) && $_GET['cod'] > 0 ? $_GET['cod'] : 0;
 	$or = isset($_GET['order']) && $_GET['order'] > 0 && $_GET['order'] < 6 ? $_GET['order'] : 0;
 	$subs = isset($_GET['subs']) ? $_GET['subs'] : "";
 	$mark = isset($_GET['mark']) ? $_GET['mark'] : "";
 	$pages = !isset($_GET['page']) ? 1 : $_GET['page'];
 	$filter = isset($_GET['min']) && isset($_GET['max']) ? ["min" => floatval($_GET['min']), "max" => floatval($_GET['max']) ] : 0;
 	
-	$res = $search != NULL ? Mercato::searchPageProduct($args['store'], $search, $subs, $mark, $filter) : 0;
+	$res = $search != NULL ? Mercato::searchPageProduct($args['store'], $search, $subs, $mark, $filter, 1) : 0;
 	$res = $or != 0 && $res != 0 ? Mercato::filterSearchProducts($res, $or) : $res;
 
 	$page = new Page([
@@ -272,6 +217,7 @@ $app->get("/loja-{store}/search/", function(Request $request, Response $response
 			"filterPrice" => $res != 0 ? Mercato::getPriceProduct($res) : 0,
 			"res" => $res
 		],
+		"subTypes" => Mercato::searchProduct($args['store'], $id, 'codProduct')
 	]);
 	
 	return $response;
@@ -306,6 +252,7 @@ $app->get("/loja-{store}/departaments/{departaments}-{category}/", function(Requ
 	if(empty($args['departaments']) || !isset($args['departaments'])) header("/loja-".$args['store']."/");
 
 	$dep = $args['departaments'];
+	$id = isset($_GET['cod']) && is_numeric($_GET['cod']) && $_GET['cod'] > 0 ? $_GET['cod'] : 0;
 	$cat = $args['category'] != 0 || !empty($args['category']) ? $args['category'] : "";
 	$subs = isset($_GET['subs']) ? $_GET['subs'] : "";
 	$mark = isset($_GET['mark']) ? $_GET['mark'] : "";
@@ -313,7 +260,7 @@ $app->get("/loja-{store}/departaments/{departaments}-{category}/", function(Requ
 	$or = isset($_GET['order']) && $_GET['order'] > 0 && $_GET['order'] < 6 ? $_GET['order'] : 0;
 	$filter = isset($_GET['min']) && isset($_GET['max']) ? ["min" => floatval($_GET['min']), "max" => floatval($_GET['max']) ] : 0;
 
-	$res = $dep != "" ? Mercato::searchPageDepartament($args['store'], $dep, $cat, $mark, $subs, $filter) : 0;
+	$res = $dep != "" ? Mercato::searchPageDepartament($args['store'], $dep, $cat, $mark, $subs, $filter, 1) : 0;
 	$res = $or != 0 && $res != 0 ? Mercato::filterSearchProducts($res, $or) : $res;
 
 	$category = Mercato::getDepartaments($args['store'], $dep, $cat);
@@ -340,7 +287,8 @@ $app->get("/loja-{store}/departaments/{departaments}-{category}/", function(Requ
 			"page" => $pages,
 			"pages" => $res != 0 ? Mercato::getSearchPage($res, $pages) : 0,
 			"products" => $res
-		]
+		],
+		"subTypes" => Mercato::searchProduct($args['store'], $id, 'codProduct')
 	]);
 	
 	return $response;
@@ -353,11 +301,12 @@ $app->get("/loja-{store}/product/{product}/", function(Request $request, Respons
 	if(!isset($_SESSION[Sql::DB])) Page::verifyPage();
 	Store::verifyStore($args['store']);
 
-	$product = Mercato::searchFieldProduct($args['store'], $args['product'], "description");
-
+	$product = Mercato::searchFieldProductHome($args['store'], $args['product'], "description");
+	$id = isset($_GET['cod']) && is_numeric($_GET['cod']) && $_GET['cod'] > 0 ? $_GET['cod'] : 0;
+	
 	if($product == 0 || isset($product['stock']) && $product['stock'] == 0) header("Location: /loja-".$args['store']."/");
 	
-	$dep = Mercato::searchPageDepartament($args['store'], $product['departament'], $product['category']);
+	$dep = Mercato::searchPageDepartament($args['store'], $product['departament'], $product['category'], "", "", 0, 1);
 
 	$page = new Page([
 		"data" => [
@@ -370,7 +319,9 @@ $app->get("/loja-{store}/product/{product}/", function(Request $request, Respons
 	$page->setTpl("product-details", [
 		"product" => $product,
 		"views" => Mercato::listAllProducts($args['store'], 1),
-		"departament" => $dep
+		"departament" => $dep,
+		"subTypes" => Mercato::searchProduct($args['store'], $id, 'codProduct'),
+		"productsDep" => Mercato::listProductsHome($args['store'], 0, 1)
 	]);
 	
 	return $response;

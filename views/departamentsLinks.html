@@ -1,3 +1,4 @@
+{if="isset($storeInstitution.0.hdInfo1) && $storeInstitution.0.hdInfo1 == 1"}
 <p class="h6 text-second-site-section">Relacionados</p>
 <hr>
 
@@ -10,6 +11,7 @@
 	{/loop}
 	
 </div>
+{/if}
 
 {if="$dep.subs"}
 <p class="h6 text-second-site-section">Filtros selecionados</p>

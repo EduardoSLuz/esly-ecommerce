@@ -21,12 +21,15 @@ $app->post("/loja-{store}/checkout/cart/product/{product}/add/", function(Reques
 	
 	if($product !== NULL && isset($_POST['qtd']) && $_POST['qtd'] > 0 && isset($_POST['type']) && $_POST['type'] >= 0)
 	{
-		
+		$subtype = [
+			"id" => isset($_POST['subtype']) && is_numeric($_POST['subtype']) && $_POST['subtype'] >= 0 ? $_POST['subtype'] : 0,
+			"desc" => isset($product['subTypes']['types'][$_POST['subtype']]) && isset($product['subTypes']['status']) && $product['subTypes']['status'] == 1 ? $product['subTypes']['types'][$_POST['subtype']] : ""
+		];
 		$product['qtd'] = $_POST['qtd'];
 		$product['unitOrigin'] = isset($product['unitsMeasures'][0]) ? $product['unitsMeasures'][0] : 0;
 		$product['unitsMeasures'] = is_numeric($_POST['type']) && $_POST['type'] < count($product['unitsMeasures']) && isset($product['unitsMeasures'][$_POST['type']]) ? [0 => $product['unitsMeasures'][$_POST['type']]] : $product['unitsMeasures'];
 
-		$add = Cart::addItem($product);
+		$add = Cart::addItem($product, $subtype);
 
 		if($add === true && $_SESSION[Cart::SESSION]['idCart'] > 0) unset($_SESSION[Cart::SESSION]);
 
@@ -101,6 +104,38 @@ $app->post("/loja-{store}/checkout/cart/freigth/", function(Request $request, Re
 
 	Store::verifyStore($args["store"]);
 
+	$res = ['msg' => "ERRO CRÍTICO!", 'status' => 0];
+
+	if(isset($_POST['inputFreigth']) && strlen($_POST['inputFreigth']) <> 9)
+	{
+		$res['msg'] = "Digite um Cep válido";
+		unset($_SESSION['cartFreigth']);
+		echo json_encode($res);
+		exit;
+	}
+
+	$cep = Store::listFreightByCep($args['store'], $_POST['inputFreigth']);
+
+	if($cep == 0)
+	{
+		$res['msg'] = "CEP INVÁLIDO OU INEXISTENTE NA BASE DE DADOS!";
+		unset($_SESSION['cartFreigth']);
+	} else {
+		$res = ['msg' => 'OK', 'status' => 1]; 
+		$_SESSION['cartFreigth'] = $cep;
+	}
+
+	echo json_encode($res);	
+	exit;
+
+});
+
+/*
+// Page Cart
+$app->post("/loja-{store}/checkout/cart/freigth/", function(Request $request, Response $response, $args) {
+
+	Store::verifyStore($args["store"]);
+
 	if(isset($_POST['inputFreigth']) && strlen($_POST['inputFreigth']) <> 9)
 	{
 		echo "Digite um Cep válido";
@@ -121,6 +156,7 @@ $app->post("/loja-{store}/checkout/cart/freigth/", function(Request $request, Re
 	exit;
 
 });
+*/
 
 $app->post("/loja-{store}/checkout/cart/promo/", function(Request $request, Response $response, $args) {
 
@@ -329,20 +365,12 @@ $app->post("/loja-{store}/checkout/delivery-pickup/", function(Request $request,
 		exit;
 	}
 
-	if(isset($_POST['inputType']) && $_POST['inputType'] == 2 && !isset($_POST['inputFreight']))
-	{
-		$res['msg'] = "Selecione um tipo de entrega!";
-		echo json_encode($res);
-		exit;
-	}
-
 	if(isset($_POST['inputType']) && isset($_SESSION[Cart::SESSION]) && $_SESSION[Cart::SESSION]['items'] != 0)
 	{
 		
 		Order::createOrder();
 
 		$_SESSION[Order::SESSION]['type'] = intval($_POST['inputType']);
-		$_SESSION[Order::SESSION]['typeFreight'] = isset($_POST['inputFreight']) && $_POST['inputType'] == 2 ? $_POST['inputFreight'] : 0;
 		$_SESSION[Order::SESSION]['resp'] = $_POST['inputName'];
 
 		$res = [
@@ -407,16 +435,18 @@ $app->post("/loja-{store}/checkout/address/", function(Request $request, Respons
 		exit;
 	}
 
-	if(isset($_POST['price']) && $_POST['price'] == " " || isset($_POST['price']) && empty($_POST['price']) || !isset($_POST['price']))
+	if(isset($_POST['price']) && empty(trim($_POST['price'])) && !is_numeric($_POST['price']) || isset($_POST['price']) && is_numeric($_POST['price']) && $_POST['price'] < 0 || !isset($_POST['price']))
 	{
-		$res["msg"] = "Algo deu errado, favor atualize a página!";
+		$res["msg"] = "Operação Não Permitida!";
 		echo json_encode($res);
 		exit;
 	}
 
 	if(isset($_POST['inputAddress']) && isset($_SESSION[Cart::SESSION]) && $_SESSION[Cart::SESSION]['items'] != 0){
 
-		$_SESSION[Order::SESSION]['freight'] = intval($_POST['price']);
+		$_SESSION[Order::SESSION]['freight'] = floatval($_POST['price']);
+		$_SESSION[Order::SESSION]['typeFreight'] = isset($_POST['key']) ? intval($_POST['key']) : 0;
+		$_SESSION[Order::SESSION]['nameFreight'] = isset($_POST['name']) ? $_POST['name'] : "Normal";
 		$_SESSION[Order::SESSION]['address'] = intval($_POST['inputAddress']);
 		
 		$res = [
@@ -438,6 +468,8 @@ $app->get("/loja-{store}/checkout/address/", function(Request $request, Response
 
 	Cart::verifyRegister($args['store']);
 	Order::verifyOrder('type', 1);
+	
+	$cep = isset($_GET['c']) && is_numeric($_GET['c']) && $_GET['c'] > 0 ? $_GET['c'] : 0; 
 
 	$page = new Page([
 		"login" => 2,
@@ -452,8 +484,8 @@ $app->get("/loja-{store}/checkout/address/", function(Request $request, Response
 	$page->setTpl("checkout-address", [
         'successMsg'=> Order::getSuccessMsg(),
 		'errorRegister' => Order::getErrorRegister(),
-		'address' => Address::listAddressFreigth(0, ["store" => $args['store'], "type" => $_SESSION[Order::SESSION]['typeFreight']]),
-		"cities" => Store::listCityStore(),
+		'address' => Address::listAddressFreigth(0, $args['store']),
+		'freight' => $cep != 0 ? Store::listFreightByCep($args['store'], "", $cep) : 0,
 		'priceHorary' => Cart::listPriceHorary(0, 1, "delivery"),
 		'order' => isset($_SESSION[Order::SESSION]) ? $_SESSION[Order::SESSION] : 0,
 		'orderLink' => 2
@@ -470,7 +502,7 @@ $app->post("/loja-{store}/checkout/horary/", function(Request $request, Response
 	Order::verifyOrder('resp', "");
 
 	$res = ['status' => 0, 'msg' => 'ERRO CRÍTICO'];
-	
+
 	if(isset($_POST['inputCheckoutHorary']) && Order::validDate($_POST['inputCheckoutHorary']) == false || !isset($_POST['inputCheckoutHorary']))
 	{
 		$res['msg'] = "Selecione um Horário de Entrega!";
@@ -593,7 +625,7 @@ $app->post("/loja-{store}/checkout/payment/", function(Request $request, Respons
 	} else{	
 		$res['options'] = 0;
 	}
-
+	
 	echo json_encode($res);
 	exit;
 
@@ -667,12 +699,6 @@ $app->post("/loja-{store}/checkout/resume/", function(Request $request, Response
 	] ]; 
 
 	//if($orders == 0 || $cart == 0 || intval($store) < 1 || $horary == 0) header("Location: /");
-	
-	if($orders['type'] == 2){
-		$typeFreight = $orders['typeFreight'] == 1 ? "Express" : "Normal";
-	} else {
-		$typeFreight = "Sem Frete";
-	}
 
 	$total = floatval(floatval($cart['totalCart']) + $orders['freight'] + floatval($orders['horary']['price']));
 	$date = date("Y-m-d");
@@ -691,7 +717,7 @@ $app->post("/loja-{store}/checkout/resume/", function(Request $request, Response
 		"timeInitial" => isset($orders) && Order::validTime($orders['horary']['init']) ? $orders['horary']['init'] : "",
 		"timeFinal" => isset($orders) && Order::validTime($orders['horary']['final']) ? $orders['horary']['final'] : "",
 		"priceHorary" => isset($orders) && is_numeric($orders['horary']['price']) ? floatval($orders['horary']['price']) : 0,
-		"freight" => $typeFreight,
+		"freight" => isset($orders['nameFreight']) && $orders['typeFreight'] == 2 && !empty(trim($orders['nameFreight'])) ? $orders['nameFreight'] : "Sem Frete",
 		"typeFreight" => isset($orders) && $orders['type'] == 2 && $orders['typeFreight'] >= 0 && $orders['typeFreight'] <= 1 ? $orders['typeFreight'] : 0,
 		"priceFreight" => isset($orders) && $orders['type'] == 2 && !empty($orders['freight']) && is_numeric($orders['freight']) ? floatval($orders['freight']) : 0,
 		"typeModality" => isset($orders) && $orders['type'] != 0 ? $orders['type'] : 0,

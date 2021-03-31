@@ -122,6 +122,7 @@ class Order extends Model {
 				"cart" => $_SESSION[Cart::SESSION]['idCart'],
 				"type" => 0,
 				"typeFreight" => 0,
+				"nameFreight" => "",
 				"resp" => "",
 				"freight" => 0,
 				"address" => 0,
@@ -158,7 +159,7 @@ class Order extends Model {
 
 		if($id > 0) $param[':ORDER'] = intval($id) ;
 
-		$select = $sql->select("SELECT ors.idOrder, ors.idCart, ors.idStore, ors.idPromo, ors.idUser, ors.codOrder, ors.dateInsert, ors.timeInsert, ors.paid, ors.typeModality, ors.typeFreight, ors.freight, ors.changePay, ors.dateHorary, ors.timeInitial, ors.timeFinal, ors.nameRes, ors.address, ors.payment, ors.status, ors.dateUpdate, ors.timeUpdate, ors.priceFreight, ors.priceHorary, ors.discount, ors.subtotal, ors.total, ors_st.idOrderStatus, ors_st.descStatus, us.nameUser, us.surnameUser, pm.idPromoType, pm.title, pm.value, pm.valueType FROM orders AS ors INNER JOIN orders_status AS ors_st ON ors.idOrderStatus = ors_st.idOrderStatus INNER JOIN user AS us ON ors.idUser = us.idUser LEFT JOIN promotions AS pm ON ors.idPromo = pm.idPromo $query ORDER by ors.dateInsert, ors.timeInsert", $param);
+		$select = $sql->select("SELECT ors.idOrder, ors.idCart, ors.idStore, ors.idPromo, ors.idUser, ors.codOrder, ors.dateInsert, ors.timeInsert, ors.paid, ors.typeModality, ors.typeFreight, ors.freight, ors.changePay, ors.dateHorary, ors.timeInitial, ors.timeFinal, ors.nameRes, ors.address, ors.payment, ors.status, ors.dateUpdate, ors.timeUpdate, ors.priceFreight, ors.priceHorary, ors.discount, ors.subtotal, ors.total, ors_st.idOrderStatus, ors_st.descStatus, us.nameUser, us.surnameUser FROM orders AS ors INNER JOIN orders_status AS ors_st ON ors.idOrderStatus = ors_st.idOrderStatus INNER JOIN user AS us ON ors.idUser = us.idUser $query ORDER by ors.dateInsert, ors.timeInsert", $param);
 
 		if(count($select) > 0)
 		{
@@ -265,7 +266,7 @@ class Order extends Model {
 
 		$sql = new Sql($_SESSION[Sql::DB]);
 
-		$select = $sql->select("SELECT ors.idOrder, ors.idCart, ors.idStore, ors.idPromo, ors.idUser, ors.codOrder, ors.dateInsert, ors.timeInsert, ors.paid, ors.typeModality, ors.typeFreight, ors.freight, ors.changePay, ors.dateHorary, ors.timeInitial, ors.timeFinal, ors.nameRes, ors.address, ors.payment, ors.status, ors.dateUpdate, ors.timeUpdate, ors.priceFreight, ors.priceHorary, ors.discount, ors.subtotal, ors.total, ors_st.idOrderStatus, ors_st.descStatus, us.nameUser, us.surnameUser, pm.idPromoType, pm.title, pm.value, pm.valueType FROM orders AS ors INNER JOIN orders_status AS ors_st ON ors.idOrderStatus = ors_st.idOrderStatus INNER JOIN user AS us ON ors.idUser = us.idUser LEFT JOIN promotions AS pm ON ors.idPromo = pm.idPromo $code ORDER by ors.dateInsert DESC, ors.timeInsert DESC", $param);
+		$select = $sql->select("SELECT ors.idOrder, ors.idCart, ors.idStore, ors.idPromo, ors.idUser, ors.codOrder, ors.dateInsert, ors.timeInsert, ors.paid, ors.typeModality, ors.typeFreight, ors.freight, ors.changePay, ors.dateHorary, ors.timeInitial, ors.timeFinal, ors.nameRes, ors.address, ors.payment, ors.status, ors.dateUpdate, ors.timeUpdate, ors.priceFreight, ors.priceHorary, ors.discount, ors.subtotal, ors.total, ors_st.idOrderStatus, ors_st.descStatus, us.nameUser, us.surnameUser FROM orders AS ors INNER JOIN orders_status AS ors_st ON ors.idOrderStatus = ors_st.idOrderStatus INNER JOIN user AS us ON ors.idUser = us.idUser $code ORDER by ors.dateInsert DESC, ors.timeInsert DESC", $param);
 
 		if(count($select) > 0)
 		{
@@ -291,7 +292,7 @@ class Order extends Model {
 
 				$select[0]['payment'] = $payment != 0 ? $payment['payment'] : $payment;
 
-				$cart = Cart::listAll($select[0]['idCart']);
+				$cart = Cart::listAll($select[0]['idCart'], $select[0]['idStore']);
 
 				$select[0]['cart'] = $cart[0];
 
@@ -405,7 +406,7 @@ class Order extends Model {
 
 		$sql = new Sql($_SESSION[Sql::DB]);
 
-		$select = $sql->select("SELECT ors.idOrder, ors.idCart, ors.idPromo, ors.idStore, ors.idUser, ors.priceHorary, ors.priceFreight, ors.subtotal, ors.typeFreight, ors.typeModality, ors.address, pm.idPromoType, pm.value, pm.valueType FROM orders AS ors LEFT JOIN promotions AS pm ON ors.idPromo = pm.idPromo WHERE ors.idOrder = :ID", [
+		$select = $sql->select("SELECT ors.idOrder, ors.idCart, ors.idPromo, ors.idStore, ors.idUser, ors.priceHorary, ors.priceFreight, ors.subtotal, ors.typeFreight, ors.typeModality, ors.address FROM orders AS ors WHERE ors.idOrder = :ID", [
 			":ID" => intval($id)
 		]);
 
@@ -548,7 +549,6 @@ class Order extends Model {
 					"reference" => "",
 					"city" => $adStore[0]['city'],
 					"uf" => $adStore[0]['uf'],
-					"codeCity" => $adStore[0]['codeCity']
 				];
 
 				// ADDRESS STORE
@@ -560,10 +560,8 @@ class Order extends Model {
 						"district" => $adOrder[0]['district'],
 						"cep" => $adOrder[0]['cep'],
 						"complement" => $adOrder[0]['complement'],
-						"reference" => $adOrder[0]['reference'],
 						"city" => $adOrder[0]['city'],
 						"uf" => $adOrder[0]['uf'],
-						"codeCity" => $adOrder[0]['codeCity']
 					];
 				} else {
 

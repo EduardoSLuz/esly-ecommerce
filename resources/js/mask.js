@@ -12,6 +12,7 @@ $(".maskCep").mask("00000-000");
 $(".maskCnpj").mask("00.000.000/0000-00");
 $(".maskCpf").mask("000.000.000-00");
 $('.maskTel').mask(SPMaskBehavior, spOptions);
+$('.maskNumber').mask("##0", {reverse: true});
 $('.maskStock').mask("##0.00", {reverse: true});
 $('.maskMoney3').mask("##0,00", {reverse: true});
 $('.maskMoney2').mask("##0.00", {reverse: true});

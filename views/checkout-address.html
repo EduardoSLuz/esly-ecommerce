@@ -24,10 +24,11 @@
 					<p class="mt-4 h6 font-weight-normal text-link-site-section">
 						<i class="fas fa-store"></i> 
 						Loja {$ID} 
-						{if="isset($order) && isset($order.type) && $order.type == 2"}
-						- <i class="fas fa-truck"></i> Frete: <b>
+						{if="isset($order) && isset($order.type) && $order.type == 2 && $order.nameFreight != ''"}
+						- <i class="fas fa-truck"></i> Frete: 
+						<b>
 							<i>
-								{if="$order.typeFreight == 0"}Normal{else}Express{/if}
+								{$order.nameFreight}
 							</i>
 					 	</b> 
 						{/if}
@@ -49,25 +50,33 @@
 
 					<form id="formCheckoutAddress" class="formCheckoutAddress" data-store="{$ID}">
 
-						<div class="">
+						<div>
 							{if="$address != 0"}
 							{loop="$address"}
 	
-							{if="$value.freight != 0"}
-							<div class="optionCheckouAddressPm border mx-auto my-2 row rounded bg-white">
+							{if="isset($value.freight)"}
+							<div class="optionCheckouAddressPm optionAddressList  border mx-auto my-2 row rounded bg-white" data-store="{$ID}" data-type="{$order.typeFreight}" data-code="{$value.idAddress}">
 
 								<div class='col-md-11 p-md-3 pt-2 cursorPointer optionCheckouAddress {if="isset($order) && $order != 0 && $order.address == $value.idAddress || isset($order.address) && $order.address == 0 && $key == 0"}clickMe{/if}'>
 									<span class="h6 font-weight-normal text-second-site-section"> 
 										{$value.street}, {$value.number} - {$value.district}, {$value.city} - {$value.uf}, {function="maskCep($value.cep)"} 
-										<small><br>Frete + agendamento a partir de R$ {function="maskPrice($value.freight + $priceHorary.0)"}</small>
+										<small>
+											<br>Tipo de Fretes: 
+											{if="isset($value.freight.details.0.name)"}
+											{$min = $value.minFreight + $priceHorary.0}
+											Frete + agendamento {if="$min > 0"}a partir de R$ {function="maskPrice($min)"}{else}<b class="text-success">Grátis</b>{/if} 
+											{else}
+											<b class="text-danger">Endereço Inválido para Entrega!</b>
+											{/if}
+										</small>
 									</span> 
 									<i class='iconCheck d-none fas fa-check'></i>
-									<input type="checkbox" class="checkboxAddress d-none" name="inputAddress" value="{$value.idAddress}" data-price="{$value.freight}">
+									<input type="checkbox" class="checkboxAddress d-none" name="inputAddress" value="{$value.idAddress}">
 								</div>
 
 								<div class="col-md-1 p-md-3 pb-2 text-md-right">
 									
-									<a href="#" class="text-dark" data-toggle="modal" data-target="#ModalAddress" data-modal-title="Alterar Endereço de Entrega" data-type="2" data-code="{$value.code}" data-city="{$value.codeCity}" data-cep='{function="maskCep($value.cep)"}' data-district="{$value.district}" data-street="{$value.street}" data-number="{$value.number}" data-complement="{$value.complement}" data-reference="{$value.reference}" data-main="{$value.mainAddress}"><i class="far fa-edit"></i></a> 
+									<a href="#" class="text-dark" data-toggle="modal" data-target="#ModalAddress" data-modal-title="Alterar Endereço de Entrega" data-type="2" data-code="{$value.code}" data-city="{$value.city} - {$value.uf}" data-cep='{function="maskCep($value.cep)"}' data-district="{$value.district}" data-street="{$value.street}" data-number="{$value.number}" data-complement="{$value.complement}" data-main="{$value.mainAddress}"><i class="far fa-edit"></i></a> 
 
 								</div>
 
@@ -87,8 +96,48 @@
 	
 						<div class="mt-3">
 		
-							<button type="button" class="btn btn-sm btn-outline-second-site-section" data-toggle="modal" data-target="#ModalAddress" data-modal-title="Cadastrar Endereço de Entrega" data-type="1" data-code="0" data-city="0" data-cep="" data-district="" data-street="" data-number="" data-complement="" data-reference="" data-main="0"><i class="fas fa-plus-circle"></i> Cadastrar endereço</button>
+							<button type="button" class="btn btn-sm btn-outline-second-site-section" data-toggle="modal" data-target="#ModalAddress" data-modal-title="Cadastrar Endereço de Entrega" data-type="1" data-code="0" data-city="" data-cep="" data-district="" data-street="" data-number="" data-complement="" data-main="0"><i class="fas fa-plus-circle"></i> Cadastrar endereço</button>
 	
+						</div>
+
+						{if="isset($freight)"}
+						<div id="sectionTypeFreight" class="my-2 d-none">
+
+							<p class="h3 font-weight-normal my-3">Selecione o Frete</p>
+
+							<ul id="listAddressFreight" class="list-group my-1">
+									
+								{if="isset($freight.details) && is_array($freight.details) && count($freight.details) > 0"}
+								
+								<li class="list-group-item">
+									<a href="https://www.google.com/maps/place/{$freight.street}+-+{$freight.district},+{$freight.city}+-+{$freight.uf}+,+{$freight.cep}" class="h6 text-uppercase text-second-site-section" target="_blank"> <i class="fas fa-map-marker-alt"></i> {$freight.street} - {$freight.district}, {$freight.city} - {$freight.uf}, {$freight.cep}</a>
+								</li>
+								
+								{loop="$freight.details"}
+
+								<li id="listItemAddr{$key}" class='list-group-item list-group-item-action selectList border cursorPointer d-flex justify-content-between'>
+									<span class="text">
+										{$value.name} 
+										<small class="font-weight-light">(Entrega em {$value.time} {$value.uni})</small> 
+									</span>
+									<span>R$ {function="maskPrice($value.value)"}</span>
+									<input type="radio" class="checkList d-none" name="inputFreight" data-code="{$key}" data-value="{$value.value}" data-name="{$value.name}">
+								</li>
+								
+								{/loop}
+								{else}
+								<li class="list-group-item border text-danger">
+									<i class="fas fa-exclamation-circle"></i> Endereço não faz parte das Regiões Atendidas!
+								</li>
+								{/if}
+							</ul>
+						</div>
+						{/if}
+
+						<div id="overlayCheckoutAddrAlert" class="d-none my-3">
+							<div class="overlay d-flex align-items-center">
+								<i class="fas fa-2x fa-sync fa-spin"></i>
+							</div>
 						</div>
 	
 						<div class="row my-4">

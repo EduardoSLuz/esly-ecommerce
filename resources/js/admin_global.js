@@ -120,3 +120,78 @@ function msgTextAlert(alert, msg, type = 1, time = 2000)
     }
     
 }
+
+function msgAlertText(alert, msg, type = 1, time = 2000)
+{
+
+    if($(alert).attr('id') !== undefined)
+    {
+
+        $(`${alert} a`).text(msg);
+
+        if(type == 1){
+            
+            $(alert).removeClass("text-danger");
+            $(alert).addClass("text-success");
+
+            $(`${alert} i`).removeClass();
+            $(`${alert} i`).addClass("fas fa-check");
+
+        } else {
+            
+            $(alert).removeClass("text-success");
+            $(alert).addClass("text-danger");
+
+            $(`${alert} i`).removeClass();
+            $(`${alert} i`).addClass("fas fa-times");
+
+        }
+        
+        $(alert).removeClass("d-none");
+        setTimeout( function(){ 
+            $(alert).addClass("d-none");
+        } , time);
+    
+    }
+    
+}
+
+$(".searchCep").on("input", function(e) {
+
+    let cep = $(this).val();
+    let url = "/geocoding_api_for_cep";
+    let dados = `cep=${cep}&cod=2621`;
+
+    $.ajax({
+        url: url,
+        method: "POST",
+        data: dados
+    }).done(function(response){
+
+        if(response != 0 && response != "" && JSON.parse(response) !== undefined)
+        {
+            let json = JSON.parse(response);
+            
+            $(".cityAddress").val(json.city + " - " + json.uf);
+            $(".districtAddress").val(json.district);
+            $(".streetAddress").val(json.street);
+        
+        } else if(response == 0 && response != ""){
+            msgAlert(".alertModalAddress", "CEP NÃO ENCONTRADO!", 0, 1000);
+        }
+
+    })
+
+});
+
+$(".clickMe").click();
+$(".clickMe").removeClass("clickMe");
+
+function isJson(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+}

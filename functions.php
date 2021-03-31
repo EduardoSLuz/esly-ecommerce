@@ -58,7 +58,7 @@ function porcenDif($val, $val2)
 
     $res = $res * 100;
 
-    return intval($res);
+    return number_format($res, 2, '.', '.');
 }
 
 ?>

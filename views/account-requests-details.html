@@ -11,15 +11,19 @@
 				</ol>
 			</nav>
 
+			<nav class="d-md-none my-2">
+				<a href="/loja-{$ID}/account/requests/" class="btn btn-sm btn-main-site-section text-btn-site-section"><i class="fas fa-chevron-left"></i> <i>Voltar</i></a>
+			</nav>
+
 			<div class="row">
 
-				<div class="col-md-3 bar-display">
+				<div class="col-3 bar-display">
 					
 					{include="accountLinks"}
 
 				</div>
 
-				<div class="col-md">
+				<div class="col col-lg-9">
 					<p class="h4 font-weight-normal text-second-site-section">
 						Pedido #{$orders.0.idOrder} - {function="date("H:i", strtotime($orders.0.timeInsert))"} {function="date("d/m/Y", strtotime($orders.0.dateInsert))"}
 					</p>
@@ -92,7 +96,7 @@
 											<span>Agendamento para:</span>
 											<span><br>
 												{function="ucwords(strftime('%d ', strtotime($orders.0.dateHorary)))"} de 
-												{function="ucwords(strftime('%B', strtotime($orders.0.dateHorary)))"} de 
+												{function="utf8_encode(ucwords(strftime('%B', strtotime($orders.0.dateHorary))))"} de 
 												{function="ucwords(strftime('%Y', strtotime($orders.0.dateHorary)))"} 
 												- {function="date('H:i', strtotime($orders.0.timeInitial))"} às {function="date('H:i', strtotime($orders.0.timeFinal))"}</span>
 										</p>

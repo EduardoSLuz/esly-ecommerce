@@ -4,6 +4,7 @@ namespace Esly\Model;
 
 use Esly\Model;
 use Esly\DB\Sql;
+use Esly\Model\Address;
 use Esly\Model\Cart;
 
 class Store extends Model {
@@ -19,7 +20,7 @@ class Store extends Model {
 
 		$sql = new Sql($_SESSION[Sql::DB]);
 
-		$results = $sql->select("SELECT st.idStore, st.store, st.nameStore, st.cnpjStore, st.emailStore, st.telephoneStore, st.whatsappStore, st.statusStore, st_ad.idStoreAddress, st_ad.streetStore, st_ad.numberStore, st_ad.districtStore, st_ad.cepStore, st_ad.complementStore FROM store AS st INNER JOIN store_address AS st_ad WHERE st.statusStore = :ST ".$code, $param);
+		$results = $sql->select("SELECT st.idStore, st.store, st.nameStore, st.cnpjStore, st.emailStore, st.telephoneStore, st.whatsappStore, st.statusStore, st_ad.idStoreAddress, st_ad.streetStore, st_ad.numberStore, st_ad.districtStore, st_ad.cepStore, st_ad.complementStore FROM store AS st INNER JOIN store_address AS st_ad ON st.idStore = st_ad.idStore WHERE st.statusStore = :ST ".$code, $param);
 
 		foreach ($results as $key => $value) {
 			$array[$key] = $value;
@@ -42,13 +43,14 @@ class Store extends Model {
 
 		$sql = new Sql($_SESSION[Sql::DB]);
 
-		$select = $sql->select("SELECT st.idStore, st.store, st.nameStore, st.cnpjStore, st.emailStore, st.telephoneStore, st.whatsappStore, st.statusStore, st_ad.idStoreAddress, st_ad.streetStore, st_ad.numberStore, st_ad.districtStore, st_ad.cepStore, st_ad.complementStore, st_ad.codeCity, st_ad.city, st_ad.uf FROM store AS st INNER JOIN store_address AS st_ad ON st.idStore = st_ad.idStore $code", $param);
+		$select = $sql->select("SELECT st.idStore, st.store, st.nameStore, st.cnpjStore, st.emailStore, st.telephoneStore, st.whatsappStore, st.statusStore, st_ad.idStoreAddress, st_ad.place_id, st_ad.streetStore, st_ad.numberStore, st_ad.districtStore, st_ad.cepStore, st_ad.complementStore, st_ad.city, st_ad.uf FROM store AS st INNER JOIN store_address AS st_ad ON st.idStore = st_ad.idStore $code", $param);
 
 		if(is_array($select) && count($select) > 0)
 		{
 			
 			foreach ($select as $key => $value) {
 				$array[$key] = $value;
+				$array[$key]['codeCity'] = Store::cryptCode($value['city'].$value['uf']);
 				$array[$key]['cnpjStore'] = Store::decryptCode($value['cnpjStore']);
 				$array[$key]['telephoneStore'] = Store::decryptCode($value['telephoneStore']);
 				$array[$key]['whatsappStore'] = Store::decryptCode($value['whatsappStore']);
@@ -84,54 +86,22 @@ class Store extends Model {
 	public static function listCityStore($id = 0)
 	{
 
-		$stores = Store::listStores($id);
-		$array = [];
+		$store = Store::listStores($id);
 
-		if($stores != 0)
+		if(is_array($store) && count($store) > 0)
 		{
 
-			$data = [];
+			$array = [];
 
-			foreach ($stores as $key => $value) {
+			foreach ($store as $key => $value) {
 				
-				if($value['statusStore'])
-				{
-					$data[$key] = [
-						"code" => $value['codeCity'],
-						"cep" => $value['cepStore'],
-						"details" => $value['codeCity'] != 0 ? Store::listCities($value['codeCity'])[0] : 0
-					]; 
-				}
+				if(array_search(Store::cryptCode($value['city'].$value['uf']), $array) == "") $array[] = ["codeCity" => Store::cryptCode($value['city'].$value['uf']), 'city' => $value['city'], 'uf' => $value['uf'], 'status' => $value['statusStore']]; 
 
-			}
-
-			if(count($data) > 0)
-			{
-				sort($data);
-
-				foreach ($data as $key => $value) {
-					
-					if($value["code"] != 0)
-					{
-						
-						if(!isset($array[strstr($value['code'], "_", true)])) $array[strstr($value['code'], "_", true)] = [
-							"uf" => $value['details']['sigla'],
-							"state" => $value['details']['nome'],
-							"city" => []
-						];
-
-						if(!isset($array[strstr($value['code'], "_", true)]['city'][substr(strstr($value['code'], "_"), 1)])) $array[strstr($value['code'], "_", true)]['city'][substr(strstr($value['code'], "_"), 1)] = $value["details"]["cidades"][0];
-
-					}
-					
-				}
-
-				ksort($array);
 			}
 
 		}
 
-		return is_array($array) && count($array) > 0 ?  $array : 0;
+		return isset($array) ? $array : 0;
 
 	}
 
@@ -261,7 +231,7 @@ class Store extends Model {
 
 		$sql = new Sql($_SESSION[Sql::DB]);
 
-		$results = $sql->select("SELECT ly_in.lyInfo1, ly_in.lyInfo2, ly_in.lyInfo3, ly_in.lyInfo4, ly_in.lyInfo5, ly_in.lyInfo6, ly_in.lyInfo7, st.store FROM layout_info AS ly_in INNER JOIN store AS st ON ly_in.idStore = st.idStore $query", $param);
+		$results = $sql->select("SELECT ly_in.hdInfo1, ly_in.lyInfo1, ly_in.lyInfo2, ly_in.lyInfo3, ly_in.lyInfo4, ly_in.lyInfo5, ly_in.lyInfo6, ly_in.lyInfo7, st.store FROM layout_info AS ly_in INNER JOIN store AS st ON ly_in.idStore = st.idStore $query", $param);
 
 		return is_array($results) && count($results) > 0 ? $results : 0;
 
@@ -507,13 +477,13 @@ class Store extends Model {
 		$sql = new Sql($_SESSION[Sql::DB]);
 
 		$update = $sql->count("UPDATE store SET nameStore = :NAME, cnpjStore = :CNPJ, emailStore = :EMAIL, telephoneStore = :TEL, whatsappStore = :WP, statusStore = :STATUS WHERE idStore = :ID", [
-			"NAME" => $this->getname(),
-			"CNPJ" => !empty($this->getcnpj()) ? Store::cryptCode(Store::decryptCnpj($this->getcnpj())) : "",
-			"EMAIL" => $this->getemail(),
-			"TEL" => !empty($this->gettel()) ? Store::cryptCode(Store::decryptTel($this->gettel())) : "",
-			"WP" => !empty($this->getwp()) ? Store::cryptCode(Store::decryptTel($this->getwp())) : "",
-			"STATUS" => intval($this->getstatus()),
-			"ID" => intval($this->getid())
+			":NAME" => $this->getname(),
+			":CNPJ" => !empty($this->getcnpj()) ? Store::cryptCode(Store::decryptCnpj($this->getcnpj())) : "",
+			":EMAIL" => $this->getemail(),
+			":TEL" => !empty($this->gettel()) ? Store::cryptCode(Store::decryptTel($this->gettel())) : "",
+			":WP" => !empty($this->getwp()) ? Store::cryptCode(Store::decryptTel($this->getwp())) : "",
+			":STATUS" => intval($this->getstatus()),
+			":ID" => intval($this->getid())
 		]);
 
 		return $update == 1 ? true : false;
@@ -525,16 +495,16 @@ class Store extends Model {
 
 		$sql = new Sql($_SESSION[Sql::DB]);
 
-		$update = $sql->count("UPDATE store_address SET streetStore = :STREET, numberStore = :NUM, districtStore = :DIS, cepStore = :CEP, complementStore = :COM, codeCity = :COD, city = :CITY, uf = :UF WHERE idStoreAddress = :ID", [
-			"STREET" => $this->getstreet(),
-			"NUM" => $this->getnumber(),
-			"DIS" => $this->getdistrict(),
-			"CEP" => !empty($this->getcep()) ? Store::decryptCep($this->getcep()) : "",
-			"COM" => $this->getcomplement(),
-			"COD" => $this->getcodeCity(),
-			"CITY" => $this->getcity(),
-			"UF" => $this->getuf(),
-			"ID" => intval($this->getidAddress())
+		$update = $sql->count("UPDATE store_address SET place_id = :PLACEID, streetStore = :STREET, numberStore = :NUM, districtStore = :DIS, cepStore = :CEP, complementStore = :COM, city = :CITY, uf = :UF WHERE idStoreAddress = :ID", [
+			":PLACEID" => $this->getplace_id(),
+			":STREET" => $this->getstreet(),
+			":NUM" => $this->getnumber(),
+			":DIS" => $this->getdistrict(),
+			":CEP" => !empty($this->getcep()) ? Store::decryptCep($this->getcep()) : "",
+			":COM" => $this->getcomplement(),
+			":CITY" => $this->getcity(),
+			":UF" => $this->getuf(),
+			":ID" => intval($this->getidAddress())
 		]);
 
 		return $update == 1 ? true : false;
@@ -865,16 +835,11 @@ class Store extends Model {
 
 		$sql = new Sql($_SESSION[Sql::DB]);
 
-		$update = $sql->count("UPDATE freight SET codeCity = :CODE, district = :DIS, cep = :CEP, city = :CITY, uf = :UF, onlyCity = :ONLY, details = :DET WHERE idFreight = :FREIGHT AND idStore = :ID", [
-			":CODE" => $this->getcodeCity(), 
-			":DIS" => $this->getdistrict(), 
-			":CEP" => $this->getcep(), 
-			":CITY" => $this->getcity(), 
-			":UF" => $this->getuf(), 
-			":ONLY" => intval($this->getonly()), 
+		$update = $sql->count("UPDATE freight_new SET distance = :DIS, details = :DET WHERE idFreight = :ID AND idStore = :STORE", [
+			":DIS" => $this->getdistance(), 
 			":DET" => json_encode($this->getdetails()), 
-			":FREIGHT" => intval($this->getidFreight()), 
-			":ID" => intval($this->getid())
+			":ID" => intval($this->getidFreight()), 
+			":STORE" => intval($this->getidStore())
 		]);
 		
 		return $update == 1 ? true : false;
@@ -886,14 +851,9 @@ class Store extends Model {
 
 		$sql = new Sql($_SESSION[Sql::DB]);
 
-		$insert = $sql->count("INSERT INTO freight VALUES (NULL, :ID, :CODE, :DIS, :CEP, :CITY, :UF, :ONLY, :DET)", [
-			":ID" => intval($this->getid()),
-			":CODE" => $this->getcodeCity(), 
-			":DIS" => $this->getdistrict(), 
-			":CEP" => $this->getcep(), 
-			":CITY" => $this->getcity(), 
-			":UF" => $this->getuf(), 
-			":ONLY" => intval($this->getonly()), 
+		$insert = $sql->count("INSERT INTO freight_new VALUES (NULL, :STORE, :DIS, :DET)", [
+			":STORE" => intval($this->getidStore()),
+			":DIS" => $this->getdistance(), 
 			":DET" => json_encode($this->getdetails())
 		]);
 		
@@ -906,12 +866,12 @@ class Store extends Model {
 
 		$sql = new Sql($_SESSION[Sql::DB]);
 
-		$insert = $sql->count("DELETE FROM freight WHERE idFreight = :FREIGHT AND idStore = :ID", [
-			":ID" => intval($this->getid()),
-			":FREIGHT" => intval($this->getidFreight())
+		$delete = $sql->count("DELETE FROM freight_new WHERE idFreight = :ID AND idStore = :STORE", [
+			":ID" => intval($this->getidFreight()),
+			":STORE" => intval($this->getidStore())
 		]);
 		
-		return $insert == 1 ? true : false;
+		return $delete == 1 ? true : false;
 
 	}
 
@@ -1165,7 +1125,7 @@ class Store extends Model {
 
 		$sql = new Sql($_SESSION[Sql::DB]);
 
-		$select = $sql->select("SELECT idLayoutInfo, lyInfo1, lyInfo2, lyInfo3, lyInfo4, lyInfo5, lyInfo6, lyInfo7 FROM layout_info".$query, $param);
+		$select = $sql->select("SELECT idLayoutInfo, hdInfo1, lyInfo1, lyInfo2, lyInfo3, lyInfo4, lyInfo5, lyInfo6, lyInfo7 FROM layout_info".$query, $param);
 
 		return count($select) > 0 ? $select : 0;
 
@@ -1390,6 +1350,35 @@ class Store extends Model {
 
 	}
 
+	public static function listFreightNew($store = 0, $id = 0, $query = "", $param = [])
+	{
+		
+		$array = [];
+		
+		if($query == "" && count($param) == 0)
+		{
+			$query = intval($id) && $id > 0 ? "WHERE idFreight = :ID AND idStore = :STORE" : "WHERE idStore = :STORE"; 
+			$param = intval($id) && $id > 0 ? [':STORE' => intval($store) ? $store : 0, ':ID' => $id] : [':STORE' => intval($store) ? $store : 0];
+		}
+
+		$select = Store::selectFreight($query, $param);
+
+		if(is_array($select) && count($select) > 0)
+		{
+
+			foreach ($select as $key => $value) {
+				
+				$value['details'] = json_decode($value['details'], true);
+				$array[$key] = $value;
+
+			}
+
+		}
+
+		return is_array($array) && count($array) > 0 ? $array : 0;
+
+	}
+
 	public static function listFreightCep($data = 0, $type = 0)
 	{
 
@@ -1417,7 +1406,7 @@ class Store extends Model {
 
 			} else if($type != 0) {
 
-				$cep = Cart::consultCep($data['cep']);
+				$cep = Cart::getViaCep($data['cep']);
 
 				if($cep != false)
 				{
@@ -1453,6 +1442,60 @@ class Store extends Model {
 		} else{
 			return 0;
 		}
+
+	}
+
+	public static function listFreightByCep($store = 0, $cep, $id = 0)
+	{
+
+		$addrStore = $store > 0 && is_numeric($store) ?  Store::listStores($store) : 0;
+
+		if($id == 0)
+		{
+			$addrCep = strlen($cep) == 9 ? Address::getAddressByCep($cep) : 0;
+		} else {
+			$addrCep = $id > 0 && is_numeric($id) ? Address::listAddress($id) : 0;
+			$addrCep = $id != 0 ? $addrCep[0] : 0;
+		}
+
+		$distance = isset($addrStore[0]['place_id']) && isset($addrCep['place_id']) ? Address::getDistanceMatrizMaps($addrStore[0]['place_id'], $addrCep['place_id']) : 0;
+
+		if(isset($distance['rows'][0]['elements'][0]['distance']['value']))
+		{
+
+			$dis = $addrStore[0]['cepStore'] == Store::decryptCep($cep) ? 1 : round($distance['rows'][0]['elements'][0]['distance']['value']/1000, 1);
+
+			$select = Store::listFreightNew(0, 0, "WHERE idStore = :STORE AND distance >= :DIS ORDER BY distance LIMIT 1", [':STORE' => $store, ':DIS' => $dis]);
+
+			if(isset($select[0]['details']))
+			{
+
+				$data = [
+					'idFreight' => $select[0]['idFreight'],
+					'street' => $addrCep['street'],
+					'district' => $addrCep['district'],
+					'city' => $addrCep['city'],
+					'uf' => $addrCep['uf'],
+					'cep' => $cep,
+					'details' => $select[0]['details']
+				];
+
+			}
+
+		}
+
+		return isset($data) ? $data : 0;
+
+	}
+
+	public static function selectFreight($query, $param)
+	{
+
+		$sql = new Sql($_SESSION[Sql::DB]);
+
+		$select = $sql->select("SELECT * FROM freight_new $query", $param);
+
+		return is_array($select) && count($select) > 0 ? $select : 0;
 
 	}
 
@@ -1619,7 +1662,7 @@ class Store extends Model {
 					$array[$key][$i] = ['file' => $value['file'], 'src' => "/".$value['src'].$value['file'].$i.".png", 'origin' => $value['src'].$value['file'].$i.".png"];
 					$array[$key][$i]['src'] = file_exists($value['src'].$value['file'].$i.".png") ? "/".$value['src'].$value['file'].$i.".png" : "";
 					
-					if($array[$key][$i]['src'] != "") $array['ctPromo'] += 1;
+					if(empty(trim($array[$key][$i]['src'])) && $array['ctPromo'] == 0) $array['ctPromo'] = $i;
 
 				}
 

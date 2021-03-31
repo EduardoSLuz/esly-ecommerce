@@ -419,24 +419,6 @@ $app->post("/loja-{store}/account/address/", function(Request $request, Response
 			exit;
 		}
 
-		if(isset($_POST['cityAddress']) && $_POST['cityAddress'] == 0 && strlen($_POST['cityAddress']) == 1 || isset($_POST['cityAddress']) && strstr($_POST['cityAddress'], '_') == false || !isset($_POST['cityAddress']))
-		{
-			
-			$res["msg"] = "Selecione uma cidade!";
-			echo json_encode($res);
-			exit;
-
-		} else if(Store::listCities($_POST['cityAddress']) == 0)
-		{
-			
-			$res["msg"] = "Erro Critico, atualize a página!";
-			echo json_encode($res);
-			exit;
-			
-		} else {
-			$array = Store::listCities($_POST['cityAddress']);
-		}
-
 		if(isset($_POST['cepAddress']) && empty($_POST['cepAddress']) || !isset($_POST['cepAddress']))
 		{
 			
@@ -475,6 +457,15 @@ $app->post("/loja-{store}/account/address/", function(Request $request, Response
 
 	}
 
+	$json_addr = isset($_POST['cepAddress']) && strlen($_POST['cepAddress']) == 9 && isset($_POST['numberAddress']) && $_POST['numberAddress'] > 0 ? Address::getAddressByCep($_POST['cepAddress'], $_POST['numberAddress']) : 0;
+
+	if($json_addr == 0)
+	{
+		$res["msg"] = "Endereço Inválido!";
+		echo json_encode($res);
+		exit;
+	}
+
 	$address = new Address;
 
 	$address->setData([
@@ -484,11 +475,10 @@ $app->post("/loja-{store}/account/address/", function(Request $request, Response
 		"street" => isset($_POST['streetAddress']) && !empty($_POST['streetAddress']) ? $_POST['streetAddress'] : "", 
 		"number" => isset($_POST['numberAddress']) && !empty($_POST['numberAddress']) ? $_POST['numberAddress'] : 0, 
 		"complement" => isset($_POST['complementAddress']) && !empty($_POST['complementAddress']) ? $_POST['complementAddress'] : "", 
-		"reference" => isset($_POST['referenceAddress']) && !empty($_POST['referenceAddress']) ? $_POST['referenceAddress'] : "", 
 		"mainAddress" => isset($_POST['mainAddress']) ? 1 : 0,
-		'city' => isset($array[0]['cidades'][0]) && !empty($array[0]['cidades'][0]) ? $array[0]['cidades'][0] : "",
-		'uf' => isset($array[0]['sigla']) && !empty($array[0]['sigla']) ? $array[0]['sigla'] : "",
-		'code' => isset($_POST['cityAddress']) && strlen($_POST['cityAddress']) > 1 && strstr($_POST['cityAddress'], "_") != false ? $_POST['cityAddress'] : 0
+		'city' => isset($json_addr['city']) ? $json_addr['city'] : "",
+		'uf' => isset($json_addr['uf']) ? $json_addr['uf'] : "",
+		'place_id' => isset($json_addr['place_id']) ? $json_addr['place_id'] : ""
 	]);
 
 	switch ($_POST['type']) {
@@ -533,7 +523,7 @@ $app->get("/loja-{store}/account/address/", function(Request $request, Response 
 		header("Location: /");
 		exit;
 	}
-	
+
 	$page = new Page([
 		"login" => 2,
 		"data" => [
@@ -545,11 +535,27 @@ $app->get("/loja-{store}/account/address/", function(Request $request, Response 
 	$page->setTpl("account-address", [
 		"userAddress" => Address::listAddress(),
 		'errorRegister' => Address::getErrorRegister(),
-        'successMsg' => Address::getSuccessMsg(),
-		"cities" => Store::listCityStore()
-		]);
+        'successMsg' => Address::getSuccessMsg()
+	]);
 	
 	return $response;
+
+});
+
+$app->post("/geocoding_api_for_cep", function(Request $request, Response $response, $args) {
+
+	if(!isset($_POST['cod']) || isset($_POST['cod']) && $_POST['cod'] != 2621) exit;
+
+	if(isset($_POST['cep']) && Address::validCep($_POST['cep']) && $_POST['cod'] == 2621)
+	{
+		
+		$data = Address::getAddressByCep($_POST['cep']);
+
+		echo $data != 0 ? json_encode($data) : 0;
+
+	}
+
+	exit;
 
 });
 

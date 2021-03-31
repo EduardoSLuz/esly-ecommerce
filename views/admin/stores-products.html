@@ -32,41 +32,53 @@
           <div class="row">
             <div class="col-12">
               <div class="card">
-                <div class="card-header row border-bottom-0 align-items-center">
+                <div class="card-header border-bottom-0 align-items-center row">
                   
-                  <div class="card-title col-md-6">
+                  <div class="col-12 col-md-6">
                     <h5>Produtos</h5> 
                   </div>
   
-                  <div class="card-tools col-12 offset-md-2 col-md-4">
+                  <form id="formSearchListProducts" class="formListProducts input-group input-group-sm col-12 col-md-6 align-items-center" data-store="{$id}" data-page="{$page}">
 
-                    <form id="formSearchListProducts" class="formListProducts input-group input-group-sm" data-store="{$id}">
-
-                      <select class="custom-select inputsListUser" name="selectStatusOrders" id="selectStatusOrders">
-                        <option value="0">Por Código do Produto:</option>
-                        <option value="1">Por Departamento:</option>
-                        <option value="2">Por Descrição:</option>
-                      </select>
-
-                      <input type="search" name="table_search" class="form-control inputsListUser float-right" placeholder="Search" oninput="$('#formSearchListProducts').submit()">
-  
-                      <div class="input-group-append">
-                        <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                    <div class="btn btn-tool px-0 px-1 px-md-2 mx-md-1 border">
+                      <div class="icheck-primary d-inline">
+                        <input type="checkbox" id="check" name="check" class="inputsListProducts">
+                        <label for="check" class="text-primary"><i class="fas fa-th-list"></i></label>
                       </div>
+                    </div>
 
-                    </form>
-                  </div>
+                    <select class="custom-select inputsListProducts" name="option" id="option">
+                      <option value="0">Por Código do Produto:</option>
+                      <option value="1">Por Código de Barras:</option>
+                      <option value="2">Por Departamento:</option>
+                      <option value="3">Por Descrição:</option>
+                    </select>
+
+                    <input id="search_products" type="search" name="search_products" class="form-control inputsListProducts" placeholder="Search">
+
+                    <div class="input-group-append">
+                      <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                    </div>
+
+                  </form>
                   
                 </div>
                 <!-- /.card-header -->
                 <div id="tbListProductsConfig" class="card-body table-responsive p-0">
+
+                  <div class="col-12 text-right">
+                    
+                    <span><i>Produtos Encontrados: <b>{if="isset($products.total)"}{$products.total}{else} {if="isset($products) && is_array($products)"}{function="count($products)"}{else}0{/if} {/if}</b> </i></span>
+
+                  </div>
                   
-                  {if="isset($products) && is_array($products) && count($products) > 0"}
+                  {if="isset($products) && !isset($products.number) && is_array($products) && count($products) > 0 || isset($products.number) && is_array($products.products) && count($products.products) > 0"}
                   <table class="table table-head-fixed text-nowrap">
                     
                     <tbody>
                       
-                      {loop="$products"}
+                      {if="isset($products.number)"}{$list = $products.products}{else}{$list = $products}{/if} 
+                      {loop="$list"}
                       <tr>
                         <td>
                           
@@ -79,17 +91,20 @@
                             <div class="col-md-10 col-7 row align-items-center">
                               
                               <div class="col-md">
-                                <b>Código: #{$value.codProduct}</b>
+                                
+                                <b>#{$value.codProduct}</b>
                               
                                 <p class="text-wrap">
                                   {$value.description}
                                   <br> DEPARTAMENTO: {$value.departament}
+                                  <br> <i class="fas fa-barcode"></i> <b class="px-1"> {$value.barCode}</b>
                                   <br> <b>R${function="maskPrice($value.priceFinal)"} - <i>Quantidade Estoque: {$value.stock}</i></b>
                                 </p>
+                                
                               </div>
 
                               <div class="col-md text-right">
-                                <a href="#" class="h5" data-toggle="modal" data-target="#modalProductsConfig" data-id="{$value.codProduct}" data-type="1" data-store="{$id}" data-name="{$value.description}" data-src="{$value.image}" data-archive="{$value.image}" data-unit="{$value.unit}" data-qtd="{$value.unitsMeasures.0.valueStock}" data-price="{$value.priceFinal}" data-free="{$value.unitsMeasures.0.freeFill}"><i class="fas fa-pen"></i></a>
+                                <a href="#" class="h5" data-toggle="modal" data-target="#modalProductsConfig" data-id="{$value.codProduct}" data-type="1" data-store="{$id}" data-name="{$value.description}" data-src="{$value.image}" data-archive="{$value.image}" data-code="{$value.unitsMeasures.0.id}" data-unit="{$value.unit}" data-qtd="{$value.unitsMeasures.0.valueStock}" data-status-unit="{$value.unitsMeasures.0.status}" data-price="{$value.priceFinal}" data-free="{$value.unitsMeasures.0.freeFill}" data-desc="{$value.subTypes.description}" data-status="{$value.subTypes.status}"><i class="fas fa-pen"></i></a>
                               </div>
 
                             </div>
@@ -106,14 +121,50 @@
 
                   {else}
                   <p class="h6 text-center border-top py-3">
-                    <b><i>NENHUM DADO ENCONTRADO</i></b>
+                    <b><i>NENHUM PRODUTO ENCONTRADO</i></b>
                   </p>
                   {/if}
+                </div>
+                <div id="overlayListProductsAlert" class="py-3 d-none">
+                  <div class="overlay d-flex justify-content-center align-items-center">
+                      <i class="fas fa-3x fa-sync fa-spin"></i>
+                  </div>
                 </div>
                 <!-- /.card-body -->
               </div>
               <!-- /.card -->
             </div>
+
+            <div id="linksListProducts" class="col-12">
+
+              {if="isset($products.number) && $products.number > 1"}
+              <ul class="pagination justify-content-end">
+                
+                {if="$products.fil - 1 > 0"}
+                <li class="page-item">
+                  <a class="page-link btnInputLinkProducts cursor-pointer text-primary" data-page="{$products.fil - 1}" tabindex="-1">Anterior</a>
+                </li>
+                
+                <li class="page-item"><a class="page-link btnInputLinkProducts cursor-pointer text-primary" data-page="{$products.fil - 1}">{$products.fil - 1}</a></li>
+                {/if}
+                
+                <li class="page-item active">
+                  <a class="page-link btnInputLinkProducts cursor-pointer" data-page="{$products.fil}">{$products.fil} <span class="sr-only">(atual)</span></a>
+                </li>
+                
+                {if="$products.fil + 1 <= $products.number"}
+                <li class="page-item"><a class="page-link btnInputLinkProducts cursor-pointer text-primary" data-page="{$products.fil + 1}">{$products.fil+1}</a></li>
+                
+                <li class="page-item">
+                  <a class="page-link btnInputLinkProducts cursor-pointer text-primary" data-page="{$products.fil + 1}">Próximo</a>
+                </li>
+                {/if}
+
+              </ul>
+              {/if}
+              
+            </div>
+
           </div>
           <!-- /.row -->
 

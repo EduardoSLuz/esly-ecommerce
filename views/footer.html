@@ -40,7 +40,7 @@
                                 {loop="$horary"}
                                     <li class="my-2 text-site-footer-main">
                                         
-                                        {$value.name}{if="$key == count($horary) - 1"} - {$value.dayNameFinal}{/if}:
+                                        {$value.name}{if="isset($value.dayNameFinal)"} - {$value.dayNameFinal}{/if}:
 
                                         {function="date('H:i', strtotime($value.horary.0.init))"} às {function="date('H:i', strtotime($value.horary.0.final))"}
     
@@ -132,7 +132,7 @@
                         <div class="my-2">
                             
                             {loop="$value.types"}
-                                <img src="{$value.src}" alt="{$value.pay}" class="d-block-inline img-fluid mr-2" data-toggle="popover" data-placement="top" data-trigger="hover" data-html="true" data-content="{$value.pay}" style="max-height: 35px;">
+                                <img src="/resources/imgs/logos/loading.gif" data-src="{$value.src}" alt="{$value.pay}" class="lazyload d-block-inline img-fluid mr-2" data-toggle="popover" data-placement="top" data-trigger="hover" data-html="true" data-content="{$value.pay}" style="max-height: 35px;">
                             {/loop}
 
                         </div>
@@ -180,9 +180,9 @@
                     
                         <div class="row">
                             
-                            <img src="/resources/imgs/cards-security/google_security.png" alt="Google_Security" class="ml-3" data-toggle="popover" data-placement="top" data-trigger="hover" data-html="true" data-content="Google" width="150" height="50">
+                            <img src="/resources/imgs/logos/loading.gif" data-src="/resources/imgs/cards-security/google_security.png" alt="Google_Security" class="lazyload ml-3" data-toggle="popover" data-placement="top" data-trigger="hover" data-html="true" data-content="Google" width="150" height="50">
                             
-                            <img src="/resources/imgs/cards-security/Certising.png" alt="Certising" class="ml-3" data-toggle="popover" data-placement="top" data-trigger="hover" data-html="true" data-content="Certising" width="100" height="50">
+                            <img src="/resources/imgs/logos/loading.gif" data-src="/resources/imgs/cards-security/Certising.png" alt="Certising" class="lazyload ml-3" data-toggle="popover" data-placement="top" data-trigger="hover" data-html="true" data-content="Certising" width="100" height="50">
                             
                         </div>
                         
@@ -268,7 +268,7 @@
 </section>
 
 {if="$wp === true"}        
-<div id="BtnWhatsapp" class="BtnsFloat ml-3 mb-5 text-left fixed-bottom null-height">
+<div id="BtnWhatsapp" class="BtnsFloat ml-3 mb-5 text-left fixed-bottom null-height zIndexPanels">
     <a class="bg-success h2 rounded px-1 shadow" href="https://api.whatsapp.com/send?phone=55{$store.0.telephoneStore}" target="_blank">
         <i class="fab fa-whatsapp text-white"></i>
     </a>
@@ -276,7 +276,7 @@
 {/if}
 
 {if="$ct === true"}
-<div id="BtnCart" class="BtnsFloat mr-3 mb-5 text-right fixed-bottom null-height cart-BtnFloat">
+<div id="BtnCart" class="BtnsFloat mr-3 mb-5 text-right fixed-bottom null-height cart-BtnFloat zIndexPanels">
     <a class="bg-site-section h2 rounded px-1 shadow-sm btn-app" href='/loja-{$ID}/checkout/cart/'>
         <i class="fas fa-shopping-cart text-second-site-section text-center" style="font-size:24px"></i>
         <span class="badge btn-main-site-section text-btn-site-section" style="font-size:10px;position: absolute; display: ;">{if="isset($cart) && $cart != false && $cart.items != 0"}{$cart.totalItems}{else}0{/if}</span>
@@ -285,7 +285,7 @@
 {/if}
 
 {if="$ft === true"}
-<div id="BtnFilter" class="BtnsFloat text-left fixed-bottom null-height cart-BtnFloat top-25">
+<div id="BtnFilter" class="BtnsFloat text-left fixed-bottom null-height cart-BtnFloat top-25 zIndexPanels">
     <button type="button" class="open-menu bg-site-section  border h5 rounded-right px-2 py-2 shadow">
         <i class="fas fa-chevron-right text-second-site-section "></i>
     </button>
@@ -293,7 +293,7 @@
 {/if}
 
 <!-- MODELS -->
-{include="models"}
+{include="modals"}
 
 <!-- Bootstrap e Jquery -->
 <script src="/resources/js/jquery.min.js"></script>
@@ -306,10 +306,11 @@
 <script src='/resources/js/jquery.mask.min.js'></script>
 
 <!-- Custom Javascripts -->
+<script src="/resources/js/site_global.js"></script>
 <script src="/resources/js/bootnavbar.js"></script>
 <script src="/resources/js/barnav.js"></script>
+<script src="/resources/js/lazysizes.min.js" async=""></script>
 <script src="/resources/js/owl.carousel.min.js"></script>  
-<script src="/resources/js/site_global.js"></script>
 <script src="/resources/js/site_stores.js"></script>
 <script src="/resources/js/site_login.js"></script>
 <script src="/resources/js/mask.js"></script>
@@ -319,8 +320,8 @@
 {if="isset($search) && is_array($search)"}{include="../resources/js/html/search"}{/if}
 {if="isset($dep) && is_array($dep)"}{include="../resources/js/html/departaments"}{/if}
 
-<script src="/resources/js/index.js"></script>  
 <script src="/resources/js/carousel_global.js"></script>  
+<script src="/resources/js/index.js"></script>  
 
 <script>
 

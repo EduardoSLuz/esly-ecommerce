@@ -22,11 +22,11 @@
 					<p class="mt-4 h6 font-weight-normal text-link-site-section">
 						<i class="fas fa-store"></i> 
 						Loja {$ID} 
-						{if="isset($order) && isset($order.type) && $order.type == 2"}
+						{if="isset($order) && isset($order.type) && $order.type == 2 && $order.nameFreight != ''"}
 						- <i class="fas fa-truck"></i> Frete: 
 						<b>
 							<i>
-								{if="$order.typeFreight == 0"}Normal{else}Express{/if}
+								{$order.nameFreight}
 							</i>
 					 	</b> 
 						{/if}
@@ -41,7 +41,7 @@
 							<button type="button" id="divStore" class='selectType cursorPointer border rounded btn w-100 text-left py-3 px-2 my-2 {if="isset($order) && $order != 0 && $order.type == 1 || isset($order) && $order == 0"}clickMe{/if} bg-white' data-text="irá retirar" data-div="">
 
 								<span class="titleSelect h6 font-weight-normal text-second-site-section">Retirar no estabelecimento </span><i id="iconCheck" class=""></i>
-								<input type="checkbox" class="inputType d-none" name="inputType" value="1">
+								<input type="radio" class="inputType d-none" name="inputType" value="1">
 
 							</button>
 							
@@ -49,46 +49,11 @@
 							<button type="button" id="divDelivery" class='selectType cursorPointer border rounded btn w-100 text-left py-3 px-2 my-2 {if="isset($order) && $order != 0 && $order.type == 2"}clickMe{/if} bg-white' data-text="receberá" data-div="PanelDelivery">
 
 								<span class="titleSelect h6 font-weight-normal text-second-site-section">Entregar em algum endereço </span><i id="iconCheck" class=""></i>
-								<input type="checkbox" class="inputType d-none" name="inputType" value="2">
+								<input type="radio" class="inputType d-none" name="inputType" value="2">
 
 							</button>
 							{/if}
 
-						</div>
-	
-						<div id="PanelDelivery" class="divSelect mt-3 d-none">
-	
-							<div class="offset-1">
-	
-								<p class="h4 font-weight-normal text-second-site-section">Escolha o tipo de frete <small class="h6 font-weight-light">*Valores podem mudar de acordo com o endereço de entrega*</small></p>
-	
-								<div>
-	
-									{if="$freight != 0"}
-									{loop="$freight"}
-									
-									{if="$value != 0"}
-									<button type="button" id="divFreigth{$key}" class='selectFreigth cursorPointer border rounded btn w-100 text-left py-3 px-2 my-2 {if="isset($order) && $order != 0 && $order.typeFreight == $key && $order.type == 2 || isset($order.type) && $order.type == 1 && $key == 0 || !isset($order.type) && $key == 0"}clickMe{/if} bg-white' data-text="retirará" data-div="">
-
-										<span class="titleSelect h6 font-weight-normal text-second-site-section">
-											<b>{$value.name}</b>
-											<i><br>{if="$value.value == 0"}Frete Grátis{else}A partir de R$ {function="maskPrice($value.value)"}{/if}</i> 
-										</span> 
-										<i id="iconCheck" class=''></i>
-										<input type="checkbox" class="inputFreigth d-none" name="inputFreight" value="{$key}">
-		
-									</button>
-									{/if}
-
-									{/loop}
-									{else}
-									<p class="text-second-site-section"><b>Sem dados</b></p>
-									{/if}
-	
-								</div>
-	
-							</div>
-	
 						</div>
 
 						<div class="mt-3">

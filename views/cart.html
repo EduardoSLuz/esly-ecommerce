@@ -88,21 +88,23 @@
 									<td>
 										<div class="row NoPrintabled">
 											<div class="col-md-2 bar-display">
-												<img src='{$value.image}' class="img-fluid" width="150px" alt="Produto {$value.descProduct}">
+												<img src="/resources/imgs/logos/loading.gif" data-src='{$value.image}' class="lazyload img-fluid" width="150px" alt="Produto {$value.descProduct}">
 											</div>
-											<div class="col-md" >
+											<div class="col-md align-self-center">
 
 												{if="isset($value.details) && !empty($value.details)"}
 												<span class="tx-tableMobile td-ini text-decoration-none d-inline-block text-truncate text-break font-weight-normal  text-danger">	
-													{$value.descProduct}
+													{$value.descProduct} 
+													{if="isset($value.subtypeDesc) && !empty(trim($value.subtypeDesc))"}<br><small><i>({$value.subtypeDesc})</i></small>{/if}
 												</span>
 												{else}
 												<a href="/loja-{$ID}/product/{$value.descProduct}/" class="tx-tableMobile td-ini text-decoration-none d-inline-block text-truncate text-break font-weight-normal text-second-site-section">	
-													{$value.descProduct}
+													{$value.descProduct} 
+													{if="isset($value.subtypeDesc) && !empty(trim($value.subtypeDesc))"}<br><small><i>({$value.subtypeDesc})</i></small>{/if}
 												</a>
 												{/if}
 												
-												<p class="mt-2">
+												<p>
 													
 													{if="isset($value.details) && $value.details != ''"}
 													<b class="text-danger"> <i class="fas fa-times"></i> {$value.details}</b>
@@ -253,6 +255,7 @@
 						<label for="InputFreigth" class="text-second-site-section">Simular Frete:</label>
 
 						<form class="formFreigth" action="/loja-{$ID}/checkout/cart/freigth/" data-store="{$ID}" method="POST">
+							
 							<div class="input-group text-center px-0 col-md-8">
 
 								<input type="text" id="inputFreigth" name="inputFreigth" class="freightSimulator form-control maskCep" placeholder="_____-___" value='{if="isset($freight) && $freight != 0"}{$freight.cep}{/if}'>
@@ -263,7 +266,41 @@
 	
 							</div>
 
-							<p id="priceFreigth" class="mt-1">
+							<div>
+
+								<ul id="listCepCart" class="list-group my-1">
+									
+									{if="isset($freight.details) && is_array($freight.details) && count($freight.details) > 0"}
+									<li class="list-group-item">
+										<a href="https://www.google.com/maps/place/{$freight.street}+-+{$freight.district},+{$freight.city}+-+{$freight.uf}+,+{$freight.cep}" class="h6 text-uppercase text-second-site-section" target="_blank"> <i class="fas fa-map-marker-alt"></i> {$freight.street} - {$freight.district}, {$freight.city} - {$freight.uf}, {$freight.cep}</a>
+									</li>
+									{loop="$freight.details"}
+									<li class="list-group-item text-second-site-section d-flex justify-content-between">
+										<i>{$value.name} <small class="font-weight-light">(Entrega em {$value.time} {$value.uni})</small> </i>
+										<i>R$ {function="maskPrice($value.value)"}</i>
+									</li>
+									{/loop}
+									{/if}
+								</ul>
+
+								<div class="px-3 py-2">
+									
+									<div class="align-self-center py-sm-0">
+										<span id="alertTextCart" class="h5 alert-text-admin text-danger d-none"> <a>CEP INVÁLIDO!</a> <i class="fas fa-times"></i> </span>
+									</div>
+	
+									<div id="overlayCartAlert" class="d-none">
+										<div class="overlay d-flex align-items-center">
+											<i class="fas fa-2x fa-sync fa-spin"></i>
+										</div>
+									</div>
+
+								</div>
+
+							</div>
+
+							<!-- 
+								<p id="priceFreigth" class="mt-1 border">
 								{if="isset($freight) && $freight != 0"}
 								
 								{if="$freight.details.0.status == 1 || $freight.details.1.status == 1"}
@@ -285,7 +322,10 @@
 								{/if}
 								
 								{/if}
+
 							</p>
+							 -->
+
 						</form>
 						
 					</div>

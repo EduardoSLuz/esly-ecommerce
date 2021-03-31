@@ -220,6 +220,13 @@ class Model {
 
 	}
 
+	public static function validCep($cep)
+	{
+
+		return !empty($cep) && strlen($cep) == 9 && strstr($cep, '-') ? true : false;
+
+	}
+
 }
 
 ?>

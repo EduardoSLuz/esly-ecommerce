@@ -268,13 +268,14 @@ window.addEventListener('resize', function () {
         $('#FooterInfo').removeClass("mt-5"); /* Footer Info */		
         $('#BarProductDetails').addClass("text-center"); /* Bar Products Details */
         $('#BarCartProductDetails').addClass("w-100"); /* Bar Cart Products Details */
-        
+        $('.sticky-top-esly').removeClass("sticky-top");
     }
     else{
 
         $('#FooterInfo').addClass("mt-5"); /* Footer Info */
         $('#BarProductDetails').removeClass("text-center"); /* Bar Products Details */
         $('#BarCartProductDetails').removeClass("w-100"); /* Bar Cart Products Details */
+        $('.sticky-top-esly').addClass("sticky-top");
 
     }
 
@@ -318,9 +319,6 @@ $(document).ready(function(){
 
  $('.selectType').on('click', function(e) {
 
-    let div = $(this).attr("data-div");
-
-    $('.divSelect').addClass('d-none');
     $('.titleSelect').addClass('font-weight-normal');
     $('.selectType').removeClass('border-dark');
     $('.selectType #iconCheck').removeClass();
@@ -328,11 +326,10 @@ $(document).ready(function(){
 
     $(this.children[0]).removeClass('font-weight-normal');
     $(this.children[1]).addClass('fas fa-check');
-    $(this.children[2]).prop('checked', true);
+    $(this.children[2]).prop('checked', 'checked');
     $(this).addClass('border-dark');
     
     $("#textType").text($(this).attr("data-text"));
-    if(div != undefined && div != "") $("#"+div).removeClass('d-none');
 
 });
 
@@ -343,7 +340,7 @@ $('.selectFreigth').on('click', function(e) {
     $('.selectFreigth .inputFreigth').removeAttr('checked');
 
     $(this.children[1]).addClass('fas fa-check');
-    $(this.children[2]).prop('checked', true);
+    $(this.children[2]).prop('checked', 'checked');
     $(this).addClass('border-dark');
     
 });
@@ -360,37 +357,48 @@ $('.selectAddress').on('click', function(e) {
     
 });
 
-$('.selectHorary').on('click', function(e) {
+$('.selectHorary').on('click tap', function(e) {
 
     $('.selectHorary').removeClass('border-dark');
     $('.selectHorary .inputType').removeAttr('checked');
     $('.selectHorary .inputDate').removeAttr('checked');
 
-    $(this.children[0]).prop('checked', true);
-    $(this.children[1]).prop('checked', true);
+    $(this.children[0]).attr('checked', "checked");
+    $(this.children[1]).attr('checked', "checked");
     $(this).addClass('border-dark');
 });
 
-$('.selectPay').on('click', function(e) {
+$('.selectPay').on('click tap', function(e) {
 
     $('.divPay').addClass('d-none');
     $('.titleSelect').addClass('font-weight-normal');
     $('.selectPay').removeClass('border-dark');
     $('.selectPay #iconCheck').removeClass();
     $('.selectPay .inputType').removeAttr('checked');
-    $('#inputMoney').val(0);
-    $('#inputMoney').prop('disabled', true);
+    $('#inputMoney').attr('disabled', true);
 
     $(this.children[0]).removeClass('font-weight-normal');
     $(this.children[1]).addClass('fas fa-check');
-    $(this.children[2]).prop('checked', true);
+    $(this.children[2]).attr('checked', true);
     $(this).addClass('border-dark');
     
     $("#div"+$(this).attr("data-div")).removeClass('d-none');
 
     if($(this).attr("data-div") == 'Dinheiro'){
         $('#inputMoney').removeAttr('disabled');
+    } else {
+        $('#inputMoney').val(0);
     }
+
+});
+
+$(document).on('click', '.selectList', function(){
+
+    $('.selectList').removeClass('border-dark');
+    $('.checkList').removeAttr('checked');
+    
+    $(this).addClass('border-dark');
+    $(this).children('.checkList').attr('checked', "checked");
 
 });
 
@@ -414,3 +422,12 @@ $('.inputQtdCart').on("blur", function(e){
 // click me
 $(".clickMe").click();
 $(".clickMe").removeClass("clickMe");
+
+function isJson(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+}

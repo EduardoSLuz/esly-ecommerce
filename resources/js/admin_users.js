@@ -44,10 +44,13 @@ $('.formUserDetails').on('submit', function(e) {
         data: dados
     }).done(function(response){
 
-        $("#alertsUserDetails").load( "/admin/users/"+id+"/ #alertsUserDetails > *");
-        setTimeout( function(){ 
-            $("#alertsUserDetails").load( "/admin/users/"+id+"/ #alertsUserDetails > *"); 
-        } , 1000);
+        if(JSON.parse(response) !== undefined)
+        {
+            let json = JSON.parse(response);
+            
+            msgAlert("#alertsUserDetails", json.msg, json.status, 1000);
+        
+        }
 
     })
 
@@ -66,21 +69,18 @@ $('#modalUserAddress').on('show.bs.modal', function (e) {
     var street = button.data('street'); 
     var number = button.data('number'); 
     var complement = button.data('complement'); 
-    var reference = button.data('reference'); 
     var modal = $(this);
 
     modal.find('.modal-title').text(modalTitle);
     modal.find('.modal-body #formUserAddress').attr("data-type", type);
     modal.find('.modal-body #formUserAddress').attr("data-id", id);
     modal.find('.modal-body #formUserAddress').attr("data-user", idUser);
-    modal.find('.modal-body #selectUserCity').val(city);
-    modal.find('.modal-body #selectUserCity').trigger('change');
     modal.find('.modal-body #inputUserAddressCep').val(cep);
+    modal.find('.modal-body #inputUserAddressCity').val(city);
     modal.find('.modal-body #inputUserAddressDistrict').val(district);
     modal.find('.modal-body #inputUserAddressStreet').val(street);
     modal.find('.modal-body #inputUserAddressNumber').val(number);
     modal.find('.modal-body #inputUserAddressComplement').val(complement);
-    modal.find('.modal-body #inputUserAddressReference').val(reference);
 });
 
 // Form Modal User Address
@@ -102,14 +102,19 @@ $('.formUserAddress').on('submit', function(e) {
         data: dados
     }).done(function(response){
         
-        $("#alertsUserAddress").load( "/admin/users/"+idUser+"/ #alertsUserAddress > *");
-        setTimeout( function(){ 
-            $("#alertsUserAddress").load( "/admin/users/"+idUser+"/ #alertsUserAddress > *"); 
-        } , 1000);
-        
-        if(response == 1)
+        if(JSON.parse(response) !== undefined)
         {
-            $("#tbUsersAddress").load( "/admin/users/"+idUser+"/ #tbUsersAddress > *");
+            let json = JSON.parse(response);
+            
+            msgAlert("#alertModalAddress", json.msg, json.status, 1000);
+
+            if(json.status == 1)
+            {
+                setTimeout( function(){ 
+                    $("#tbUsersAddress").load( "/admin/users/"+idUser+"/ #tbUsersAddress > *");
+                } , 1000);
+            }
+        
         }
 
     })

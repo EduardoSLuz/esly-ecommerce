@@ -22,10 +22,11 @@
 					<p class="mt-3 h6 font-weight-normal text-link-site-section">
 						<i class="fas fa-store"></i> 
 						Loja {$ID} 
-						{if="isset($order) && isset($order.type) && $order.type == 2"}
-						- <i class="fas fa-truck"></i> Frete: <b>
+						{if="isset($order) && isset($order.type) && $order.type == 2 && $order.nameFreight != ''"}
+						- <i class="fas fa-truck"></i> Frete: 
+						<b>
 							<i>
-								{if="$order.typeFreight == 0"}Normal{else}Express{/if}
+								{$order.nameFreight}
 							</i>
 					 	</b> 
 						{/if}

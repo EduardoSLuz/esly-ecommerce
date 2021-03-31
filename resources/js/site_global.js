@@ -46,21 +46,70 @@ $('#modalMsgAlertLinks').on('show.bs.modal', function (e) {
 
 });
 
-// Bar Add Item
-$('.formEnvia').on('submit', function(e) {
+// Modal Msg Alert
+$('#modalSubTypesOptions').on('show.bs.modal', function (e) {
+    
+    $("#divListOptionsSubTypes").addClass('d-none');
+    $("#overlayModalSubTypesOptions").removeClass('d-none');
 
-    var id = $(this).attr("data-id");
-    var store = $(this).attr("data-store");
-    var type = $(this).attr("data-type");
-    var url = `/loja-${store}/checkout/cart/product/${id}/add/`;
-    var qtd = this.inputCardDiversos.value;
+    var button = $(e.relatedTarget); 
+    var store = button.data('store'); 
+    var title = button.data('title'); 
+    var dad = button.data('dad'); 
+    var id = button.data('id') == undefined ? 0 : button.data('id'); 
+    var modal = $(this);
+
+    modal.find('.modal-content #formModalSubTypesOptions .modal-title').text(title);
+    modal.find('.modal-content #formModalSubTypesOptions').attr("data-code", dad);
+
+    $("#listOptionsSubTypes").load(`/loja-${store}/?cod=${id} #listOptionsSubTypes > *`, function(){
+        $("#overlayModalSubTypesOptions").addClass('d-none');
+        $("#divListOptionsSubTypes").removeClass('d-none');
+        $("#listOptionsSubTypes button").first().click();
+    });
+
+});
+
+$('.formModalSubTypesOptions').on('submit', function(e) {
 
     e.preventDefault();
 
-    var dados = new FormData();
+    let code = $(this).attr("data-code");
+    let type = $(this).attr("data-type");
+
+    $(`#${code}`).attr("data-subtype", type);
+    
+    $('#modalSubTypesOptions').modal('hide');
+    $(`#${code}`).submit();
+
+});
+
+$(document).on('click', '.inputSubTypeOption', function(e){
+
+    let val = $(this).attr("data-code");
+
+    $(".formModalSubTypesOptions").attr("data-type", val);
+
+});
+
+// Bar Add Item
+$('.formEnvia').on('submit', function(e) {
+
+    e.preventDefault();
+
+    let id = $(this).attr("data-id");
+    let store = $(this).attr("data-store");
+    let type = $(this).attr("data-type");
+    let url = `/loja-${store}/checkout/cart/product/${id}/add/`;
+    let subtype = $(this).attr("data-subtype");
+    let detect = $(this).attr("data-detect");
+    let card = $(this).attr("id");
+    let qtd = this.inputCardDiversos.value;
+    let dados = new FormData();
 
     dados.append("qtd", qtd); 
     dados.append("type", type); 
+    dados.append("subtype", subtype); 
 
     $.ajax({
         url: url,
@@ -70,21 +119,22 @@ $('.formEnvia').on('submit', function(e) {
         contentType: false
     }).done(function(response){
         
-        console.log(response);
-
-        let json = JSON.parse(response);
-        
-        if(json != undefined)
+        if(response != 0 && response != "" && isJson(response))
         {
 
-            $("#alertBoxCartNot").removeClass("d-none"); 
+            let json = JSON.parse(response);
+
             msgAlert("#alertCartNot", json.msg, json.status, 2000)
 
-            setTimeout( function(){ 
-                $("#alertBoxCartNot").addClass("d-none"); 
-            } , 2000); 
-
-        } 
+        }
+        
+        if(detect == 0){
+            $(`#${card} .msgAlertIcon`).attr("data-toggle", "modal");
+            $(`#${card} .btn-cart-site-section`).attr("type", "button");
+            $(`#${card} .msgAlertIcon`).click();
+            $(`#${card} .msgAlertIcon`).attr("data-toggle", "");
+            $(`#${card} .btn-cart-site-section`).attr("type", "submit");
+        }
 
         $("#dropdownBootstrap").load( "/loja-"+store+"/ #dropdownBootstrap > *" );
         $("#BtnCart").load( "/loja-"+store+"/ #BtnCart > *" );
@@ -99,6 +149,8 @@ $(".altUnitMeasure").on('click', function(e){
     let id = $(this).attr("data-id");
     let cod = $(this).attr("data-cod");
     let card = $(this).attr("data-dad");
+    let key = $(this).attr("data-key");
+    let prime = $(this).attr("data-prime");
     let url = `/loja-${store}/select-product-unit/`;
     let dados = `id=${id}&cod=${cod}`;
 
@@ -128,7 +180,7 @@ $(".altUnitMeasure").on('click', function(e){
             
         }
 
-        if(cod == 0)
+        if(key == prime)
         {
             $(`#card${card} .card-ColorPromoPrice`).removeClass("d-none");                
         } else {
@@ -172,7 +224,49 @@ function msgAlert(alert, msg, type = 1, time = 2000, fixed = 0)
     
 }
 
+function msgAlertText(alert, msg, type = 1, time = 0)
+{
+
+    if($(alert).attr('id') !== undefined)
+    {
+
+        $(`${alert} a`).text(msg);
+
+        if(type == 1){
+            
+            $(alert).removeClass("text-danger");
+            $(alert).addClass("text-success");
+
+            $(`${alert} i`).removeClass();
+            $(`${alert} i`).addClass("fas fa-check");
+
+        } else {
+            
+            $(alert).removeClass("text-success");
+            $(alert).addClass("text-danger");
+
+            $(`${alert} i`).removeClass();
+            $(`${alert} i`).addClass("fas fa-times");
+
+        }
+        
+        $(alert).removeClass("d-none");
+
+        if(time > 0)
+        {
+            setTimeout( function(){ 
+                $(alert).addClass("d-none");
+            } , time);
+        }
+    
+    }
+    
+}
+
 $(function () {
+
+    $("#overlayBody").addClass('d-none');
+    $("#overlayBody").removeClass('d-flex');
 
     if($(".msgAlertNow").attr("id") !== undefined)
     {
@@ -187,5 +281,5 @@ $(function () {
         $(".msgAlertNow").removeClass("msgAlertNow");
     
     }
-    
+
 })

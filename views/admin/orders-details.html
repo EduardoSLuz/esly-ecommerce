@@ -165,7 +165,10 @@
                       {loop="$orders.0.cart.items"}
                       <tr>
                         <td>{$key + 1}</td>
-                        <td>{$value.descProduct}</td>
+                        <td>
+                          {$value.descProduct}
+													{if="isset($value.subtypeDesc) && !empty(trim($value.subtypeDesc))"}<small><i>({$value.subtypeDesc})</i></small>{/if}
+                        </td>
                         <td>{$value.unitReference}</td>
                         <td>{if="$value.similar == 1"}Sim{else}Não{/if}</td>
                         <td>R$ {function="maskPrice($value.priceItem)"}</td>

@@ -45,56 +45,30 @@
                 <!-- /.card-header -->
                 <div class="card-body">
 
-                  <div id="alertsUserDetails">
-            
-                    {if="$errorRegister != ''"}
-                    <div class="alert alert-danger alert-dismissible fade show text-left" role="alert">
-                      
-                        <span>{$errorRegister}</span>
-                        
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-        
-                    </div>
-                    {/if}
-        
-                    {if="$successMsg != ''"}	
-        
-                    <div class="alert alert-success alert-dismissible fade show text-left" role="alert">
-                        
-                        <span>{$successMsg}</span>
-                        
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-        
-                    </div>
-        
-                    {/if}
-                  
+                  <div id="alertsUserDetails" class="alert alert-success alert-dismissible fade d-none text-left" role="alert">
+                    <span class="msgAlert">Msg</span>
                   </div>
                   
-                  <form id="formUserDetails" class="formUserDetails row" method="POST" data-type="2" data-id='{if="isset($userData) && $userData != 0"}{$userData.0.idUser}{else}0{/if}'>
+                  <form id="formUserDetails" class="formUserDetails row justify-content-sm-center" method="POST" data-type="2" data-id='{if="isset($userData) && $userData != 0"}{$userData.0.idUser}{else}0{/if}'>
 
                     {if="isset($userData) && $userData != 0"}
 
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-12 col-md-6 col-lg-4">
                       <label for="inputName">Nome</label>
                       <input type="text" id="inputName" name="inputName" class="form-control" value="{$userData.0.nameUser} {$userData.0.surnameUser}" placeholder="Digite o nome">
                     </div>
 
-                    <div class="form-group col-md-5">
+                    <div class="form-group col-12 col-md-6 col-lg-5">
                       <label for="inputEmail">E-mail</label>
                       <input type="email" id="inputEmail" name="inputEmail" class="form-control" value="{$userData.0.emailUser}" placeholder="Digite o e-mail">
                     </div>
 
-                    <div class="form-group col-md-3 col-sm-3 col-lg-2">
+                    <div class="form-group col-12 col-sm-4 col-md-4 col-lg-3">
                       <label for="inputCpf">Cpf</label>
                       <input type="text" id="inputCpf" name="inputCpf" class="form-control text-center maskCpf" value="{$userData.0.cpfUser}" placeholder="000.000.000-00">
                     </div>
 
-                    <div class="form-group col-md-2 col-sm-2 col-lg-1">
+                    <div class="form-group col-12 col-sm-3 col-md-2 col-sm-2 col-lg-2">
                       <label for="selectStatus">Status</label>
                       <select name="selectStatus" id="selectStatus" class="custom-select">
                         <option value="0">Inativo</option>
@@ -102,17 +76,17 @@
                       </select>
                     </div>
 
-                    <div class="form-group col-md-3 col-sm-3 col-lg-2">
+                    <div class="form-group col-12 col-sm-6 col-md-3">
                       <label for="inputTelephone">Telefone</label>
                       <input type="text" id="inputTelephone" name="inputTelephone" class="form-control text-center maskTel" value="{$userData.0.telephoneUser}" placeholder="(00) 00000-0000">
                     </div>
 
-                    <div class="form-group col-md-3 col-sm-3 col-lg-2">
+                    <div class="form-group col-12 col-sm-6 col-md-3">
                       <label for="inputWp">Whatsapp</label>
                       <input type="text" id="inputWp" name="inputWp" class="form-control text-center maskTel" value="{$userData.0.whatsappUser}" placeholder="(00) 00000-0000">
                     </div>
 
-                    <div class="form-group col-md-2">
+                    <div class="form-group col-12 col-sm-4 col-md-2">
                       <label for="selectGenre">Gênero</label>
                       <select name="selectGenre" id="selectGenre" class="custom-select">
                         <option value="0">Selecione um Gênero</option>
@@ -122,7 +96,7 @@
                       </select>
                     </div>
 
-                    <div class="form-group col-md-2 col-sm-2 col-lg-1">
+                    <div class="form-group col-12 col-sm-4 col-md-2">
                       <label for="selectType">Tipo</label>
                       <select name="selectType" id="selectType" class="custom-select">
                         <option value="0">Cliente</option>
@@ -130,12 +104,12 @@
                       </select>
                     </div>
 
-                    <div class="form-group col-md-3 col-sm-3 col-lg-2">
+                    <div class="form-group col-12 col-sm-4 col-md-3">
                       <label for="inputDateBirth">Data de Nascimento</label>
                       <input type="date" id="inputDateBirth" name="inputDateBirth" class="form-control text-center" value="{$userData.0.dateBirthUser}">
                     </div>
 
-                    <div class="col-sm-12 text-right">
+                    <div class="col-12 text-right">
                       <button type="submit" class="btn btn-primary px-5">Salvar</button>
                     </div>
 
@@ -227,7 +201,7 @@
                           {/if}
                         </td>
                         <td>
-                          <button type="button" class="btn btn-tool px-1" data-toggle="modal" data-target="#modalUserAddress" data-type="2" data-id="{$value.idAddress}" data-user="{$userData.0.idUser}" data-modal-title="Alterar o Endereço" data-city="{$value.codeCity}" data-cep='{if="isset($value.cep) && strlen($value.cep) == 8"}{function="maskCep($value.cep)"}{/if}' data-district="{$value.district}" data-street="{$value.street}" data-number="{$value.number}" data-complement="{$value.complement}" data-reference="{$value.reference}"> <i class="fas fa-pen"></i> </button>
+                          <button type="button" class="btn btn-tool px-1" data-toggle="modal" data-target="#modalUserAddress" data-type="2" data-id="{$value.idAddress}" data-user="{$userData.0.idUser}" data-modal-title="Alterar o Endereço" data-city="{$value.city} - {$value.uf}" data-cep='{if="isset($value.cep) && strlen($value.cep) == 8"}{function="maskCep($value.cep)"}{/if}' data-district="{$value.district}" data-street="{$value.street}" data-number="{$value.number}" data-complement="{$value.complement}"> <i class="fas fa-pen"></i> </button>
                         </td>
                       </tr>
                       {/loop}
@@ -265,7 +239,7 @@
                       {/if}
                     </select>
 
-                    <select class="custom-select inputsOrdersUser mr-2" name="selectStoreOrders" id="selectStoreOrders" style="width: 250px;">
+                    <select class="custom-select inputsOrdersUser mr-2" name="selectStatusOrders" id="selectStatusOrders" style="width: 250px;">
                       <option value="0">Status</option>
                       {if="isset($ordersStatus) && $ordersStatus != 0"}
                       {loop="$ordersStatus"}

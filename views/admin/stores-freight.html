@@ -29,55 +29,27 @@
               <div class="card">
                 <div class="card-header">
                   <h3 class="card-title">Frete &nbsp;</h3> 
-                  <a href="#" class="text-success py-1" data-toggle="modal" data-target="#modalFreigth" data-type="1" data-id="0" data-modal-title="Adicionar um Frete" data-district="" data-city="0" data-cep="" data-details='[{"value" : "0", "status" : "0"}, {"value" : "0", "status" : "0"}]' data-only="0"> <i class="far fa-plus-square"></i> Adicionar</a>
+                  <a id="btnAddFreight" class="text-success py-1 cursor-pointer" data-store="{$id}" data-modal-title="Adicionar Frete"> <i class="far fa-plus-square"></i> Adicionar</a>
                 </div>
 
                 <!-- /.card-header -->
                 <div class="card-body">
-
-                  <div id="alertsDeleteFreight">
-            
-                    {if="$errorRegister != ''"}
-                    <div class="alert alert-danger alert-dismissible fade show text-left" role="alert">
-                      
-                        <span>{$errorRegister}</span>
-                        
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-        
-                    </div>
-                    {/if}
-        
-                    {if="$successMsg != ''"}	
-        
-                    <div class="alert alert-success alert-dismissible fade show text-left" role="alert">
-                        
-                        <span>{$successMsg}</span>
-                        
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-        
-                    </div>
-        
-                    {/if}
                   
+                  <div id="alertsFreight" class="alert alert-success alert-dismissible fade d-none text-left" role="alert">
+                    <span class="msgAlert">Msg</span>
                   </div>
                   
                   <div id="dataFreight" class="row">
 
                     <!-- /.card-header -->
-                    <div class="card-body table-responsive p-0 col-sm-12">
+                    <div id="tableAdminFreight" class="card-body table-responsive p-0 col-sm-12">
                       
                       {if="isset($storeFreight) && $storeFreight != 0"}
                       <table class="table table-head-fixed table-hover text-nowrap">
                         <thead>
                           <tr>
                             <th>ID</th>
-                            <th>Região</th>
-                            <th>Cidade</th>
-                            <th>Cep</th>
+                            <th>Distância Máx.</th>
                             <th>Tipos</th>
                             <th>Opções</th>
                           </tr>
@@ -86,19 +58,19 @@
                           {loop="$storeFreight"}
                           <tr id="trFreight{$value.idFreight}">
                             <td>{$key + 1}</td>
+                            <td>{$value.distance}</td>
                             <td>
-                              {if="$value.onlyCity == 0"}
-                              {$value.district}
-                              {else}
-                              Por toda cidade
+                              {if="is_array($value.details) && count($value.details) > 0"}
+                              {loop="$value.details"}
+                              {if="$key <= 2"}{if="$key == 0"}{$value.name}{else}, {$value.name}{/if}{/if}
+                              {/loop}
+                              {if="count($value.details) > 3"}...{/if}
+                              {else}<a class="text-danger">Nenhum</a>
                               {/if}
                             </td>
-                            <td>{$value.city} - {$value.uf}</td>
-                            <td>{function="maskCep($value.cep)"}</td>
-                            <td>{loop="$value.details"}{if="$key == 0"}{$value.name}{else}, {$value.name}{/if}{/loop}</td>
                             <td>
 
-                              <button type="button" class="btn btn-tool px-1" data-toggle="modal" data-target="#modalFreigth" data-type="2" data-id="{$value.idFreight}" data-modal-title="Alterar um Frete" data-district="{$value.district}" data-city="{$value.codeCity}" data-cep='{function="maskCep($value.cep)"}' data-details='{function="json_encode($value.details)"}' data-only="{$value.onlyCity}"> <i class="fas fa-pen"></i></button>
+                              <button type="button" class="btn btn-tool px-1 btnEditFreight" data-toggle="modal" data-target="#modalFreightNew" data-type="2" data-store="{$id}" data-id="{$value.idFreight}" data-modal-title="Alterar Frete" data-distance="{$value.distance}" data-name='{if="isset($value.details.0.name)"}{$value.details.0.name}{else}{/if}' data-value='{if="isset($value.details.0.name)"}{$value.details.0.value}{else}0{/if}' data-time='{if="isset($value.details.0.name)"}{$value.details.0.time}{else}0{/if}'> <i class="fas fa-pen"></i></button>
                             
                               <button type="button" class="btnDeleteFreight btn btn-tool px-1" data-type="3" data-id="{$value.idFreight}" data-store="{$id}"><i class="far fa-trash-alt"></i></button>
 

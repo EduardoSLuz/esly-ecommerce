@@ -191,13 +191,12 @@ $('#ModalAddress').on('show.bs.modal', function (e) {
     var button = $(e.relatedTarget); 
     var type = button.data('type'); 
     var id = button.data('code'); 
-    var city = button.data('city'); 
     var cep = button.data('cep'); 
+    var city = button.data('city'); 
     var district = button.data('district'); 
     var street = button.data('street'); 
     var number = button.data('number'); 
     var complement = button.data('complement'); 
-    var reference = button.data('reference'); 
     var main = button.data('main'); 
     var modalTitle = button.data('modal-title'); 
     var modal = $(this);
@@ -205,14 +204,12 @@ $('#ModalAddress').on('show.bs.modal', function (e) {
     modal.find('.modal-title').text(modalTitle);
     modal.find('.modal-body #modalFormAddress').attr("data-type", type);
     modal.find('.modal-body #modalFormAddress').attr("data-code", id);
-    modal.find('.modal-body #cityAddress').val(city);
-    modal.find('.modal-body #cityAddress').trigger('change');
     modal.find('.modal-body #cepAddress').val(cep);
+    modal.find('.modal-body #cityAddress').val(city);
     modal.find('.modal-body #districtAddress').val(district);
     modal.find('.modal-body #streetAddress').val(street);
     modal.find('.modal-body #numberAddress').val(number);
     modal.find('.modal-body #complementAddress').val(complement);
-    modal.find('.modal-body #referenceAddress').val(reference);
     
     if(main == 1)
     { 
@@ -266,6 +263,34 @@ $('.modalFormAddress').on('submit', function(e) {
     }).always(function(){
         $("#overlayModalAddress").addClass('d-none');
     });
+
+});
+
+$(".searchCep").on("input", function(e) {
+
+    let cep = $(this).val();
+    let url = "/geocoding_api_for_cep";
+    let dados = `cep=${cep}&cod=2621`;
+
+    $.ajax({
+        url: url,
+        method: "POST",
+        data: dados
+    }).done(function(response){
+
+        if(response != 0 && response != "" && JSON.parse(response) !== undefined)
+        {
+            let json = JSON.parse(response);
+            
+            $("#cityAddress").val(json.city + " - " + json.uf);
+            $("#districtAddress").val(json.district);
+            $("#streetAddress").val(json.street);
+        
+        } else if(response == 0 && response != ""){
+            msgAlert("#alertModalAddress", "CEP NÃO ENCONTRADO!", 0, 1000);
+        }
+
+    })
 
 });
 

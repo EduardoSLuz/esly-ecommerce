@@ -10,6 +10,10 @@
 				</ol>
 			</nav>
 
+			<nav class="d-md-none my-2">
+				<a href="/loja-{$ID}/account/requests/" class="btn btn-sm btn-main-site-section text-btn-site-section"><i class="fas fa-chevron-left"></i> <i>Voltar</i></a>
+			</nav>
+
 			<div class="row">
 
 				<div class="col-md-3 bar-display">
@@ -44,7 +48,7 @@
 										
 										<div class="h5 col-6 text-right">
 											
-											<a href="#" id="{$value.ID}" class="text-second-site-section btnEditAddress" data-toggle="modal" data-target="#ModalAddress" data-modal-title="Alterar Endereço de Entrega" data-type="2" data-code="{$value.idAddress}" data-city="{$value.codeCity}" data-cep='{function="maskCep($value.cep)"}' data-district="{$value.district}" data-street="{$value.street}" data-number="{$value.number}" data-complement="{$value.complement}" data-reference="{$value.reference}" data-main="{$value.mainAddress}"><i class="far fa-edit"></i></a>
+											<a href="#" id="{$value.ID}" class="text-second-site-section btnEditAddress" data-toggle="modal" data-target="#ModalAddress" data-modal-title="Alterar Endereço de Entrega" data-type="2" data-code="{$value.idAddress}" data-cep='{function="maskCep($value.cep)"}' data-district="{$value.district}" data-street="{$value.street}" data-number="{$value.number}" data-complement="{$value.complement}" data-main="{$value.mainAddress}" data-city="{$value.city} - {$value.uf}"><i class="far fa-edit"></i></a>
 
 											<a class="text-second-site-section btnDeleteUserAddress cursorPointer" data-toggle="popover" data-placement="top" data-trigger="hover" data-html="true" data-content="<a class='h6 font-weight-normal text-center'>Deseja realmente remover?</a>" data-store="{$ID}" data-code="{$value.idAddress}">
 												<i class="far fa-trash-alt"></i>
@@ -53,28 +57,30 @@
 										</div>
 
 									</div>
-									
-										<p class="my-1 text-second-site-section">
-											<span>{$value.street}</span> 
-											<span> - {$value.number}</span> 
-											<span>{if="$value.complement != ''"} - {$value.complement}{/if}</span>
-										</p>
-										<p class="my-1 text-second-site-section">
-											<span>{if="$value.reference != ''"}{$value.reference} {else} Sem referência {/if}</span>
-										</p>
-										<p class="my-1 text-second-site-section">
+
+									<div class="h5 text-second-site-section font-weight-normal">
+
+										<p class="my-1">
+											<span>{$value.street} -</span> 
+											<span>{$value.number},</span> 
 											<span>{function="maskCep($value.cep)"}</span>
-											<span> - {$value.district}</span>
 										</p>
-										<p class="my-1 text-second-site-section">
+										<p class="my-1">
+											<span>{$value.district} -</span>
+											<span>{if="$value.complement != ''"}{$value.complement}{/if}</span>
+										</p>
+										<p class="my-1">
 											<span>{$value.city}</span>
 											<span> - {$value.uf}</span>
 										</p>
+
+									</div>
+									
 								</div>
 								<form id="formMain{$key}" class="card-footer bg-transparent text-center" action="/loja-{$ID}/account/address/update/" method="POST">
 
 									<input id="ckAd{$key}" name="ckAd" type="checkbox" class="cursorPointer" {if="$value.mainAddress == 1"} checked {/if} onclick="formMain{$key}.submit()"> 
-									<a class="h6 font-weight-normal text-second-site-section cursorPointer" onclick="ExecuteClick('ckAd{$key}')"> Selecionar como principal</a>
+									<a class="h6 font-weight-normal text-second-site-section cursorPointer text-decoration-none" onclick="ExecuteClick('ckAd{$key}')"><i>Selecionar como principal</i></a>
 									
 									<input type="hidden" name="adCode" value="{$value.idAddress}">
 
@@ -88,7 +94,7 @@
 							  
 					</div>
 
-					<a href="#" class="my-1 btn btn-sm btn-outline-main-site-section" data-toggle="modal" data-target="#ModalAddress" data-modal-title="Cadastrar Endereço de Entrega" data-type="1" data-code="0" data-city="0" data-cep="" data-district="" data-street="" data-number="" data-complement="" data-reference="" data-main="0"><i class="fas fa-plus"></i> Adicionar endereço</a>
+					<a href="#" class="my-1 btn btn-sm btn-outline-main-site-section" data-toggle="modal" data-target="#ModalAddress" data-modal-title="Cadastrar Endereço de Entrega" data-type="1" data-code="0" data-city="" data-cep="" data-district="" data-street="" data-number="" data-complement="" data-main="0"><i class="fas fa-plus"></i> Adicionar endereço</a>
 
 				</div>
 

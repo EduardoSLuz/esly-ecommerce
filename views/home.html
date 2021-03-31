@@ -1,226 +1,239 @@
-
-	{if="isset($imgs) && $imgs != 0 && isset($products) && is_array($products) && count($products) > 0"}
-	<div class="ct-null bg-white">	  
+	<section>
 		
-		<div class="owl-carousel owl-theme owl-loaded">
+		<div id="homeCarouselImgs2" class="ct-null bg-white" data-store="{$ID}">	  
+			
+			{if="isset($imgs) && $imgs != 0 && isset($productsDep) && is_array($productsDep) && count($productsDep) > 0"}
+			<div class="owl-carousel owl-theme owl-loaded">
+						
+				<div class="CarouselImgs owl-stage-outer">
 					
-			<div class="CarouselImgs owl-stage-outer">
-				  
-				<div class="owl-stage">
-					
-					{loop="$imgs.promotions"}
-					{if="file_exists($value.origin)"}
-					<div class="owl-item text-center">
-						<a href="/loja-{$ID}/promotions/"><img src="{$value.src}" class="w-100 img-CarouselPrime" alt="{$value.file}{$key}"></a>
+					<div class="owl-stage d-flex">
+						
+						{loop="$imgs.promotions"}
+						{if="file_exists($value.origin)"}
+						<div class="owl-item text-center">
+							<a href="/loja-{$ID}/promotions/"><img src="/resources/imgs/logos/loading.gif" data-src="{$value.src}" class="lazyload w-100 img-CarouselPrime" alt="{$value.file}{$key}"></a>
+						</div>
+						{/if}
+						{/loop}
+						
 					</div>
-					{/if}
-					{/loop}
-					
 				</div>
 			</div>
-		</div>
-	</div>
-	{/if}
-	  
-	{if="isset($products) && is_array($products) && count($products) > 0"}
+			{/if}
 
+		</div>
+
+	</section>
+	  
 	<section class="mt-5">
 	  
 		<p class="h4 text-uppercase font-weight-light text-center text-second-site-section">
 		   Produtos que podem te interessar
-	   </p>
-	   
-	   <div class="container mt-3">
+	   	</p>
 		   
-		   <div class="row cards-CartOne">
+	   	<div id="homeCarouselRecomend2" class="container mt-3" data-store="{$ID}">
+			{if="isset($productsDep) && is_array($productsDep) && count($productsDep) > 0"}
+		   	<div class="row cards-CartOne">
 				 
-			   <div class="owl-carousel owl-theme owl-loaded">
+			   	<div class="owl-carousel owl-theme owl-loaded">
 				   
-				   <div class="CarouselOne owl-stage-outer">
+				   	<div class="CarouselOne owl-stage-outer">
 						 
-					   <div class="owl-stage">
+					   	<div class="owl-stage d-flex">
+							{$ct = 0}
+						   	{loop="$productsDep"}
+							{$ct += 1}
+						   	{if="$ct <= 14"}
 						   
-						   {loop="$products"}
-						   
-						   {if="$key < 7"}
-						   
-						   {if="$value.category.0.products.0.stock > 0"}
-						   <div class="owl-item text-center">
-							<img class="rounded mx-auto d-block rounded-circle bg-white border carousel-ImgCircle cursorPointer" src="{$value.category.0.products.0.image}" alt="Produtos" onclick="window.location.assign('/loja-{$ID}/departaments/{$value.name}-{$value.category.0.name}/')">
-							<p class="text-center text-wrap text-second-site-section">
-								{function="substr($value.name, 0, 25)"}
-							</p>
+						   	{if="$value.products.0.stock > 0 || is_array($value.products) && count($value.products) > 1"}
+						   	<div class="owl-item text-center">
+								<img class="lazyload rounded mx-auto d-block rounded-circle bg-white border carousel-ImgCircle cursorPointer" src="/resources/imgs/logos/loading.gif" data-src="{$value.products.0.image}" alt="Produtos" onclick="window.location.assign('/loja-{$ID}/departaments/{$value.name}-0/')">
+								<p class="text-center text-wrap text-second-site-section">
+									{function="substr($value.name, 0, 25)"}
+								</p>
 							</div>
-						   {/if}
+						   	{/if}
 
-						   {/if}
+						   	{/if}
 
-						   {/loop}
+						   	{/loop}
 						   
-						 </div>
-				   
-				   </div>
-			   </div>
-		   </div>
-	   </div>
-   </section>
-
-	{/if}
+						</div>
+				   	</div>
+			   	</div>
+		   	</div>
+			{/if}
+	   	</div>
+		   
+	</section>
 	
-	{if="isset($productsDep) && is_array($productsDep) && count($productsDep) > 0"}
+	<section>
+
+		<div id="homeCarouselProducts2" data-store="{$ID}">
+
+			{if="isset($productsDep) && is_array($productsDep) && count($productsDep) > 0"}
 	   
-	{$ctProDep = 0}
-	{loop="$productsDep"}
-	{if="isset($value.status) && $value.status == 1"}{$ctProDep += 1}{/if}
-	
-	{if="$ctProDep < 15 && isset($value.status) && $value.status == 1"}
-	<section class="ct-center mt-mobile" style="margin-bottom:80px">
+			{loop="$productsDep"}
 			
-		<div class="ct-ini">
-			<p class="h4 font-weight-light text-second-site-section mb-4">
-				<b>{$value.name}</b>
-				<a href="/loja-{$ID}/departaments/{$value.name}-0/" class="btn btn-second-site-section text-btn-site-section btn-sm ml-2 rounded-pill">
-					Ver mais <i class="fas fa-angle-double-right"></i> 
-				</a>
-			</p>
-		</div>	
-			
-		<div class="ct-carousel">
-			<div class="row cards-CartTwo">
-      			<div class="owl-carousel owl-theme owl-loaded">
-        			<div class="CarouselTwo owl-stage-outer">
-          				
-						<div class="owl-stage text-center card-group">
-							
-							{loop="$value.products"}
-							{if="$value.price > 0 && $key < 12 && $value.stock > 0"}
-
-							<div id="card{$value.codProduct}{$key}"  class="owl-item text-center card rounded">
-							{$nameCard = $value.codProduct."$key"}
-
-								<div class="d-flex flex-row-reverse p-2">
+			{if="isset($value.status) && $value.status == 1"}
+			<div class="ct-center mt-mobile" style="margin-bottom:30px">
+					
+				<div class="ct-ini">
+					<p class="h4 font-weight-light text-second-site-section mb-4">
+						<b>{$value.name}</b>
+						<a href="/loja-{$ID}/departaments/{$value.name}-0/" class="btn btn-second-site-section text-btn-site-section btn-sm ml-2 rounded-pill">
+							Ver mais <i class="fas fa-angle-double-right"></i> 
+						</a>
+					</p>
+				</div>	
+					
+				<div class="ct-carousel">
+					<div class="row cards-CartTwo">
+						<div class="owl-carousel owl-theme owl-loaded">
+							<div class="CarouselTwo owl-stage-outer">
+								
+								<div class="owl-stage text-center card-group">
 									
-									{if="$value.pricePromo > 0"}
-									<div class="position-absolute p-3">
-										<label class="h6 m-0 btn-main-site-section text-btn-site-section">
-										<b>&nbsp;{function="porcenDif($value.price, $value.pricePromo)"}%&nbsp;</b>
-										</label>
-									</div>
-									{/if}
-										
-									<img src="{$value.image}" class="img-top rounded mx-auto d-block cursorPointer" style="height:150px;max-width: 135px;" alt="{$value.description}" onclick="window.location.assign('/loja-{$ID}/product/{$value.description}/')">
-									
-								</div>
+									{loop="$value.products"}
+									{if="$value.price > 0 && $key < 12 && $value.stock > 0"}
 
-								<div class="card-body text-center px-0">
-									
-									<p class="card-text font-weight-normal text-uppercase text-second-site-section m-0 cursorPointer tx-Mobile" onclick="window.location.assign('/loja-{$ID}/product/{$value.description}/')">
-										{$value.description}
-									</p>
+									<div id="card{$value.codProduct}{$key}"  class="owl-item text-center card rounded">
+									{$nameCard = $value.codProduct."$key"}
+									{$keyPrime = array_key_first($value.unitsMeasures)}
+									{$unitsMeasuresPrime = $value.unitsMeasures.$keyPrime}
+									{$unitsMeasures = $value.unitsMeasures}
+									{$priceFinal = $unitsMeasuresPrime.price}
+									{$priceOrigin = $value.priceFinal * $unitsMeasuresPrime.valueStock}
+									{$priceOrigin = maskPrice($priceOrigin, 0, 1)}
 
-									<p class="btn-group btn-group-toggle m-0" data-toggle="buttons">
-
-										{if="isset($value.unitsMeasures) && is_array($value.unitsMeasures) && count($value.unitsMeasures) > 0"}
-										
-										{$codePro = $value.codProduct}
-										{$stockPro = $value.stock}
-										{$unitsMeasures = $value.unitsMeasures.0}
-										
-										{loop="$value.unitsMeasures"}
-
-										{if="$value.valueStock <= $stockPro"}
-										<label class='btn btn-light border btn-sm py-0 mr-1 rounded-pill altUnitMeasure' data-store="{$ID}" data-id="{$codePro}" data-cod="{$key}" data-dad="{$nameCard}" {if="$key > 0"}data-toggle="tooltip" data-placement="top" title="É igual a {$value.valueStock} {$unitsMeasures.name}" data-boundary="window"{/if}>
-											<input type="radio" {if="$key == 0"}checked{/if}> {$value.name}
-										</label>
-										{/if}
-										
-										{/loop}
-										{/if}	
-
-									</p>	
-
-									<p class="font-weigth-bold py-1">
-												
-										{if="$value.pricePromo > 0 && $value.pricePromo != $value.price"}
-										
-										<a class="h6 text-decoration-none">
-											<s class="card-ColorPromoPrice">R${function="maskPrice($value.price)"}</s>
-										</a>
-										
-										{/if}
-										
-										<a class="text-dark text-decoration-none">
-											<b>R$</b>
-											<span class="h3 priceItemProduct">{function="maskPrice($value.priceFinal)"}</span>
-										</a>	
+										<div class="d-flex flex-row-reverse p-2">
 											
-									</p>
-								
-								</div>
+											{if="$priceFinal > 0 && $priceFinal < $priceOrigin"}
+											<div class="position-absolute p-3">
+												<label class="h6 m-0 btn-main-site-section text-btn-site-section">
+												<b>&nbsp;{function="maskPrice(porcenDif($priceOrigin, $priceFinal))"}%&nbsp;</b>
+												</label>
+											</div>
+											{/if}
+												
+											<img src="/resources/imgs/logos/loading.gif" data-src="{$value.image}" class="lazyload img-top rounded mx-auto d-block cursorPointer " style="height:150px;max-width: 135px;" alt="{$value.description}" onclick="window.location.assign('/loja-{$ID}/product/{$value.description}/')">
+											
+										</div>
 
-								<form id="formCard{$value.codProduct}{$key}" class="formEnvia" data-id="{$value.codProduct}" data-store="{$ID}" data-type="0">
-									
-									<div class="btn-group btn-group-justified w-100">
-	
-										<button type="button" class="btn btn-sm btn-main-site-section text-btn-site-section" onClick="removeItem('inputCardDiversos{$value.codProduct}{$key}')"><i class="fas fa-minus tx-IconCart"></i></button>
+										<div class="card-body text-center px-0">
+											
+											<p class="card-text font-weight-normal text-uppercase text-second-site-section m-0 cursorPointer tx-Mobile" onclick="window.location.assign('/loja-{$ID}/product/{$value.description}/')">
+												{$value.description}
+											</p>
 
-										<input id="inputCardDiversos{$value.codProduct}{$key}" name="inputCardDiversos" type='{if="isset($value.unitsMeasures.0.freeFill) && $value.unitsMeasures.0.freeFill == 1"}text{else}number{/if}' class="inputQtdCart text-center maskMoney2" value="1" max="{$value.stock}" style="font-size: 11px;font-weight: bold;width: 35%;" {if="isset($value.unitsMeasures.0.freeFill) && $value.unitsMeasures.0.freeFill == 0"}readonly="true"{/if}>
+											<p class="btn-group btn-group-toggle m-0" data-toggle="buttons">
 
-										<button type="button" class="btn btn-sm btn-main-site-section text-btn-site-section" onClick="addItem('inputCardDiversos{$value.codProduct}{$key}')"><i class="fas fa-plus tx-IconCart"></i></button>
+												{if="isset($value.unitsMeasures) && is_array($value.unitsMeasures) && count($value.unitsMeasures) > 0"}
+												
+												{$codePro = $value.codProduct}
+												{$stockPro = $value.stock}
+												
+												{loop="$value.unitsMeasures"}
+
+												{if="$value.valueStock <= $stockPro && $value.status == 1"}
+												<label class='btn btn-light border btn-sm py-0 mr-1 rounded-pill altUnitMeasure' data-store="{$ID}" data-id="{$codePro}" data-cod="{$value.id}" data-dad="{$nameCard}" data-key="{$key}" data-prime="{$keyPrime}" {if="$value.id > 0"}data-toggle="tooltip" data-placement="top" title='É igual a {function="maskPrice($value.valueStock)"} {$value.uni}' data-boundary="window"{/if}>
+													<input type="radio" {if="$key == $keyPrime"}checked{/if}> {$value.name}
+												</label>
+												{/if}
+												
+												{/loop}
+												{/if}	
+
+											</p>	
+
+											<p class="font-weigth-bold py-1">
+												
+												{if="$priceFinal > 0 && $priceFinal < $priceOrigin"}
+												
+												<a class="h6 text-decoration-none">
+													<s class="card-ColorPromoPrice">R${function="maskPrice($priceOrigin)"}</s>
+												</a>
+												
+												{/if}
+												
+												<a class="text-dark text-decoration-none">
+													<b>R$</b>
+													<span class="h3 priceItemProduct">{function="maskPrice($priceFinal)"}</span>
+												</a>	
+													
+											</p>
 										
-										{if="isset($userValues.login) && $userValues.login == false"}
-										<button type="submit" class="btn btn-sm btn-cart-site-section text-btn-site-section" data-toggle="modal" data-target="#modalMsgAlert" data-text="Deseja finalizar o pedido?" data-link="/loja-{$ID}/checkout/cart/" data-btn-text="Finalizar" data-btn-text2="Continuar comprando">
-											<i class="fas fa-shopping-cart"></i>
-										</button>
-										{else}
-										<button type="submit" class="btn btn-sm btn-cart-site-section text-btn-site-section">
-											<i class="fas fa-shopping-cart tx-IconCart"></i>
-										</button>
-										{/if}
-	
+										</div>
+
+										<form id="formCard{$value.codProduct}{$key}" class="formEnvia" data-id="{$value.codProduct}" data-store="{$ID}" data-type="{$unitsMeasuresPrime.id}" data-subtype="0" data-detect='{if="isset($userValues.login) && $userValues.login == false"}0{else}1{/if}'>
+											
+											<div class="btn-group btn-group-justified w-100">
+			
+												<button type="button" class="btn btn-sm btn-main-site-section text-btn-site-section" onClick="removeItem('inputCardDiversos{$value.codProduct}{$key}')"><i class="fas fa-minus tx-IconCart"></i></button>
+
+												<input id="inputCardDiversos{$value.codProduct}{$key}" name="inputCardDiversos" type='{if="isset($unitsMeasuresPrime.freeFill) && $unitsMeasuresPrime.freeFill == 1"}text{else}number{/if}' class="inputQtdCart text-center maskMoney2" value="1" max="{$value.stock}" style="font-size: 11px;font-weight: bold;width: 35%;" {if="isset($unitsMeasuresPrime.freeFill) && $unitsMeasuresPrime.freeFill == 0"}readonly="true"{/if}>
+
+												<button type="button" class="btn btn-sm btn-main-site-section text-btn-site-section" onClick="addItem('inputCardDiversos{$value.codProduct}{$key}')"><i class="fas fa-plus tx-IconCart"></i></button>
+												
+												{if="isset($value.subTypes.types) && isset($value.subTypes.status) && $value.subTypes.status == 1 && is_array($value.subTypes.types) && count($value.subTypes.types) > 0"}
+												<button type="button" class="btn btn-sm btn-cart-site-section text-btn-site-section" data-toggle="modal" data-target="#modalSubTypesOptions" data-store="{$ID}" data-title="{$value.subTypes.description}" data-id="{$value.codProduct}" data-dad="formCard{$value.codProduct}{$key}">
+													<i class="fas fa-shopping-cart msgAlertIcon" data-toggle="" data-target="#modalMsgAlert" data-text="Deseja finalizar o pedido?" data-link="/loja-{$ID}/checkout/cart/" data-btn-text="Finalizar" data-btn-text2="Continuar comprando"></i>
+												</button>
+												{else}
+												<button type="submit" class="btn btn-sm btn-cart-site-section text-btn-site-section">
+													<i class="fas fa-shopping-cart msgAlertIcon" data-toggle="" data-target="#modalMsgAlert" data-text="Deseja finalizar o pedido?" data-link="/loja-{$ID}/checkout/cart/" data-btn-text="Finalizar" data-btn-text2="Continuar comprando"></i>
+												</button>
+												{/if}
+			
+											</div>
+										
+										</form>
+
 									</div>
-								
-								</form>
 
+									{/if}
+									{/loop}
+
+								</div>
 							</div>
-
-							{/if}
-							{/loop}
-
-          				</div>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-	</section>
-	{/if}
-	{/loop}
 
-	{else}
-	<section class="ct-center mt-mobile my-5">
-		<div class="ml-3">
+			{/if}
+			{/loop}
+
+			{else}
+			<div class="ct-center mt-mobile my-5">
+				<div class="ml-3">
+						
+					<p class="h4 font-weight-normal">
+						<a class="d-inline-block">
+							<i class="far fa-frown bar-display text-second-site-section" style="font-size: 5em;"></i>
+						</a>
+						<a class="ml-3 d-inline-block text-second-site-section">
+							Ops!<br>
+							Desculpe, não foi encontrado produtos no site.<br>
+						</a>
+					</p>
 				
-			<p class="h4 font-weight-normal">
-				<a class="d-inline-block">
-					<i class="far fa-frown bar-display text-second-site-section" style="font-size: 5em;"></i>
-				</a>
-				<a class="ml-3 d-inline-block text-second-site-section">
-					Ops!<br>
-					Desculpe, não encontramos produtos no site.<br>
-				</a>
-			</p>
-		
+				</div>
+
+				<div class="ml-3 mt-5">
+					<p class="h5 font-weight-normal text-second-site-section">Algumas sugestões:</p>
+					<hr>
+					<p class="ml-3 mt-4">
+						<i class="fas fa-arrow-right text-second-site-section"></i> Aguarde alguns minutos e depois recarregue a página <br>
+						<i class="fas fa-arrow-right text-second-site-section"></i> Tente entrar em contato com o suporte <br>
+						<i class="fas fa-arrow-right text-second-site-section"></i> Verifique se seu navegador não está bloqueando nada no site <br>
+						<i class="fas fa-arrow-right text-second-site-section"></i> Verifique sua conexão com a internet <br>
+					</p>
+				</div>
+			</div>	
+			{/if}
+
 		</div>
 
-		<div class="ml-3 mt-5">
-			<p class="h5 font-weight-normal text-second-site-section">Algumas sugestões:</p>
-			<hr>
-			<p class="ml-3 mt-4">
-				<i class="fas fa-arrow-right text-second-site-section"></i> Aguarde alguns minutos e depois recarregue a página <br>
-				<i class="fas fa-arrow-right text-second-site-section"></i> Tente entrar em contato com o suporte <br>
-				<i class="fas fa-arrow-right text-second-site-section"></i> Verifique se seu navegador não está bloqueando nada no site <br>
-				<i class="fas fa-arrow-right text-second-site-section"></i> Verifique sua conexão com a internet <br>
-			</p>
-		</div>
-	</section>	
-	{/if}
+	</section>

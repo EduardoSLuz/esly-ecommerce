@@ -133,7 +133,19 @@
                       {if="$storeLayoutInfo !=0"}
                       <p>Exibir:</p>
 
-                      <!-- checkbox -->
+                      <p><i>Menu do Cabeçalho</i></p>
+
+                      <div class="form-group clearfix">
+                        <div class="icheck-primary d-inline">
+                          <input type="checkbox" class="btnsLayoutInfo" id="infoHeader" name="infoHeader" data-ly="hdInfo1" data-id="{$storeLayoutInfo.0.idLayoutInfo}" data-type="2" data-store="{$id}" {if="$storeLayoutInfo.0.hdInfo1 == 1"}checked{/if}>
+                          <label for="infoHeader">
+                            Categorias dos Departamentos
+                          </label>
+                        </div>
+                      </div>
+
+                      <p><i>Páginas Adicionais</i></p>
+
                       <div class="form-group clearfix">
                         <div class="icheck-primary d-inline">
                           <input type="checkbox" class="btnsLayoutInfo" id="infoStore" name="infoStore" data-ly="lyInfo1" data-id="{$storeLayoutInfo.0.idLayoutInfo}" data-type="2" data-store="{$id}" {if="$storeLayoutInfo.0.lyInfo1 == 1"}checked{/if}>

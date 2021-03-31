@@ -7,6 +7,7 @@ use Esly\Page;
 use Esly\PageAdmin;
 use Esly\DB\Sql;
 use Esly\Model\Address;
+use Esly\Model\Company;
 use Esly\Model\Cart;
 use Esly\Model\Store;
 use Esly\Model\Order;
@@ -123,45 +124,83 @@ $app->post("/admin/stores/{id}/register/", function(Request $request, Response $
 
 	Store::checkAdmin($args['id']);
 	
+	$res = ['msg' => "ERRO CRÍTICO!", 'status' => 0];
+
 	$store = Store::listStores($args['id']);
 	
 	$ad = $store[0]['idStoreAddress'];
-	$res = [];
+	$resp = [];
 
-	if(isset($_POST['inputCnpj']) && strlen($_POST['inputCnpj']) != 18)
+	if(!isset($_POST['inputName']) || isset($_POST['inputName']) && empty(trim($_POST['inputName'])))
 	{
-		Store::setErrorRegister("Cnpj Inválido!");
+		$res['msg'] = "Nome Inválido!";
+		echo json_encode($res);
 		exit;
 	}
 
-	if(isset($_POST['inputTelephone']) && strlen($_POST['inputTelephone']) != 14 && strlen($_POST['inputTelephone']) != 15)
+	if(!isset($_POST['inputEmail']) || isset($_POST['inputEmail']) && empty(trim($_POST['inputEmail'])) || isset($_POST['inputEmail']) && !filter_var($_POST['inputEmail'], FILTER_VALIDATE_EMAIL))
 	{
-		Store::setErrorRegister("Telefone Inválido!");
+		$res['msg'] = "E-mail Inválido!";
+		echo json_encode($res);
 		exit;
 	}
 
-	if(isset($_POST['inputWp']) && strlen($_POST['inputWp']) != 14 && strlen($_POST['inputWp']) != 15)
+	if(!isset($_POST['inputCnpj']) || isset($_POST['inputCnpj']) && strlen($_POST['inputCnpj']) != 18)
 	{
-		Store::setErrorRegister("Whatsapp Inválido!");
+		$res['msg'] = "Cnpj Inválido!";
+		echo json_encode($res);
 		exit;
 	}
 
-	if(isset($_POST['inputCep']) && strlen($_POST['inputCep']) != 9)
+	if(!isset($_POST['inputTelephone']) || isset($_POST['inputTelephone']) && strlen($_POST['inputTelephone']) != 14 && strlen($_POST['inputTelephone']) != 15)
 	{
-		Store::setErrorRegister("Cep Inválido!");
+		$res['msg'] = "Telefone Inválido!";
+		echo json_encode($res);
 		exit;
 	}
 
-	if(isset($_POST['selectCity']) && $_POST['selectCity'] == 0 && strlen($_POST['selectCity']) == 1 || isset($_POST['selectCity']) && strstr($_POST['selectCity'], '_') == false || !isset($_POST['selectCity']))
+	if(!isset($_POST['inputWp']) || isset($_POST['inputWp']) && strlen($_POST['inputWp']) != 14 && strlen($_POST['inputWp']) != 15)
 	{
-		User::setErrorRegister("Selecione uma cidade!");
+		$res['msg'] = "Whatsapp Inválido!";
+		echo json_encode($res);
 		exit;
-	} else if(Store::listCities($_POST['selectCity']) == 0)
+	}
+
+	if(!isset($_POST['inputCep']) || isset($_POST['inputCep']) && strlen($_POST['inputCep']) != 9)
 	{
-		User::setErrorRegister("Erro Critico, atualize a página!");
+		$res['msg'] = "Cep Inválido!";
+		echo json_encode($res);
 		exit;
-	} else {
-		$array = Store::listCities($_POST['selectCity']);
+	}
+
+	if(!isset($_POST['inputDistrict']) || isset($_POST['inputDistrict']) && empty(trim($_POST['inputDistrict'])))
+	{
+		$res['msg'] = "Bairro Inválido!";
+		echo json_encode($res);
+		exit;
+	}
+
+	if(!isset($_POST['inputStreet']) || isset($_POST['inputStreet']) && empty(trim($_POST['inputStreet'])))
+	{
+		$res['msg'] = "Rua Inválida!";
+		echo json_encode($res);
+		exit;
+	}
+	
+	if(!isset($_POST['inputNumber']) || isset($_POST['inputNumber']) && empty(trim($_POST['inputNumber'])))
+	{
+		$res['msg'] = "Número Inválido!";
+		echo json_encode($res);
+		exit;
+	}
+
+	$json_addr = isset($_POST['inputCep']) && strlen($_POST['inputCep']) == 9 && isset($_POST['inputNumber']) && $_POST['inputNumber'] > 0 ? Address::getAddressByCep($_POST['inputCep'], $_POST['inputNumber']) : 0;
+
+	if($json_addr == 0)
+	{
+		$res["msg"] = "Endereço Inválido!";
+		echo json_encode($res);
+		exit;
 	}
 
 	$store = new Store();
@@ -181,22 +220,20 @@ $app->post("/admin/stores/{id}/register/", function(Request $request, Response $
 		'street' => isset($_POST['inputStreet']) && !empty($_POST['inputStreet']) ? $_POST['inputStreet'] : "",
 		'number' => isset($_POST['inputNumber']) && !empty($_POST['inputNumber']) ? $_POST['inputNumber'] : 0,
 		'complement' => isset($_POST['inputComplement']) && !empty($_POST['inputComplement']) ? $_POST['inputComplement'] : "",
-		'codeCity' => isset($_POST['selectCity']) && strlen($_POST['selectCity']) > 1 && strstr($_POST['selectCity'], "_") != false ? $_POST['selectCity'] : 0,
-		'city' => isset($array[0]['cidades'][0]) && !empty($array[0]['cidades'][0]) ? $array[0]['cidades'][0] : "",
-		'uf' => isset($array[0]['sigla']) && !empty($array[0]['sigla']) ? $array[0]['sigla'] : ""
+		'city' => isset($json_addr['city']) ? $json_addr['city'] : "",
+		'uf' => isset($json_addr['uf']) ? $json_addr['uf'] : "",
+		'place_id' => isset($json_addr['place_id']) ? $json_addr['place_id'] : ""
 
 	]);
 
-	$res['register'] = $store->updateRegister();
-	$res['address'] = $store->updateRegisterAddress();
-	
-	if($res['register'] || $res['address'])
-	{
-		Store::setSuccessMsg("Cadastro Atualizado com Sucesso!");
-	} else {
-		Store::setErrorRegister("Nada Foi Atualizado!");
-	}
+	$resp['register'] = $store->updateRegister();
+	$resp['address'] = $store->updateRegisterAddress();
 
+	$res = [
+		'msg' => $resp['register'] || $resp['address'] ? "Cadastro Atualizado com Sucesso!" : "Nada Foi Atualizado!", 
+		'status' => $resp['register'] || $resp['address'] ? 1 : 0
+	];
+	echo json_encode($res);
 	exit;
 
 });
@@ -211,8 +248,6 @@ $app->get("/admin/stores/{id}/register/", function(Request $request, Response $r
 	]);
 
 	$admin->setTpl("stores-register", [
-		"errorRegister" => Store::getErrorRegister(),
-        "successMsg"=> Store::getSuccessMsg(),
 		"store" => Store::listStores($args['id']),
 		"cities" => Store::listCities()
 	]);
@@ -687,8 +722,8 @@ $app->get("/admin/stores/{id}/info/", function(Request $request, Response $respo
         "successMsg"=> Store::getSuccessMsg(),
 		"storeInfo" => Store::listInfoAdmin($args['id']),
 		"storeHelp" => Store::listHelp($args['id']),
-		"storePromo" => Store::listPromoAdmin($args['id']),
-		"storePromoType" => Store::listPromoTypeAdmin(),
+		"storePromo" => 0,
+		"storePromoType" => 0,
 		"storePartner" => Store::listInfoPartner($args['id']),
 		"storeSocial" => Store::listInfoSocial($args['id']),
 		"storeSocialType" => Store::listInfoSocialType()
@@ -915,7 +950,7 @@ $app->post("/admin/stores/{id}/layout/info/", function(Request $request, Respons
 
 	if($_POST['type'] != 3)
 	{
-		if(isset($_POST['ly']) && empty($_POST['ly']) || !isset($_POST['ly']) || isset($_POST['ly']) && !empty($_POST['ly']) && strstr($_POST['ly'], "lyInfo") == false)
+		if(isset($_POST['ly']) && empty($_POST['ly']) || !isset($_POST['ly']) || isset($_POST['ly']) && !empty($_POST['ly']) && strstr($_POST['ly'], "lyInfo") == false && strstr($_POST['ly'], "hdInfo") == false)
 		{
 			Store::setErrorRegister("Algo deu errado, favor atualizar a página!");
 			exit;
@@ -1157,6 +1192,249 @@ $app->post("/admin/stores/{id}/freight/freight/", function(Request $request, Res
 	
 	Store::checkAdmin($args['id']);
 
+	$res = ['msg' => "ERRO CRÍTICO", 'status' => 0];
+
+	if(!isset($_POST['type']) || isset($_POST['type']) && $_POST['type'] <= 0 || isset($_POST['type']) && empty($_POST['type']))
+	{
+		$res['msg'] = "Erro no servidor, favor atualizar a página!";
+		echo json_encode($res);
+		exit;
+	}
+
+	$type = isset($_POST['type']) && is_numeric($_POST['type']) && $_POST['type'] > 0 ? intval($_POST['type']) : 0;
+	$unit = isset($_POST['unit']) && is_numeric($_POST['unit']) && $_POST['unit'] > 0 ? intval($_POST['unit']) : 0;
+	$freight = isset($_POST['id']) && is_numeric($_POST['id']) && $_POST['id'] > 0 ? Store::listFreightNew($args['id'], $_POST['id']) : 0;
+
+	if($freight == 0 || is_array($freight) && count($freight) == 0)
+	{
+
+		$res['msg'] = "ERRO AO LOCALIZAR O FRETE!";
+		echo json_encode($res);
+		exit;
+
+	} else {
+		$freight = $freight[0];
+	}
+
+	$opt = $unit == 1 ? "Distância Máxima do Frete" : "Tipo do Frete";
+
+	if($type == 2)
+	{
+		switch ($unit) {
+			case 1:
+				
+				if(!isset($_POST['inputDistanceFreight']) || isset($_POST['inputDistanceFreight']) && !is_numeric($_POST['inputDistanceFreight']) || isset($_POST['inputDistanceFreight']) && $_POST['inputDistanceFreight'] <= 0)
+				{
+					$res['msg'] = "Distância Inválida!";
+					echo json_encode($res);
+					exit;
+				}
+	
+				$freight['distance'] = isset($freight['distance']) ? $_POST['inputDistanceFreight'] : 0;
+	
+			break;
+	
+			case 2:
+				
+				if(!isset($_POST['inputTypeFreight']) || isset($_POST['inputTypeFreight']) && empty($_POST['inputTypeFreight']))
+				{
+					$res['msg'] = "Nome do Tipo Inválido!";
+					echo json_encode($res);
+					exit;
+				}
+	
+				if(isset($freight['details']) && is_array($freight['details']))
+				{
+					$freight['details'][] = ['name' => $_POST['inputTypeFreight'], 'value' => 0, 'time' => 0, 'uni' => 'minuto'];
+				}
+	
+			break;
+	
+			case 3:
+				
+				if(!isset($_POST['inputNameTypeFreight']) || isset($_POST['inputNameTypeFreight']) && empty($_POST['inputNameTypeFreight']))
+				{
+					$res['msg'] = "Nome do Tipo Inválido!";
+					echo json_encode($res);
+					exit;
+				}
+	
+				if(!isset($_POST['inputValueTypeFreight']) || isset($_POST['inputValueTypeFreight']) && !is_numeric($_POST['inputValueTypeFreight']) && isset($_POST['inputValueTypeFreight']) && is_numeric($_POST['inputValueTypeFreight']) && $_POST['inputValueTypeFreight'] < 0)
+				{
+					$res['msg'] = "Valor do Tipo Inválido!";
+					echo json_encode($res);
+					exit;
+				}
+	
+				if(!isset($_POST['inputTimeTypeFreight']) || isset($_POST['inputTimeTypeFreight']) && !is_numeric($_POST['inputTimeTypeFreight']) || isset($_POST['inputTimeTypeFreight']) && is_numeric($_POST['inputTimeTypeFreight']) && $_POST['inputTimeTypeFreight'] <= 0)
+				{
+					$res['msg'] = "Tempo do Tipo Inválido!";
+					echo json_encode($res);
+					exit;
+				}
+	
+				if(isset($freight['details']) && is_array($freight['details']) && isset($_POST['cod']) && is_numeric($_POST['cod']) && $_POST['cod'] >= 0)
+				{
+					$freight['details'][$_POST['cod']] = [
+						'name' => $_POST['inputNameTypeFreight'],
+						'value' => $_POST['inputValueTypeFreight'], 
+						'time' => $_POST['inputTimeTypeFreight'], 
+						'uni' => $_POST['inputTimeTypeFreight'] > 1 ? 'minutos' : 'minuto'
+					];
+				} else {
+					$res['msg'] = "ERRO NO CÓDIGO DA OPERAÇÃO";
+					echo json_encode($res);
+					exit;
+				}
+	
+			break;
+	
+			case 4:
+				
+				if(!isset($freight['details'][$_POST['cod']]))
+				{
+					$res['msg'] = "Operação Inválida!";
+					echo json_encode($res);
+					exit;
+				}
+	
+				if(isset($freight['details'][$_POST['cod']])) 
+				{
+					unset($freight['details'][$_POST['cod']]);
+					
+					if(count($freight['details']) > 0)
+					{
+						$data = [];
+	
+						foreach ($freight['details'] as $key => $value) {
+							$data[] = $value;
+						}
+	
+						$freight['details'] = $data;
+					}
+	
+				}
+			break;
+	
+			default:
+				$res['msg'] = "ERRO NO CÓDIGO!";
+				echo json_encode($res);
+				exit;
+			break;
+		}
+	} else if($type != 2 && $type != 3) {
+		$res['msg'] = "ERRO CRÍTICO NO CÓDIGO!";
+		echo json_encode($res);
+		exit;
+	}
+
+	$store = new Store();
+
+	$store->setData([
+        'idFreight' => isset($_POST['id']) && $_POST['id'] > 0 ? $_POST['id'] : 0,
+		'idStore' => intval($args['id']),
+		'distance' => isset($freight['distance']) ? $freight['distance'] : 0,
+		'details' => isset($freight['details']) && is_array($freight['details']) ? $freight['details'] : [],
+	]);
+
+	switch ($type) {
+		
+		/*
+		case 1:
+			$resp = $store->saveFreight();
+			$msg = $resp ? "$opt Inserido com Sucesso!" : "Nada Foi Inserido!";
+		break;
+		*/
+
+		case 2:
+			$resp = $store->updateFreight();
+			$msg = $resp ? "$opt Atualizado com Sucesso!" : "Nada Foi Atualizado!";
+			if($unit == 4) $msg = $resp ? "$opt Excluído com Sucesso!" : "Nada Foi Excluído!";
+		break;
+
+		case 3:
+			$resp = $store->deleteFreight();
+			$msg = $resp ? "$opt Excluido com Sucesso!" : "Nada Foi Excluído!";		
+		break;
+
+		default:
+			Store::setErrorRegister("Erro no servidor, favor atualizar a página!");
+			$res['msg'] = "Erro no servidor, favor atualizar a página!";
+			echo json_encode($res);
+			exit;
+		break;
+
+	}
+
+	$res = [
+		'msg' => isset($msg) ? $msg : "ERRO NA MENSAGEM", 
+		'status' => isset($resp) && $resp ? 1 : 0,
+		'cod' => isset($freight['details']) && is_array($freight['details']) && count($freight['details']) > 0 ? array_key_last($freight['details']) : 0 
+	];
+	echo json_encode($res);
+	exit;
+
+});
+
+$app->post("/admin/stores/{id}/freight/new_freight/", function(Request $request, Response $response, $args) {
+
+	Store::checkAdmin($args['id']);
+
+	if(!isset($_POST['key']) || isset($_POST['key']) && $_POST['key'] !== "Baiacu")
+	{
+		header("Location: /");
+		exit;
+	}
+
+	$res = ['msg' => "ERRO CRÍTICO", 'status' => 0];
+
+	if(isset($_POST['key']) && $_POST['key'] == "Baiacu")
+	{
+
+		$store = new Store();
+
+		$store->setData([
+			'idStore' => intval($args['id']),
+			'distance' => 0,
+			'details' => [['name' => 'Normal', 'value' => 0, 'time' => 0, 'uni' => 'minuto']],
+		]);
+
+		$resp = $store->saveFreight();
+
+		$res = ['msg' => $resp ? "Sucesso!" : "FALHA!", "status" => $resp ? 1 : 0];
+
+	}
+
+	echo json_encode($res);
+	exit;
+
+});
+
+$app->get("/admin/stores/{id}/freight/", function(Request $request, Response $response, $args) {
+
+	$type = isset($_GET['type']) && is_numeric($_GET['type']) && $_GET['type'] > 0 ? $_GET['type'] : 0; 
+	
+	$admin = new PageAdmin([
+		"id" => $args['id'],
+		"login" => 2
+	]);
+
+	$admin->setTpl("stores-freight", [
+		"storeFreight" => Store::listFreightNew($args['id']),
+		"typesFreight" => $type > 0 ? Store::listFreightNew($args['id'], $type) : 0,
+	]);
+	
+	return $response;
+
+});
+
+/*
+
+// Page Store Freigth
+$app->post("/admin/stores/{id}/freight/freight/", function(Request $request, Response $response, $args) {
+	
+	Store::checkAdmin($args['id']);
+
 	if(!isset($_POST['type']) || isset($_POST['type']) && $_POST['type'] <= 0 || isset($_POST['type']) && empty($_POST['type']))
 	{
 		Store::setErrorRegister("Erro no servidor, favor atualizar a página!");
@@ -1240,7 +1518,7 @@ $app->post("/admin/stores/{id}/freight/freight/", function(Request $request, Res
         'details' => isset($array) && is_array($array) && count($array) > 0 ? $array : ""
 	]);
 
-	/*$test = [
+	$test = [
 		'idFreight' => $store->getidFreight(), 
 		'id' => $store->getid(),
 		'codeCity' => $store->getcodeCity(),
@@ -1253,7 +1531,7 @@ $app->post("/admin/stores/{id}/freight/freight/", function(Request $request, Res
 	];
 
 	var_dump($test);
-	exit;*/
+	exit;
 
 	switch ($_POST['type']) {
 		
@@ -1308,6 +1586,7 @@ $app->get("/admin/stores/{id}/freight/", function(Request $request, Response $re
 	return $response;
 
 });
+*/
 
 // Page Store Horary
 $app->post("/admin/stores/{id}/horary/horary/", function(Request $request, Response $response, $args) {
@@ -1724,11 +2003,13 @@ $app->post("/admin/stores/{id}/products/config/", function(Request $request, Res
 				}
 
 				$pro['unitsMeasures'][] = [
+					"id" => count($pro['unitsMeasures']) + 1,
 					"name" => $_POST['inputAddMeasureProduct'],
 					"valueStock" => 1,
 					"price" => isset($pro['priceFinal']) ? $pro['priceFinal'] : 0,
 					"freeFill" => 0,
-					"automaticUpdate" => 0
+					"automaticUpdate" => 0,
+					"status" => 1
 				];
 
 			}
@@ -1738,7 +2019,13 @@ $app->post("/admin/stores/{id}/products/config/", function(Request $request, Res
 			$res = is_array($update) ? ["msg" => "Produto Atualizado Com Sucesso!", "status" => 1] : ["msg" => "Erro Critico, Nada Foi Atualizado!", "status" => 0];
 
 		} else if($code[0] == 2 && $code[1] >= 0) {
-			
+
+			if(isset($_POST['inputIdNumber']) && empty(trim($_POST['inputIdNumber'])) || isset($_POST['inputIdNumber']) && intval($_POST['inputIdNumber']) <= 0  || !isset($_POST['inputIdNumber']))
+			{
+				$res["msg"] = "Digite um valor do ID Válido!";
+				echo json_encode($res);
+				exit;
+			}
 
 			if(isset($_POST['inputUnitProduct']) && empty($_POST['inputUnitProduct']) || !isset($_POST['inputUnitProduct']))
 			{
@@ -1764,6 +2051,15 @@ $app->post("/admin/stores/{id}/products/config/", function(Request $request, Res
 			if(isset($pro['unitsMeasures']) && is_numeric($code[1]))
 			{
 
+				$idOld = isset($pro['unitsMeasures'][$code[1]]['id']) ? $pro['unitsMeasures'][$code[1]]['id'] : 0;
+
+				if($idOld == 0)
+				{
+					$res["msg"] = "Erro Ao Atualizar Unidade de Medida!";
+					echo json_encode($res);
+					exit;
+				}
+
 				foreach ($pro['unitsMeasures'] as $key => $value) {
 					
 					if($value['name'] == $_POST['inputUnitProduct'] && $key !== $code[1])
@@ -1773,14 +2069,20 @@ $app->post("/admin/stores/{id}/products/config/", function(Request $request, Res
 						exit;
 					}
 
+					if($value['id'] == $_POST['inputIdNumber']) $unitOld = $key; 
+
 				}
+				
+				if(isset($unitOld)) $pro['unitsMeasures'][$unitOld]['id'] = $idOld;
 
 				$pro['unitsMeasures'][$code[1]] = [
+					'id' => $_POST['inputIdNumber'],
 					"name" => isset($_POST['inputUnitProduct']) && !empty($_POST['inputUnitProduct']) ? $_POST['inputUnitProduct'] : "",
 					"valueStock" => isset($_POST['inputValueStockProduct']) && is_numeric($_POST['inputValueStockProduct']) && $_POST['inputValueStockProduct'] > 0 ? floatval($_POST['inputValueStockProduct']) : 0,
 					"price" => isset($_POST['inputPriceProduct']) && is_numeric($_POST['inputPriceProduct']) && $_POST['inputPriceProduct'] > 0 ? floatval($_POST['inputPriceProduct']) : 0,
 					"freeFill" => isset($_POST['freeFillProduct']) ? 1 : 0,
-					"automaticUpdate" => isset($_POST['automaticUpdateProduct']) ? 1 : 0
+					"automaticUpdate" => isset($_POST['automaticUpdateProduct']) ? 1 : 0,
+					"status" => isset($_POST['inputStatusUnit']) && is_numeric($_POST['inputStatusUnit']) && $_POST['inputStatusUnit'] >= 0 && $_POST['inputStatusUnit'] <= 1 ? $_POST['inputStatusUnit'] : 0
 				];
 
 				$update = Mercato::updateAllProducts(0, $args['id'], 'codProduct', $_POST['id'], 'unitsMeasures', $pro['unitsMeasures'], 1);
@@ -1830,7 +2132,90 @@ $app->post("/admin/stores/{id}/products/config/", function(Request $request, Res
 		} 
 		
 		$res['code'] = isset($code[0]) ? $code[0] : 0;
+		$res['id'] = isset($code[1]) ? $code[1] : 0;
 		
+	} else if($_POST['type'] == 3) {
+		
+		$code = isset($_POST['code']) && strstr($_POST['code'], '_') != false ? [ 0 => intval(strstr($_POST['code'], '_', true)), 1 => intval(substr(strstr($_POST['code'], '_'), 1))] : 0;
+
+		if(is_array($code) && $code[0] < 0 || $code == 0 || !is_array($code))
+		{
+			$res["msg"] = $msgError;
+			echo json_encode($res);
+			exit;
+		}
+
+		$pro = isset($_POST['id']) ? Mercato::searchProductId($args['id'], $_POST['id']) : 0;
+
+		if($pro == 0)
+		{
+			$res["msg"] = "Erro Ao Encontrar o Produto!";
+			echo json_encode($res);
+			exit;
+		}
+
+		if($code[0] == 1 && $code[1] == 0)
+		{
+
+			$msg = "SubTipo Atualizado com Sucesso!";
+
+			if(!isset($_POST['inputDescSubType']) && isset($_POST['inputDescSubType']) && empty(trim($_POST['inputDescSubType'])))
+			{
+				$res["msg"] = "Digite uma Descrição Válida!";
+				echo json_encode($res);
+				exit;
+			}
+
+			$pro['subTypes']['description'] = $_POST['inputDescSubType'];
+			$pro['subTypes']['status'] = isset($_POST['selectStatusSubType']) && is_numeric($_POST['selectStatusSubType']) && $_POST['selectStatusSubType'] >= 0 && $_POST['selectStatusSubType'] <= 1 ? $_POST['selectStatusSubType'] : 0;
+			
+		} else if ($code[0] == 2 && $code[1] == 0){
+
+			$msg = "SubTipo Adicionado com Sucesso!";
+
+			if(!isset($_POST['inputAddSubType']) && isset($_POST['inputAddSubType']) && empty(trim($_POST['inputAddSubType'])))
+			{
+				$res["msg"] = "Digite um SubTipo Válido!";
+				echo json_encode($res);
+				exit;
+			}
+			
+			$pro['subTypes']['types'][] = $_POST['inputAddSubType'];
+
+
+		} else if ($code[0] == 3 && $code[1] >= 0){
+
+			$data = [];
+			$msg = "SubTipo Excluído com Sucesso!";
+
+			if(!isset($pro['subTypes']['types'][$code[1]]))
+			{
+				$res["msg"] = "SubTipo Inválido!";
+				echo json_encode($res);
+				exit;
+			}
+			
+			unset($pro['subTypes']['types'][$code[1]]);
+
+			foreach ($pro['subTypes']['types'] as $key => $value) {
+				$data[] = $value;
+			}
+
+			$pro['subTypes']['types'] = $data;
+
+		} else {
+			$res["msg"] = "Operação Inválida!";
+			echo json_encode($res);
+			exit;
+		}
+
+		$update = Mercato::updateAllProducts(0, $args['id'], 'codProduct', $_POST['id'], 'subTypes', $pro['subTypes'], 1);
+		
+		$res = [
+			'msg' => isset($update[0]) && $update[0] != 0 && isset($msg) ? $msg : "Nada Foi Atualizado!", 
+			'status' => isset($update[0]) && $update[0] != 0 ? 1 : 0
+		];
+
 	}
 
 	echo json_encode($res);
@@ -1839,22 +2224,25 @@ $app->post("/admin/stores/{id}/products/config/", function(Request $request, Res
 });
 
 $app->get("/admin/stores/{id}/products/", function(Request $request, Response $response, $args) {
-	
+
 	Store::checkStoreAdmin($args['id']);
 
-	$options = [0 => 'codProduct', 1 => 'departament', 2 => 'description'];
-	$opt = isset($_GET['option']) && $_GET['option'] >= 0 && $_GET['option'] <= 2 ? $options[$_GET['option']] : $options[0];
+	$options = [0 => 'codProduct', 1 => 'barCode', 2 => 'departament', 3 => 'description'];
+	$opt = isset($_GET['option']) && $_GET['option'] >= 0 && $_GET['option'] <= 3 ? $options[$_GET['option']] : $options[0];
 	$codProduct = isset($_GET['cod']) && is_numeric($_GET['cod']) ? $_GET['cod'] : 0;
-	$search = isset($_GET['s']) && $_GET['s'] != "" ? $_GET['s'] : "";
-
+	$search = isset($_GET['search_products']) && $_GET['search_products'] != "" ? $_GET['search_products'] : "";
+	$page = isset($_GET['page']) && $_GET['page'] > 0 ? $_GET['page'] : 1;
+	$check = isset($_GET['check']) ? 0 : 1;
+	
 	$admin = new PageAdmin([
 		"id" => $args['id'],
 		"login" => 2
 	]);
 
 	$admin->setTpl("stores-products", [
-		"products" => Mercato::searchProduct($args['id'], $search, $opt),
-		"listUnits" => Mercato::searchProductId($args['id'], $codProduct)
+		"products" => Mercato::searchProduct($args['id'], $search, $opt, $check, $page),
+		"listUnits" => Mercato::searchProductId($args['id'], $codProduct),
+		"page" => $page
 	]);
 	
 	return $response;
@@ -1899,8 +2287,6 @@ $app->get("/admin/orders/", function(Request $request, Response $response) {
 $app->post("/admin/orders/{id}/products/", function(Request $request, Response $response, $args) {
 	
 	$orders = Order::listOrders($args['id']);
-
-	exit;
 
 	if($orders == 0) header("Location: /admin/orders/");
 
@@ -2298,7 +2684,7 @@ $app->get("/admin/orders/{id}/", function(Request $request, Response $response, 
 		"listUnitsMeasures" => isset($listUnitsMeasures['unitsMeasures']) && count($listUnitsMeasures['unitsMeasures']) > 0 ? $listUnitsMeasures['unitsMeasures'] : 0,
 		"pays" => Store::listPay($orders[0]['idStore'], 1),
 		"horary" => Store::listHoraryStore($orders[0]['idStore'], 1, $types[$orders[0]['typeModality']]),
-		"promotions" => Store::listPromoAdmin()
+		"promotions" => 0
 	]);
 	
 	return $response;
@@ -2331,9 +2717,12 @@ $app->post("/admin/users/{id}/details/", function(Request $request, Response $re
 	
 	if(User::listUsers($args['id']) == 0) header("Location: /admin/users/");
 
+	$res = ['status' => 0, 'msg' => 'ERRO CRÍTICO'];
+
 	if(!isset($_POST['type']) || isset($_POST['type']) && $_POST['type'] <= 0 || isset($_POST['type']) && empty($_POST['type']))
 	{
-		User::setErrorRegister("Erro no servidor, favor atualizar a página!");
+		$res["msg"] = "Erro no servidor, favor atualizar a página!";
+		echo json_encode($res);
 		exit;
 	}
 
@@ -2344,67 +2733,94 @@ $app->post("/admin/users/{id}/details/", function(Request $request, Response $re
 
 		if(isset($_POST['inputName']) && empty($_POST['inputName']))
 		{
-			User::setErrorRegister("Digite seu nome!");
+
+			$res["msg"] = "Digite seu nome!";
+			echo json_encode($res);
 			exit;
+
 		} else if(!isset($nameUser[1]) || empty($nameUser[1]) || $nameUser[1] == ' '){
-			User::setErrorRegister("Digite seu sobrenome!");
+
+			$res["msg"] = "Digite seu sobrenome!";
+			echo json_encode($res);
 			exit;
+
 		} 
 
 		if (!isset($_POST['inputEmail']) || $_POST['inputEmail'] == '')
 		{
-			User::setErrorRegister("Digite seu e-mail!");
+
+			$res["msg"] = "Digite seu e-mail!";
+			echo json_encode($res);
 			exit;
+
 		} else if (!filter_var($_POST['inputEmail'], FILTER_VALIDATE_EMAIL)){
-			User::setErrorRegister("Digite um e-mail válido!");
+
+			$res["msg"] = "Digite um e-mail válido!";
+			echo json_encode($res);
 			exit;
+
 		} else if (User::verifyUser($_POST['inputEmail'], $args['id']) === false){
-			User::setErrorRegister("Ja existe um usário com esse e-mail!");
+			
+			$res["msg"] = "Já existe um usário com esse e-mail!";
+			echo json_encode($res);
 			exit;
+		
 		}
 
 		if(isset($_POST['inputCpf']) && !empty($_POST['inputCpf']) && strlen($_POST['inputCpf']) < 14)
 		{
-			User::setErrorRegister("Digite um CPF válido!");
+			
+			$res["msg"] = "Digite um CPF válido!";
+			echo json_encode($res);
 			exit;
+
 		} else if (!empty($_POST['inputCpf']) && User::verifyCPF($_POST['inputCpf'], $args['id'])){
-			User::setErrorRegister("CPF inválido!");
+			
+			$res["msg"] = "CPF inválido!";
+			echo json_encode($res);
 			exit;
+		
 		}
 
 		if(isset($_POST['inputDateBirth']) && is_numeric(str_replace('-', '', $_POST['inputDateBirth'])) && str_replace('-', '', $_POST['inputDateBirth']) < "19200101")
 		{
-			User::setErrorRegister("Data Inválida!");
+			$res["msg"] = "Data Inválida!";
+			echo json_encode($res);
 			exit;
 		}
 
 		if(isset($_POST['inputTelephone']) && !empty($_POST['inputTelephone']) && strlen($_POST['inputTelephone']) < 15)
 		{
-			User::setErrorRegister("Digite um telefone válido!");
+			$res["msg"] = "Digite um telefone válido!";
+			echo json_encode($res);
 			exit;
 		}
 		
 		if(isset($_POST['inputWp']) && !empty($_POST['inputWp']) && strlen($_POST['inputWp']) < 15)
 		{
-			User::setErrorRegister("Digite um whatsapp válido!");
+			$res["msg"] = "Digite um whatsapp válido!";
+			echo json_encode($res);
 			exit;
 		}
 
 		if(isset($_POST['selectGenre']) && $_POST['selectGenre'] == 0 || !isset($_POST['selectGenre']) || isset($_POST['selectGenre']) && !is_numeric($_POST['selectGenre']))
 		{
-			User::setErrorRegister("Selecione um gênero!");
+			$res["msg"] = "Selecione um gênero!";
+			echo json_encode($res);
 			exit;
 		}
 
 		if(isset($_POST['selectStatus']) && $_POST['selectStatus'] != 0 && $_POST['selectStatus'] != 1 || !isset($_POST['selectStatus']) || isset($_POST['selectStatus']) && !is_numeric($_POST['selectStatus']))
 		{
-			User::setErrorRegister("Status Inválido!");
+			$res["msg"] = "Status Inválido!";
+			echo json_encode($res);
 			exit;
 		}
 
 		if(isset($_POST['selectType']) && $_POST['selectType'] != 0 && $_POST['selectType'] != 1 || !isset($_POST['selectType']) || isset($_POST['selectType']) && !is_numeric($_POST['selectType']))
 		{
-			User::setErrorRegister("Tipo Inválido!");
+			$res["msg"] = "Tipo Inválido!";
+			echo json_encode($res);
 			exit;
 		}
 
@@ -2452,8 +2868,8 @@ $app->post("/admin/users/{id}/details/", function(Request $request, Response $re
 		break;*/
 
 		case 2:
-			$res = $user->updateUser();
-			$msg = $res ? "Usuário Atualizado com Sucesso!" : "Nada Foi Atualizado!";
+			$resp = $user->updateUser();
+			$msg = $resp ? "Usuário Atualizado com Sucesso!" : "Nada Foi Atualizado!";
 		break;
 
 		/*case 3:
@@ -2468,14 +2884,8 @@ $app->post("/admin/users/{id}/details/", function(Request $request, Response $re
 
 	}
 
-	if($res)
-	{
-		User::setSuccessMsg($msg);
-	} else {
-		User::setErrorRegister($msg);
-	}
-
-	echo intval($res);
+	$res = ['msg' => isset($msg) ? $msg : "Erro Crítico!", 'status' => isset($resp) && $resp ? 1 : 0 ];
+	echo json_encode($res);
 	exit;
 
 });
@@ -2484,9 +2894,12 @@ $app->post("/admin/users/{id}/address/", function(Request $request, Response $re
 	
 	if(User::listUsers($args['id']) == 0) header("Location: /admin/users/");
 
+	$res = ['status' => 0, 'msg' => 'ERRO CRÍTICO'];
+
 	if(!isset($_POST['type']) || isset($_POST['type']) && $_POST['type'] <= 0 || isset($_POST['type']) && empty($_POST['type']))
 	{
-		User::setErrorRegister("Erro no servidor, favor atualizar a página!");
+		$res["msg"] = "Erro no servidor, favor atualizar a página!";
+		echo json_encode($res);
 		exit;
 	}
 
@@ -2497,50 +2910,53 @@ $app->post("/admin/users/{id}/address/", function(Request $request, Response $re
 		
 		if(isset($_POST['inputUserAddressStreet']) && empty($_POST['inputUserAddressStreet']) || !isset($_POST['inputUserAddressStreet']))
 		{
-			User::setErrorRegister("Digite o nome da rua!");
+			$res["msg"] = "Digite o nome da rua!";
+			echo json_encode($res);
 			exit;
 		}
 
 		if(isset($_POST['inputUserAddressNumber']) && empty($_POST['inputUserAddressNumber']) || !isset($_POST['inputUserAddressNumber']))
 		{
-			User::setErrorRegister("Digite um número!");
+			$res["msg"] = "Digite um número!";
+			echo json_encode($res);
 			exit;
 		} else if(isset($_POST['inputUserAddressNumber']) && filter_var($_POST['inputUserAddressNumber'], FILTER_SANITIZE_NUMBER_INT) == "")
 		{
-			User::setErrorRegister("Digite um número válido!");
+			$res["msg"] = "Digite um número válido!";
+			echo json_encode($res);
 			exit;
 		}
 
 		if(isset($_POST['inputUserAddressCep']) && empty($_POST['inputUserAddressCep']) || !isset($_POST['inputUserAddressCep']))
 		{
-			User::setErrorRegister("Digite o Cep!");
+			$res["msg"] = "Digite o Cep!";
+			echo json_encode($res);
 			exit;
 		}
 
 		if(isset($_POST['inputUserAddressCep']) && !empty($_POST['inputUserAddressCep']) && strlen($_POST['inputUserAddressCep']) != 9 || !isset($_POST['inputUserAddressCep']))
 		{
-			User::setErrorRegister("Digite o resto do CEP!");
+			$res["msg"] = "Digite o resto do CEP!";
+			echo json_encode($res);
 			exit;
 		}
 
 		if(isset($_POST['inputUserAddressDistrict']) && empty($_POST['inputUserAddressDistrict']) || !isset($_POST['inputUserAddressDistrict']))
 		{
-			User::setErrorRegister("Digite o nome do bairro!");
+			$res["msg"] = "Digite o nome do bairro!";
+			echo json_encode($res);
 			exit;
 		}
 
-		if(isset($_POST['selectUserCity']) && $_POST['selectUserCity'] == 0 && strlen($_POST['selectUserCity']) == 1 || isset($_POST['selectUserCity']) && strstr($_POST['selectUserCity'], '_') == false || !isset($_POST['selectUserCity']))
-		{
-			User::setErrorRegister("Selecione uma cidade!");
-			exit;
-		} else if(Store::listCities($_POST['selectUserCity']) == 0)
-		{
-			User::setErrorRegister("Erro Critico, atualize a página!");
-			exit;
-		} else {
-			$array = Store::listCities($_POST['selectUserCity']);
-		}
+	}
 
+	$json_addr = isset($_POST['inputUserAddressCep']) && strlen($_POST['inputUserAddressCep']) == 9 && isset($_POST['inputUserAddressNumber']) && $_POST['inputUserAddressNumber'] > 0 ? Address::getAddressByCep($_POST['inputUserAddressCep'], $_POST['inputUserAddressNumber']) : 0;
+
+	if($json_addr == 0)
+	{
+		$res["msg"] = "Endereço Inválido!";
+		echo json_encode($res);
+		exit;
 	}
 
 	$address = new Address();
@@ -2548,15 +2964,14 @@ $app->post("/admin/users/{id}/address/", function(Request $request, Response $re
 	$address->setData([
         'idAddress' => isset($_POST['id']) && $_POST['id'] > 0 ? $_POST['id'] : 0,
 		'idUser' => $args['id'],
-		'codeCity' => isset($_POST['selectUserCity']) && strlen($_POST['selectUserCity']) > 1 && strstr($_POST['selectUserCity'], "_") != false ? $_POST['selectUserCity'] : 0,
 		'street' => isset($_POST['inputUserAddressStreet']) && !empty($_POST['inputUserAddressStreet']) ? $_POST['inputUserAddressStreet'] : "",
 		'number' => isset($_POST['inputUserAddressNumber']) && !empty($_POST['inputUserAddressNumber']) && filter_var($_POST['inputUserAddressNumber'], FILTER_SANITIZE_NUMBER_INT) != "" ? $_POST['inputUserAddressNumber'] : "",
 		'district' => isset($_POST['inputUserAddressDistrict']) && !empty($_POST['inputUserAddressDistrict']) ? $_POST['inputUserAddressDistrict'] : "",
 		'cep' => isset($_POST['inputUserAddressCep']) && !empty($_POST['inputUserAddressCep']) && strlen($_POST['inputUserAddressCep']) == 9 ? address::decryptCep($_POST['inputUserAddressCep']) : "",
 		'complement' => isset($_POST['inputUserAddressComplement']) && !empty($_POST['inputUserAddressComplement']) ? $_POST['inputUserAddressComplement'] : "",
-		'reference' => isset($_POST['inputUserAddressReference']) && !empty($_POST['inputUserAddressReference']) ? $_POST['inputUserAddressReference'] : "",
-		'city' => isset($array[0]['cidades'][0]) && !empty($array[0]['cidades'][0]) ? $array[0]['cidades'][0] : "",
-		'uf' => isset($array[0]['sigla']) && !empty($array[0]['sigla']) ? $array[0]['sigla'] : "",
+		'city' => isset($json_addr['city']) ? $json_addr['city'] : "",
+		'uf' => isset($json_addr['uf']) ? $json_addr['uf'] : "",
+		'place_id' => isset($json_addr['place_id']) ? $json_addr['place_id'] : ""
 	]);
 
 	/*$test = [
@@ -2582,8 +2997,8 @@ $app->post("/admin/users/{id}/address/", function(Request $request, Response $re
 		break;*/
 
 		case 2:
-			$res = $address->updateAddress();
-			$msg = $res ? "Endereço Atualizado com Sucesso!" : "Nada Foi Atualizado!";
+			$resp = $address->updateAddress();
+			$msg = $resp ? "Endereço Atualizado com Sucesso!" : "Nada Foi Atualizado!";
 		break;
 
 		/*case 3:
@@ -2592,20 +3007,15 @@ $app->post("/admin/users/{id}/address/", function(Request $request, Response $re
 		break;*/
 
 		default:
-			User::setErrorRegister("Erro no servidor, favor atualizar a página!");
+			$res["msg"] = "Erro no servidor, favor atualizar a página!";
+			echo json_encode($res);
 			exit;
 		break;
 
 	}
 
-	if($res)
-	{
-		User::setSuccessMsg($msg);
-	} else {
-		User::setErrorRegister($msg);
-	}
-
-	echo intval($res);
+	$res = ['msg' => isset($msg) ? $msg : "Erro Crítico!", 'status' => isset($resp) && $resp ? 1 : 0 ];
+	echo json_encode($res);
 	exit;
 
 });
@@ -2629,9 +3039,6 @@ $app->get("/admin/users/{id}/", function(Request $request, Response $response, $
 	]);
 
 	$admin->setTpl("users-details", [
-		"errorRegister" => User::getErrorRegister(),
-		"successMsg"=> User::getSuccessMsg(),
-		"cities" => Store::listCities(),
 		"stores" => Store::listStores(),
 		"ordersStatus" => Order::listOrdersStatus(),
 		"userData" => User::listUsers($args['id'], $param)

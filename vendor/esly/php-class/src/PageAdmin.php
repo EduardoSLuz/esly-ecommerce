@@ -52,9 +52,10 @@ class PageAdmin {
 
 		//Store
 		Store::checkAdmin($this->options["id"]);
+		$this->options["data"]["storeUpdate"] = isset($_SESSION[Sql::DB]['idCompany']) ? Mercato::listMercato(0, "idCompany = :ID", [':ID' => $_SESSION[Sql::DB]['idCompany']]) : 0;
 		$this->options["data"]["stores"] = Store::listStores(0, 1);
 		$this->options["data"]["imgs"] = Store::listImagesStore(0);
-		if($this->options["id"] > 0 && is_numeric($this->options["id"])) $this->options["data"]["id"] = $this->options["id"];
+		if(intval($this->options["id"]) > 0 && is_numeric($this->options["id"])) $this->options["data"]["id"] = $this->options["id"];
 
 		//User
 		$this->options["data"]["userValues"] = User::checkLogin($this->options["login"]) ? $_SESSION[User::SESSION] : ['login' => false];

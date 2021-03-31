@@ -332,7 +332,7 @@ class User extends Model {
 			"store" => [
 				"ID" => $st[0]['store'],
 				"nameStore" => $st[0]['nameStore'],
-				"nameBase" => strstr($_SESSION[Sql::DB]['db_name'], '-', true),
+				"nameBase" =>$_SESSION[Sql::DB]['directory'],
 				"HTTP" => $_SERVER['HTTP_HOST'],
 				"social" => Store::listInfoSocial()
 			]

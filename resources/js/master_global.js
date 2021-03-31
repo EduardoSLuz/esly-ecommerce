@@ -63,3 +63,48 @@ function msgAlert(alert, msg, type = 1, time = 2000)
     }
     
 }
+
+function msgAlertText(alert, msg, type = 1, time = 2000)
+{
+
+    if($(alert).attr('id') !== undefined)
+    {
+
+        $(`${alert} a`).text(msg);
+
+        if(type == 1){
+            
+            $(alert).removeClass("text-danger");
+            $(alert).addClass("text-success");
+
+            $(`${alert} i`).removeClass();
+            $(`${alert} i`).addClass("fas fa-check");
+
+        } else {
+            
+            $(alert).removeClass("text-success");
+            $(alert).addClass("text-danger");
+
+            $(`${alert} i`).removeClass();
+            $(`${alert} i`).addClass("fas fa-times");
+
+        }
+        
+        $(alert).removeClass("d-none");
+        setTimeout( function(){ 
+            $(alert).addClass("d-none");
+        } , time);
+    
+    }
+    
+}
+
+
+function isJson(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+}

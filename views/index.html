@@ -14,14 +14,9 @@
 					<div class="mx-lg-0 mx-sm-auto mx-auto" style="max-width: 275px;">
 						<select id="selectCityStores" class="custom-select custom-select-lg bg-light border">
 							<option value="0">Todas Cidades</option>
-							{if="isset($state) && $state != 0"}
-							{loop="$state"}
-							<optgroup label="{$value.state}">
-								{$kState = $key}
-								{loop="$value.city"}
-								<option value="{$kState}_{$key}">{$value}</option>
-								{/loop}
-							</optgroup>
+							{if="isset($city) && $city != 0"}
+							{loop="$city"}
+								{if="$value.status == 1"} <option value="{$value.codeCity}">{$value.city} - {$value.uf}</option> {/if}
 							{/loop}
 							{/if}
 							

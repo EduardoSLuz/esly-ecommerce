@@ -155,7 +155,7 @@
         {/loop}
         {/if}
 
-        <audio id="audioNotification" src="/resources/audio/alert.mp3" data-status="0"></audio>
+        <audio id="audioNotification" src="/resources/audio/success.mp3" data-status="0"></audio>
         
         <select name="selectStAdmin" id="selectStAdmin" class="btn btn-link text-dark">
           {if="isset($stores) && $ctStores >= 1"}
@@ -218,6 +218,13 @@
             Sem Notificações
           </span>
           {/if}
+
+          <div class="dropdown-divider"></div>
+
+          <span class="dropdown-item dropdown-header" title="Próxima Atualização da Lista de Produtos">
+            <a class="cursor-pointer">
+              {if="isset($storeUpdate.0.dateList) && isset($storeUpdate.0.time) && isset($storeUpdate.0.status) &&$storeUpdate.0.status == 1"}<i class="fas fa-sync-alt"></i> {function="date("H:i d/m/Y", strtotime('+'.$storeUpdate.0.time.' hours', strtotime($storeUpdate.0.dateList)))"}{else}{/if}</a>
+          </span>
 
         </div>
 

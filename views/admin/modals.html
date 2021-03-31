@@ -120,67 +120,19 @@
               
                 <form id="formInfoPromo" class="formInfoPromo row" data-type="1" data-id="0" data-store="{$id}">
                 
-                    <div class="col-md-6">
-                        
-                        <div class="form-group">
-                            <label for="selectTypePromo" class="col-form-label">Tipo:</label>
-                            <select class="custom-select" name="selectTypePromo" id="selectTypePromo">
-                                {if="isset($storePromoType) && $storePromoType != 0"}
-                                <option value="0">Selecione um tipo de promoção</option>
-                                {loop="$storePromoType"}
-                                <optgroup label="{$value.name}">
-                                    {loop="$value.promo"}
-                                    <option value="{$value.idPromoType}">{$value.description}</option>
-                                    {/loop}
-                                </optgroup>
-                                {/loop}
-                                {else}
-                                <option value="0">Sem Dados</option>
-                                {/if}
-                            </select>
+                    <div class="form-group col-12">
+                        <label for="inputModalInfoPromoTitle" class="col-form-label">Titulo:</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control maskNumber text-left" name="inputModalInfoPromoTitle" id="inputModalInfoPromoTitle" placeholder="Digite um titulo para promoção">
                         </div>
-    
-                        <div id="typePromo1" class="typesPromo d-none">
-                            
-                            <div class="form-group">
-                                <label for="inputCuponPromo" class="col-form-label">Código Cupom:</label>
-                                <input type="text" class="form-control" name="inputCuponPromo" id="inputCuponPromo" placeholder="Ex: CODE25">
-                            </div>
-    
-                            <div class="form-group">
-                                <label for="inputValueCuponPromo" class="col-form-label">Desconto:</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control maskMoney2" name="inputValueCuponPromo" id="inputValueCuponPromo" placeholder="Ex: 0,00">
-                                    <div class="input-group-prepend">
-                                        <select name="selectTypeCuponPromo" id="selectTypeCuponPromo" class="input-group-text">
-                                            <option value="1">$</option>
-                                            <option value="2">%</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
+                    </div>   
 
+                    <div class="form-group col-12">
+                        <label for="inputModalInfoPromoDesc" class="col-form-label">Descrição:</label>
+                        <div class="input-group">
+                            <textarea class="form-control text-left" name="inputModalInfoPromoDesc" id="inputModalInfoPromoDesc" cols="3" placeholder="Insira uma descriçãp para promoção"></textarea>
                         </div>
-
-                        <div id="typePromo3" class="form-group typesPromo d-none">
-                            <label for="inputInfoPromoFreight" class="col-form-label">Acima de:</label>
-                            <input type="text" class="form-control maskMoney2" name="inputInfoPromoFreight" id="inputInfoPromoFreight" placeholder="Ex: 0,00">
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-
-                        <div class="form-group">
-                            <label for="inputTitlePromo" class="col-form-label">Titulo:</label>
-                            <input type="text" class="form-control" name="inputTitlePromo" id="inputTitlePromo">
-                        </div>
-    
-                        <div class="form-group">
-                            <label for="inputDescPromo" class="col-form-label">Descrição:</label>
-                            <textarea class="form-control" name="inputDescPromo" id="inputDescPromo" rows="5"></textarea>
-                        </div>
-
-                    </div>
+                    </div>   
 
                 </form>
               
@@ -764,6 +716,120 @@
     </div>
 
 </div>
+
+<!-- MODAL HORARY -->
+<div class="modal fade" id="modalFreightNew" tabindex="-1" role="dialog" aria-labelledby="modalFreightNew" aria-hidden="true">
+                
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+    
+        <div class="modal-content">
+           
+            <div class="modal-header">
+              <h4 class="modal-title" id="exampleModalLabel">Alterar Frete</h4>
+            </div>
+
+            <div class="modal-body">
+
+                <div id="alertsModalFreight" class="alert alert-success alert-dismissible fade d-none text-left" role="alert">
+                    <span class="msgAlert">Msg</span>
+                </div>
+              
+                <form id="formModalFreight" class="formModalFreight row" method="POST" data-store="0" data-type="1" data-id="0" data-unit="1" data-cod="0">
+
+                    <div class="col-12 row justify-content-center">
+                        
+                        <div class="form-group col-12 col-sm-5 col-lg-4 my-0">
+                            <label for="inputDistanceFreight">Distância Máx.</label>
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control maskMoney2 text-center" name="inputDistanceFreight" id="inputDistanceFreight" placeholder="Ex: 10 KM">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">KM</span>
+                                </div>
+                                <button type="button" class="btn btn-sm btn-primary btnUpdateUnitFreight d-block mx-1" data-unit="1"><i class="fas fa-sync-alt"></i></button>
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                    <div class="col-12"><hr></div>
+
+                    <div class="col-12 row">
+
+                        <div class="col-12 col-sm-6">
+                            
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control text-center" name="inputTypeFreight" id="inputTypeFreight" placeholder="Inserir Novo Tipo">
+                                <div class="input-group-prepend">
+                                    <button type="button" class="btn btn-primary btnUpdateUnitFreight" data-unit="2"><i class="fas fa-plus"></i></button>
+                                </div>
+                            </div>
+                            
+                            <div class="list-group py-2 table-responsive" id="listTabFreight" role="tablist" style="max-height: 150px;">
+                                
+                                {if="isset($typesFreight.0.details) && is_array($typesFreight.0.details) && count($typesFreight.0.details) > 0"}
+                                
+                                {loop="$typesFreight.0.details"}
+                                <span id="btnListTypesFreight{$key}" class='list-group-item list-group-item-action py-1 cursor-pointer d-flex justify-content-between btnListTypesFreight {if="$key == 0"}active{/if}' data-toggle="list" role="tab" data-id="{$key}" data-name="{$value.name}" data-value="{$value.value}" data-time="{$value.time}">
+                                   <a>{$value.name}</a> <a class="text-danger btnDeleteTypeFreight" data-id="{$key}"><i class="fas fa-times"></i></a>
+                                </span>
+                                {/loop}
+
+                                {else}
+                                <span class="border rounded py-1 text-danger text-center" data-toggle="list">Nenhum Tipo Encontrado</span>
+                                {/if}
+                                
+                            </div>
+
+                        </div>
+
+                        <div class="col-12 col-sm-6 row justify-content-center">
+                            
+                            <div class="form-group col-12 col-lg-6">
+                                <label for="inputNameTypeFreight" class="my-0">Nome</label>
+                                <input type="text" class="form-control form-control-sm text-center" name="inputNameTypeFreight" id="inputNameTypeFreight" placeholder="Digite uma descrição">
+                            </div>
+
+                            <div class="form-group col-12 col-lg-6">
+                                <label for="inputValueTypeFreight" class="my-0">Valor</label>
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">R$</span>
+                                    </div>
+                                    <input type="text" class="form-control maskMoney2 text-center" name="inputValueTypeFreight" id="inputValueTypeFreight" placeholder="Ex: R$ 10.00">
+                                </div>
+                            </div>
+
+                            <div class="form-group col-12 col-lg-6">
+                                <label for="inputTimeTypeFreight" class="my-0">Tempo</label>
+                                <div class="input-group input-group-sm">
+                                    <input type="text" class="form-control maskNumber text-center" name="inputTimeTypeFreight" id="inputTimeTypeFreight" placeholder="Ex: 30 Min">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Minuto(s)</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 text-center my-0">
+                                <button type="button" class="btn btn-sm btnUpdateUnitFreight px-3 btn-primary" data-unit="3"><i class="fas fa-check"></i></button>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </form>
+              
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-sm btn-outline-danger" data-dismiss="modal"><i class="fas fa-times"></i> Sair</button>
+            </div>
+
+        </div>
+    
+    </div>
+
+</div>
 {/if}
 
 {if="isset($storeHorary) && $storeHorary != 0"}
@@ -914,7 +980,7 @@
                   
                 </div>
 
-                <form id="formImages" class="formImages row justify-content-center" method="POST" data-type="1" data-origin="" data-file="" data-store="{$id}" enctype="multipart/form-data">
+                <form id="formImages" class="formImages row justify-content-center" method="POST" data-type="1" data-id="0" data-origin="" data-file="" data-store="" enctype="multipart/form-data">
                 
                     <div class="col-md-12">
                         
@@ -1339,107 +1405,54 @@
 </div>
 {/if}
 
-{if="isset($userData) && isset($cities)"}
+{if="isset($userData)"}
 <!-- MODAL USER ADDRESS -->
 <div class="modal fade" id="modalUserAddress" tabindex="-1" role="dialog" aria-labelledby="modalUserAddress" aria-hidden="true">
                 
-    <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-dialog modal-dialog-centered">
     
         <div class="modal-content">
            
             <div class="modal-header">
               <h5 class="modal-title" id="exampleModalLabel">Alterar o Endereço</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
             </div>
 
             <div class="modal-body">
                 
-                <div id="alertsUserAddress">
-            
-                    {if="$errorRegister != ''"}
-                    <div class="alert alert-danger alert-dismissible fade show text-left" role="alert">
-                      
-                        <span>{$errorRegister}</span>
-                        
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-        
-                    </div>
-                    {/if}
-        
-                    {if="$successMsg != ''"}	
-        
-                    <div class="alert alert-success alert-dismissible fade show text-left" role="alert">
-                        
-                        <span>{$successMsg}</span>
-                        
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-        
-                    </div>
-        
-                    {/if}
-                  
+                <div id="alertModalAddress" class="alert alert-success alert-dismissible fade d-none text-left alertModalAddress" role="alert">
+                    <span class="msgAlert">Msg</span>
                 </div>
 
                 <form id="formUserAddress" class="formUserAddress row justify-content-center" method="POST" data-type="1" data-id="0" data-user="0">
 
-                    <div class="form-group col-sm-6 col-lg-7">
-                    <label for="inputUserAddressStreet">Rua</label>
-                    <input type="text" id="inputUserAddressStreet" name="inputUserAddressStreet" class="form-control" required>
+                    <div class="form-group col-12 col-sm-4">
+                        <label for="inputUserAddressCep">CEP</label>
+                        <input type="text" id="inputUserAddressCep" name="inputUserAddressCep" class="form-control text-center maskCep searchCep">
                     </div>
 
-                    <div class="form-group col-sm-3 col-lg-2">
-                    <label for="inputUserAddressNumber">Número</label>
-                    <input type="text" id="inputUserAddressNumber" name="inputUserAddressNumber" class="form-control text-center" required>
+                    <div class="form-group col-12 col-sm-8">
+                        <label for="inputUserAddressCity">Cidade:</label>
+                        <input type="text" id="inputUserAddressCity" name="inputUserAddressCity" class="form-control cityAddress" placeholder="Sua Cidade" readonly="true">
                     </div>
 
-                    <div class="form-group col-sm-3">
-                        <label for="inputUserAddressCep">Cep</label>
-                        <input type="text" id="inputUserAddressCep" name="inputUserAddressCep" class="form-control text-center maskCep" required>
-                    </div>
-
-                    <div class="form-group col-sm-6 col-lg-5">
+                    <div class="form-group col-12">
                     <label for="inputUserAddressDistrict">Bairro</label>
-                    <input type="text" id="inputUserAddressDistrict" name="inputUserAddressDistrict" class="form-control" required>
+                    <input type="text" id="inputUserAddressDistrict" name="inputUserAddressDistrict" class="form-control districtAddress">
+                    </div>
+                    
+                    <div class="form-group col-12 col-sm-8">
+                    <label for="inputUserAddressStreet">Rua</label>
+                    <input type="text" id="inputUserAddressStreet" name="inputUserAddressStreet" class="form-control streetAddress">
                     </div>
 
-                    <div class="form-group col-sm-6 col-lg-5">
-                        <label for="selectUserCity">Cidade</label>
-                        <select name="selectUserCity" id="selectUserCity" class="custom-select select2bs4" required>
-                            {if="isset($cities) && $cities != 0"}
-                            <option value="0">Selecione uma Cidade</option>
-                            {loop="$cities"}
-                            <optgroup label="{$value.nome}">
-                                {$kState = $key}
-                                {$kUf = $value.sigla}
-                                {if="isset($value.cidades) && count($value.cidades) > 0"}
-                                {loop="$value.cidades"}
-                                <option value="{$kState}_{$key}">{$value} - {$kUf}</option>
-                                {/loop}
-                                {else}
-                                <option value="0">Sem Dados</option>
-                                {/if}
-                            </optgroup>
-                            {/loop}
-                            {else}
-                            <option value="0">Sem Dados</option>
-                            {/if}
-                        </select>
+                    <div class="form-group col-12 col-sm-4">
+                    <label for="inputUserAddressNumber">Número</label>
+                    <input type="text" id="inputUserAddressNumber" name="inputUserAddressNumber" class="form-control text-center">
                     </div>
 
-                    <div class="form-group col-sm-6">
+                    <div class="form-group col-12">
                     <label for="inputUserAddressComplement">Complemento</label>
                     <input type="text" id="inputUserAddressComplement" name="inputUserAddressComplement" class="form-control">
-                    </div>
-
-                    <div class="form-group col-sm-6">
-                        <label for="inputUserAddressReference">Referência</label>
-                        <input type="text" id="inputUserAddressReference" name="inputUserAddressReference" class="form-control">
                     </div>
 
                 </form>
@@ -1447,7 +1460,7 @@
             </div>
 
             <div class="modal-footer">
-              <button type="button" class="btn btn-sm btn-outline-danger" data-dismiss="modal"><i class="fas fa-times"></i></button>
+              <button type="button" class="btn btn-sm btn-outline-danger" data-dismiss="modal"><i class="fas fa-times"></i> Sair</button>
               <button type="submit" class="btn btn-sm btn-outline-primary" form="formUserAddress">Salvar</button>
             </div>
 
@@ -1570,7 +1583,7 @@
               </button>
             </div>
 
-            <div>
+            <div id="modal-product-config">
                 
                 <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist">
                     
@@ -1580,6 +1593,10 @@
                     
                     <li class="nav-item btnTypeModalProductsConfig" role="presentation" data-code="2">
                       <a class="nav-link text-dark rounded-0" id="OptionUnitPro-tab" data-toggle="tab" href="#OptionUnitPro" role="tab" aria-controls="OptionUnitPro" aria-selected="false"> <i class="fas fa-ruler"></i> <span class="d-lg-inline d-none">Unidades de Medida</span> </a>
+                    </li>
+
+                    <li class="nav-item btnTypeModalProductsConfig" role="presentation" data-code="3">
+                        <a class="nav-link text-dark rounded-0" id="OptionSubType-tab" data-toggle="tab" href="#OptionSubType" role="tab" aria-controls="OptionSubType" aria-selected="false"> <i class="fas fa-grip-horizontal"></i> <span class="d-lg-inline d-none">SubTipos</span> </a>
                     </li>
 
                 </ul>
@@ -1626,7 +1643,7 @@
                         
                         <div class="row justify-content-md-center">
         
-                            <div class="col-md-6">
+                            <div class="col-md-6 col-lg-5">
                                
                                 <div class="form-group">
                                     
@@ -1639,15 +1656,15 @@
 
                                 </div>
 
-                                <div id="listModalProductsConfigUnits" class="list-group table-responsive py-2" style="max-height: 200px;">
+                                <div id="listModalProductsConfigUnits" class="list-group table-responsive py-2" role="tablist" style="max-height: 200px;">
                                     
                                     {if="isset($listUnits.unitsMeasures) && is_array($listUnits.unitsMeasures)"}
                                     
                                     {loop="$listUnits.unitsMeasures"}
-                                    <div class="list-group-item list-group-item-action cursor-pointer d-flex p-0">
+                                    <div class='list-group-item list-group-item-action {if="$key == 0"}active{/if} cursor-pointer d-flex p-0' data-toggle="list" role="tab">
                                     
-                                        <div id="listUnit{$key}" class='p-2 {if="$key > 0"}col-10{else}col-12{/if} btnListUnitProductsConfig' data-id="{$key}" data-name="{$value.name}" data-stock='{$value.valueStock}' data-price="{$value.price}" data-free-fill="{$value.freeFill}" data-auto-up="{$value.automaticUpdate}">
-                                            <b><i>#{$key + 1}</i> {$value.name}</b> 
+                                        <div id="listUnit{$key}" class='p-2 {if="$key > 0"}col-10{else}col-12{/if} btnListUnitProductsConfig' data-id="{$key}" data-name="{$value.name}" data-stock='{$value.valueStock}' data-price="{$value.price}" data-free-fill="{$value.freeFill}" data-auto-up="{$value.automaticUpdate}" data-code="{$value.id}" data-status="{$value.status}">
+                                            <b>{$value.name} <i>#{$value.id}</i></b> 
                                         </div>
 
                                         {if="$key > 0"} 
@@ -1670,24 +1687,37 @@
         
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="col-md-6 col-lg-7">
                                
-                                <div class="row justify-content-md-center">
-        
-                                    <div class="form-group col-lg-6 col-md-12 col-sm-6 col-12">
-                                        <label for="inputUnitProduct" class="col-form-label">Unidade Medida:</label>
-                                        <input type="text" class="form-control" id="inputUnitProduct" NAME="inputUnitProduct" readonly="true">
+                                <div class="row justify-content-center">
+
+                                    <div class="form-group col-3 col-sm-2 col-md-4 col-lg-2">
+                                        <label for="inputIdNumber" class="col-form-label">ID:</label>
+                                        <input type="text" class="form-control maskNumber" id="inputIdNumber" name="inputIdNumber" placeholder="#ID">
                                     </div>
 
-                                    <div class="form-group col-lg-6 col-md-12 col-sm-6 col-12">
+                                    <div class="form-group col-9 col-sm-5 col-md-8 col-lg-5">
+                                        <label for="inputUnitProduct" class="col-form-label">Unidade:</label>
+                                        <input type="text" class="form-control" id="inputUnitProduct" name="inputUnitProduct" readonly="true">
+                                    </div>
+
+                                    <div class="form-group col-8 col-sm-5 col-md-7 col-lg-5">
                                         <label for="inputValueStockProduct" class="col-form-label">
                                             Valor no Estoque:
-                                            <span class="text-info" data-toggle="tooltip" data-placement="top" title="A partir de 2 números, o valor vira decimal. Preste muita atenção ao digitar!" data-boundary="window"><i class="far fa-question-circle"></i></span> 
+                                            <span class="text-info d-md-none d-lg-inline h6" data-toggle="tooltip" data-placement="top" title="A partir de 2 números, o valor vira decimal. Preste muita atenção ao digitar!" data-boundary="window"><i class="far fa-question-circle"></i></span> 
                                         </label>
                                         <input type="text" class="form-control maskStock" name="inputValueStockProduct" id="inputValueStockProduct" readonly="true">
                                     </div>
 
-                                    <div class="form-group col-lg-7 col-md-10">
+                                    <div class="form-group col-4 col-sm-3 col-md-5 col-lg-3">
+                                        <label for="inputStatusUnit" class="col-form-label">Status:</label>
+                                        <select name="inputStatusUnit" id="inputStatusUnit" class="form-control">
+                                            <option value="1">Ativo</option>
+                                            <option value="0">Inativo</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group col-7 col-sm-6 col-md-10 col-lg-7">
         
                                         <label for="inputPriceProduct" class="col-form-label">Preço Final:</label>
                                         
@@ -1702,6 +1732,10 @@
                                             <button id="btnUpdateUnitProduct" type="button" class="btn btn-sm btn-info mx-1 btnMeasureProduct" data-id="2" data-code="0"><i class="fas fa-check"></i></button>
                                         
                                         </div>
+
+                                    </div>
+
+                                    <div class="col-12 text-center">
                                         
                                         <div id="divFreeFillProduct" class="form-group my-2">
                                             <div class="icheck-primary d-inline">
@@ -1723,6 +1757,61 @@
 
                                     </div>
             
+                                </div>
+
+                            </div>
+        
+                        </div>
+
+                    </div>
+
+                    <div class="tab-pane fade" id="OptionSubType" role="tabpanel" aria-labelledby="OptionSubType-tab">
+
+                        <div class="row justify-content-md-center">
+                
+                            <div class="col-lg-6 row justify-content-center">
+
+                                <div class="form-group col-6">
+                                    <label for="inputDescSubType" class="col-form-label">Descrição:</label>
+                                    <div class="input-group input-group-sm">
+                                        <input type="text" class="form-control text-center" name="inputDescSubType" id="inputDescSubType" placeholder="Descrição do SubTipo">
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-6">
+                                    <label for="selectStatusSubType" class="col-form-label">Status:</label>
+                                    <div class="input-group input-group-sm">
+                                        <select name="selectStatusSubType" id="selectStatusSubType" class="form-control">
+                                            <option value="1">Ativo</option>
+                                            <option value="0">Inativo</option>
+                                        </select>
+                                        <button type="button" class="btn btn-sm btn-primary d-block mx-1 btnMeasureProduct" data-id="1"><i class="fas fa-sync-alt"></i></button>
+                                    </div>
+                                </div>
+
+                                <hr class="col-12 mt-1">
+                                
+                                <div class="form-group col-12">
+                                    <div class="btn-group w-100">
+                                        <input type="text" class="form-control form-control-sm text-center" name="inputAddSubType" id="inputAddSubType" placeholder="Adicionar um SubTipo">
+                                        <button type="button" class="btn btn-sm btn-primary btnMeasureProduct" data-id="2"> <i class="fas fa-plus"></i> </button>
+                                    </div>
+                                </div>
+
+                                <div id="listModalProductsConfigSubTypes" class="list-group table-responsive col-11" style="max-height: 150px;">
+                                    
+                                    {if="isset($listUnits.subTypes.types) && is_array($listUnits.subTypes.types) && count($listUnits.subTypes.types) > 0"}
+                                    {loop="$listUnits.subTypes.types"}
+                                    <span class="list-group-item list-group-item-action list-group-item-light py-2 d-flex justify-content-between">
+                                        <a class="text-dark">{$value}</a> <a class="text-danger cursor-pointer btnMeasureProduct" data-id="3" data-code="{$key}"><i class="fas fa-times"></i></a>
+                                    </span>
+                                    {/loop}
+                                    {else}
+                                    <span class="list-group-item list-group-item-action list-group-item-light py-2 d-flex justify-content-between text-danger cursor-pointer">
+                                        <a><i class="fas fa-exclamation-circle"></i> Nenhum SubTipo Cadastrado</a> 
+                                    </span>
+                                    {/if}
+                                    
                                 </div>
 
                             </div>

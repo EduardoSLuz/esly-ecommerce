@@ -45,7 +45,13 @@
 	  
   </head>
   <body class="bg-site-section">
-	
+
+	<div id="overlayBody" class="d-flex justify-content-center align-items-center">
+		<div class="overlay d-flex">
+			<i class="fas fa-3x fa-spinner fa-spin"></i>
+		</div>
+	</div>
+
 	{if="$type === 1"}
 	
 	<section class="bg-site-header bar-display shadow-header">
@@ -114,7 +120,7 @@
 	
 	</section>
 		
-	<section id="Navbar-Desktop" class="bg-site-header sticky-top">
+	<section id="Navbar-Desktop" class="bg-site-header sticky-top-esly zIndexPanels" >
 		
 		<div class="navbar-prime">
 			
@@ -124,8 +130,8 @@
 				
 					<a class="col-lg-2 col-md-4 col-4 text-center" href="/loja-{$ID}/">
 						<picture>
-							<source srcset="{$imgs.5.src}" media="(max-width: 600px)">
-							<img src="{$imgs.2.src}" class="d-inline-block align-top img-fluid logo-responsive" alt="Logo Loja-{$ID}">
+							<source data-srcset="{$imgs.5.src}" media="(max-width: 600px)">
+							<img src="/resources/imgs/logos/loading.gif" data-src="{$imgs.2.src}" class="lazyload d-inline-block align-top img-fluid logo-responsive" alt="Logo Loja-{$ID}">
 						</picture>
 					</a>
 	
@@ -262,14 +268,22 @@
 
 		</div>
 
-		<div id="alertBoxCartNot" class="position-fixed my-lg-0 my-2 offset-lg-9 col-lg-3 offset-md-8 col-md-4 d-none">
+		<!-- 
+			<div id="alertBoxCartNot" class="position-fixed my-lg-0 my-2 offset-lg-9 col-lg-3 offset-md-8 col-md-4 zIndexPanels">
 
-			<div id="alertCartNot" class="alert alert-success fade text-center my-0" role="alert">
+			<div id="alertCartNot" class="alert alert-success fade show text-center my-0" role="alert">
 							
 				<span class="msgAlert">Produto Adicionado ao Carrinho</span>
 				
 			</div>
 	
+		</div>
+		 -->
+
+		<div id="alertCartNot" class="position-fixed my-lg-0 my-2 offset-lg-8 col-lg-4 offset-xl-9 col-xl-3 offset-md-7 col-md-5 zIndexPanels d-none">
+			<div class='alert alert-success fade show text-center my-0 border-0' role="alert">
+				<span class="msgAlert">Msg</span>
+			</div>
 		</div>
 	
 	</section>
@@ -412,9 +426,13 @@
 								{if="$key < 12"}
 								<li class="nav-item text-dep-site-header dropdown">
 									<a class="dropdown-item text-decoration-none border d-flex" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="window.location.assign('/loja-{$ID}/departaments/{$value.name}-0/')">
-										<span class="flex-grow-1 pr-2">{$value.name}</span> <span class="pl-2"><i class="fas fa-angle-right"></i></span>
+										<span class="flex-grow-1 pr-2">{$value.name}</span> 
+										{if="isset($storeInstitution.0.hdInfo1) && $storeInstitution.0.hdInfo1 == 1"}
+										<span class="pl-2"><i class="fas fa-angle-right"></i></span>
+										{/if}
 									</a>
 
+									{if="isset($storeInstitution.0.hdInfo1) && $storeInstitution.0.hdInfo1 == 1"}
 									<!-- WARNING: STYLE CANNOT BE REMOVED, STYLE OF UTMOST IMPORTANCE -->
 									<ul class="dropdown-menu bg-site-section row DropDownIni-Menu" aria-labelledby="navbarDropdown1" style="top: {$value.top}%;"> 
 
@@ -453,6 +471,7 @@
 										</div>
 
 									</ul>
+									{/if}
 
 								</li>
 								{/if}

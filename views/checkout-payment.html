@@ -22,10 +22,11 @@
 					<p class="mt-3 h6 font-weight-normal text-link-site-section">
 						<i class="fas fa-store"></i> 
 						Loja {$ID} 
-						{if="isset($order) && isset($order.type) && $order.type == 2"}
-						- <i class="fas fa-truck"></i> Frete: <b>
+						{if="isset($order) && isset($order.type) && $order.type == 2 && $order.nameFreight != ''"}
+						- <i class="fas fa-truck"></i> Frete: 
+						<b>
 							<i>
-								{if="$order.typeFreight == 0"}Normal{else}Express{/if}
+								{$order.nameFreight}
 							</i>
 					 	</b> 
 						{/if}
@@ -54,7 +55,7 @@
 										{if="$key == $order.type"}
 										
 										{loop="$value.pays"}
-										<button type="button" id="divPay{$value.idPayment}" class="selectPay btn btn-sm btn-light w-100 text-left border rounded p-2 my-2" data-div="{$value.name}">
+										<button type="button" id="divPay{$value.idPayment}" class='selectPay btn btn-sm btn-light w-100 text-left border rounded p-2 my-2 {if="isset($order.payment.idPayment) && $order.payment.idPayment == $value.idPayment"}clickMe{/if}' data-div="{$value.name}">
 	
 											<span class="h6 font-weight-normal">
 												<img src="/resources/imgs/cards-payment/{$value.src}" alt="{$value.name}">
@@ -80,7 +81,7 @@
 												  <span class="input-group-text text-second-site-section">R$</span>
 												</div>
 	
-												<input id="inputMoney" name="inputMoney" type="text" class="maskMoney form-control" disabled>
+												<input id="inputMoney" name="inputMoney" type="text" value='{if="isset($order.payment.changePay) && $order.payment.changePay > 0"}{$order.payment.changePay}{/if}' class="maskMoney form-control" disabled>
 												
 											</div>
 		

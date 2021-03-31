@@ -2,7 +2,7 @@
 	
 	<a class="list-group-item list-group-item-action py-4 font-weight-light">
 		<span class="h5 font-weight-normal text-second-site-section">{$userValues.nameUser} {$userValues.surnameUser}</span>
-		<span class="text-second-site-section"><br> {function="utf8_encode(ucwords(strftime('%A, %d', strtotime('today'))))"} de {function="ucfirst(strftime('%B', strtotime('today')))"} de {function="ucfirst(strftime('%Y', strtotime('today')))"} às {function="date('H:i')"}</span>
+		<span class="text-second-site-section"><br> {function="utf8_encode(ucwords(strftime('%A, %d', strtotime('today'))))"} de {function="utf8_encode(ucfirst(strftime('%B', strtotime('today'))))"} de {function="utf8_encode(ucfirst(strftime('%Y', strtotime('today'))))"} às {function="date('H:i')"}</span>
 	</a>
 
 	{if="$userValues.admin > 0"}

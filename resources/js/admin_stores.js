@@ -1,11 +1,13 @@
 // Forms Page Store Register
 $('.formStoreRegister').on('submit', function(e) {
 
-    var url = $(this).attr("action");
-
     e.preventDefault();
 
-    var dados = $(this).serialize();
+    let store = $(this).attr("data-store");
+    let url = `/admin/stores/${store}/register/`; 
+    let dados = $(this).serialize();
+    
+    $('#overlayRegisterAlert').removeClass('d-none');
 
     $.ajax({
         url: url,
@@ -13,15 +15,17 @@ $('.formStoreRegister').on('submit', function(e) {
         data: dados
     }).done(function(response){
         
-        // alert(response);
-        // console.log(response);
+        if(response != 0 && response != "" && isJson(response))
+        {
+            let json = JSON.parse(response);
+            
+            msgAlertText('#alertTextRegister', json.msg, json.status, 2000);
         
-        $("#alertsRegister").load( url + " #alertsRegister > *" );
-        setTimeout( function(){ 
-            $("#alertsRegister").load(  url + " #alertsRegister > *" ); 
-        } , 1000);
+        } 
 
-    })
+    }).always(function(){
+        $('#overlayRegisterAlert').addClass('d-none');
+    });
 
 });
 
@@ -239,46 +243,6 @@ $('.btnDeleteInfoHelp').on('click', function(e) {
 });
 
 // Modal Info Promo
-$("#selectTypePromo").on('change', function(e){
-
-    var val = $(this).val();
-
-    $(".typesPromo").addClass("d-none");
-    $("#typePromo" + val).removeClass("d-none");
-
-});
-
-$('#modalInfoPromo').on('show.bs.modal', function (e) {
-    
-    var button = $(e.relatedTarget); 
-    var type = button.data('type'); 
-    var id = button.data('id'); 
-    var idPromoType = button.data('id-type'); 
-    var modalTitle = button.data('modal-title'); 
-    var title = button.data('title'); 
-    var description = button.data('description'); 
-    var code = button.data('code'); 
-    var value = button.data('value'); 
-    var valueType = button.data('value-type'); 
-    var modal = $(this);
-
-    modal.find('.modal-title').text(modalTitle);
-    modal.find('.modal-body #formInfoPromo').attr("data-type", type);
-    modal.find('.modal-body #formInfoPromo').attr("data-id", id);
-    modal.find('.modal-body #selectTypePromo').val(idPromoType);
-    modal.find('.modal-body #typePromo' + idPromoType).removeClass("d-none");
-    modal.find('.modal-body #inputCuponPromo').val(code);
-    modal.find('.modal-body #inputValueCuponPromo').val(value);
-    modal.find('.modal-body #selectTypeCuponPromo').val(valueType);
-    modal.find('.modal-body #inputInfoPromoFreight').val(value);
-    modal.find('.modal-body #inputTitlePromo').val(title);
-    modal.find('.modal-body #inputDescPromo').val(description);
-
-});
-
-$('#modalInfoPromo').on('hide.bs.modal', function (e) {
-    window.location.reload();
-});
 
 // Form Modal Info Promotions
 $('.formInfoPromo').on('submit', function(e) { 
@@ -945,6 +909,8 @@ $('.formFreight').on('submit', function(e) {
 
 });
 
+
+/*
 // Btn Delete Freight
 $('.btnDeleteFreight').on('click', function(e) { 
     
@@ -973,6 +939,7 @@ $('.btnDeleteFreight').on('click', function(e) {
     })
 
 });
+*/
 
 // Search Cep
 $("#inputFreightCep").on('change', function(e) {
@@ -994,6 +961,188 @@ $("#inputFreightCep").on('change', function(e) {
             }
         });
     }
+});
+
+$('#modalFreightNew').on('show.bs.modal', function (e) {
+        
+    var button = $(e.relatedTarget); 
+    var type = button.data('type'); 
+    var store = button.data('store'); 
+    var id = button.data('id'); 
+    var modalTitle = button.data('modal-title'); 
+    var distance = button.data('distance'); 
+    var name = button.data('name'); 
+    var value = button.data('value'); 
+    var time = button.data('time'); 
+    var modal = $(this);
+
+    modal.find('.modal-title').text(modalTitle);
+    modal.find('.modal-body #formModalFreight').attr("data-type", type);
+    modal.find('.modal-body #formModalFreight').attr("data-id", id);
+    modal.find('.modal-body #formModalFreight').attr("data-store", store);
+    modal.find('.modal-body #formModalFreight').attr("data-cod", 0);
+    modal.find('.modal-body #inputDistanceFreight').val(distance);
+    modal.find('.modal-body #inputNameTypeFreight').val(name);
+    modal.find('.modal-body #inputValueTypeFreight').val(value);
+    modal.find('.modal-body #inputTimeTypeFreight').val(time);
+    
+    if(id != undefined && id >= 0) $("#listTabFreight").load( `/admin/stores/${store}/freight/?type=${id} #listTabFreight > *`, );
+
+});
+
+$(document).on('click', '.btnListTypesFreight', function(){
+
+    let id = $(this).attr('data-id');
+    let name = $(this).attr('data-name');
+    let value = $(this).attr('data-value');
+    let time = $(this).attr('data-time');
+
+    $("#formModalFreight #inputNameTypeFreight").val(name);
+    $("#formModalFreight #inputValueTypeFreight").val(value);
+    $("#formModalFreight #inputTimeTypeFreight").val(time);
+    $("#formModalFreight").attr("data-cod", id);
+
+});
+
+$(document).on('click tap', '.btnDeleteTypeFreight', function(){
+    
+    let cod = $(this).attr('data-id');
+    let unit = 4;
+
+    $("#formModalFreight").attr('data-cod', cod);
+    $("#formModalFreight").attr('data-unit', unit);
+
+    if($("#formModalFreight").attr('data-unit') > 0) $("#formModalFreight").submit(); 
+
+});
+
+// Btn Delete Freight
+$(document).on('click tap', '.btnDeleteFreight', function(){
+    
+    var id = $(this).attr("data-id");
+    var type = $(this).attr("data-type");
+    var store = $(this).attr("data-store");
+    var url = "/admin/stores/"+store+"/freight/freight/";
+
+    dados = `id=${id}&type=${type}`;
+
+    $.ajax({
+        url: url,
+        method: "POST",
+        data: dados
+    }).done(function(response){
+        
+        if(response != 0 && response != "" && JSON.parse(response) !== undefined)
+        {
+            let json = JSON.parse(response);
+
+            msgAlert("#alertsFreight", json.msg, json.status, 1500);
+            
+            if(json.status == 1)
+            {
+                $("#tableAdminFreight").load( `/admin/stores/${store}/freight/ #tableAdminFreight > *`);
+            }
+            
+        } 
+
+    })
+
+});
+
+$(".btnUpdateUnitFreight").on('click tap', function(e){
+    
+    let unit = $(this).attr('data-unit') != undefined && $(this).attr('data-unit') >= 0 ? $(this).attr('data-unit') : 0;
+    
+    $("#formModalFreight").attr('data-unit', unit);
+
+    if($("#formModalFreight").attr('data-unit') > 0) $("#formModalFreight").submit(); 
+
+});
+
+// Btn Add Freight
+$('#btnAddFreight').on('click tap', function(e) { 
+    
+    var store = $(this).attr("data-store");
+    var url = "/admin/stores/"+store+"/freight/new_freight/";
+
+    dados = `key=Baiacu`;
+
+    $.ajax({
+        url: url,
+        method: "POST",
+        data: dados
+    }).done(function(response){
+        
+        if(response != 0 && response != "" && JSON.parse(response) !== undefined)
+        {
+            let json = JSON.parse(response);
+
+            if(json.status == 1)
+            {
+                $("#tableAdminFreight").load( `/admin/stores/${store}/freight/ #tableAdminFreight > *`, function() {
+                    $("button.btnEditFreight").last().click();
+                });
+
+            }
+            
+        } 
+
+    })
+
+});
+
+$('.formModalFreight').on('submit', function(e) { 
+
+    e.preventDefault();
+
+    var id = $(this).attr("data-id");
+    var type = $(this).attr("data-type");
+    var store = $(this).attr("data-store");
+    var unit = $(this).attr("data-unit");
+    var cod = $(this).attr("data-cod");
+    var url = "/admin/stores/"+store+"/freight/freight/";
+
+    var dados = $(this).serialize();
+    dados = dados + "&type=" + type + "&id=" + id + "&unit=" + unit + "&cod=" + cod;
+
+    $.ajax({
+        url: url,
+        method: "POST",
+        data: dados
+    }).done(function(response){
+        
+        if(response != 0 && response != "" && JSON.parse(response) !== undefined)
+        {
+            let json = JSON.parse(response);
+
+            msgAlert("#alertsModalFreight", json.msg, json.status, 1500);
+            
+            if(json.status == 1 && unit == 2 || json.status == 1 && unit == 4)
+            {
+                $("#listTabFreight").load( `/admin/stores/${store}/freight/?type=${id} #listTabFreight > *`, function() {
+                    $("span.btnListTypesFreight").last().click();
+                });
+            }
+            
+            if(json.status == 1 && unit == 3 && json.cod != 0) 
+            {
+                $(`#listTabFreight #btnListTypesFreight${cod}`).load( `/admin/stores/${store}/freight/?type=${id} #listTabFreight #btnListTypesFreight${cod} > *`);
+            } else if(json.status == 1 && unit == 3 && json.cod == 0)
+            {
+                $("#listTabFreight").load( `/admin/stores/${store}/freight/?type=${id} #listTabFreight > *`);
+            } 
+
+            if(json.status == 1) $("#tableAdminFreight").load( `/admin/stores/${store}/freight/ #tableAdminFreight > *`);
+            
+        } 
+        
+        if(response == 1)
+        {
+            $("#dataFreight").load( "/admin/stores/"+store+"/freight/ #dataFreight > *");
+        }
+
+    })
+
 });
 
 // Modal Horary
@@ -1072,27 +1221,27 @@ $('.formHorary').on('submit', function(e) {
 // Modal Images
 $('#modalImages').on('show.bs.modal', function (e) {
         
-    var button = $(e.relatedTarget); 
-    var type = button.data('type'); 
-    var modalTitle = button.data('modal-title'); 
-    var src = button.data('src'); 
-    var origin = button.data('origin'); 
-    var file = button.data('file'); 
-    var name = button.data('name'); 
-    var modal = $(this);
+    let button = $(e.relatedTarget); 
+    let store = button.data('store'); 
+    let type = button.data('type'); 
+    let modalTitle = button.data('modal-title'); 
+    let src = button.data('src'); 
+    let origin = button.data('origin'); 
+    let file = button.data('file'); 
+    let name = button.data('name'); 
+    let id = button.data('id') !== undefined ? button.data('id') : 0; 
+    let modal = $(this);
 
     modal.find('.modal-title').text(modalTitle);
     modal.find('.modal-body #formImages').attr("data-type", type);
     modal.find('.modal-body #formImages').attr("data-origin", origin);
     modal.find('.modal-body #formImages').attr("data-file", file);
+    modal.find('.modal-body #formImages').attr("data-id", id);
+    modal.find('.modal-body #formImages').attr("data-store", store);
     modal.find('.modal-body #imageFormImgs').attr("src", src);
     modal.find('.modal-body #textFormImgs').text(name);
     //modal.find('.modal-body #inputFreightDistrict').val(district);
-    
-});
 
-$('#modalImages').on('hide.bs.modal', function (e) {
-    location.reload(true)
 });
 
 // Form Images
@@ -1103,6 +1252,7 @@ $("#formImages").submit(function(e) {
     var type = $(this).attr("data-type");
     var origin = $(this).attr("data-origin");
     var file = $(this).attr("data-file");
+    var id = $(this).attr("data-id");
     var store = $(this).attr("data-store");
 
     var formData = new FormData(this);
@@ -1128,6 +1278,8 @@ $("#formImages").submit(function(e) {
             if(json.src != "" && json.res == 1) {
                 
                 $("#imageFormImgs").attr("src", json.src+d.getTime());
+                $("#inputImg").val("");
+                $("#inputImg").parent().children('label').text("Alterar Imagem");
 
             }    
 
@@ -1136,7 +1288,13 @@ $("#formImages").submit(function(e) {
         $("#alertsImages").load( "/admin/stores/"+store+"/images/ #alertsImages > *" );
         setTimeout( function(){ 
 
-            $("#alertsImages").load( "/admin/stores/"+store+"/images/ #alertsImages > *" );
+            $("#alertsImages").load( "/admin/stores/"+store+"/images/ #alertsImages > *");
+            $("#dataImagesPageInit").load( "/admin/stores/"+store+"/images/ #dataImagesPageInit > *", function(){
+                if(type >= 1 && type <= 2 && json.src != "" && json.res == 1){
+                    $(`#${id} img`).attr('src', json.src+d.getTime());
+                    $(`#${id} p button`).attr('data-src', json.src+d.getTime());
+                }
+            });
             
         } , 1000);
 
@@ -1145,7 +1303,7 @@ $("#formImages").submit(function(e) {
 });
 
 // Btn Delete Images
-$('.btnDeleteImages').on('click', function(e) { 
+$(document).on('click', '.btnDeleteImages', function(){
     
     var id = $(this).attr("data-id");
     var type = $(this).attr("data-type");
@@ -1169,7 +1327,7 @@ $('.btnDeleteImages').on('click', function(e) {
                 var json = JSON.parse(response);
                 if(json.res == 1) {
                     $("#colImgsPromo"+id).html("");
-                    window.location.reload(true);
+                    $("#dataImagesPageInit").load( "/admin/stores/"+store+"/images/ #dataImagesPageInit > *");
                 }    
             }
         } , 750);
@@ -1187,13 +1345,19 @@ $('#modalProductsConfig').on('show.bs.modal', function (e) {
     let store = button.data('store'); 
     let src = button.data('src'); 
     let name = button.data('name'); 
+    let code = button.data('code'); 
     let unit = button.data('unit'); 
     let qtd = button.data('qtd'); 
     let price = button.data('price'); 
     let free = button.data('free'); 
+    let statusUnit = button.data('status-unit'); 
+    let desc = button.data('desc'); 
+    let status = button.data('status'); 
     let modal = $(this);
 
     if(src == "" || src == undefined) src = "/resources/imgs/logos/default.png";
+
+    $("#modal-product-config ul .nav-link").first().click();
 
     modal.find('.modal-title .modal-subtitle').text(`#${id} ${name}`);
     modal.find('#formModalProductConfig').attr("data-type", type);
@@ -1202,19 +1366,29 @@ $('#modalProductsConfig').on('show.bs.modal', function (e) {
     modal.find('#formModalProductConfig').attr("data-store", store);
     modal.find('#formModalProductConfig').attr("data-unit", 0);
     modal.find('#formModalProductConfig #imgProductLogo').attr("src", src);
+    modal.find('#formModalProductConfig #inputIdNumber').val(code);
     modal.find('#formModalProductConfig #inputUnitProduct').val(unit);
     modal.find('#formModalProductConfig #inputValueStockProduct').val(qtd);
     modal.find('#formModalProductConfig #inputPriceProduct').val(price);
     modal.find('#formModalProductConfig #inputPriceProduct').attr('data-number', price);
+    modal.find("#formModalProductConfig #inputStatusUnit").val(statusUnit);
+    modal.find('#formModalProductConfig #inputStatusUnit').trigger('change');
+    modal.find("#formModalProductConfig #inputDescSubType").val(desc);
+    modal.find("#formModalProductConfig #selectStatusSubType").val(status);
+    modal.find('#formModalProductConfig #selectStatusSubType').trigger('change');
 
     if(free == 1) modal.find('#formModalProductConfig #freeFillProduct').attr('checked', true);
 
-    if(unit != undefined) $("#listModalProductsConfigUnits").load( `/admin/stores/${store}/products/?cod=${id} #listModalProductsConfigUnits > *`, );
+    if(unit != undefined)
+    {
+        $("#listModalProductsConfigUnits").load( `/admin/stores/${store}/products/?cod=${id} #listModalProductsConfigUnits > *`, );
+        $("#listModalProductsConfigSubTypes").load( `/admin/stores/${store}/products/?cod=${id} #listModalProductsConfigSubTypes > *`, );
+    }
 
 });
 
 $('#modalProductsConfig').on('hide.bs.modal', function (e) {
-    location.reload();
+    $('#formSearchListProducts').submit();
 });
 
 // Form Search List Products
@@ -1222,14 +1396,35 @@ $("#formSearchListProducts").submit(function(e){
 
     e.preventDefault();
 
+    $("#tbListProductsConfig").addClass('d-none');
+    $("#overlayListProductsAlert").removeClass('d-none');
+
     let store = $(this).attr("data-store");
-    let option = $(this.children[0]).val();
-    let search = $(this.children[1]).val();
-    search = search.replace(" ", "%20");
-    
-    if(store !== undefined && option !== undefined && search !== undefined) $("#tbListProductsConfig").load( `/admin/stores/${store}/products/?option=${option}&s=${search} #tbListProductsConfig > *`);
+    let page = $(this).attr("data-page");
+    let dados = $(this).serialize()+`&page=${page}`;
+
+    if(store !== undefined && dados !== undefined) $("#tbListProductsConfig").load( `/admin/stores/${store}/products/?${dados} #tbListProductsConfig > *`, function(){
+        $("#linksListProducts").load( `/admin/stores/${store}/products/?${dados} #linksListProducts > *`, function(){
+            $("#overlayListProductsAlert").addClass('d-none');
+            $("#tbListProductsConfig").removeClass('d-none');
+        });
+    });
 
 });
+
+$(document).on('click', '.btnInputLinkProducts', function(){
+
+    let page = $(this).attr('data-page');
+
+    $('#formSearchListProducts').attr('data-page', page);
+    $('#formSearchListProducts').submit();
+
+});
+
+$('.inputsListProducts').on("input", function(e){
+    $('#formSearchListProducts').attr('data-page', 1);
+    $('#formSearchListProducts').submit()
+})
 
 // Form Modal Products Config
 $("#formModalProductConfig").submit(function(e) {
@@ -1274,19 +1469,24 @@ $("#formModalProductConfig").submit(function(e) {
             
             } else if(type == 2 && json.status == 1){
                 
-                $("#listModalProductsConfigUnits").load( `/admin/stores/${store}/products/?cod=${id} #listModalProductsConfigUnits > *` );
-                if(json.code !== undefined && json.code == 3) $("#listUnit0").click();
+                $("#listModalProductsConfigUnits").load( `/admin/stores/${store}/products/?cod=${id} #listModalProductsConfigUnits > *`, function(){
+                    if(json.code == 1) $("#listModalProductsConfigUnits .btnListUnitProductsConfig").last().click();
+                    if(json.id !== undefined && json.code == 2) $(`#listUnit${json.id}`).click();
+                    if(json.code == 3) $("#listUnit0").click();
+                });
 
+            } else if(type == 3 && json.status == 1)
+            {
+                $("#listModalProductsConfigSubTypes").load( `/admin/stores/${store}/products/?cod=${id} #listModalProductsConfigSubTypes > *`);
             }
 
             msgAlert("#alertModalProductConfigImg", json.msg, json.status, 1500);
+
         } 
 
     }).always(function(){
         $('#overlayModalProductConfig').addClass('d-none');
     });
-
-    $('#overlayModalProductConfig').addClass('d-none');
 
 });
 
@@ -1314,7 +1514,6 @@ $(document).on('click', '.btnMeasureProduct', function(){
 
 });
 
-
 $(document).on('click', '.btnListUnitProductsConfig', function(){
 
     let id = $(this).attr('data-id');
@@ -1323,6 +1522,8 @@ $(document).on('click', '.btnListUnitProductsConfig', function(){
     let price = $(this).attr('data-price');
     let freeFill = $(this).attr('data-free-fill');
     let autoUp = $(this).attr('data-auto-up');
+    let code = $(this).attr('data-code');
+    let status = $(this).attr('data-status');
 
     if(id >= 1)
     {
@@ -1342,6 +1543,9 @@ $(document).on('click', '.btnListUnitProductsConfig', function(){
     $("#modalProductsConfig #inputUnitProduct").val(name);
     $("#modalProductsConfig #inputValueStockProduct").val(stock);
     $("#modalProductsConfig #inputPriceProduct").val(price);
+    $("#modalProductsConfig #inputIdNumber").val(code);
+    $("#modalProductsConfig #inputStatusUnit").val(status);
+    $('#modalProductsConfig #inputStatusUnit').trigger('change');
     $("#modalProductsConfig #btnUpdateUnitProduct").attr("data-code", id);
 
     if(freeFill == 1)
