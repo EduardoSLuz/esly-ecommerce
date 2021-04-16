@@ -581,7 +581,7 @@ $app->post("/loja-{store}/checkout/payment/", function(Request $request, Respons
 
 	$res = ['status' => 0, 'msg' => 'ERRO CRÍTICO'];
 
-	$total = ($_SESSION[Cart::SESSION]['totalCart'] + $_SESSION[Order::SESSION]['freight'] + $_SESSION[Order::SESSION]['horary']['price']); 
+	$total = maskPrice(($_SESSION[Cart::SESSION]['totalCart'] + $_SESSION[Order::SESSION]['freight'] + $_SESSION[Order::SESSION]['horary']['price']), 0, 1); 
 
 	if(isset($_POST['inputType']) && empty($_POST['inputType']) || !isset($_POST['inputType']))
 	{
@@ -717,7 +717,7 @@ $app->post("/loja-{store}/checkout/resume/", function(Request $request, Response
 		"timeInitial" => isset($orders) && Order::validTime($orders['horary']['init']) ? $orders['horary']['init'] : "",
 		"timeFinal" => isset($orders) && Order::validTime($orders['horary']['final']) ? $orders['horary']['final'] : "",
 		"priceHorary" => isset($orders) && is_numeric($orders['horary']['price']) ? floatval($orders['horary']['price']) : 0,
-		"freight" => isset($orders['nameFreight']) && $orders['typeFreight'] == 2 && !empty(trim($orders['nameFreight'])) ? $orders['nameFreight'] : "Sem Frete",
+		"freight" => isset($orders['nameFreight']) && $orders['type'] == 2 && !empty(trim($orders['nameFreight'])) ? $orders['nameFreight'] : "Sem Frete",
 		"typeFreight" => isset($orders) && $orders['type'] == 2 && $orders['typeFreight'] >= 0 && $orders['typeFreight'] <= 1 ? $orders['typeFreight'] : 0,
 		"priceFreight" => isset($orders) && $orders['type'] == 2 && !empty($orders['freight']) && is_numeric($orders['freight']) ? floatval($orders['freight']) : 0,
 		"typeModality" => isset($orders) && $orders['type'] != 0 ? $orders['type'] : 0,

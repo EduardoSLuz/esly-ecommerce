@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teste</title>
+
+  <!-- Personalize -->
+  <link rel="stylesheet" href="/resources/css/printer.css">
+
+	<!-- Fontawesome -->
+  <link rel="stylesheet" href="/resources/admin/plugins/fontawesome-free/css/all.min.css">
+
+</head>
+<body>
+
+  <section>
+
+    <h1>
+      <i class="fas fa-globe"></i> {$orders.0.infoStore.nameStore}
+    </h1>
+
+    <h3>
+      <span>
+        Pedido: 
+        {if="isset($orders) && $orders != 0"}
+         #{$orders.0.idOrder} {if="$orders.0.codOrder > 0"}- Server #{$orders.0.codOrder}{/if}
+        {/if}
+      </span>
+      <br>
+      <span>
+        {if="$orders.0.typeModality == 1"}Retirada na Loja{/if}
+                      
+        {if="$orders.0.typeModality == 2"}
+        Entrega Própria - <i><u>{$orders.0.freight}</u></i>
+        {/if}
+      </span>
+    </h2>
+
+    <p>
+      <span>Data Pedido: {function="date('d/m/Y', strtotime($orders.0.dateInsert))"} {function="date('H:i', strtotime($orders.0.timeInsert))"}</span>
+      <br>
+      <span>{if="$orders.0.typeModality == 1"}Retirada{/if}{if="$orders.0.typeModality == 2"}Entrega{/if} Prevista: {function="date('d/m/Y', strtotime($orders.0.dateHorary))"} {function="date('H:i', strtotime($orders.0.timeInitial))"} ás {function="date('H:i', strtotime($orders.0.timeFinal))"}</span>
+    </p>
+
+    <h3>Dados Cliente</h3>
+
+    <p>
+      <span>Nome: {$orders.0.infoUser.nameUser}{if="!empty($orders.0.infoUser.surnameUser)"} {$orders.0.infoUser.surnameUser}{else}.{/if}</span>
+                      
+      {if="isset($orders.0.address.1)"}
+      
+      <br><span>Endereço: {$orders.0.address.1.street}, {$orders.0.address.1.number}</span>
+      <br><span>Bairro: {$orders.0.address.1.district}</span>
+      <br><span>Cidade: {$orders.0.address.1.city} - {$orders.0.address.1.uf}</span>
+      {if="isset($orders.0.address.1.complement) && !empty($orders.0.address.1.complement)"}
+      <br><span>Comp: {$orders.0.address.1.complement}</span>
+      {/if}
+      <br>CEP: <span>{function="maskCep($orders.0.address.1.cep)"}</span>      
+      {/if}
+      <br> <span>Telefone: {if="$orders.0.infoUser.telephoneUser != 0"} {function="maskTel($orders.0.infoUser.telephoneUser)"} {else} <b>Sem Telefone</b> {/if}</span> 
+    </p>
+
+    <h3>Itens</h3>
+
+    <table>
+      <thead>
+        <tr class="align-left">
+          <th>Qtd</th>
+          <th>Item</th>
+          <th class="align-right">Sim.</th>
+          <th class="align-right">Preço</th>
+          <th class="align-right">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        {if="isset($orders.0.cart) && $orders.0.cart.items != 0"}
+
+        {loop="$orders.0.cart.items"}
+        <tr class="align-left">
+          <td>{$value.quantity}</td>
+          <td>{$value.descProduct}
+            {if="isset($value.subtypeDesc) && !empty(trim($value.subtypeDesc))"}<small><i>({$value.subtypeDesc})</i></small>{/if}
+            - {$value.unitReference}
+          </td>
+          <td class="align-center">S</td>
+          <td class="align-right">R${function="maskPrice($value.priceItem)"}</td>
+          <td class="align-right">R${function="maskPrice($value.priceItem * $value.quantity)"}</td>
+        </tr>
+        {/loop}
+
+        {else}
+        <tr>
+          <td colspan="4"><b><i>NENHUM PRODUTO ENCONTRADO</i></b></td>
+        </tr>
+        {/if}
+      </tbody>
+    </table>
+
+    <div id="table-total-div">
+
+      <table>
+        <tbody>
+          {if="isset($orders.0.subtotal)"}
+          <tr class="align-left">
+            <td>Valor Total dos Itens:</td>
+            <td class="align-right">R$ {function="maskPrice($orders.0.subtotal)"}</td>
+          </tr>
+          {/if}
+          {if="isset($orders) && $orders.0.typeModality == 2"}
+          <tr class="align-left">
+            <td>Frete:</td>
+            <td class="align-right">R$ {function="maskPrice($orders.0.priceFreight)"}</td>
+          </tr>
+          {/if}
+          {if="isset($orders.0.priceHorary)"}
+          <tr class="align-left">
+            <td>Agendamento:</td>
+            <td class="align-right">R$ {function="maskPrice($orders.0.priceHorary)"}</td>
+          </tr>
+          {/if}
+          {if="isset($orders) && $orders.0.discount > 0"}
+          <tr class="align-left">
+            <td>Desconto:</td>
+            <td class="align-right">-R$ {function="maskPrice($orders.0.discount)"}</td>
+          </tr>
+          {/if}
+        </tbody>
+      </table>
+      
+      <table class="border-table">
+        <tbody>
+          {if="isset($orders.0.total)"}
+          <tr class="align-left">
+            <td>Cobrar do Cliente:</td>
+            <td class="align-right">R$ {function="maskPrice($orders.0.total)"}</td>
+          </tr>
+          {else}
+          <tr class="align-left">
+            <td colspan="2">ERRO FATAL, FAVOR NOTIFICAR O SUPORTE!</td>
+          </tr>
+          {/if}
+        </tbody>
+      </table>
+
+    </div>
+
+    <h3>Observações</h3>
+
+    <p>
+      <span>
+        {if="isset($orders.0.cart) && !empty(trim($orders.0.cart.obsCart))"}
+        {$orders.0.cart.obsCart}
+        {else}
+        Nenhuma Observação
+        {/if}
+      </span>
+    </p>
+
+    <h3>Forma de Pagamento</h3>
+
+    <p>
+      {$orders.0.payment.pay} - {$orders.0.payment.description}
+      {if="$orders.0.payment.pay == 'Dinheiro'"} <br><i>Troco para: R$ {function="maskPrice($orders.0.changePay)"}</i>{/if}
+    </p>
+    
+    <h3>Quem irá {if="$orders.0.typeModality == 1"}Retirar{else}Receber{/if}</h3>
+
+    <p>
+      <span>{$orders.0.nameRes}</span>
+    </p>
+
+    <p class="align-center sectionCopyright">
+      <span>Copyright © 2021 Astemac E-commerce.</span>
+      <br>
+      <span>Astemac.com.br</span>
+    </p>
+
+  </section>
+
+  <!-- Bootstrap e Jquery -->
+  <script src="/resources/js/jquery.min.js"></script>
+
+</body>
+</html>

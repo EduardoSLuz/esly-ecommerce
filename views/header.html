@@ -357,8 +357,8 @@
 
 		<div id="DepartamentosMobile" class="navbar-displayNone">
 
-			<a class="btn border border-left-0 border-right-0 w-100 bd-RdNull py-SubMobile text-left" href="/loja-{$ID}/">
-				<b class="font-weight-normal mx-2 tx-SubMobile text-second-site-section">Inicio</b>
+			<a class="btn border border-left-0 border-right-0 w-100 bd-RdNull py-SubMobile text-left" href="/loja-{$ID}/departaments/">
+				<b class="font-weight-normal mx-2 tx-SubMobile text-second-site-section"><i>DEPARTAMENTOS:</i></b>
 			</a>
 
 			{if="isset($departaments) && $departaments != 0"}
@@ -370,11 +370,16 @@
 				<a href="/loja-{$ID}/departaments/{$value.name}-0/" id="Bar{$key}" class="btn border border-top-0 border-left-0 border-right-0 bd-RdNull w-100 text-left py-SubMobile">
 					<b class="font-weight-normal mx-2 tx-SubMobile text-second-site-section">{$value.name}</b>
 				</a>
+
+				{if="isset($storeInstitution.0.hdInfo1) && $storeInstitution.0.hdInfo1 == 1"}
 				<button type="button" class="btn border border-top-0 bd-RdNull" data-toggle="collapse" data-target="#SubBar{$key}" aria-expanded="false" aria-controls="SubBar{$key}" onclick="ShowHideSubBarMobile('SubBar{$key}', 'SubMenu{$key}')">
 					<i id="SubMenu{$key}" class="fas fa-chevron-down text-second-site-section"></i>
 				</button>
+				{/if}
+
 			</div>
 
+			{if="isset($storeInstitution.0.hdInfo1) && $storeInstitution.0.hdInfo1 == 1"}
 			<div id="SubBar{$key}" class="collapse bg-light">
 				
 				{if="isset($value.category) && is_array($value.category) && count($value.category) > 0"}
@@ -386,6 +391,7 @@
 				{/if}
 				
 			</div>
+			{/if}
 			{/if}
 			{/loop}
 

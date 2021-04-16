@@ -85,7 +85,7 @@ class Company extends Model {
 				$value['idCompany'] = Company::decryptCode($value['idCompany']);
             	$data = Mercato::listMercato(0, "idCompany = :ID", [':ID' => $value['idCompany']]);
 					
-				if(isset($data[0]['dateList']) && $data[0]['dateList'] == NULL && $data[0]['status'] == 1  || isset($data[0]['dateList']) && isset($data[0]['time']) && floatval(date("YmdH.i")) - floatval(date("YmdH.i", strtotime($data[0]['dateList']))) >= $data[0]['time'] && $data[0]['status'] == 1 || $now == 1)
+				if(isset($data[0]['dateList']) && $data[0]['dateList'] == NULL && $data[0]['status'] == 1  || isset($data[0]['dateList']) && isset($data[0]['time']) && floatval(date("YmdH.i")) - floatval(date("YmdH.i", strtotime($data[0]['dateList']))) >= $data[0]['time'] && $data[0]['status'] == 1 || $now > 0)
 				{
 
 					Company::updateCompany("status = :STATUS, code = :CODE", "WHERE idCompany = :ID", [':STATUS' => 0, ':CODE' => 501, ':ID' => $value['idCompany']]);
@@ -108,7 +108,7 @@ class Company extends Model {
 
 								$date = date("d/m/Y H:i:s");
 
-								$res = Mercato::getProducts($vStore['idStore']);
+								$res = Mercato::getProducts($vStore['idStore'], $now);
 
 								$his[$vStore['idStore']][] = $res ? $date.": LOJA ".$vStore['idStore']." - LISTA DE PRODUTOS ATUALIZADA COM SUCESSO" : $date.": LOJA ".$vStore['idStore']." - NENHUMA LISTA FOI ATUALIZADA";
 							}
@@ -198,9 +198,9 @@ class Company extends Model {
 			
 			foreach ($company as $key => $value) {
 				
-				$value['db_pass'] = Company::decryptCode($value['db_pass']);
 				$_SESSION[Sql::DB] = $value;
-					
+				$value['db_pass'] = Company::decryptCode($value['db_pass']);
+
 				$orders = Order::selectOrder(0, 'WHERE paid = :CODE AND codOrder > :CODE AND idOrderStatus >= :INI AND idOrderStatus <= :FIN', [":CODE" => 0, ":INI" => 6, ":FIN" => 7]);
 				
 				if(is_array($orders) && count($orders) > 0)
@@ -250,8 +250,10 @@ class Company extends Model {
 					foreach ($store as $kStore => $vStore) {
 						
 						$dir = "resources/clients/".$_SESSION[Sql::DB]['directory']."/stores/loja-".$vStore['store']."/imgs/products";
+						$dirProd = "resources/imgs/products";
 
 						$products = Mercato::listAllProducts($vStore['idStore']);
+						$array = $products;
 
 						if(is_array($products) && count($products) > 0)
 						{
@@ -263,10 +265,14 @@ class Company extends Model {
 								if(strstr($vProducts['image'], $dir) && file_exists($file))
 								{
 
-									$nameImage = "ESLYIMAGE#".$vProducts['barCode']."#".$vProducts['codProduct']."#".str_replace([" ", "\\", "/"], "_", $vProducts['description']);
-									//$nameImage = Store::cryptCode($nameImage);
-
-									rename($file, $dir."/".$nameImage.strstr($file, '.'));
+									$nameImage = ["ESLYIMAGE#".$vProducts['barCode']."#".str_replace([" ", "\\", "/"], "_", $vProducts['description'])."#1#", "ESLYIMAGE#".$vProducts['barCode']."#".str_replace([" ", "\\", "/"], "_", $vProducts['description'])."#".$vProducts['codProduct']."#"];
+									$nameImage[0] = Store::cryptCode($nameImage[0]);
+									$nameImage[1] = Store::cryptCode($nameImage[1]);
+									
+									copy($file, $dirProd."/".$nameImage[0].strstr($file, '.'));					
+									rename($file, $dir."/".$nameImage[1].strstr($file, '.'));					
+									
+									$array[$kProducts]['image'] =  "/".$dir."/".$nameImage[1].strstr($file, '.');
 
 									/* CONVERT IN WEBP - PHP 7.4 WARNING
 									$image = imagecreatefromstring(file_get_contents($file));
@@ -282,6 +288,22 @@ class Company extends Model {
 									*/
 
 								} 
+
+							}
+
+							Mercato::saveProducts($array, $vStore['idStore'], "ST");
+							Mercato::getProductDepartaments($vStore['idStore']);
+
+							$imgsPath = scandir($dir);
+
+							if(is_array($imgsPath) && count($imgsPath) > 0)
+							{
+								
+								foreach ($imgsPath as $kImgs => $vImgs) {
+									
+									if($kImgs >= 2 && strlen($vImgs) > 10 && strlen($vImgs) <= 35) unlink($dir."/".$vImgs);
+
+								}
 
 							}
 

@@ -37,8 +37,8 @@
 							<table class="table table-hover font-weight-normal h6 text-truncate bg-white border">
 								<thead>
 								  <tr class="text-center">
+									  <th class="border-right text-second-site-section">#</th>
 									<th class="border-right text-second-site-section">Data</th>
-									<th class="border-right text-second-site-section">N.</th>
 									<th class="border-right text-second-site-section">Para</th>
 									<th class="border-right text-second-site-section">Situação</th>
 									<th class="border-right text-second-site-section">Agendamento</th>
@@ -50,13 +50,13 @@
 									{loop="$orders"}
 									<tr class="cursorPointer text-center" onclick="window.location.assign('/loja-{$ID}/account/requests/{$value.idOrder}/')">
 										<th scope="row" class="py-2">
+											<a class="text-decoration-none text-second-site-section"><i>#{$value.idOrder}-{$key+1}</i></a>
+										</th>
+										<th scope="row" class="py-2">
 											<a class="font-weight-normal text-second-site-section text-decoration-none">
 												{function="date('d/m/Y', strtotime($value.dateInsert))"} <br>
 												{function="date('H:i', strtotime($value.timeInsert))"}
 											</a>
-										</th>
-										<th scope="row" class="py-2">
-											<a class="text-decoration-none text-second-site-section"><i>{$value.idOrder}</i></a>
 										</th>
 										<td class="py-2">
 											<a class="text-decoration-none text-second-site-section">{if="$value.typeModality == 2"}Entrega{else}Retirada{/if}</a>

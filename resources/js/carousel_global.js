@@ -62,12 +62,15 @@ function callback(event) {
     
 }
 
-var owl = $('.owl-carousel .CarouselImgs');
-owl.owlCarousel({
-    items:1,
-    loop:true,
-    margin:10,
-    autoplay:true,
-    autoplayTimeout:3000,
-    autoplayHoverPause:true
-});
+if($('.owl-carousel .CarouselImgs').attr('data-code') !== undefined)
+{
+    var owl = $('.owl-carousel .CarouselImgs');
+    owl.owlCarousel({
+        items:1,
+        loop:true,
+        margin:10,
+        autoplay:true,
+        autoplayTimeout:3000,
+        autoplayHoverPause:true
+    });
+}

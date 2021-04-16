@@ -253,7 +253,7 @@ $app->get("/loja-{store}/departaments/{departaments}-{category}/", function(Requ
 
 	$dep = $args['departaments'];
 	$id = isset($_GET['cod']) && is_numeric($_GET['cod']) && $_GET['cod'] > 0 ? $_GET['cod'] : 0;
-	$cat = $args['category'] != 0 || !empty($args['category']) ? $args['category'] : "";
+	$cat = $args['category'] != 0 || trim($args['category']) != "" ? $args['category'] : "";
 	$subs = isset($_GET['subs']) ? $_GET['subs'] : "";
 	$mark = isset($_GET['mark']) ? $_GET['mark'] : "";
 	$pages = !isset($_GET['page']) ? 1 : $_GET['page'];
@@ -276,7 +276,7 @@ $app->get("/loja-{store}/departaments/{departaments}-{category}/", function(Requ
 	$page->setTpl("departaments-product", [
 		"dep" => [
 			"name" => $args["departaments"],
-			"cat" => $cat != "" ? $cat : 0,
+			"cat" => trim($cat) != "" ? $cat : 0,
 			"category" => $category,
 			"or" => $or,
 			"subs" => $subs, 

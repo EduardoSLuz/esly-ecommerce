@@ -13,7 +13,7 @@ $output = curl_exec($ch);
 
 curl_close($ch); 
 
-// var_dump($output);
+var_dump($output);
 exit;
 
 ?>

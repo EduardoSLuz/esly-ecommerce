@@ -86,7 +86,7 @@
                     <tbody>
                       {loop="$orders"}
                       <tr style="cursor: pointer;" onclick="window.location.assign('/admin/orders/{$value.idOrder}/')">
-                        <td>{$key + 1}</td>
+                        <td>{$value.idOrder}</td>
                         <td>{$value.nameUser} {$value.surnameUser}</td>
                         <td>{function="maskCpf($value.infoUser.cpfUser)"}</td>
                         <td>{$value.freight}</td>

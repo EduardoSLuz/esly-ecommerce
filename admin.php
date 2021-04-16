@@ -2642,22 +2642,17 @@ $app->post("/admin/orders/{id}/status/", function(Request $request, Response $re
 $app->post("/admin/orders/{id}/alert/", function(Request $request, Response $response, $args) {
 	
 	$orders = Order::listOrders($args['id']);
-
+	
 	if($orders == 0)
 	{
 		header("Location: /admin/orders/");
 	}
+		
+	$send = Order::orderAlert($args['id'], ["title"=>"Pedido #".$args['id']." - Informações Alteradas", "text" => "Seu pedido teve algumas informações alteradas, para ver o que foi alterado acesse o pedido clicando no botão abaixo (certifique-se de estar logado no site para conseguir acessar o link), se você não estiver em acordo com o que foi alterado, entre em contato com a nossa loja.", "subject"=>"Seu Pedido Sofreu Alterações", "link"=>"http://www.ecommerce-astemac.com.br/loja-01/account/requests/".$args['id']."/"]);
 
-	$res = Order::orderAlert($args['id'], ["title"=>"Pedido #".$args['id']." - Informações Alteradas", "text" => "Seu pedido teve algumas informações alteradas, para ver o que foi alterado acesse o pedido clicando no botão abaixo (certifique-se de estar logado no site para conseguir acessar o link), se você não estiver em acordo com o que foi alterado, entre em contato com a nossa loja.", "subject"=>"Seu Pedido Sofreu Alterações", "link"=>"http://www.ecommerce-astemac.com.br/loja-01/account/requests/".$args['id']."/"]);
-
-	if($res)
-	{
-		Order::setSuccessMsg("E-mail Enviado!");
-		echo 1;
-	} else {
-		Order::setErrorRegister("Erro! Nada Foi Enviado.");
-	}
-
+	$res = ['msg' => $send ? "E-mail Enviado!" : "Erro! Nada Foi Enviado.", 'status' => $send ? 1 : 0];
+	
+	echo json_encode($res);
 	exit;
 
 });
@@ -2685,6 +2680,26 @@ $app->get("/admin/orders/{id}/", function(Request $request, Response $response, 
 		"pays" => Store::listPay($orders[0]['idStore'], 1),
 		"horary" => Store::listHoraryStore($orders[0]['idStore'], 1, $types[$orders[0]['typeModality']]),
 		"promotions" => 0
+	]);
+	
+	return $response;
+
+});
+
+$app->get("/admin/orders/{id}/teste/", function(Request $request, Response $response, $args) {
+
+	$orders = Order::listOrders($args['id']);
+
+	if($orders == 0) header("Location: /admin/orders/");
+
+	$admin = new PageAdmin([
+		"login" => 2,
+		"header" => false,
+		"footer" => false
+	]);
+
+	$admin->setTpl("orders-impress", [
+		"orders" => $orders
 	]);
 	
 	return $response;

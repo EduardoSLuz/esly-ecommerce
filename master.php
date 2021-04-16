@@ -235,10 +235,12 @@ $app->post("/master/companies/mercato/", function(Request $request, Response $re
 
 		if($update) $msg = "Dados do Mercato Atualizados com Sucesso!";
 
-	} else if($type == 2)
+	} else if($type == 2 || $type == 3)
 	{
 		
-		$update = Company::updateListProducts(Company::decryptCode($_POST['cod']), 1);
+		$now = $type == 2 ? 2 : 1;
+
+		$update = Company::updateListProducts(Company::decryptCode($_POST['cod']), $now);
 		
 		if($update) $msg = "Lista de Produtos Atualizada com Sucesso!";
 

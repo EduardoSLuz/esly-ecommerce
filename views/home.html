@@ -5,7 +5,7 @@
 			{if="isset($imgs) && $imgs != 0 && isset($productsDep) && is_array($productsDep) && count($productsDep) > 0"}
 			<div class="owl-carousel owl-theme owl-loaded">
 						
-				<div class="CarouselImgs owl-stage-outer">
+				<div class="CarouselImgs owl-stage-outer" data-code="0">
 					
 					<div class="owl-stage d-flex">
 						
@@ -46,7 +46,7 @@
 							{$ct += 1}
 						   	{if="$ct <= 14"}
 						   
-						   	{if="$value.products.0.stock > 0 || is_array($value.products) && count($value.products) > 1"}
+						   	{if="isset($value.products.0.stock) && $value.products.0.stock > 0 || isset($value.products) && is_array($value.products) && count($value.products) > 1"}
 						   	<div class="owl-item text-center">
 								<img class="lazyload rounded mx-auto d-block rounded-circle bg-white border carousel-ImgCircle cursorPointer" src="/resources/imgs/logos/loading.gif" data-src="{$value.products.0.image}" alt="Produtos" onclick="window.location.assign('/loja-{$ID}/departaments/{$value.name}-0/')">
 								<p class="text-center text-wrap text-second-site-section">
@@ -96,7 +96,7 @@
 								<div class="owl-stage text-center card-group">
 									
 									{loop="$value.products"}
-									{if="$value.price > 0 && $key < 12 && $value.stock > 0"}
+									{if="$value.price > 0 && $key < 16 && $value.stock > 0"}
 
 									<div id="card{$value.codProduct}{$key}"  class="owl-item text-center card rounded">
 									{$nameCard = $value.codProduct."$key"}

@@ -1,0 +1,56 @@
+@media print 
+{
+    @page{
+      margin:0;
+    }
+    html, body {
+        margin-left: 2px;
+        margin-right: 2px;
+        font-size: 11px;
+        background: #FFF;
+        overflow:visible;
+        text-align: left;
+    }
+}
+
+table {
+  margin-top: 0;
+  width: 100%;
+}
+
+h3 {
+  margin-bottom: 0;
+}
+
+p {
+  margin-top: 0;
+}
+
+.border-table {
+  border-top: black solid .5px;
+}
+
+.align-left {
+  text-align: left;
+}
+
+.align-right {
+  text-align: right;
+}
+
+.align-center {
+  text-align: center;
+}
+
+.sectionCopyright {
+  margin: 20px 0;
+  border-top:.5px dashed black;
+  border-bottom:.5px dashed black;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+#table-total-div {
+  border: black solid .5px; 
+  margin: 10px 2px;
+}

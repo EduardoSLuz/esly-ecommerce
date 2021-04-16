@@ -998,7 +998,7 @@ class Cart extends Model {
 						} else {
 							$data[$value['codProduct']]["quantity"] += $value['quantity'];
 							$data[$value['codProduct']]["discount"] += $value['discount'];
-							$data[$value['codProduct']]["totalItem"] += $value['totalItem'];
+							$data[$value['codProduct']]["totalItem"] += maskPrice($value['totalItem'], 0, 1);
 						}
 
 					}
@@ -1011,6 +1011,7 @@ class Cart extends Model {
 			
 			foreach ($data as $key => $value) {
 
+				$value['totalItem'] = maskPrice($value['totalItem'], 0, 1);
 				$value['priceItem'] = ($value['totalItem']/$value['stock']) * 1;
 
 				$products[$key] = $value;

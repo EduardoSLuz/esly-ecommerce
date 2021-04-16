@@ -503,15 +503,12 @@ $('.formOrderAlert').on('submit', function(e) {
         method: "POST",
         data: dados
     }).done(function(response){
-
-        $("#alertsOrderAlert").load( "/admin/orders/"+id+"/ #alertsOrderAlert > *");
-        setTimeout( function(){ 
-            $("#alertsOrderAlert").load( "/admin/orders/"+id+"/ #alertsOrderAlert > *"); 
-            if(response == 1)
-            {
-                window.location.reload();
-            }
-        } , 2000);
+        
+        if(isJson(response))
+        {
+            json = JSON.parse(response);
+            msgAlert("#alertsOrderAlert", json.msg, json.status, 2000);
+        }
 
     }).always(function() {
         $("#modalOrderAlert #overlayOrderAlert").addClass("d-none");

@@ -1493,26 +1493,8 @@
 
                 <div class="modal-body text-center ">
                     
-                    <div id="alertsOrderAlert">
-            
-                        {if="$errorRegister != ''"}
-                        <div class="alert alert-danger alert-dismissible fade show text-left" role="alert">
-                          
-                            <span>{$errorRegister}</span>
-            
-                        </div>
-                        {/if}
-            
-                        {if="$successMsg != ''"}	
-            
-                        <div class="alert alert-success alert-dismissible fade show text-left" role="alert">
-                            
-                            <span>{$successMsg}</span>
-            
-                        </div>
-            
-                        {/if}
-                      
+                    <div id="alertsOrderAlert" class="alert alert-success alert-dismissible fade d-none text-left" role="alert">
+                        <span class="msgAlert">Msg</span>
                     </div>
 
                     <p class="h5 font-weight-light ">

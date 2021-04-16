@@ -212,7 +212,7 @@ class Mercato extends Model{
 
     }
 
-    public static function getProducts($id = 0)
+    public static function getProducts($id = 0, $exists = 0)
     {
 
         $array = [];
@@ -285,7 +285,7 @@ class Mercato extends Model{
 
         if(count($data) > 0)
         {
-            Mercato::saveJson($data, $id, "ST");
+            Mercato::saveJson($data, $id, "ST", 0, $exists);
             Mercato::getProductDepartaments($id);
         }
 
@@ -293,7 +293,7 @@ class Mercato extends Model{
         
     }
 
-    public static function saveJson($data, $id, $type, $direct = 0)
+    public static function saveJson($data, $id, $type, $direct = 0, $exists = 0)
     {
 
         $nameBase = $_SESSION[Sql::DB]['directory'];
@@ -308,6 +308,8 @@ class Mercato extends Model{
 
                 $products = Mercato::listAllProducts($id);
                 $products = is_array($products) && count($products) > 0 ? $products : [];
+
+                if($exists == 1) $products = Mercato::removeProductsExists($products, $data);
 
                 foreach ($data as $key => $value) {
                    
@@ -438,6 +440,29 @@ class Mercato extends Model{
 
     }
 
+    public static function removeProductsExists($products, $list, $field = "codProduct")
+    {
+
+        $data = [];
+
+        if(is_array($list) && count($list) > 0)
+        {
+            foreach ($list as $key => $value) {
+            
+                if(is_array($products) && count($products) > 0)
+                {
+                    foreach ($products as $kProducts => $vProducts) {
+                        if($vProducts[$field] == $value[$field]) $data[] = $vProducts;
+                    }
+                }
+    
+            }
+        }
+
+        return count($data) > 0 ? $data : $products;
+
+    }
+
     public static function removeDuplicate($data, $field = "codProduct")
     {
 
@@ -463,6 +488,9 @@ class Mercato extends Model{
 
         $url = Mercato::getUrl("newOrder");
         $order = Mercato::organizeOrder($id);
+
+        var_dump($order);
+        exit;
 
         if($order != 0 && is_array($order) && count($order) > 0 && is_string($url))
         { 
@@ -503,9 +531,9 @@ class Mercato extends Model{
                 $data[$key] = [
                     "SEQ_ITEM" => $key + 1,    
                     "COD_PRODUTO" => $value['codProduct'],
-                    "QTD" => number_format($value['stock'], 2, '.', ''),
-                    "VALOR_UNIT" => number_format($value['priceItem'], 2, '.', ''),
-                    "VALOR_TOTAL" => number_format($value['totalItem'], 2, '.', ''),
+                    "QTD" => floatval($value['stock']),
+                    "VALOR_UNIT" => $value['priceItem'], //number_format($value['priceItem'], 2, '.', ''),
+                    "VALOR_TOTAL" => $value['totalItem'], // number_format($value['totalItem'], 2, '.', ''),
                     "TIPO_PROMOCAO" => "N"
                 ];
 
@@ -843,10 +871,11 @@ class Mercato extends Model{
     public static function searchPageProduct($id, $text, $subs = "", $mark = "", $price = 0, $mode = 0)
     {
 
+        $number = 50;
         $data = [];
         $array = [];
         $i = 1;
-        $ct = 50;
+        $ct = $number;
 
         $product = Mercato::searchProduct($id, strtoupper($text), 'description', 0, 1, $mode);
 
@@ -893,7 +922,7 @@ class Mercato extends Model{
             
                 if($key >= $ct){
                     $i += 1;
-                    $ct += 16;
+                    $ct += $number;
                 }
     
                 $value['page'] = $i;
@@ -930,10 +959,11 @@ class Mercato extends Model{
     public static function searchPageDepartament($id, $departament, $category, $mark = "", $subs = "", $price = 0, $mode = 0)
     {
 
+        $number = 50;
         $data = [];
         $array = [];
         $i = 1;
-        $ct = 50;
+        $ct = $number;
 
         $dep = Mercato::searchDepartament($id, strtoupper($departament), strtoupper($category), $mode);
 
@@ -980,7 +1010,7 @@ class Mercato extends Model{
             
                 if($key >= $ct){
                     $i += 1;
-                    $ct += 16;
+                    $ct += $number;
                 }
     
                 $value['page'] = $i;
@@ -1198,7 +1228,7 @@ class Mercato extends Model{
     
             sort($array);
 
-            $data = ["min" => floatval($array[0]), "max" => floatval($array[count($array) - 1])];
+            $data = ["min" => number_format(floatval($array[0]), 2), "max" => number_format(floatval($array[count($array) - 1]), 2)];
 
         }
 
@@ -1232,8 +1262,9 @@ class Mercato extends Model{
     public static function filterSearchProducts($products, $type = 4)
     {
 
+        $number = 50; 
         $i = 1;
-        $ct = 16;
+        $ct = $number;
         $data = [];
         $array = [];
 
@@ -1259,7 +1290,7 @@ class Mercato extends Model{
             
             if($key >= $ct){
                 $i += 1;
-                $ct += 16;
+                $ct += $number;
             }
             
             foreach ($products as $kProducts => $vProducts) {
@@ -1297,12 +1328,12 @@ class Mercato extends Model{
                     if($value['departament'] == "") $value['departament'] = "GERAL";
                     if($value['category'] == "") $value['category'] = "GERAL";
     
-                    if(!isset($array[$value['departament']])) $array[$value['departament']] = [
+                    if(!isset($array[$value['departament']]) && $value['stock'] > 0 && $value['price'] > 0) $array[$value['departament']] = [
                         "name" => $value['departament'],
                         "category" => []
                     ];
     
-                    if(!isset($array[$value['departament']]["category"][$value['category']])) $array[$value['departament']]["category"][$value['category']] = [
+                    if(!isset($array[$value['departament']]["category"][$value['category']]) && $value['stock'] > 0 && $value['price'] > 0) $array[$value['departament']]["category"][$value['category']] = [
                         "name" => $value['category']
                     ];
                 }

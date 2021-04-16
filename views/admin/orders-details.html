@@ -139,7 +139,7 @@
                     <a href="#" class="text-success" data-toggle="modal" data-target="#modalOrderItem" data-type="1" data-id="0" data-modal-title="Adicionar um Item" data-order="{$orders.0.idOrder}" data-cart="{$orders.0.cart.idCart}" data-item="0" data-qtd="1" data-similar="1" data-price="0" data-discount="0" data-total="0"> <i class="fas fa-plus"></i> Adicionar</a>
                     {/if}
 
-                    <button type="button" target="_blank" class="btn btn-sm btn-default float-right" onclick="window.print();"><i class="fas fa-print"></i> </button>
+                    <button type="button" target="_blank" class="btn btn-sm btn-default float-right" onclick="printPage('/admin/orders/{$orders.0.idOrder}/teste/');"><i class="fas fa-print"></i> </button>
 
                   </div>
 

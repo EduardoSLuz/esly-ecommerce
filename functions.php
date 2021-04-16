@@ -3,7 +3,7 @@
 function maskTel($number)
 {
 
-    $number = strlen($number) == 9 ? "(".substr($number, 0, 2).") ".substr($number, 2, 4)."-".substr($number, 6) : "(".substr($number, 0, 2).") ".substr($number, 2, 5)."-".substr($number, 7);
+    $number = strlen($number) >= 9 ? "(".substr($number, 0, 2).") ".substr($number, 2, 4)."-".substr($number, 6) : "(".substr($number, 0, 2).") ".substr($number, 2, 5)."-".substr($number, 7);
     return $number;
     
 }
